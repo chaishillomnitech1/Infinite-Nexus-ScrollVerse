@@ -173,7 +173,9 @@ class ScrollCoinGovernance {
   }
 
   async executeAction(action) {
-    // Execute governance action (treasury transfer, parameter change, etc.)
+    // TODO: Implement actual governance action execution
+    // This should handle treasury transfers, parameter changes, etc.
+    // Currently returns a mock response for development purposes
     return { executed: true, action, timestamp: Date.now() };
   }
 

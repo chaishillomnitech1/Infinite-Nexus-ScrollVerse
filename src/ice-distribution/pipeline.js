@@ -129,11 +129,14 @@ class ICEDistribution {
     };
 
     // Simulate distribution to each channel
+    // Note: In production, these would be actual distribution metrics
+    const SIMULATED_REACH_MIN = 1000;
+    const SIMULATED_REACH_MAX = 11000;
     for (const channel of targetChannels) {
       distribution.results[channel] = {
         success: true,
         timestamp: Date.now(),
-        reach: Math.floor(Math.random() * 10000) + 1000
+        reach: Math.floor(Math.random() * (SIMULATED_REACH_MAX - SIMULATED_REACH_MIN)) + SIMULATED_REACH_MIN
       };
     }
 

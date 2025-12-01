@@ -128,7 +128,8 @@ class StakingMechanism {
 
   calculateRewards(stake) {
     const pool = this.stakingPools.find(p => p.id === stake.poolId);
-    const daysStaked = (Date.now() - stake.stakedAt) / (24 * 60 * 60 * 1000);
+    const MS_PER_DAY = 24 * 60 * 60 * 1000;
+    const daysStaked = (Date.now() - stake.stakedAt) / MS_PER_DAY;
     const dailyRate = pool.apy / 100 / 365;
     return stake.amount * dailyRate * daysStaked;
   }
