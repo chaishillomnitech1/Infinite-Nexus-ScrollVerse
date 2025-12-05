@@ -441,7 +441,7 @@
         // Sacred Geometry Background Renderer
         // ========================================
         const bgCanvas = document.getElementById('sacredBg');
-        const bgCtx = bgCanvas.isContext('2d');
+        const bgCtx = bgCanvas.getContext('2d');
         
         function resizeBgCanvas() {
             bgCanvas.width = window.innerWidth;
