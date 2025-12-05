@@ -361,7 +361,7 @@
                 </h2>
                 <div style="text-align: center;">
                     <button id="connectWallet" class="wallet-btn">Connect Wallet</button>
-                    <div id="walletInfo" style="margin-top: var(--space-lg); font-size: 0.9rem; color: var(--color-etheric);"></div>
+                    <div id="walletInfo" role="status" aria-live="polite" style="margin-top: var(--space-lg); font-size: 0.9rem; color: var(--color-etheric);"></div>
                 </div>
             </div>
             
@@ -669,15 +669,24 @@
                 userAccount = accounts[0];
                 web3Instance = new Web3(window.ethereum);
                 
-                // Get balance
-                const balance = await web3Instance.eth.getBalance(userAccount);
-                const ethBalance = web3Instance.utils.fromWei(balance, 'ether');
-                
-                walletInfo.innerHTML = `
-                    ✅ <strong>Connected!</strong><br/>
-                    Address: ${userAccount.substring(0, 6)}...${userAccount.substring(38)}<br/>
-                    Balance: ${parseFloat(ethBalance).toFixed(4)} ETH
-                `;
+                // Get balance with error handling
+                try {
+                    const balance = await web3Instance.eth.getBalance(userAccount);
+                    const ethBalance = web3Instance.utils.fromWei(balance, 'ether');
+                    
+                    walletInfo.innerHTML = `
+                        ✅ <strong>Connected!</strong><br/>
+                        Address: ${userAccount.substring(0, 6)}...${userAccount.substring(38)}<br/>
+                        Balance: ${parseFloat(ethBalance).toFixed(4)} ETH
+                    `;
+                } catch (balanceError) {
+                    console.error('Balance fetch error:', balanceError);
+                    walletInfo.innerHTML = `
+                        ✅ <strong>Connected!</strong><br/>
+                        Address: ${userAccount.substring(0, 6)}...${userAccount.substring(38)}<br/>
+                        Balance: Unable to fetch (network issue)
+                    `;
+                }
                 
                 connectBtn.textContent = '✓ Wallet Connected';
                 connectBtn.disabled = true;

@@ -172,7 +172,7 @@ contract ChronoWeaverScroll is ERC721 {
     mapping(uint256 => string) public ipfsHashes;
     
     function mint(uint256 tokenId, string memory ipfsHash) public {
-        require(tokenId <= MAX_SUPPLY, "Max supply reached");
+        require(tokenId > 0 && tokenId <= MAX_SUPPLY, "Invalid token ID or max supply reached");
         _safeMint(msg.sender, tokenId);
         ipfsHashes[tokenId] = ipfsHash;
         akashicLockStatus[tokenId] = true;
