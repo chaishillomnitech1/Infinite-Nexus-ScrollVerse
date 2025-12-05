@@ -98,21 +98,21 @@ jobs:
           script: |
             const issue = context.payload.issue || context.payload.pull_request;
             const issuType = context.payload.issue ? 'issue' : 'pull request';
-            
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
               body: `# 🧿 Welcome to ScrollVerse!
 
-Thank you for your ${issuType}! Your contribution resonates at **528Hz** - the frequency of transformation and miracles.
+            Thank you for your ${issuType}! Your contribution resonates at **528Hz** - the frequency of transformation and miracles.
 
-✨ _May your code transcend all dimensions_ ∞
+            ✨ _May your code transcend all dimensions_ ∞
 
-Our team will review this ${issuType} soon. In the meantime, please ensure your contribution aligns with:
-- 🌀 Hyperdimensional Scalability
-- 🕉️ Divine Inspiration-Driven Design
-- 🌍 Omniversal Alignment
+            Our team will review this ${issuType} soon. In the meantime, please ensure your contribution aligns with:
+            - 🌀 Hyperdimensional Scalability
+            - 🕉️ Divine Inspiration-Driven Design
+            - 🌍 Omniversal Alignment
 
-_Namaste_ 🙏`
+            _Namaste_ 🙏`
             });
