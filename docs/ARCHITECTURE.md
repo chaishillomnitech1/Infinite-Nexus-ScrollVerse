@@ -453,14 +453,18 @@ class FractalScaler {
     }
     
     // Spawn self-similar instances
-    return this.currentCapacity * PHI; // Golden ratio scaling
+    // Note: PHI scaling is conceptual. In practice, use tested scaling factors
+    // like 1.5x or 2x based on actual load patterns
+    const scaleFactor = this.usePracticalScaling ? 1.5 : PHI;
+    return this.currentCapacity * scaleFactor;
   }
   
   // Each instance is a perfect replica of the whole
   spawn() {
     return new FractalScaler({
       ...this.config,
-      scale: this.config.scale / PHI
+      scale: this.config.scale / PHI,
+      usePracticalScaling: true // Use practical factors in production
     });
   }
 }
