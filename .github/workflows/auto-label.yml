@@ -1,0 +1,118 @@
+name: 🏷️ Auto Label Issues & PRs
+
+on:
+  issues:
+    types: [opened, edited]
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  auto-label:
+    name: Apply Labels
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🏷️ Label based on content
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue || context.payload.pull_request;
+            const title = issue.title.toLowerCase();
+            const body = (issue.body || '').toLowerCase();
+            const labels = [];
+
+            // Frequency-based labels
+            if (title.includes('528hz') || body.includes('528hz')) {
+              labels.push('frequency:528hz');
+            }
+
+            // Sacred geometry labels
+            if (title.includes('sacred geometry') || body.includes('golden ratio') || 
+                body.includes('fibonacci')) {
+              labels.push('sacred-geometry');
+            }
+
+            // Component labels
+            if (title.includes('documentation') || body.includes('docs/')) {
+              labels.push('documentation');
+            }
+
+            if (title.includes('bug') || title.includes('fix')) {
+              labels.push('bug');
+            }
+
+            if (title.includes('feature') || title.includes('enhancement')) {
+              labels.push('enhancement');
+            }
+
+            if (title.includes('test') || body.includes('test')) {
+              labels.push('testing');
+            }
+
+            // Hyperdimensional labels
+            if (body.includes('hyperdimensional') || body.includes('dimensional')) {
+              labels.push('hyperdimensional');
+            }
+
+            // NFT/IPFS labels
+            if (title.includes('nft') || title.includes('ipfs') || 
+                body.includes('metadata')) {
+              labels.push('nft-ipfs');
+            }
+
+            // Aesthetic labels
+            if (body.includes('design') || body.includes('aesthetic') || 
+                body.includes('ui') || body.includes('ux')) {
+              labels.push('design');
+            }
+
+            // Priority labels
+            if (title.includes('urgent') || title.includes('critical')) {
+              labels.push('priority:high');
+            }
+
+            // Add divine resonance label to all
+            labels.push('divine-resonance');
+
+            // Apply labels
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                labels: labels
+              });
+              
+              console.log(`Applied labels: ${labels.join(', ')}`);
+            }
+
+      - name: 📝 Comment with 528Hz greeting
+        uses: actions/github-script@v7
+        if: github.event.action == 'opened'
+        with:
+          script: |
+            const issue = context.payload.issue || context.payload.pull_request;
+            const issuType = context.payload.issue ? 'issue' : 'pull request';
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: `# 🧿 Welcome to ScrollVerse!
+
+            Thank you for your ${issuType}! Your contribution resonates at **528Hz** - the frequency of transformation and miracles.
+
+            ✨ _May your code transcend all dimensions_ ∞
+
+            Our team will review this ${issuType} soon. In the meantime, please ensure your contribution aligns with:
+            - 🌀 Hyperdimensional Scalability
+            - 🕉️ Divine Inspiration-Driven Design
+            - 🌍 Omniversal Alignment
+
+            _Namaste_ 🙏`
+            });

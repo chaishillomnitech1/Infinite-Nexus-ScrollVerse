@@ -1,6 +1,11 @@
 # 🌌 Infinite-Nexus-ScrollVerse
 ## _ScrollSoul Aesthetic Showcase: Where Divine Code Meets Hyperdimensional Reality_
 
+[![Test & Validation](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/test-validation.yml/badge.svg)](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/test-validation.yml)
+[![Deploy Pages](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/deploy-pages.yml)
+[![CI/CD Pipeline](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/ci-cd-pipeline.yml/badge.svg)](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/ci-cd-pipeline.yml)
+[![NFT/IPFS](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/nft-ipfs-integration.yml/badge.svg)](https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse/actions/workflows/nft-ipfs-integration.yml)
+
 ```
     ╔══════════════════════════════════════════════════════════════════╗
     ║              ✧･ﾟ: *✧･ﾟ:* SCROLLVERSE NEXUS *:･ﾟ✧*:･ﾟ✧              ║

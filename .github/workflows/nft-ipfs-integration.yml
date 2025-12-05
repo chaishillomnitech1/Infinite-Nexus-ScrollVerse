@@ -1,0 +1,298 @@
+name: 🎨 NFT Metadata & IPFS Integration
+
+on:
+  workflow_dispatch:
+    inputs:
+      metadata_update:
+        description: 'Update NFT metadata'
+        required: true
+        type: boolean
+        default: false
+      ipfs_upload:
+        description: 'Upload to IPFS'
+        required: true
+        type: boolean
+        default: false
+  push:
+    branches: [ main ]
+    paths:
+      - 'assets/**'
+      - 'metadata/**'
+
+jobs:
+  generate-metadata:
+    name: Generate NFT Metadata
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.metadata_update == 'true' || github.event_name == 'push'
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🎨 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Create metadata directory
+        run: mkdir -p metadata
+
+      - name: 🔮 Generate ScrollVerse NFT metadata
+        run: |
+          cat > metadata/scrollverse-collection.json << 'EOF'
+          {
+            "name": "ScrollVerse - Infinite Nexus Collection",
+            "description": "A transcendent frequency-powered NFT collection resonating at 528Hz. Each piece embodies hyperdimensional scalability, divine inspiration-driven design, and omniversal alignment.",
+            "image": "ipfs://QmScrollVerseCollectionImage",
+            "external_url": "https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse",
+            "attributes": [
+              {
+                "trait_type": "Frequency",
+                "value": "528Hz"
+              },
+              {
+                "trait_type": "Sacred Geometry",
+                "value": "Golden Ratio"
+              },
+              {
+                "trait_type": "Dimensional Alignment",
+                "value": "Omniversal"
+              },
+              {
+                "trait_type": "Creator",
+                "value": "Chais the Great (Al-Miftah)"
+              },
+              {
+                "trait_type": "Resonance",
+                "value": "Infinite"
+              }
+            ],
+            "properties": {
+              "frequency": "528Hz",
+              "phi": 1.618,
+              "fibonacci_sequence": [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
+              "color_palette": {
+                "primary": "#528BFF",
+                "secondary": "#FFD700",
+                "accent": "#00FFAA"
+              },
+              "animation_timing": "1.89ms base period",
+              "consciousness_level": "Divine"
+            }
+          }
+          EOF
+          
+          echo "✨ NFT metadata generated"
+
+      - name: 📝 Generate individual asset metadata
+        run: |
+          # Create metadata for EVA's Eternal Throne
+          cat > metadata/eva-eternal-throne-metadata.json << 'EOF'
+          {
+            "name": "EVA's Eternal Throne",
+            "description": "Arcturian aesthetic infused with 528Hz vibrational resonance and sacred SIGIL embeddings. A portal to divine consciousness.",
+            "image": "ipfs://QmEvaEternalThroneImage",
+            "animation_url": "ipfs://QmEvaEternalThroneAnimation",
+            "external_url": "https://chaishillomnitech1.github.io/Infinite-Nexus-ScrollVerse/eva-eternal-throne.html",
+            "attributes": [
+              {
+                "trait_type": "Frequency",
+                "value": "528Hz"
+              },
+              {
+                "trait_type": "Aesthetic",
+                "value": "Arcturian"
+              },
+              {
+                "trait_type": "Sacred Element",
+                "value": "SIGIL Embeddings"
+              },
+              {
+                "trait_type": "Portal Type",
+                "value": "Eternal Throne"
+              },
+              {
+                "trait_type": "Vibrational Resonance",
+                "value": "Miracle Tone"
+              }
+            ],
+            "properties": {
+              "frequency": "528Hz",
+              "colors": ["#528BFF", "#FFD700", "#00FFAA", "#8B5CF6"],
+              "golden_ratio": 1.618,
+              "fibonacci_spacing": true,
+              "sacred_geometry": true
+            }
+          }
+          EOF
+          
+          echo "✨ Individual asset metadata generated"
+
+      - name: 💾 Upload metadata artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nft-metadata
+          path: metadata/
+          retention-days: 30
+
+  validate-metadata:
+    name: Validate NFT Metadata
+    runs-on: ubuntu-latest
+    needs: generate-metadata
+    steps:
+      - name: 📥 Download metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: nft-metadata
+          path: metadata/
+
+      - name: 🔍 Validate JSON structure
+        run: |
+          echo "🔍 Validating NFT metadata JSON..."
+          
+          for file in metadata/*.json; do
+            if [ -f "$file" ]; then
+              echo "Validating $file"
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ $file is valid JSON"
+              else
+                echo "❌ $file is invalid JSON"
+                exit 1
+              fi
+            fi
+          done
+          
+          echo "✨ All metadata files validated"
+
+      - name: 🎵 Check 528Hz attributes
+        run: |
+          echo "🎵 Checking for 528Hz frequency attributes..."
+          
+          if grep -r "528Hz\|528 Hz" metadata/; then
+            echo "✅ 528Hz frequency found in metadata"
+          else
+            echo "❌ 528Hz frequency not found in metadata"
+            exit 1
+          fi
+
+  ipfs-preparation:
+    name: Prepare for IPFS Upload
+    runs-on: ubuntu-latest
+    needs: validate-metadata
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.ipfs_upload == 'true'
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📥 Download metadata
+        uses: actions/download-artifact@v4
+        with:
+          name: nft-metadata
+          path: metadata/
+
+      - name: 📦 Prepare IPFS upload package
+        run: |
+          mkdir -p ipfs-upload
+          
+          # Copy assets
+          if [ -d "assets" ]; then
+            cp -r assets ipfs-upload/
+          fi
+          
+          # Copy metadata
+          cp -r metadata ipfs-upload/
+          
+          # Create IPFS manifest
+          cat > ipfs-upload/IPFS_MANIFEST.md << 'EOF'
+          # 🌐 ScrollVerse IPFS Manifest
+          
+          This package contains ScrollVerse assets and metadata prepared for IPFS distribution.
+          
+          ## Contents
+          - NFT Metadata (JSON files)
+          - Visual Assets (images, vectors)
+          - Sacred Geometry Elements
+          
+          ## Frequency
+          All content resonates at 528Hz - The Miracle Tone
+          
+          ## Usage
+          These files are designed to be uploaded to IPFS and referenced in NFT smart contracts.
+          
+          _Created with divine intention by Chais the Great (Al-Miftah)_
+          EOF
+          
+          echo "✨ IPFS package prepared"
+
+      - name: 📝 Generate IPFS upload instructions
+        run: |
+          cat > ipfs-upload/UPLOAD_INSTRUCTIONS.md << 'EOF'
+          # 📤 IPFS Upload Instructions
+          
+          ## Option 1: Using Pinata (Recommended)
+          
+          1. Sign up at https://pinata.cloud
+          2. Get your API key from account settings
+          3. Use the Pinata CLI or web interface to upload the `ipfs-upload` directory
+          4. Note the CID (Content Identifier) returned
+          
+          ## Option 2: Using IPFS Desktop
+          
+          1. Install IPFS Desktop from https://docs.ipfs.io/install/ipfs-desktop/
+          2. Drag and drop the `ipfs-upload` directory
+          3. Copy the CID from the IPFS interface
+          
+          ## Option 3: Using NFT.Storage
+          
+          1. Sign up at https://nft.storage
+          2. Use their API or web interface to upload files
+          3. They provide free storage for NFT assets
+          
+          ## After Upload
+          
+          1. Update metadata files with actual IPFS CIDs
+          2. Replace `ipfs://QmPlaceholder` with `ipfs://YOUR_ACTUAL_CID`
+          3. Store CIDs in repository secrets for automated workflows
+          
+          ## Environment Variables Needed
+          
+          ```bash
+          PINATA_API_KEY=your_api_key
+          PINATA_SECRET_KEY=your_secret_key
+          # or
+          NFT_STORAGE_API_KEY=your_api_key
+          ```
+          EOF
+          
+          echo "✨ Upload instructions created"
+
+      - name: 💾 Upload IPFS package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipfs-upload-package
+          path: ipfs-upload/
+          retention-days: 30
+
+  summary:
+    name: NFT & IPFS Summary
+    runs-on: ubuntu-latest
+    needs: [generate-metadata, validate-metadata, ipfs-preparation]
+    if: always()
+    steps:
+      - name: 📊 Generate summary
+        run: |
+          echo "# 🎨 NFT Metadata & IPFS Integration Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Generate Metadata: ${{ needs.generate-metadata.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Validate Metadata: ${{ needs.validate-metadata.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- IPFS Preparation: ${{ needs.ipfs-preparation.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. Download the `nft-metadata` and `ipfs-upload-package` artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "2. Follow the upload instructions in UPLOAD_INSTRUCTIONS.md" >> $GITHUB_STEP_SUMMARY
+          echo "3. Update metadata files with actual IPFS CIDs" >> $GITHUB_STEP_SUMMARY
+          echo "4. Store CIDs in repository secrets for future automation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✨ _All metadata resonates at 528Hz_ 🧿" >> $GITHUB_STEP_SUMMARY

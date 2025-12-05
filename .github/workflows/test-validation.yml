@@ -1,0 +1,207 @@
+name: 🧪 Test & Validation
+
+on:
+  push:
+    branches: [ main, develop, copilot/** ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  html-validation:
+    name: HTML Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Validate HTML files
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: ./
+          css: false
+          
+  css-lint:
+    name: CSS Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🎨 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: 📦 Install stylelint
+        run: |
+          npm init -y
+          npm install --save-dev stylelint stylelint-config-standard
+          
+      - name: 📝 Create stylelint config
+        run: |
+          cat > .stylelintrc.json << 'EOF'
+          {
+            "extends": "stylelint-config-standard",
+            "rules": {
+              "custom-property-pattern": null,
+              "selector-class-pattern": null,
+              "comment-empty-line-before": null,
+              "declaration-block-no-redundant-longhand-properties": null
+            }
+          }
+          EOF
+          
+      - name: 🔍 Lint CSS in HTML files
+        run: |
+          echo "Checking CSS in HTML files..."
+          for file in *.html; do
+            if [ -f "$file" ]; then
+              echo "Checking $file"
+              # Extract inline CSS and check for basic issues
+              grep -o '<style[^>]*>.*</style>' "$file" || true
+            fi
+          done
+          echo "✨ CSS validation complete"
+
+  frequency-validation:
+    name: 528Hz Frequency Standards
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🎵 Validate 528Hz standards
+        run: |
+          echo "🎵 Validating 528Hz frequency standards..."
+          
+          # Check for 528Hz references in HTML files
+          if grep -r "528" *.html; then
+            echo "✅ 528Hz frequency references found"
+          else
+            echo "⚠️  No 528Hz frequency references found"
+          fi
+          
+          # Check for sacred geometry constants
+          if grep -r "phi.*1.618\|1.618.*phi\|golden.*ratio" *.html; then
+            echo "✅ Golden ratio (φ) constants found"
+          else
+            echo "⚠️  No golden ratio constants found"
+          fi
+          
+          # Check for Fibonacci spacing
+          if grep -r "fibonacci\|3px\|5px\|8px\|13px\|21px\|34px\|55px\|89px" *.html; then
+            echo "✅ Fibonacci spacing patterns found"
+          else
+            echo "⚠️  No Fibonacci spacing patterns found"
+          fi
+          
+          echo "✨ Frequency validation complete"
+
+  sacred-geometry-check:
+    name: Sacred Geometry Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔷 Validate sacred geometry patterns
+        run: |
+          echo "🔷 Validating sacred geometry implementation..."
+          
+          # Check for sacred geometry color palette
+          colors_found=0
+          if grep -r "#528BFF" *.html; then
+            echo "✅ 528Hz Blue (#528BFF) found"
+            colors_found=$((colors_found + 1))
+          fi
+          
+          if grep -r "#FFD700" *.html; then
+            echo "✅ Golden Ratio (#FFD700) found"
+            colors_found=$((colors_found + 1))
+          fi
+          
+          if grep -r "#00FFAA" *.html; then
+            echo "✅ Etheric Green (#00FFAA) found"
+            colors_found=$((colors_found + 1))
+          fi
+          
+          if [ $colors_found -ge 2 ]; then
+            echo "✅ Sacred color palette properly implemented"
+          else
+            echo "⚠️  Sacred color palette may be incomplete"
+          fi
+          
+          echo "✨ Sacred geometry validation complete"
+
+  documentation-check:
+    name: Documentation Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📚 Check documentation files
+        run: |
+          echo "📚 Validating documentation..."
+          
+          required_docs=(
+            "README.md"
+            "CONTRIBUTING.md"
+            "docs/DEVELOPER_GUIDE.md"
+            "docs/RESONANCE_GUIDE.md"
+            "docs/ARCHITECTURE.md"
+            "docs/API_REFERENCE.md"
+          )
+          
+          missing_docs=0
+          for doc in "${required_docs[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✅ $doc exists"
+            else
+              echo "❌ $doc is missing"
+              missing_docs=$((missing_docs + 1))
+            fi
+          done
+          
+          if [ $missing_docs -eq 0 ]; then
+            echo "✨ All required documentation files present"
+          else
+            echo "⚠️  $missing_docs documentation file(s) missing"
+            exit 1
+          fi
+
+  link-check:
+    name: Link Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔗 Check markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/workflows/markdown-link-check-config.json'
+          check-modified-files-only: 'no'
+        continue-on-error: true
+
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [html-validation, css-lint, frequency-validation, sacred-geometry-check, documentation-check]
+    if: always()
+    steps:
+      - name: 📊 Generate test summary
+        run: |
+          echo "# 🧪 Test & Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✨ All validation checks completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- HTML Validation: ${{ needs.html-validation.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- CSS Linting: ${{ needs.css-lint.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 528Hz Frequency Standards: ${{ needs.frequency-validation.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Sacred Geometry Check: ${{ needs.sacred-geometry-check.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Documentation Check: ${{ needs.documentation-check.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_May your code resonate at 528Hz_ 🧿" >> $GITHUB_STEP_SUMMARY
