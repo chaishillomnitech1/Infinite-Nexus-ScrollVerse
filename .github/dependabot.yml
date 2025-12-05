@@ -1,0 +1,48 @@
+# 🔄 Dependabot Configuration for ScrollVerse
+# Keeps dependencies resonating at the latest frequency
+
+version: 2
+
+updates:
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "00:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "divine-resonance"
+    commit-message:
+      prefix: "⬆️ [Actions]"
+      include: "scope"
+    reviewers:
+      - "chaishillomnitech1"
+
+  # npm dependencies (when package.json is added)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "00:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "npm"
+      - "divine-resonance"
+    commit-message:
+      prefix: "⬆️ [npm]"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for stability
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    reviewers:
+      - "chaishillomnitech1"
+    versioning-strategy: increase
