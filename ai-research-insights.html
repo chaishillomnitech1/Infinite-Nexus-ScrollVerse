@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research Insights - 528Hz Visualization System</title>
+    <meta name="description" content="AI Research Charts and Insights Visualization with 528Hz resonance integration">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            --phi: 1.618;
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(82, 139, 255, 0.5);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-528hz);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: var(--space-xl);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+        
+        .stat-box {
+            background: rgba(82, 139, 255, 0.1);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-box:hover {
+            background: rgba(82, 139, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-golden);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--color-crystalline);
+            opacity: 0.8;
+        }
+        
+        .topic-list {
+            list-style: none;
+        }
+        
+        .topic-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            border-radius: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .topic-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .topic-info {
+            flex: 1;
+        }
+        
+        .topic-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-etheric);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .topic-desc {
+            font-size: 0.9rem;
+            color: var(--color-crystalline);
+            opacity: 0.7;
+        }
+        
+        .topic-badge {
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: var(--space-lg) var(--space-2xl);
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--space-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(82, 139, 255, 0.6);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+            
+            .topic-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🧠 AI RESEARCH INSIGHTS 🧠</h1>
+            <p class="subtitle">Research Trends & Visualization • 528Hz Resonance Analytics</p>
+        </div>
+        
+        <a href="index.html" class="back-btn">← Back to ScrollVerse Nexus</a>
+        
+        <!-- Research Trends Over Time -->
+        <div class="card">
+            <h2 class="card-title">📈 Research Trends (2020-2024)</h2>
+            <div class="chart-container">
+                <canvas id="trendsChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Topic Breakdown -->
+        <div class="card">
+            <h2 class="card-title">🎯 Current Research Topics</h2>
+            <ul class="topic-list" id="topic-list">
+                <!-- Topics will be loaded dynamically -->
+            </ul>
+        </div>
+        
+        <!-- Citation Trends -->
+        <div class="card">
+            <h2 class="card-title">📚 Landmark Paper Citations</h2>
+            <div class="chart-container">
+                <canvas id="citationChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Emerging Topics -->
+        <div class="card">
+            <h2 class="card-title">🚀 Emerging Research Areas</h2>
+            <div class="chart-container">
+                <canvas id="emergingChart"></canvas>
+            </div>
+            <div class="stats-grid" id="emerging-stats">
+                <!-- Emerging topic stats will be loaded dynamically -->
+            </div>
+        </div>
+        
+        <!-- Category Distribution -->
+        <div class="card">
+            <h2 class="card-title">📊 2024 Research Distribution</h2>
+            <div class="chart-container" style="height: 500px;">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // AI Research Insights Dashboard JavaScript
+        let researchData = null;
+        let charts = {};
+        
+        // Initialize dashboard
+        async function initializeDashboard() {
+            console.log('🌌 Initializing AI Research Insights at 528Hz');
+            
+            try {
+                // Load data from JSON file
+                const response = await fetch('data/ai-research-data.json');
+                researchData = await response.json();
+                
+                // Configure Chart.js defaults
+                Chart.defaults.color = '#E0F7FF';
+                Chart.defaults.borderColor = 'rgba(82, 139, 255, 0.2)';
+                
+                // Render all visualizations
+                renderTrendsChart();
+                renderTopicList();
+                renderCitationChart();
+                renderEmergingChart();
+                renderDistributionChart();
+                
+                console.log('✅ Dashboard initialized successfully');
+            } catch (error) {
+                console.error('❌ Failed to load research data:', error);
+            }
+        }
+        
+        // Render research trends line chart
+        function renderTrendsChart() {
+            const ctx = document.getElementById('trendsChart').getContext('2d');
+            
+            const years = researchData.researchTrends.map(item => item.year);
+            const topics = researchData.topicsBreakdown;
+            
+            const datasets = Object.keys(topics).map(topicKey => {
+                const topic = topics[topicKey];
+                return {
+                    label: topic.name,
+                    data: researchData.researchTrends.map(item => item.papers[topicKey]),
+                    borderColor: topic.color,
+                    backgroundColor: topic.color + '33',
+                    tension: 0.4,
+                    fill: false
+                };
+            });
+            
+            charts.trends = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Papers by Research Area',
+                            font: { size: 16 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Render topic list
+        function renderTopicList() {
+            const topicList = document.getElementById('topic-list');
+            topicList.innerHTML = '';
+            
+            const topics = researchData.topicsBreakdown;
+            const latestData = researchData.researchTrends[researchData.researchTrends.length - 1].papers;
+            
+            Object.keys(topics).forEach(topicKey => {
+                const topic = topics[topicKey];
+                const paperCount = latestData[topicKey];
+                
+                const topicItem = document.createElement('li');
+                topicItem.className = 'topic-item';
+                
+                topicItem.innerHTML = `
+                    <div class="topic-info">
+                        <div class="topic-name" style="color: ${topic.color};">${topic.name}</div>
+                        <div class="topic-desc">${topic.description}</div>
+                    </div>
+                    <div class="topic-badge" style="background: ${topic.color}33; border: 1px solid ${topic.color}; color: ${topic.color};">
+                        ${paperCount} papers
+                    </div>
+                `;
+                
+                topicList.appendChild(topicItem);
+            });
+        }
+        
+        // Render citation trends chart
+        function renderCitationChart() {
+            const ctx = document.getElementById('citationChart').getContext('2d');
+            
+            const datasets = researchData.citationTrends.map((paper, index) => {
+                const colors = ['#528BFF', '#FFD700', '#00FFAA'];
+                return {
+                    label: paper.paper,
+                    data: paper.citations,
+                    borderColor: colors[index],
+                    backgroundColor: colors[index] + '33',
+                    tension: 0.4,
+                    fill: true
+                };
+            });
+            
+            // Generate year labels based on paper year
+            const maxYears = Math.max(...researchData.citationTrends.map(p => p.citations.length));
+            const labels = Array.from({length: maxYears}, (_, i) => 
+                2017 + i
+            );
+            
+            charts.citations = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Citation Growth Over Time',
+                            font: { size: 16 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Render emerging topics chart
+        function renderEmergingChart() {
+            const ctx = document.getElementById('emergingChart').getContext('2d');
+            const statsContainer = document.getElementById('emerging-stats');
+            
+            const topics = researchData.emergingTopics.map(item => item.topic);
+            const growthRates = researchData.emergingTopics.map(item => item.growth_rate);
+            const relevanceScores = researchData.emergingTopics.map(item => item.relevance_score);
+            
+            charts.emerging = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: topics,
+                    datasets: [
+                        {
+                            label: 'Growth Rate (%)',
+                            data: growthRates,
+                            backgroundColor: '#528BFF88',
+                            borderColor: '#528BFF',
+                            borderWidth: 2,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Relevance Score',
+                            data: relevanceScores,
+                            backgroundColor: '#FFD70088',
+                            borderColor: '#FFD700',
+                            borderWidth: 2,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Growth Rate (%)'
+                            },
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Relevance Score'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            max: 100
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Add stats boxes
+            statsContainer.innerHTML = '';
+            researchData.emergingTopics.forEach(topic => {
+                const statBox = document.createElement('div');
+                statBox.className = 'stat-box';
+                statBox.innerHTML = `
+                    <div class="stat-value">${topic.growth_rate}%</div>
+                    <div class="stat-label">${topic.topic}</div>
+                    <div style="margin-top: var(--space-sm); color: var(--color-golden);">
+                        Relevance: ${topic.relevance_score}/100
+                    </div>
+                `;
+                statsContainer.appendChild(statBox);
+            });
+        }
+        
+        // Render distribution pie chart
+        function renderDistributionChart() {
+            const ctx = document.getElementById('distributionChart').getContext('2d');
+            
+            const latestData = researchData.researchTrends[researchData.researchTrends.length - 1].papers;
+            const topics = researchData.topicsBreakdown;
+            
+            const labels = Object.keys(topics).map(key => topics[key].name);
+            const data = Object.keys(topics).map(key => latestData[key]);
+            const colors = Object.keys(topics).map(key => topics[key].color);
+            
+            charts.distribution = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colors.map(c => c + 'CC'),
+                        borderColor: colors,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: { size: 14 }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Research Distribution by Topic',
+                            font: { size: 16 }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html>

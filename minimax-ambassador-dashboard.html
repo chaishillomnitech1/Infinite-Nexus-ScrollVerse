@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniMax Ambassador Dashboard - 528Hz Tracking System</title>
+    <meta name="description" content="MiniMax Developer Ambassador Program tracking with 528Hz resonance integration">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            --phi: 1.618;
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(82, 139, 255, 0.5);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-528hz);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .metric-box {
+            background: rgba(82, 139, 255, 0.1);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-box:hover {
+            background: rgba(82, 139, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--color-golden);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--color-crystalline);
+            opacity: 0.8;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: var(--space-lg);
+            border: 1px solid var(--color-528hz);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-528hz), var(--color-etheric));
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .task-list {
+            list-style: none;
+        }
+        
+        .task-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--color-528hz);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            border-radius: var(--space-md);
+            transition: all 0.3s ease;
+        }
+        
+        .task-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-md);
+        }
+        
+        .task-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-etheric);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: rgba(0, 255, 170, 0.2);
+            color: var(--color-etheric);
+            border: 1px solid var(--color-etheric);
+        }
+        
+        .status-in-progress {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--color-golden);
+            border: 1px solid var(--color-golden);
+        }
+        
+        .status-pending {
+            background: rgba(82, 139, 255, 0.2);
+            color: var(--color-528hz);
+            border: 1px solid var(--color-528hz);
+        }
+        
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .badge-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: var(--space-md);
+            padding: var(--space-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .badge-item.earned {
+            border-color: var(--color-golden);
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .badge-item.locked {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+        
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+        }
+        
+        .badge-name {
+            font-size: 0.9rem;
+            color: var(--color-crystalline);
+        }
+        
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .ranking-table th,
+        .ranking-table td {
+            padding: var(--space-lg);
+            text-align: left;
+            border-bottom: 1px solid rgba(82, 139, 255, 0.2);
+        }
+        
+        .ranking-table th {
+            color: var(--color-528hz);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        
+        .ranking-table tr.current-user {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid var(--color-golden);
+        }
+        
+        .rank-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-golden);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: var(--space-lg) var(--space-2xl);
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--space-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(82, 139, 255, 0.6);
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .task-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🚀 MINIMAX AMBASSADOR DASHBOARD 🚀</h1>
+            <p class="subtitle">Track Your Progress in the MiniMax Developer Ambassador Program • 528Hz Resonance</p>
+        </div>
+        
+        <a href="index.html" class="back-btn">← Back to ScrollVerse Nexus</a>
+        
+        <!-- Overview Metrics -->
+        <div class="card">
+            <h2 class="card-title">📊 Ambassador Progress Overview</h2>
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-value" id="completed-tasks">0</div>
+                    <div class="metric-label">Tasks Completed</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="in-progress-tasks">0</div>
+                    <div class="metric-label">In Progress</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="points-earned">0</div>
+                    <div class="metric-label">Points Earned</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="ambassador-rank">#0</div>
+                    <div class="metric-label">Ambassador Rank</div>
+                </div>
+            </div>
+            
+            <div>
+                <strong style="color: var(--color-etheric);">Overall Progress</strong>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overall-progress" style="width: 0%">
+                        <span id="progress-text">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Active Tasks -->
+        <div class="card">
+            <h2 class="card-title">📋 Active Tasks</h2>
+            <ul class="task-list" id="task-list">
+                <!-- Tasks will be loaded dynamically -->
+            </ul>
+        </div>
+        
+        <!-- Upcoming Deadlines -->
+        <div class="card">
+            <h2 class="card-title">⏰ Upcoming Deadlines</h2>
+            <ul class="task-list" id="deadline-list">
+                <!-- Deadlines will be loaded dynamically -->
+            </ul>
+        </div>
+        
+        <!-- Badges & Achievements -->
+        <div class="card">
+            <h2 class="card-title">🏆 Badges & Achievements</h2>
+            <div class="badge-grid" id="badge-grid">
+                <!-- Badges will be loaded dynamically -->
+            </div>
+        </div>
+        
+        <!-- Leaderboard -->
+        <div class="card">
+            <h2 class="card-title">🎯 Ambassador Rankings</h2>
+            <table class="ranking-table" id="rankings-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Ambassador</th>
+                        <th>Points</th>
+                        <th>Badges</th>
+                    </tr>
+                </thead>
+                <tbody id="rankings-body">
+                    <!-- Rankings will be loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        // MiniMax Ambassador Dashboard JavaScript
+        let ambassadorData = null;
+        
+        // Initialize dashboard
+        async function initializeDashboard() {
+            console.log('🌌 Initializing MiniMax Ambassador Dashboard at 528Hz');
+            
+            try {
+                // Load data from JSON file
+                const response = await fetch('data/minimax-ambassador-data.json');
+                ambassadorData = await response.json();
+                
+                // Load data from localStorage if available (for persistence)
+                const storedData = localStorage.getItem('minimax_ambassador_data');
+                if (storedData) {
+                    ambassadorData = JSON.parse(storedData);
+                }
+                
+                // Render all sections
+                renderMetrics();
+                renderTasks();
+                renderDeadlines();
+                renderBadges();
+                renderRankings();
+                
+                console.log('✅ Dashboard initialized successfully');
+            } catch (error) {
+                console.error('❌ Failed to load ambassador data:', error);
+            }
+        }
+        
+        // Render overview metrics
+        function renderMetrics() {
+            const metrics = ambassadorData.metrics;
+            
+            document.getElementById('completed-tasks').textContent = metrics.completedTasks;
+            document.getElementById('in-progress-tasks').textContent = metrics.inProgressTasks;
+            document.getElementById('points-earned').textContent = metrics.pointsEarned;
+            document.getElementById('ambassador-rank').textContent = `#${metrics.ambassadorRank}`;
+            
+            const progressPercent = Math.round((metrics.pointsEarned / metrics.totalPoints) * 100);
+            document.getElementById('overall-progress').style.width = `${progressPercent}%`;
+            document.getElementById('progress-text').textContent = `${progressPercent}%`;
+        }
+        
+        // Render task list
+        function renderTasks() {
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = '';
+            
+            // Show only in-progress and pending tasks
+            const activeTasks = ambassadorData.tasks.filter(
+                task => task.status === 'in_progress' || task.status === 'pending'
+            );
+            
+            activeTasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                
+                const statusClass = task.status === 'in_progress' ? 'status-in-progress' : 'status-pending';
+                const statusText = task.status === 'in_progress' ? 'In Progress' : 'Pending';
+                
+                taskItem.innerHTML = `
+                    <div class="task-header">
+                        <div>
+                            <div class="task-title">${task.title}</div>
+                            <div style="color: var(--color-crystalline); opacity: 0.8; font-size: 0.9rem;">${task.description}</div>
+                        </div>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-md);">
+                        <span style="color: var(--color-golden);">💎 ${task.points} points</span>
+                        <span style="color: var(--color-etheric);">📅 Due: ${task.deadline}</span>
+                    </div>
+                `;
+                
+                taskList.appendChild(taskItem);
+            });
+        }
+        
+        // Render upcoming deadlines
+        function renderDeadlines() {
+            const deadlineList = document.getElementById('deadline-list');
+            deadlineList.innerHTML = '';
+            
+            ambassadorData.upcomingDeadlines.forEach(deadline => {
+                const deadlineItem = document.createElement('li');
+                deadlineItem.className = 'task-item';
+                
+                const priorityColors = {
+                    high: 'var(--color-golden)',
+                    medium: 'var(--color-etheric)',
+                    low: 'var(--color-528hz)'
+                };
+                
+                deadlineItem.innerHTML = `
+                    <div class="task-header">
+                        <div>
+                            <div class="task-title">${deadline.title}</div>
+                        </div>
+                        <span style="color: ${priorityColors[deadline.priority]}; font-weight: 600;">
+                            ${deadline.daysRemaining} days remaining
+                        </span>
+                    </div>
+                    <div style="margin-top: var(--space-md);">
+                        <span style="color: var(--color-crystalline); opacity: 0.8;">
+                            📅 Deadline: ${deadline.deadline}
+                        </span>
+                        <span style="color: ${priorityColors[deadline.priority]}; margin-left: var(--space-lg);">
+                            ⚡ Priority: ${deadline.priority.toUpperCase()}
+                        </span>
+                    </div>
+                `;
+                
+                deadlineList.appendChild(deadlineItem);
+            });
+        }
+        
+        // Render badges
+        function renderBadges() {
+            const badgeGrid = document.getElementById('badge-grid');
+            badgeGrid.innerHTML = '';
+            
+            ambassadorData.badges.forEach(badge => {
+                const badgeItem = document.createElement('div');
+                badgeItem.className = `badge-item ${badge.earned ? 'earned' : 'locked'}`;
+                
+                badgeItem.innerHTML = `
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div class="badge-name">${badge.name}</div>
+                `;
+                
+                badgeGrid.appendChild(badgeItem);
+            });
+        }
+        
+        // Render rankings
+        function renderRankings() {
+            const rankingsBody = document.getElementById('rankings-body');
+            rankingsBody.innerHTML = '';
+            
+            ambassadorData.rankings.forEach(ranking => {
+                const row = document.createElement('tr');
+                if (ranking.isCurrentUser) {
+                    row.className = 'current-user';
+                }
+                
+                row.innerHTML = `
+                    <td><div class="rank-number">#${ranking.rank}</div></td>
+                    <td style="font-weight: 600;">${ranking.username}</td>
+                    <td style="color: var(--color-golden);">${ranking.points}</td>
+                    <td>${ranking.badges} 🏆</td>
+                `;
+                
+                rankingsBody.appendChild(row);
+            });
+        }
+        
+        // Save data to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('minimax_ambassador_data', JSON.stringify(ambassadorData));
+            console.log('💾 Data saved to localStorage');
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html>
