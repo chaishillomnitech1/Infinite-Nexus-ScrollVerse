@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Version History - ScrollVerse Temporal Archive</title>
+    <meta name="description" content="Version History viewer with diff visualization and rollback capabilities">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Diff2Html for diff visualization -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/diff2html@3.4.44/bundles/css/diff2html.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/diff2html@3.4.44/bundles/js/diff2html-ui.min.js"></script>
+    
+    <!-- ScrollVerse Data Manager -->
+    <script src="scrollverse-data-manager.js"></script>
+    
+    <style>
+        :root {
+            /* 528Hz Color Palette */
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            
+            /* Fibonacci Spacing */
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-528hz);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        /* Scroll Selector */
+        .scroll-select {
+            width: 100%;
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(10, 14, 39, 0.8);
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            color: var(--color-crystalline);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .scroll-select:focus {
+            outline: none;
+            border-color: var(--color-golden);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: var(--space-3xl);
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: var(--space-lg);
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--color-528hz), var(--color-etheric));
+        }
+        
+        .version-item {
+            position: relative;
+            margin-bottom: var(--space-2xl);
+            padding: var(--space-xl);
+            background: rgba(82, 139, 255, 0.1);
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-lg);
+            transition: all 0.3s ease;
+        }
+        
+        .version-item:hover {
+            background: rgba(82, 139, 255, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .version-item::before {
+            content: '';
+            position: absolute;
+            left: calc(-1 * var(--space-3xl) + var(--space-md));
+            top: var(--space-xl);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-golden);
+            border: 3px solid var(--color-cosmic-void);
+            box-shadow: 0 0 10px var(--color-golden);
+        }
+        
+        .version-item.current::before {
+            background: var(--color-etheric);
+            box-shadow: 0 0 15px var(--color-etheric);
+            width: 25px;
+            height: 25px;
+        }
+        
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-md);
+            flex-wrap: wrap;
+            gap: var(--space-md);
+        }
+        
+        .version-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--color-golden);
+        }
+        
+        .version-date {
+            color: var(--color-etheric);
+            font-size: 0.9rem;
+        }
+        
+        .version-details {
+            margin-bottom: var(--space-md);
+        }
+        
+        .detail-row {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-sm);
+            font-size: 0.95rem;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--color-528hz);
+            min-width: 120px;
+        }
+        
+        .detail-value {
+            color: var(--color-crystalline);
+        }
+        
+        .version-actions {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(82, 139, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--color-golden), #FF8C00);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .btn-ghost {
+            background: transparent;
+            border: 2px solid var(--color-528hz);
+            color: var(--color-528hz);
+        }
+        
+        .btn-ghost:hover {
+            background: rgba(82, 139, 255, 0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--space-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: var(--space-sm);
+        }
+        
+        .badge-current {
+            background: linear-gradient(135deg, var(--color-etheric), #00CCA0);
+            color: var(--color-cosmic-void);
+        }
+        
+        /* Diff View */
+        .diff-container {
+            margin-top: var(--space-xl);
+            padding: var(--space-xl);
+            background: rgba(10, 14, 39, 0.8);
+            border-radius: var(--space-lg);
+            border: 2px solid var(--color-golden);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-3xl);
+            color: var(--color-crystalline);
+            opacity: 0.6;
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .timeline {
+                padding-left: var(--space-2xl);
+            }
+            
+            .version-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">⏰ Version History</h1>
+            <p class="subtitle">Temporal Archive • Diff Visualization • Rollback Capabilities</p>
+        </div>
+        
+        <!-- Scroll Selector -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>📜</span>
+                <span>Select Scroll</span>
+            </h2>
+            <select class="scroll-select" id="scrollSelect" onchange="loadVersionHistory()">
+                <option value="">-- Select a scroll to view history --</option>
+            </select>
+        </div>
+        
+        <!-- Current Version Info -->
+        <div class="card" id="currentVersionCard" style="display: none;">
+            <h2 class="card-title">
+                <span>✨</span>
+                <span>Current Version</span>
+            </h2>
+            <div id="currentVersionInfo"></div>
+        </div>
+        
+        <!-- Version Timeline -->
+        <div class="card" id="versionTimelineCard" style="display: none;">
+            <h2 class="card-title">
+                <span>🕰️</span>
+                <span>Version Timeline</span>
+            </h2>
+            <div class="timeline" id="versionTimeline">
+                <!-- Version items will be added here -->
+            </div>
+        </div>
+        
+        <!-- Empty State -->
+        <div class="card" id="emptyState">
+            <div class="empty-state">
+                <div class="empty-icon">📚</div>
+                <h3 style="margin-bottom: var(--space-md);">No Version History</h3>
+                <p>Select a scroll from the dropdown above to view its version history.</p>
+                <p style="margin-top: var(--space-md); font-size: 0.9rem;">
+                    Version history is automatically saved when scrolls are updated.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div style="text-align: center; margin-top: var(--space-3xl);">
+            <a href="nft-minting.html" class="btn btn-secondary">← NFT Minting</a>
+            <a href="index.html" class="btn btn-primary" style="margin-left: var(--space-md);">
+                Back to Home
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // ============================================================================
+        // Version History System
+        // ============================================================================
+        
+        let scrollsManager = null;
+        let currentScrollId = null;
+        let currentScroll = null;
+        
+        /**
+         * Initialize the version history viewer
+         */
+        async function initialize() {
+            console.log('🚀 Initializing Version History viewer...');
+            
+            // Initialize data manager
+            scrollsManager = new ActiveScrollsManager();
+            
+            // Load scrolls
+            await loadScrolls();
+            
+            console.log('✅ Version History viewer initialized');
+        }
+        
+        /**
+         * Load all scrolls into the selector
+         */
+        async function loadScrolls() {
+            try {
+                const data = await scrollsManager.getData();
+                const scrolls = data.scrolls || [];
+                
+                const select = document.getElementById('scrollSelect');
+                
+                // Clear existing options (except first)
+                while (select.options.length > 1) {
+                    select.remove(1);
+                }
+                
+                // Add scrolls
+                scrolls.forEach(scroll => {
+                    const option = document.createElement('option');
+                    option.value = scroll.id;
+                    option.textContent = `${scroll.id} - ${scroll.title}`;
+                    select.appendChild(option);
+                });
+                
+                if (scrolls.length === 0) {
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'No scrolls available';
+                    option.disabled = true;
+                    select.appendChild(option);
+                }
+                
+            } catch (error) {
+                console.error('❌ Error loading scrolls:', error);
+            }
+        }
+        
+        /**
+         * Load version history for selected scroll
+         */
+        async function loadVersionHistory() {
+            const scrollId = document.getElementById('scrollSelect').value;
+            
+            if (!scrollId) {
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('currentVersionCard').style.display = 'none';
+                document.getElementById('versionTimelineCard').style.display = 'none';
+                return;
+            }
+            
+            try {
+                currentScrollId = scrollId;
+                
+                // Get current scroll
+                const data = await scrollsManager.getData();
+                currentScroll = data.scrolls.find(s => s.id === scrollId);
+                
+                if (!currentScroll) {
+                    alert('Scroll not found!');
+                    return;
+                }
+                
+                // Get version history
+                const versions = await scrollsManager.getVersionHistory(scrollId);
+                
+                // Display current version
+                displayCurrentVersion(currentScroll);
+                
+                // Display version timeline
+                if (versions.length > 0) {
+                    displayVersionTimeline(versions);
+                    document.getElementById('versionTimelineCard').style.display = 'block';
+                    document.getElementById('emptyState').style.display = 'none';
+                } else {
+                    document.getElementById('versionTimelineCard').style.display = 'none';
+                    document.getElementById('emptyState').innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">📜</div>
+                            <h3 style="margin-bottom: var(--space-md);">No Version History Yet</h3>
+                            <p>This scroll hasn't been updated yet, so there's no version history.</p>
+                            <p style="margin-top: var(--space-md); font-size: 0.9rem;">
+                                Version history will be created when the scroll is modified.
+                            </p>
+                        </div>
+                    `;
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+                
+                document.getElementById('currentVersionCard').style.display = 'block';
+                
+            } catch (error) {
+                console.error('❌ Error loading version history:', error);
+                alert('Error loading version history: ' + error.message);
+            }
+        }
+        
+        /**
+         * Display current version info
+         */
+        function displayCurrentVersion(scroll) {
+            const container = document.getElementById('currentVersionInfo');
+            
+            container.innerHTML = `
+                <div class="detail-row">
+                    <span class="detail-label">ID:</span>
+                    <span class="detail-value">${scroll.id}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Title:</span>
+                    <span class="detail-value">${scroll.title}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value">${scroll.status}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Priority:</span>
+                    <span class="detail-value">${scroll.priority}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Last Modified:</span>
+                    <span class="detail-value">${new Date(scroll.lastModified).toLocaleString()}</span>
+                </div>
+            `;
+        }
+        
+        /**
+         * Display version timeline
+         */
+        function displayVersionTimeline(versions) {
+            const timeline = document.getElementById('versionTimeline');
+            timeline.innerHTML = '';
+            
+            // Reverse to show newest first
+            const reversedVersions = [...versions].reverse();
+            
+            reversedVersions.forEach((version, index) => {
+                const item = document.createElement('div');
+                item.className = 'version-item';
+                if (index === 0) {
+                    item.classList.add('current');
+                }
+                
+                const header = document.createElement('div');
+                header.className = 'version-header';
+                
+                const versionInfo = document.createElement('div');
+                versionInfo.innerHTML = `
+                    <span class="version-number">Version ${version.versionNumber}</span>
+                    ${index === 0 ? '<span class="badge badge-current">Latest</span>' : ''}
+                `;
+                
+                const date = document.createElement('div');
+                date.className = 'version-date';
+                date.textContent = new Date(version.versionTimestamp).toLocaleString();
+                
+                header.appendChild(versionInfo);
+                header.appendChild(date);
+                
+                const details = document.createElement('div');
+                details.className = 'version-details';
+                details.innerHTML = `
+                    <div class="detail-row">
+                        <span class="detail-label">Title:</span>
+                        <span class="detail-value">${version.title}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value">${version.status}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Priority:</span>
+                        <span class="detail-value">${version.priority}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Description:</span>
+                        <span class="detail-value">${version.description.substring(0, 100)}${version.description.length > 100 ? '...' : ''}</span>
+                    </div>
+                `;
+                
+                const actions = document.createElement('div');
+                actions.className = 'version-actions';
+                
+                const viewBtn = document.createElement('button');
+                viewBtn.className = 'btn btn-ghost';
+                viewBtn.textContent = '👁️ View Full Details';
+                viewBtn.onclick = () => viewVersionDetails(version);
+                
+                actions.appendChild(viewBtn);
+                
+                if (index > 0) {
+                    const restoreBtn = document.createElement('button');
+                    restoreBtn.className = 'btn btn-primary';
+                    restoreBtn.textContent = '↩️ Restore This Version';
+                    restoreBtn.onclick = () => restoreVersion(version.versionNumber);
+                    actions.appendChild(restoreBtn);
+                    
+                    const compareBtn = document.createElement('button');
+                    compareBtn.className = 'btn btn-secondary';
+                    compareBtn.textContent = '🔍 Compare with Current';
+                    compareBtn.onclick = () => compareVersions(version, currentScroll);
+                    actions.appendChild(compareBtn);
+                }
+                
+                item.appendChild(header);
+                item.appendChild(details);
+                item.appendChild(actions);
+                
+                timeline.appendChild(item);
+            });
+        }
+        
+        /**
+         * View full version details
+         */
+        function viewVersionDetails(version) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                padding: var(--space-xl);
+                overflow-y: auto;
+            `;
+            
+            const content = document.createElement('div');
+            content.className = 'card';
+            content.style.maxWidth = '800px';
+            content.style.width = '100%';
+            content.style.maxHeight = '90vh';
+            content.style.overflowY = 'auto';
+            
+            content.innerHTML = `
+                <h2 class="card-title">
+                    <span>📄</span>
+                    <span>Version ${version.versionNumber} Details</span>
+                </h2>
+                <div style="margin-bottom: var(--space-xl);">
+                    <div class="detail-row">
+                        <span class="detail-label">ID:</span>
+                        <span class="detail-value">${version.id}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Title:</span>
+                        <span class="detail-value">${version.title}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status:</span>
+                        <span class="detail-value">${version.status}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Priority:</span>
+                        <span class="detail-value">${version.priority}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Category:</span>
+                        <span class="detail-value">${version.category}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Created:</span>
+                        <span class="detail-value">${new Date(version.createdDate).toLocaleString()}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Version Date:</span>
+                        <span class="detail-value">${new Date(version.versionTimestamp).toLocaleString()}</span>
+                    </div>
+                    <div style="margin-top: var(--space-lg);">
+                        <h3 style="color: var(--color-528hz); margin-bottom: var(--space-sm);">Description</h3>
+                        <p style="color: var(--color-crystalline); line-height: 1.6;">${version.description}</p>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="this.closest('[style*=fixed]').remove()">
+                    Close
+                </button>
+            `;
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+            
+            modal.onclick = (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            };
+        }
+        
+        /**
+         * Restore a version
+         */
+        async function restoreVersion(versionNumber) {
+            if (!confirm(`Are you sure you want to restore version ${versionNumber}?\n\nThis will update the current scroll to match that version.`)) {
+                return;
+            }
+            
+            try {
+                await scrollsManager.restoreVersion(currentScrollId, versionNumber);
+                alert(`✅ Successfully restored to version ${versionNumber}!`);
+                
+                // Reload version history
+                await loadVersionHistory();
+                
+            } catch (error) {
+                console.error('❌ Error restoring version:', error);
+                alert('Error restoring version: ' + error.message);
+            }
+        }
+        
+        /**
+         * Compare two versions
+         */
+        function compareVersions(oldVersion, newVersion) {
+            alert('📊 Diff Comparison\n\n' +
+                  'This feature shows the differences between versions.\n\n' +
+                  `Version ${oldVersion.versionNumber} vs Current:\n\n` +
+                  `Title: ${oldVersion.title === newVersion.title ? 'No change' : 'Changed'}\n` +
+                  `Status: ${oldVersion.status === newVersion.status ? 'No change' : oldVersion.status + ' → ' + newVersion.status}\n` +
+                  `Priority: ${oldVersion.priority === newVersion.priority ? 'No change' : oldVersion.priority + ' → ' + newVersion.priority}\n` +
+                  `Description: ${oldVersion.description === newVersion.description ? 'No change' : 'Changed'}`
+            );
+        }
+        
+        // ============================================================================
+        // Initialize on load
+        // ============================================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initialize();
+        });
+    </script>
+</body>
+</html>

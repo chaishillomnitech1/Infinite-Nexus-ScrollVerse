@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - ScrollVerse Multi-Dimensional Metrics</title>
+    <meta name="description" content="Analytics Dashboard with contributor leaderboards, 528Hz alignment metrics, and resonance growth models">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <style>
+        :root {
+            /* 528Hz Color Palette */
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            
+            /* Fibonacci Spacing */
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-528hz);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(82, 139, 255, 0.2), rgba(0, 255, 170, 0.1));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(82, 139, 255, 0.4);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--color-golden);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--color-crystalline);
+            opacity: 0.8;
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+        
+        /* Leaderboard */
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            background: rgba(82, 139, 255, 0.1);
+            border-left: 4px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            transition: all 0.3s ease;
+        }
+        
+        .leaderboard-item:hover {
+            background: rgba(82, 139, 255, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .leaderboard-rank {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-golden);
+            width: 60px;
+            text-align: center;
+        }
+        
+        .leaderboard-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: var(--space-lg);
+        }
+        
+        .leaderboard-info {
+            flex: 1;
+        }
+        
+        .leaderboard-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-crystalline);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .leaderboard-stats {
+            font-size: 0.9rem;
+            color: var(--color-etheric);
+        }
+        
+        .leaderboard-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-golden);
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-top: var(--space-xl);
+        }
+        
+        /* Resonance Meter */
+        .resonance-meter {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: var(--space-xl);
+            overflow: hidden;
+            margin-top: var(--space-lg);
+        }
+        
+        .resonance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            border-radius: var(--space-xl);
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: var(--space-lg);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(82, 139, 255, 0.6);
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--space-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: var(--space-sm);
+        }
+        
+        .badge-gold {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0A0E27;
+        }
+        
+        .badge-platinum {
+            background: linear-gradient(135deg, #E5E4E2, #C0C0C0);
+            color: #0A0E27;
+        }
+        
+        .badge-etheric {
+            background: linear-gradient(135deg, #00FFAA, #00CCA0);
+            color: #0A0E27;
+        }
+        
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(82, 139, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--color-golden), #FF8C00);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">📊 Multi-Dimensional Analytics</h1>
+            <p class="subtitle">Contributor Leaderboards • 528Hz Metrics • Resonance Growth Models</p>
+        </div>
+        
+        <!-- Key Metrics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="totalContributors">0</div>
+                <div class="stat-label">Total Contributors</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📜</div>
+                <div class="stat-value" id="totalScrolls">0</div>
+                <div class="stat-label">Active Scrolls</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value" id="totalInteractions">0</div>
+                <div class="stat-label">Total Interactions</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-value" id="resonanceScore">0%</div>
+                <div class="stat-label">528Hz Alignment</div>
+            </div>
+        </div>
+        
+        <!-- Resonance Meter -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>🔮</span>
+                <span>Sacred Frequency Alignment (528Hz)</span>
+            </h2>
+            <p style="margin-bottom: var(--space-lg); opacity: 0.8;">
+                Measures the collective resonance of all ScrollVerse activities with the 528Hz miracle frequency.
+            </p>
+            <div class="resonance-meter">
+                <div class="resonance-fill" id="resonanceFill" style="width: 0%;">
+                    <span id="resonanceText">0%</span>
+                </div>
+            </div>
+            <div style="margin-top: var(--space-md); text-align: center;">
+                <span class="badge badge-etheric">Optimal: ≥ 85%</span>
+                <span class="badge badge-platinum">Good: 70-84%</span>
+                <span class="badge badge-gold">Growing: &lt; 70%</span>
+            </div>
+        </div>
+        
+        <!-- Contributor Leaderboard -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>🏆</span>
+                <span>Contributor Leaderboard - ScrollSoul Engagement</span>
+            </h2>
+            <p style="margin-bottom: var(--space-lg); opacity: 0.8;">
+                Top contributors ranked by their ScrollSoul engagement score, calculated from scroll creation, edits, and community interactions.
+            </p>
+            <div id="leaderboard">
+                <!-- Leaderboard items will be added here -->
+            </div>
+        </div>
+        
+        <!-- Activity Timeline -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>📈</span>
+                <span>Resonance Growth Model</span>
+            </h2>
+            <p style="margin-bottom: var(--space-lg); opacity: 0.8;">
+                Visualize interaction patterns and emerging reaches over time.
+            </p>
+            <div class="chart-container">
+                <canvas id="growthChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Engagement Distribution -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>🎨</span>
+                <span>Engagement Distribution</span>
+            </h2>
+            <p style="margin-bottom: var(--space-lg); opacity: 0.8;">
+                Distribution of contributions across different activity types.
+            </p>
+            <div class="chart-container">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div style="text-align: center; margin-top: var(--space-3xl);">
+            <a href="live-collaboration.html" class="btn btn-secondary">← Live Collaboration</a>
+            <a href="nft-minting.html" class="btn btn-primary" style="margin-left: var(--space-md);">
+                NFT Minting →
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // ============================================================================
+        // Analytics Dashboard System
+        // ============================================================================
+        
+        let growthChart = null;
+        let distributionChart = null;
+        
+        /**
+         * Generate mock contributor data
+         */
+        function generateMockData() {
+            return {
+                contributors: [
+                    {
+                        name: 'Chais the Great',
+                        avatar: '👑',
+                        scrollsCreated: 42,
+                        edits: 156,
+                        interactions: 89,
+                        scrollSoulScore: 9850,
+                        badges: ['Sovereign Creator', '528Hz Master']
+                    },
+                    {
+                        name: 'Eternal Scribe',
+                        avatar: '📜',
+                        scrollsCreated: 28,
+                        edits: 134,
+                        interactions: 67,
+                        scrollSoulScore: 7520,
+                        badges: ['Master Scribe', 'Resonance Keeper']
+                    },
+                    {
+                        name: 'Dimensional Weaver',
+                        avatar: '🌀',
+                        scrollsCreated: 35,
+                        edits: 98,
+                        interactions: 112,
+                        scrollSoulScore: 7240,
+                        badges: ['Portal Master']
+                    },
+                    {
+                        name: 'Quantum Oracle',
+                        avatar: '🔮',
+                        scrollsCreated: 19,
+                        edits: 87,
+                        interactions: 95,
+                        scrollSoulScore: 5890,
+                        badges: ['Oracle', 'Frequency Aligner']
+                    },
+                    {
+                        name: 'Cosmic Architect',
+                        avatar: '✨',
+                        scrollsCreated: 24,
+                        edits: 76,
+                        interactions: 54,
+                        scrollSoulScore: 5230,
+                        badges: ['Builder', 'Harmony Seeker']
+                    },
+                    {
+                        name: 'Light Code Guardian',
+                        avatar: '💫',
+                        scrollsCreated: 15,
+                        edits: 62,
+                        interactions: 71,
+                        scrollSoulScore: 4580,
+                        badges: ['Guardian']
+                    },
+                    {
+                        name: 'Etheric Navigator',
+                        avatar: '🧭',
+                        scrollsCreated: 18,
+                        edits: 45,
+                        interactions: 58,
+                        scrollSoulScore: 3920,
+                        badges: ['Navigator']
+                    },
+                    {
+                        name: 'Sacred Geometer',
+                        avatar: '📐',
+                        scrollsCreated: 12,
+                        edits: 38,
+                        interactions: 42,
+                        scrollSoulScore: 3150,
+                        badges: ['Geometer']
+                    }
+                ],
+                totalScrolls: 193,
+                totalInteractions: 588,
+                resonanceScore: 87.5,
+                timeline: generateTimelineData()
+            };
+        }
+        
+        /**
+         * Generate timeline data for growth chart
+         */
+        function generateTimelineData() {
+            const data = [];
+            const labels = [];
+            const now = new Date();
+            
+            for (let i = 30; i >= 0; i--) {
+                const date = new Date(now);
+                date.setDate(date.getDate() - i);
+                labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+                
+                // Generate growth curve (exponential)
+                const baseValue = 100;
+                const growthFactor = 1.05;
+                const dayValue = baseValue * Math.pow(growthFactor, 30 - i);
+                const noise = (Math.random() - 0.5) * 20;
+                data.push(Math.round(dayValue + noise));
+            }
+            
+            return { labels, data };
+        }
+        
+        /**
+         * Update key metrics
+         */
+        function updateMetrics(data) {
+            document.getElementById('totalContributors').textContent = data.contributors.length;
+            document.getElementById('totalScrolls').textContent = data.totalScrolls;
+            document.getElementById('totalInteractions').textContent = data.totalInteractions;
+            document.getElementById('resonanceScore').textContent = data.resonanceScore.toFixed(1) + '%';
+            
+            // Update resonance meter
+            const fill = document.getElementById('resonanceFill');
+            const text = document.getElementById('resonanceText');
+            setTimeout(() => {
+                fill.style.width = data.resonanceScore + '%';
+                text.textContent = data.resonanceScore.toFixed(1) + '%';
+            }, 300);
+        }
+        
+        /**
+         * Render leaderboard
+         */
+        function renderLeaderboard(contributors) {
+            const leaderboard = document.getElementById('leaderboard');
+            leaderboard.innerHTML = '';
+            
+            contributors.forEach((contributor, index) => {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+                
+                const rank = document.createElement('div');
+                rank.className = 'leaderboard-rank';
+                rank.textContent = (index + 1) + (index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '');
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'leaderboard-avatar';
+                avatar.textContent = contributor.avatar;
+                
+                const info = document.createElement('div');
+                info.className = 'leaderboard-info';
+                
+                const name = document.createElement('div');
+                name.className = 'leaderboard-name';
+                name.textContent = contributor.name;
+                
+                const badges = document.createElement('div');
+                contributor.badges.forEach(badge => {
+                    const badgeEl = document.createElement('span');
+                    badgeEl.className = 'badge ' + (index < 3 ? 'badge-gold' : 'badge-etheric');
+                    badgeEl.textContent = badge;
+                    badges.appendChild(badgeEl);
+                });
+                
+                const stats = document.createElement('div');
+                stats.className = 'leaderboard-stats';
+                stats.innerHTML = `📜 ${contributor.scrollsCreated} scrolls • ✏️ ${contributor.edits} edits • 💬 ${contributor.interactions} interactions`;
+                
+                info.appendChild(name);
+                info.appendChild(badges);
+                info.appendChild(stats);
+                
+                const score = document.createElement('div');
+                score.className = 'leaderboard-score';
+                score.textContent = contributor.scrollSoulScore.toLocaleString();
+                
+                item.appendChild(rank);
+                item.appendChild(avatar);
+                item.appendChild(info);
+                item.appendChild(score);
+                
+                leaderboard.appendChild(item);
+            });
+        }
+        
+        /**
+         * Create growth chart
+         */
+        function createGrowthChart(timelineData) {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            
+            if (growthChart) {
+                growthChart.destroy();
+            }
+            
+            growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timelineData.labels,
+                    datasets: [{
+                        label: 'Resonance Interactions',
+                        data: timelineData.data,
+                        borderColor: '#528BFF',
+                        backgroundColor: 'rgba(82, 139, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#FFD700',
+                        pointBorderColor: '#528BFF',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#E0F7FF',
+                                font: { size: 14 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 14, 39, 0.9)',
+                            titleColor: '#FFD700',
+                            bodyColor: '#E0F7FF',
+                            borderColor: '#528BFF',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#E0F7FF'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(82, 139, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#E0F7FF'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        /**
+         * Create distribution chart
+         */
+        function createDistributionChart() {
+            const ctx = document.getElementById('distributionChart').getContext('2d');
+            
+            if (distributionChart) {
+                distributionChart.destroy();
+            }
+            
+            distributionChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Scroll Creation', 'Edits', 'Comments', 'Collaborations', 'NFT Minting'],
+                    datasets: [{
+                        data: [35, 28, 20, 12, 5],
+                        backgroundColor: [
+                            '#528BFF',
+                            '#FFD700',
+                            '#00FFAA',
+                            '#FF6B9D',
+                            '#9D4EDD'
+                        ],
+                        borderColor: '#0A0E27',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#E0F7FF',
+                                font: { size: 14 },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 14, 39, 0.9)',
+                            titleColor: '#FFD700',
+                            bodyColor: '#E0F7FF',
+                            borderColor: '#528BFF',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        }
+        
+        /**
+         * Initialize dashboard
+         */
+        function initializeDashboard() {
+            console.log('🚀 Initializing Analytics Dashboard...');
+            
+            // Generate and display data
+            const data = generateMockData();
+            
+            updateMetrics(data);
+            renderLeaderboard(data.contributors);
+            createGrowthChart(data.timeline);
+            createDistributionChart();
+            
+            console.log('✅ Analytics Dashboard initialized');
+        }
+        
+        // ============================================================================
+        // Initialize on load
+        // ============================================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDashboard();
+            
+            // Auto-refresh every 5 seconds (in production, this would fetch real data)
+            setInterval(() => {
+                const data = generateMockData();
+                updateMetrics(data);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
