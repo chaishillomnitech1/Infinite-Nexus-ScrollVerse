@@ -188,44 +188,161 @@ class LocalStorage {
 }
 
 // ============================================================================
-// Firestore Implementation (Placeholder)
+// Firestore Implementation
 // ============================================================================
 
 class FirestoreStorage {
   constructor(config) {
     this.config = config;
     this.db = null;
-    console.log('🔥 Firestore storage initialized (placeholder)');
+    this.listeners = new Map();
+    console.log('🔥 Firestore storage initialized');
     
-    // In production, this would initialize Firebase:
-    // this.db = firebase.firestore();
+    // Initialize Firebase if config is provided
+    if (config && typeof firebase !== 'undefined') {
+      try {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(config);
+        }
+        this.db = firebase.firestore();
+        console.log('✅ Firestore connected successfully');
+      } catch (error) {
+        console.error('❌ Failed to initialize Firebase:', error);
+      }
+    }
   }
 
+  /**
+   * Get data from Firestore
+   */
   async get(key) {
-    // Placeholder - would fetch from Firestore
-    console.log(`🔥 Firestore get: ${key} (placeholder)`);
-    
-    // Fallback to localStorage for now
-    const localStorage = new LocalStorage();
-    return await localStorage.get(key);
+    if (!this.db) {
+      console.warn('⚠️ Firestore not initialized, falling back to localStorage');
+      const localStorage = new LocalStorage();
+      return await localStorage.get(key);
+    }
+
+    try {
+      console.log(`🔥 Fetching from Firestore: ${key}`);
+      const docRef = this.db.collection('scrollverse').doc(key);
+      const doc = await docRef.get();
+      
+      if (doc.exists) {
+        return doc.data();
+      } else {
+        console.log(`📭 Document ${key} not found in Firestore`);
+        return null;
+      }
+    } catch (error) {
+      console.error(`❌ Error fetching from Firestore:`, error);
+      throw error;
+    }
   }
 
+  /**
+   * Save data to Firestore
+   */
   async set(key, data) {
-    // Placeholder - would save to Firestore
-    console.log(`🔥 Firestore set: ${key} (placeholder)`);
-    
-    // Fallback to localStorage for now
-    const localStorage = new LocalStorage();
-    return await localStorage.set(key, data);
+    if (!this.db) {
+      console.warn('⚠️ Firestore not initialized, falling back to localStorage');
+      const localStorage = new LocalStorage();
+      return await localStorage.set(key, data);
+    }
+
+    try {
+      console.log(`🔥 Saving to Firestore: ${key}`);
+      const docRef = this.db.collection('scrollverse').doc(key);
+      // merge: true allows partial updates without overwriting entire document
+      await docRef.set(data, { merge: true });
+      console.log(`✅ Data saved to Firestore: ${key}`);
+      return true;
+    } catch (error) {
+      console.error(`❌ Error saving to Firestore:`, error);
+      throw error;
+    }
   }
 
+  /**
+   * Delete data from Firestore
+   */
   async delete(key) {
-    // Placeholder - would delete from Firestore
-    console.log(`🔥 Firestore delete: ${key} (placeholder)`);
-    
-    // Fallback to localStorage for now
-    const localStorage = new LocalStorage();
-    return await localStorage.delete(key);
+    if (!this.db) {
+      console.warn('⚠️ Firestore not initialized, falling back to localStorage');
+      const localStorage = new LocalStorage();
+      return await localStorage.delete(key);
+    }
+
+    try {
+      console.log(`🔥 Deleting from Firestore: ${key}`);
+      const docRef = this.db.collection('scrollverse').doc(key);
+      await docRef.delete();
+      console.log(`✅ Data deleted from Firestore: ${key}`);
+      return true;
+    } catch (error) {
+      console.error(`❌ Error deleting from Firestore:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Subscribe to real-time updates
+   */
+  onSnapshot(key, callback) {
+    if (!this.db) {
+      console.warn('⚠️ Firestore not initialized, real-time updates not available');
+      return () => {};
+    }
+
+    try {
+      console.log(`👂 Listening to Firestore updates: ${key}`);
+      const docRef = this.db.collection('scrollverse').doc(key);
+      
+      const unsubscribe = docRef.onSnapshot(
+        (doc) => {
+          if (doc.exists) {
+            console.log(`🔄 Received update for ${key}`);
+            callback(doc.data(), null);
+          } else {
+            callback(null, null);
+          }
+        },
+        (error) => {
+          console.error(`❌ Error in snapshot listener:`, error);
+          callback(null, error);
+        }
+      );
+
+      // Store the unsubscribe function
+      this.listeners.set(key, unsubscribe);
+      
+      return unsubscribe;
+    } catch (error) {
+      console.error(`❌ Error setting up listener:`, error);
+      return () => {};
+    }
+  }
+
+  /**
+   * Unsubscribe from updates
+   */
+  unsubscribe(key) {
+    if (this.listeners.has(key)) {
+      const unsubscribe = this.listeners.get(key);
+      unsubscribe();
+      this.listeners.delete(key);
+      console.log(`🔕 Unsubscribed from ${key}`);
+    }
+  }
+
+  /**
+   * Unsubscribe from all listeners
+   */
+  unsubscribeAll() {
+    this.listeners.forEach((unsubscribe, key) => {
+      unsubscribe();
+      console.log(`🔕 Unsubscribed from ${key}`);
+    });
+    this.listeners.clear();
   }
 }
 
@@ -325,6 +442,7 @@ class ActiveScrollsManager {
   constructor(dataManager) {
     this.dataManager = dataManager;
     this.featureKey = 'active_scrolls';
+    this.listeners = [];
   }
 
   async getData() {
@@ -335,11 +453,63 @@ class ActiveScrollsManager {
     return await this.dataManager.saveData(this.featureKey, data);
   }
 
+  /**
+   * Subscribe to real-time updates
+   * @param {Function} callback - Called when data changes
+   * @returns {Function} Unsubscribe function
+   */
+  onDataChange(callback) {
+    if (this.dataManager.storage instanceof FirestoreStorage) {
+      const unsubscribe = this.dataManager.storage.onSnapshot(
+        this.featureKey,
+        (data, error) => {
+          if (error) {
+            console.error('Error in data listener:', error);
+            callback(null, error);
+          } else {
+            callback(data, null);
+          }
+        }
+      );
+      this.listeners.push(unsubscribe);
+      return unsubscribe;
+    } else {
+      console.warn('Real-time updates not available with localStorage');
+      return () => {};
+    }
+  }
+
+  /**
+   * Unsubscribe from all listeners
+   */
+  unsubscribeAll() {
+    this.listeners.forEach(unsubscribe => unsubscribe());
+    this.listeners = [];
+  }
+
   async addScroll(scroll) {
     const data = await this.getData();
+    
+    // Generate ID if not provided
+    // Note: Assumes all scroll IDs follow 'SCR-XXX' format
+    if (!scroll.id) {
+      const maxId = data.scrolls.reduce((max, s) => {
+        const num = parseInt(s.id.replace('SCR-', ''));
+        // Handle invalid ID formats by treating as 0
+        return isNaN(num) ? max : Math.max(num, max);
+      }, 0);
+      scroll.id = `SCR-${String(maxId + 1).padStart(3, '0')}`;
+    }
+    
+    // Set timestamps
+    scroll.createdDate = scroll.createdDate || new Date().toISOString();
+    scroll.lastModified = new Date().toISOString();
+    
     data.scrolls.push(scroll);
     data.statistics = this.calculateStatistics(data.scrolls);
-    return await this.saveData(data);
+    await this.saveData(data);
+    
+    return scroll;
   }
 
   async updateScroll(scrollId, updates) {
@@ -358,14 +528,23 @@ class ActiveScrollsManager {
     
     data.statistics = this.calculateStatistics(data.scrolls);
     
-    return await this.saveData(data);
+    await this.saveData(data);
+    return data.scrolls[scrollIndex];
   }
 
   async deleteScroll(scrollId) {
     const data = await this.getData();
+    const scrollIndex = data.scrolls.findIndex(s => s.id === scrollId);
+    
+    if (scrollIndex === -1) {
+      throw new Error(`Scroll ${scrollId} not found`);
+    }
+    
     data.scrolls = data.scrolls.filter(s => s.id !== scrollId);
     data.statistics = this.calculateStatistics(data.scrolls);
-    return await this.saveData(data);
+    await this.saveData(data);
+    
+    return true;
   }
 
   calculateStatistics(scrolls) {

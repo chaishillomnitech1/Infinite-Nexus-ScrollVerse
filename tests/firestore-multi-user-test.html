@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-User Real-Time Test - Firestore</title>
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--color-golden);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .info-box {
+            background: rgba(82, 139, 255, 0.1);
+            border: 2px solid var(--color-528hz);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            background: rgba(26, 31, 58, 0.9);
+            border: 2px solid var(--color-528hz);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .test-section h2 {
+            color: var(--color-etheric);
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: var(--color-528hz);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--color-etheric);
+        }
+        
+        .btn-danger {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #ff5252;
+        }
+        
+        .log-container {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--color-528hz);
+            border-radius: 5px;
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .log-entry {
+            padding: 5px;
+            border-bottom: 1px solid rgba(82, 139, 255, 0.2);
+            margin-bottom: 5px;
+        }
+        
+        .log-entry.success {
+            color: var(--color-etheric);
+        }
+        
+        .log-entry.error {
+            color: #ff6b6b;
+        }
+        
+        .log-entry.info {
+            color: var(--color-crystalline);
+        }
+        
+        .log-entry.update {
+            color: var(--color-golden);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(82, 139, 255, 0.1);
+            border: 1px solid var(--color-528hz);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-golden);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--color-etheric);
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-528hz);
+            border-radius: 5px;
+            color: var(--color-crystalline);
+            font-size: 1rem;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--color-etheric);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status.connected {
+            background: rgba(0, 255, 170, 0.2);
+            color: var(--color-etheric);
+        }
+        
+        .status.disconnected {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Multi-User Real-Time Test Dashboard 🔥</h1>
+        
+        <div class="info-box">
+            <h3 style="color: var(--color-golden); margin-bottom: 10px;">📋 Test Instructions</h3>
+            <ol style="line-height: 1.8;">
+                <li>Open this page in <strong>2 or more browser windows/tabs</strong></li>
+                <li>Click "Connect to Firestore" in each window</li>
+                <li>Perform operations (Add, Update, Delete) in one window</li>
+                <li>Observe real-time updates in all other windows</li>
+                <li>Check the logs and statistics to verify synchronization</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔌 Connection Status</h2>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <button class="btn btn-primary" id="connect-btn">Connect to Firestore</button>
+                <button class="btn btn-danger" id="disconnect-btn" style="display: none;">Disconnect</button>
+                <span class="status disconnected" id="connection-status">Disconnected</span>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-scrolls">0</div>
+                    <div class="stat-label">Total Scrolls</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="updates-received">0</div>
+                    <div class="stat-label">Updates Received</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="operations-performed">0</div>
+                    <div class="stat-label">Operations Performed</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>⚡ Test Operations</h2>
+            
+            <div class="input-group">
+                <label>Test Scroll Title</label>
+                <input type="text" id="test-title" placeholder="Enter scroll title">
+            </div>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn btn-primary" id="add-scroll-btn">➕ Add Test Scroll</button>
+                <button class="btn btn-primary" id="update-scroll-btn">✏️ Update First Scroll</button>
+                <button class="btn btn-danger" id="delete-scroll-btn">🗑️ Delete Last Scroll</button>
+                <button class="btn btn-primary" id="bulk-add-btn">📦 Add 5 Test Scrolls</button>
+                <button class="btn btn-danger" id="clear-all-btn">🧹 Clear All Test Scrolls</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📜 Activity Log</h2>
+            <button class="btn btn-primary" id="clear-log-btn" style="margin-bottom: 10px;">Clear Log</button>
+            <div class="log-container" id="log-container">
+                <div class="log-entry info">Waiting for connection...</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- ScrollVerse Data Manager -->
+    <script src="../scrollverse-data-manager.js"></script>
+    
+    <script>
+        // Test Configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        // Use Firestore (change to true when configured)
+        const USE_FIRESTORE = false;
+        
+        // Test State
+        let dataManager = null;
+        let scrollsManager = null;
+        let unsubscribe = null;
+        let updatesReceived = 0;
+        let operationsPerformed = 0;
+        let isConnected = false;
+        
+        // DOM Elements
+        const connectBtn = document.getElementById('connect-btn');
+        const disconnectBtn = document.getElementById('disconnect-btn');
+        const connectionStatus = document.getElementById('connection-status');
+        const logContainer = document.getElementById('log-container');
+        const totalScrollsEl = document.getElementById('total-scrolls');
+        const updatesReceivedEl = document.getElementById('updates-received');
+        const operationsPerformedEl = document.getElementById('operations-performed');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            log('Test dashboard loaded. Click "Connect to Firestore" to start.', 'info');
+        });
+        
+        function setupEventListeners() {
+            connectBtn.addEventListener('click', connectToFirestore);
+            disconnectBtn.addEventListener('click', disconnectFromFirestore);
+            document.getElementById('add-scroll-btn').addEventListener('click', addTestScroll);
+            document.getElementById('update-scroll-btn').addEventListener('click', updateFirstScroll);
+            document.getElementById('delete-scroll-btn').addEventListener('click', deleteLastScroll);
+            document.getElementById('bulk-add-btn').addEventListener('click', bulkAddScrolls);
+            document.getElementById('clear-all-btn').addEventListener('click', clearAllTestScrolls);
+            document.getElementById('clear-log-btn').addEventListener('click', clearLog);
+        }
+        
+        async function connectToFirestore() {
+            try {
+                log('🔌 Connecting to Firestore...', 'info');
+                
+                dataManager = new ScrollVerseDataManager({
+                    useFirestore: USE_FIRESTORE,
+                    firestoreConfig: USE_FIRESTORE ? firebaseConfig : null
+                });
+                
+                scrollsManager = new ActiveScrollsManager(dataManager);
+                
+                // Load initial data
+                await loadInitialData();
+                
+                // Setup real-time listener
+                unsubscribe = scrollsManager.onDataChange((data, error) => {
+                    if (error) {
+                        log(`❌ Error receiving update: ${error.message}`, 'error');
+                        return;
+                    }
+                    
+                    if (data) {
+                        updatesReceived++;
+                        updatesReceivedEl.textContent = updatesReceived;
+                        totalScrollsEl.textContent = data.scrolls.length;
+                        log(`🔄 Received real-time update: ${data.scrolls.length} scrolls`, 'update');
+                    }
+                });
+                
+                isConnected = true;
+                updateConnectionUI();
+                log('✅ Connected to Firestore successfully!', 'success');
+                
+            } catch (error) {
+                log(`❌ Connection failed: ${error.message}`, 'error');
+            }
+        }
+        
+        async function loadInitialData() {
+            let data = await scrollsManager.getData();
+            
+            if (!data || !data.scrolls) {
+                log('📡 Loading initial data from JSON...', 'info');
+                const response = await fetch('../data/active-scrolls-data.json');
+                data = await response.json();
+                await scrollsManager.saveData(data);
+                log('✅ Initial data loaded', 'success');
+            }
+            
+            totalScrollsEl.textContent = data.scrolls.length;
+        }
+        
+        function disconnectFromFirestore() {
+            if (unsubscribe) {
+                unsubscribe();
+                unsubscribe = null;
+            }
+            
+            if (scrollsManager) {
+                scrollsManager.unsubscribeAll();
+            }
+            
+            isConnected = false;
+            updateConnectionUI();
+            log('🔌 Disconnected from Firestore', 'info');
+        }
+        
+        function updateConnectionUI() {
+            if (isConnected) {
+                connectBtn.style.display = 'none';
+                disconnectBtn.style.display = 'inline-block';
+                connectionStatus.textContent = 'Connected';
+                connectionStatus.className = 'status connected';
+            } else {
+                connectBtn.style.display = 'inline-block';
+                disconnectBtn.style.display = 'none';
+                connectionStatus.textContent = 'Disconnected';
+                connectionStatus.className = 'status disconnected';
+            }
+        }
+        
+        async function addTestScroll() {
+            if (!isConnected) {
+                log('❌ Not connected to Firestore', 'error');
+                return;
+            }
+            
+            try {
+                const title = document.getElementById('test-title').value || `Test Scroll ${Date.now()}`;
+                
+                const testScroll = {
+                    title: title,
+                    description: `This is a test scroll created at ${new Date().toLocaleString()}`,
+                    status: 'active',
+                    priority: 'medium',
+                    frequency: '528Hz',
+                    category: 'Test',
+                    author: 'Test User',
+                    tags: ['test', 'automated'],
+                    metadata: {
+                        dimensionalLayer: 1,
+                        consciousnessLevel: 'medium',
+                        sacredGeometry: 'Test Pattern',
+                        anchorHash: '0x' + Math.random().toString(16).substring(2, 14),
+                        NFTStatus: 'not_started'
+                    },
+                    properties: {
+                        energy: 80,
+                        stability: 85,
+                        resonanceQuality: 'test',
+                        blockchainAnchored: false
+                    }
+                };
+                
+                await scrollsManager.addScroll(testScroll);
+                operationsPerformed++;
+                operationsPerformedEl.textContent = operationsPerformed;
+                log(`✅ Added test scroll: "${title}"`, 'success');
+                
+                // Clear input
+                document.getElementById('test-title').value = '';
+                
+            } catch (error) {
+                log(`❌ Failed to add scroll: ${error.message}`, 'error');
+            }
+        }
+        
+        async function updateFirstScroll() {
+            if (!isConnected) {
+                log('❌ Not connected to Firestore', 'error');
+                return;
+            }
+            
+            try {
+                const data = await scrollsManager.getData();
+                if (data.scrolls.length === 0) {
+                    log('⚠️ No scrolls to update', 'info');
+                    return;
+                }
+                
+                const firstScroll = data.scrolls[0];
+                await scrollsManager.updateScroll(firstScroll.id, {
+                    title: `${firstScroll.title} (Updated)`,
+                    lastModified: new Date().toISOString()
+                });
+                
+                operationsPerformed++;
+                operationsPerformedEl.textContent = operationsPerformed;
+                log(`✅ Updated scroll: ${firstScroll.id}`, 'success');
+                
+            } catch (error) {
+                log(`❌ Failed to update scroll: ${error.message}`, 'error');
+            }
+        }
+        
+        async function deleteLastScroll() {
+            if (!isConnected) {
+                log('❌ Not connected to Firestore', 'error');
+                return;
+            }
+            
+            try {
+                const data = await scrollsManager.getData();
+                if (data.scrolls.length === 0) {
+                    log('⚠️ No scrolls to delete', 'info');
+                    return;
+                }
+                
+                const lastScroll = data.scrolls[data.scrolls.length - 1];
+                await scrollsManager.deleteScroll(lastScroll.id);
+                
+                operationsPerformed++;
+                operationsPerformedEl.textContent = operationsPerformed;
+                log(`✅ Deleted scroll: ${lastScroll.id}`, 'success');
+                
+            } catch (error) {
+                log(`❌ Failed to delete scroll: ${error.message}`, 'error');
+            }
+        }
+        
+        async function bulkAddScrolls() {
+            if (!isConnected) {
+                log('❌ Not connected to Firestore', 'error');
+                return;
+            }
+            
+            try {
+                log('📦 Adding 5 test scrolls...', 'info');
+                
+                for (let i = 0; i < 5; i++) {
+                    const testScroll = {
+                        title: `Bulk Test Scroll ${i + 1}`,
+                        description: `Bulk test scroll created at ${new Date().toLocaleString()}`,
+                        status: ['active', 'pending', 'resolved'][Math.floor(Math.random() * 3)],
+                        priority: ['high', 'medium', 'low'][Math.floor(Math.random() * 3)],
+                        frequency: '528Hz',
+                        category: 'Bulk Test',
+                        author: 'Test User',
+                        tags: ['test', 'bulk', 'automated'],
+                        metadata: {
+                            dimensionalLayer: 1,
+                            consciousnessLevel: 'medium',
+                            sacredGeometry: 'Test Pattern',
+                            anchorHash: '0x' + Math.random().toString(16).substring(2, 14),
+                            NFTStatus: 'not_started'
+                        },
+                        properties: {
+                            energy: 80 + Math.floor(Math.random() * 20),
+                            stability: 80 + Math.floor(Math.random() * 20),
+                            resonanceQuality: 'test',
+                            blockchainAnchored: false
+                        }
+                    };
+                    
+                    await scrollsManager.addScroll(testScroll);
+                    operationsPerformed++;
+                }
+                
+                operationsPerformedEl.textContent = operationsPerformed;
+                log('✅ Added 5 test scrolls', 'success');
+                
+            } catch (error) {
+                log(`❌ Failed to bulk add scrolls: ${error.message}`, 'error');
+            }
+        }
+        
+        async function clearAllTestScrolls() {
+            if (!isConnected) {
+                log('❌ Not connected to Firestore', 'error');
+                return;
+            }
+            
+            if (!confirm('Are you sure you want to delete all test scrolls?')) {
+                return;
+            }
+            
+            try {
+                const data = await scrollsManager.getData();
+                const testScrolls = data.scrolls.filter(s => 
+                    s.category === 'Test' || 
+                    s.category === 'Bulk Test' ||
+                    s.title.includes('Test Scroll')
+                );
+                
+                log(`🧹 Deleting ${testScrolls.length} test scrolls...`, 'info');
+                
+                for (const scroll of testScrolls) {
+                    await scrollsManager.deleteScroll(scroll.id);
+                    operationsPerformed++;
+                }
+                
+                operationsPerformedEl.textContent = operationsPerformed;
+                log(`✅ Deleted ${testScrolls.length} test scrolls`, 'success');
+                
+            } catch (error) {
+                log(`❌ Failed to clear test scrolls: ${error.message}`, 'error');
+            }
+        }
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${timestamp}] ${message}`;
+            
+            logContainer.insertBefore(entry, logContainer.firstChild);
+            
+            // Keep only last 100 entries
+            while (logContainer.children.length > 100) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+        
+        function clearLog() {
+            logContainer.innerHTML = '<div class="log-entry info">Log cleared</div>';
+        }
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            disconnectFromFirestore();
+        });
+    </script>
+</body>
+</html>
