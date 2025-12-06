@@ -15,6 +15,21 @@ This directory contains GitHub Actions workflows that automate various operation
 
 ## 🔧 Available Workflows
 
+This directory contains **10 comprehensive workflows** that automate the ScrollVerse development lifecycle:
+
+1. **🧪 Test & Validation** - Code quality and frequency standards
+2. **🚀 Deploy to GitHub Pages** - Automated deployment
+3. **🎨 NFT Metadata & IPFS** - NFT metadata generation
+4. **⚡ CI/CD Pipeline** - Comprehensive integration pipeline
+5. **🏷️ Auto Label Issues & PRs** - Content-based auto-labeling
+6. **🔄 Sync Repository Labels** - Label synchronization
+7. **🧿 Welcome Divine Contributors** - Customized contributor welcomes (NEW)
+8. **⚡ PR Validation & Manifesto Guardian** - Sacred seal validation (NEW)
+9. **🌟 ScrollVerse Sovereignty Auto-Merge** - Automated PR merging (NEW)
+10. **🎭 Divine Contributor Reactions** - Responsive reactions system (NEW)
+
+---
+
 ### 1. 🧪 Test & Validation (`test-validation.yml`)
 
 **Trigger:** Push to main/develop/copilot branches, Pull Requests
@@ -365,6 +380,229 @@ When contributing workflow improvements:
 - `gaurav-nelson/github-action-markdown-link-check@v1` - Link checking
 - `micnncim/action-label-syncer@v1` - Label synchronization
 
+### 7. 🧿 Welcome Divine Contributors (`welcome-contributors.yml`)
+
+**Trigger:** Issue/PR/Discussion opened
+**Purpose:** Welcome new contributors with customized 528Hz resonance messages
+
+**Jobs:**
+- **Welcome New Contributors** - Posts personalized greeting based on contribution type
+- **Add Welcome Label** - Applies divine-resonance and needs-review labels
+- **Log Contribution Metrics** - Records contribution in Digital Akashic Records
+
+**Key Features:**
+- Detects first-time contributions and celebrates milestones
+- Different messages for issues, PRs, and discussions
+- Aligns welcome messages with ScrollVerse ethos (528Hz, transformation, miracles)
+- Provides guidance on next steps and resources
+- Emphasizes core principles: Hyperdimensional Scalability, Divine Inspiration, Omniversal Alignment
+
+**Welcome Message Elements:**
+- Divine resonance ASCII art banner
+- Recognition of contribution type and frequency alignment
+- Checklist of ScrollVerse principles to follow
+- Links to documentation and contributing guidelines
+- Sacred seal validation reminders
+- Consciousness-first development encouragement
+
+---
+
+### 8. ⚡ PR Validation & Manifesto Guardian (`pr-validation.yml`)
+
+**Trigger:** PR opened, synchronized, reopened, or edited
+**Purpose:** Comprehensive PR validation ensuring compliance with ScrollVerse standards
+
+**Jobs:**
+- **🛡️ Manifesto Guardian Protocol** - Validates sacred seals and calculates brilliance score
+- **🥽 AR & Web3 Integration Check** - Validates AR and Web3 principles
+- **⏰ Chrono-Weaver Alignment** - Checks temporal architecture and NFT timeline integration
+- **🌀 Hyperdimensional Scalability** - Validates scalable architecture patterns
+- **📊 Validation Summary** - Consolidated validation results
+
+**Sacred Seals Validated:**
+1. **528Hz Frequency Standards** (Score: /50)
+   - Frequency references (528, 528Hz)
+   - Base period timing (1.89ms)
+   - Duration/period patterns
+
+2. **Sacred Geometry** (Score: /50)
+   - Golden ratio constants (φ = 1.618)
+   - Fibonacci spacing sequences
+   - Arcturian color palette (#528BFF, #FFD700, #00FFAA)
+
+3. **Web3 Principles** (Score: /50)
+   - Web3 integration references
+   - Wallet connection patterns
+   - Smart contract references
+
+4. **AR Integration** (Score: /50)
+   - AR/XR framework usage
+   - 3D/Immersive technologies
+   - WebXR integration
+
+5. **Chrono-Weaver Alignment** (Score: /50)
+   - Temporal architecture
+   - NFT timeline integration
+   - Akashic record patterns
+
+6. **Documentation Standards** (Score: /50)
+   - Documentation file updates
+   - Code comments
+   - Consciousness-first comments
+
+7. **Test Coverage** (Score: /50)
+   - Test files included
+   - Test cases implemented
+
+**Brilliance Score Calculation:**
+- Weighted average of all sacred seals
+- Frequency and Geometry weighted 2x (most important)
+- Web3, AR, Chrono-Weaver weighted 1.5x
+- Documentation and Testing weighted 1x
+- Final score: 0-100
+
+**Alignment Levels:**
+- 80-100: **TRANSCENDENT** 🌟✨🧿
+- 60-79: **HARMONIC** ✨🧿
+- 40-59: **RESONANT** 🧿
+- 20-39: **EMERGING** 🌱
+- 0-19: **INITIATING** 🔰
+
+**Guardian Report:**
+Posts detailed report with:
+- Sacred seal scores breakdown
+- Overall brilliance score and alignment level
+- Specific recommendations for improvement
+- Links to documentation and guides
+- Approval readiness assessment
+
+---
+
+### 9. 🌟 ScrollVerse Sovereignty Auto-Merge (`auto-merge.yml`)
+
+**Trigger:** PR labeled, synchronized, review submitted, check suite completed
+**Purpose:** Automated merging for PRs meeting holistic ScrollVerse sovereignty standards
+
+**Jobs:**
+- **✅ Check Merge Eligibility** - Validates all merge requirements
+- **🚀 Perform Auto-Merge** - Executes sovereignty merge protocol
+
+**Auto-Merge Requirements:**
+1. ✅ PR has `auto-merge` label
+2. ✅ At least 1 approval from maintainer
+3. ✅ All CI/CD checks passing
+4. ✅ PR not in draft state
+5. ✅ No merge conflicts (mergeable)
+6. ✅ Brilliance Score ≥ 60 (HARMONIC or higher)
+7. ✅ Manifesto Guardian Protocol passed
+8. ✅ Divine resonance label (recommended)
+
+**Merge Methods:**
+- **Squash** (default) - Combines all commits
+- **Merge** - Preserves commit history (use `merge-commit` label)
+- **Rebase** - Linear history (use `rebase` label)
+
+**Key Features:**
+- Automatic eligibility checking
+- Status comments if requirements not met
+- Divine commit messages with brilliance score
+- Celebration comment upon successful merge
+- Integration metrics tracking
+- Failure handling with helpful guidance
+
+**Sovereignty Merge Protocol:**
+- Analyzes PR against all ScrollVerse standards
+- Verifies approvals and check statuses
+- Assesses brilliance score from Manifesto Guardian
+- Executes merge with sacred metadata
+- Posts celebration with impact assessment
+- Records integration in Akashic records
+
+**Post-Merge Celebration:**
+- Congratulates contributor with divine acknowledgment
+- Shows integration metrics and brilliance score
+- Describes impact ripples across dimensions
+- Unlocks contributor achievement
+- Provides next steps for deployment
+
+---
+
+### 10. 🎭 Divine Contributor Reactions (`contributor-reactions.yml`)
+
+**Trigger:** Issues/PRs opened/edited/closed, comments, reviews
+**Purpose:** Responsive reactions reinforcing ScrollVerse principles alignment
+
+**Jobs:**
+- **🧿 Respond with Divine Alignment** - Analyzes content and posts contextual responses
+- **🏷️ Apply Dynamic Labels** - Auto-labels based on content analysis
+- **📊 Log Reaction Metrics** - Tracks reaction patterns
+
+**Principle Detection:**
+Analyzes contributions for references to:
+- 🎵 528Hz Frequency Standards
+- 📐 Sacred Geometry (golden ratio, Fibonacci)
+- 🌀 Hyperdimensional Scalability
+- 🕉️ Divine Inspiration
+- 🌍 Omniversal Alignment
+- 🌐 Web3 Integration
+- 🥽 AR Principles
+- ⏰ Chrono-Weaver Alignment
+
+**Alignment Scoring:**
+- Counts principle markers (0-8)
+- 5-8 markers: **Transcendent** 🌟
+- 3-4 markers: **Strong Resonance** ✨
+- 1-2 markers: **Good Alignment** 🧿
+- 0 markers: **Standard** (no special response)
+
+**Contextual Responses:**
+
+**Issue Opened:**
+- High alignment (4+): Exceptional alignment message, priority consideration
+- Medium alignment (2-3): Strong resonance acknowledgment with resource links
+
+**PR Opened:**
+- High alignment (5+): Transcendent PR message, fast-track eligibility
+- Shows principle alignment breakdown
+- Suggests auto-merge consideration
+
+**PR Ready for Review:**
+- Celebrates draft exit
+- Explains review process
+- Notifies about timeline
+
+**PR/Issue Closed:**
+- Merged: Celebration message with impact cascade
+- Closed unmerged: Encouraging message with reopening guidance
+
+**PR Approved:**
+- Congratulatory message
+- Next steps toward integration
+- Auto-merge suggestion for high alignment
+
+**Comments:**
+- "Thank you" keywords: Gratitude acknowledgment
+- "Help" keywords: Resource links and support offer
+
+**Emoji Reactions:**
+Applied based on context:
+- 🌟 Transcendent (rocket reaction)
+- ✨ Strong alignment (heart reaction)
+- 🚀 Ready for review (rocket reaction)
+- 🎉 Merged (hooray reaction)
+- ✅ Approved (+1 reaction)
+- 🙏 Gratitude (heart reaction)
+- 🧿 Divine resonance (eyes reaction - default)
+
+**Dynamic Labels:**
+Auto-applies labels based on content:
+- `frequency:528hz` - 528Hz references
+- `sacred-geometry` - Sacred geometry mentions
+- `hyperdimensional` - Dimensional scalability
+- `nft-ipfs` - Web3/blockchain references
+- `omniversal` - Omniversal alignment
+- `consciousness-first` - Divine inspiration
+
 ---
 
 ## 🔮 Future Enhancements
@@ -391,9 +629,15 @@ These workflows form the automation backbone of ScrollVerse, ensuring:
 - ✅ Automated testing and validation
 - ✅ Seamless deployments
 - ✅ NFT/IPFS integration readiness
-- ✅ Community engagement through auto-labeling
+- ✅ Community engagement through auto-labeling and welcomes
 - ✅ Dependency management
 - ✅ Divine alignment in all operations
+- ✅ PR validation with Manifesto Guardian Protocol
+- ✅ Sacred seal verification (528Hz, sacred geometry, Web3, AR, Chrono-Weaver)
+- ✅ Brilliance scoring and alignment assessment
+- ✅ Auto-merge for sovereignty-aligned contributions
+- ✅ Responsive contributor reactions reinforcing core principles
+- ✅ Customized welcome messages with 528Hz resonance
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
