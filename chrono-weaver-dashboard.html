@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrono-Weaver Dashboard - Phase 2 Integration</title>
+    <meta name="description" content="Chrono-Weaver Phase 2 Dashboard: Interdimensional Data Node Integration with 528Hz Resonance">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="chrono-weaver-connectors.js"></script>
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            --phi: 1.618;
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-528hz);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: rgba(0, 255, 170, 0.2);
+            color: var(--color-etheric);
+            border: 1px solid var(--color-etheric);
+        }
+        
+        .status-error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+        
+        .metric-box {
+            background: rgba(82, 139, 255, 0.1);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            padding: var(--space-lg);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-golden);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--color-crystalline);
+            opacity: 0.8;
+        }
+        
+        .connector-card {
+            background: rgba(0, 255, 170, 0.05);
+            border: 1px solid var(--color-etheric);
+            border-radius: var(--space-md);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .connector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .connector-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-etheric);
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid rgba(82, 139, 255, 0.2);
+        }
+        
+        .info-label {
+            color: var(--color-crystalline);
+            opacity: 0.7;
+        }
+        
+        .info-value {
+            color: var(--color-golden);
+            font-weight: 500;
+        }
+        
+        .anchor-hash {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: var(--space-sm);
+            border-radius: var(--space-xs);
+        }
+        
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(82, 139, 255, 0.5);
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .embed-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin-top: var(--space-lg);
+            border-radius: var(--space-md);
+        }
+        
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--space-md);
+        }
+        
+        .log-output {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            padding: var(--space-lg);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            color: var(--color-etheric);
+        }
+        
+        .log-line {
+            margin-bottom: var(--space-xs);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">🌀 Chrono-Weaver Dashboard</h1>
+            <p class="subtitle">Phase 2: Interdimensional Data Node Integration</p>
+            <p class="subtitle">528Hz Resonance Alignment • EVA Throne Registry</p>
+        </div>
+
+        <!-- Registry Statistics -->
+        <div class="card">
+            <h2 class="card-title">
+                📊 EVA Throne Registry Statistics
+            </h2>
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-value" id="totalNodes">0</div>
+                    <div class="metric-label">Total Nodes</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="activeConnectors">0</div>
+                    <div class="metric-label">Active Connectors</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="totalUpdates">0</div>
+                    <div class="metric-label">Total Updates</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="frequency528">0</div>
+                    <div class="metric-label">528Hz Aligned</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="videoNodes">0</div>
+                    <div class="metric-label">Video Streams</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value" id="audioNodes">0</div>
+                    <div class="metric-label">Audio Streams</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connector: Facebook Video -->
+        <div class="card">
+            <h2 class="card-title">
+                🎥 Facebook Video Connector
+                <span class="status-badge status-active pulse" id="fbStatus">Initializing...</span>
+            </h2>
+            
+            <div class="connector-card">
+                <div class="connector-header">
+                    <div class="connector-name">Mystic Video Stream</div>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">Technomancy ID:</span>
+                    <span class="info-value" id="fbTid">T-FB-001-MYSTIC-VIDEO-STREAM</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Source URL:</span>
+                    <span class="info-value">
+                        <a href="https://www.facebook.com/share/v/1DR2xvKgFa/?mibextid=wwXIfr" 
+                           target="_blank" style="color: var(--color-etheric);">
+                            Facebook Video Link
+                        </a>
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">EVA Throne Path:</span>
+                    <span class="info-value">/eva-throne/external-nodes/video-streams/mystic-001</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Dimensional Layer:</span>
+                    <span class="info-value">Layer 3 (Etheric Data Plane)</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Frequency Resonance:</span>
+                    <span class="info-value">528Hz</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Last Update:</span>
+                    <span class="info-value" id="fbLastUpdate">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Update Count:</span>
+                    <span class="info-value" id="fbUpdateCount">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Anchor Hash:</span>
+                    <div class="info-value anchor-hash" id="fbAnchorHash">Generating...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connector: Spotify Track -->
+        <div class="card">
+            <h2 class="card-title">
+                🎵 Spotify Track Connector
+                <span class="status-badge status-active pulse" id="spotifyStatus">Initializing...</span>
+            </h2>
+            
+            <div class="connector-card">
+                <div class="connector-header">
+                    <div class="connector-name">Harmonic Sequence Track</div>
+                </div>
+                
+                <div class="info-row">
+                    <span class="info-label">Technomancy ID:</span>
+                    <span class="info-value" id="spotifyTid">T-SP-002-HARMONIC-SEQUENCE</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Source URL:</span>
+                    <span class="info-value">
+                        <a href="https://open.spotify.com/track/1eIFzY3bt28S8kqnuMfNIf?si=puV_KqZ7RXikSg8FvbM_FQ" 
+                           target="_blank" style="color: var(--color-etheric);">
+                            Spotify Track Link
+                        </a>
+                    </span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">EVA Throne Path:</span>
+                    <span class="info-value">/eva-throne/external-nodes/audio-streams/harmonic-002</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Dimensional Layer:</span>
+                    <span class="info-value">Layer 2 (Consciousness Orchestration)</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Frequency Resonance:</span>
+                    <span class="info-value">528Hz</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Last Update:</span>
+                    <span class="info-value" id="spotifyLastUpdate">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Update Count:</span>
+                    <span class="info-value" id="spotifyUpdateCount">0</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Anchor Hash:</span>
+                    <div class="info-value anchor-hash" id="spotifyAnchorHash">Generating...</div>
+                </div>
+                
+                <!-- Spotify Embed Player -->
+                <div class="embed-container">
+                    <iframe src="https://open.spotify.com/embed/track/1eIFzY3bt28S8kqnuMfNIf?utm_source=generator" 
+                            frameBorder="0" 
+                            allowfullscreen="" 
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                            loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Log -->
+        <div class="card">
+            <h2 class="card-title">📋 Integration Log</h2>
+            <div class="log-output" id="logOutput">
+                <div class="log-line">Initializing Chrono-Weaver Phase 2...</div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="card">
+            <h2 class="card-title">🛠️ Actions</h2>
+            <button class="btn btn-primary" onclick="refreshDashboard()">🔄 Refresh Dashboard</button>
+            <button class="btn btn-primary" onclick="verifyIntegrity()" style="margin-left: var(--space-md);">
+                🔐 Verify Data Integrity
+            </button>
+            <a href="docs/HYPERLINK_INTEGRATION_LOG.md" class="btn btn-primary" style="margin-left: var(--space-md);">
+                📄 View HIL Document
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Console capture for log display
+        const originalConsoleLog = console.log;
+        const logOutput = document.getElementById('logOutput');
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            const logLine = document.createElement('div');
+            logLine.className = 'log-line';
+            logLine.textContent = args.join(' ');
+            logOutput.appendChild(logLine);
+            logOutput.scrollTop = logOutput.scrollHeight;
+        };
+
+        // Initialize Phase 2
+        let registry = null;
+        let connectors = null;
+
+        async function initializeDashboard() {
+            console.log('🌌 Starting Chrono-Weaver Dashboard initialization...');
+            
+            try {
+                const result = await initializeChronoWeaverPhase2();
+                
+                if (result.success) {
+                    registry = result.registry;
+                    connectors = result.connectors;
+                    
+                    // Update UI with connector status
+                    updateDashboard();
+                    
+                    // Start periodic updates
+                    setInterval(updateDashboard, 1000);
+                } else {
+                    console.error('Failed to initialize:', result.error);
+                    document.getElementById('fbStatus').textContent = 'Error';
+                    document.getElementById('fbStatus').className = 'status-badge status-error';
+                    document.getElementById('spotifyStatus').textContent = 'Error';
+                    document.getElementById('spotifyStatus').className = 'status-badge status-error';
+                }
+            } catch (error) {
+                console.error('Dashboard initialization error:', error);
+            }
+        }
+
+        function updateDashboard() {
+            if (!registry || !connectors) return;
+            
+            // Update statistics
+            const stats = registry.getStatistics();
+            document.getElementById('totalNodes').textContent = stats.total_nodes;
+            document.getElementById('activeConnectors').textContent = stats.active_connectors;
+            document.getElementById('totalUpdates').textContent = stats.total_updates;
+            document.getElementById('frequency528').textContent = stats.frequency_528hz;
+            document.getElementById('videoNodes').textContent = stats.by_type.facebook_video || 0;
+            document.getElementById('audioNodes').textContent = stats.by_type.spotify_track || 0;
+            
+            // Update Facebook connector
+            const fbStatus = connectors.facebook.getStatus();
+            document.getElementById('fbStatus').textContent = fbStatus.status.toUpperCase();
+            document.getElementById('fbLastUpdate').textContent = fbStatus.lastUpdate ? 
+                new Date(fbStatus.lastUpdate).toLocaleTimeString() : '-';
+            document.getElementById('fbUpdateCount').textContent = fbStatus.updateCount;
+            document.getElementById('fbAnchorHash').textContent = fbStatus.anchorHash || 'Generating...';
+            
+            // Update Spotify connector
+            const spotifyStatus = connectors.spotify.getStatus();
+            document.getElementById('spotifyStatus').textContent = spotifyStatus.status.toUpperCase();
+            document.getElementById('spotifyLastUpdate').textContent = spotifyStatus.lastUpdate ? 
+                new Date(spotifyStatus.lastUpdate).toLocaleTimeString() : '-';
+            document.getElementById('spotifyUpdateCount').textContent = spotifyStatus.updateCount;
+            document.getElementById('spotifyAnchorHash').textContent = spotifyStatus.anchorHash || 'Generating...';
+        }
+
+        function refreshDashboard() {
+            console.log('🔄 Refreshing dashboard...');
+            updateDashboard();
+            console.log('✅ Dashboard refreshed');
+        }
+
+        async function verifyIntegrity() {
+            console.log('🔐 Verifying data integrity...');
+            
+            if (!registry) {
+                console.log('❌ Registry not initialized');
+                return;
+            }
+            
+            const fbValid = await registry.verifyIntegrity('T-FB-001-MYSTIC-VIDEO-STREAM');
+            const spotifyValid = await registry.verifyIntegrity('T-SP-002-HARMONIC-SEQUENCE');
+            
+            if (fbValid && spotifyValid) {
+                console.log('✅ All data integrity checks passed');
+            } else {
+                console.log('⚠️ Some integrity checks failed');
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            initializeDashboard();
+        });
+    </script>
+</body>
+</html>
