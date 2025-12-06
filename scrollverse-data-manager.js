@@ -520,6 +520,10 @@ class ActiveScrollsManager {
       throw new Error(`Scroll ${scrollId} not found`);
     }
 
+    // Save version history before updating
+    const oldScroll = { ...data.scrolls[scrollIndex] };
+    await this.saveVersion(scrollId, oldScroll);
+
     data.scrolls[scrollIndex] = { 
       ...data.scrolls[scrollIndex], 
       ...updates,
@@ -530,6 +534,75 @@ class ActiveScrollsManager {
     
     await this.saveData(data);
     return data.scrolls[scrollIndex];
+  }
+
+  /**
+   * Save a version of the scroll to history
+   */
+  async saveVersion(scrollId, scrollData) {
+    try {
+      const versionKey = `version_history_${scrollId}`;
+      let versionHistory = await this.dataManager.getData(versionKey) || { versions: [] };
+      
+      const version = {
+        ...scrollData,
+        versionNumber: versionHistory.versions.length + 1,
+        versionTimestamp: new Date().toISOString()
+      };
+      
+      versionHistory.versions.push(version);
+      
+      // Keep only last MAX_VERSIONS to avoid excessive storage
+      const MAX_VERSIONS = 50;
+      if (versionHistory.versions.length > MAX_VERSIONS) {
+        versionHistory.versions = versionHistory.versions.slice(-MAX_VERSIONS);
+      }
+      
+      await this.dataManager.saveData(versionKey, versionHistory);
+      console.log(`✅ Version ${version.versionNumber} saved for ${scrollId}`);
+    } catch (error) {
+      console.error('❌ Error saving version:', error);
+    }
+  }
+
+  /**
+   * Get version history for a scroll
+   */
+  async getVersionHistory(scrollId) {
+    try {
+      const versionKey = `version_history_${scrollId}`;
+      const versionHistory = await this.dataManager.getData(versionKey);
+      return versionHistory ? versionHistory.versions : [];
+    } catch (error) {
+      console.error('❌ Error getting version history:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Restore a specific version
+   */
+  async restoreVersion(scrollId, versionNumber) {
+    try {
+      const versions = await this.getVersionHistory(scrollId);
+      const version = versions.find(v => v.versionNumber === versionNumber);
+      
+      if (!version) {
+        throw new Error(`Version ${versionNumber} not found for ${scrollId}`);
+      }
+      
+      // Remove version-specific fields
+      const { versionNumber: vn, versionTimestamp, ...scrollData } = version;
+      
+      // Update the scroll with version data
+      await this.updateScroll(scrollId, scrollData);
+      
+      console.log(`✅ Restored ${scrollId} to version ${versionNumber}`);
+      return scrollData;
+    } catch (error) {
+      console.error('❌ Error restoring version:', error);
+      throw error;
+    }
   }
 
   async deleteScroll(scrollId) {

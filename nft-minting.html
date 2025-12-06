@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Cross Minting - ScrollVerse Polygon IPFS Integration</title>
+    <meta name="description" content="NFT Cross Minting with Polygon network integration and IPFS metadata storage">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    
+    <style>
+        :root {
+            /* 528Hz Color Palette */
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            
+            /* Fibonacci Spacing */
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-528hz);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-xl);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+            color: var(--color-crystalline);
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(10, 14, 39, 0.8);
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            color: var(--color-crystalline);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--color-golden);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(82, 139, 255, 0.5);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--color-golden), #FF8C00);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--color-etheric), #00CCA0);
+            color: white;
+        }
+        
+        /* Preview Card */
+        .preview-card {
+            background: linear-gradient(135deg, rgba(82, 139, 255, 0.2), rgba(0, 255, 170, 0.1));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-header {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-golden);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-cosmic-void), #1a1f3a);
+            border-radius: var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+            border: 2px solid var(--color-528hz);
+        }
+        
+        .preview-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+        
+        .preview-item {
+            padding: var(--space-md);
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: var(--space-md);
+            border-left: 3px solid var(--color-etheric);
+        }
+        
+        .preview-item-label {
+            font-size: 0.85rem;
+            color: var(--color-etheric);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .preview-item-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-crystalline);
+        }
+        
+        /* Progress Indicator */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-2xl);
+            position: relative;
+        }
+        
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(82, 139, 255, 0.3);
+            z-index: 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--color-528hz);
+            transition: width 0.5s ease;
+        }
+        
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .progress-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(10, 14, 39, 0.9);
+            border: 3px solid rgba(82, 139, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-sm);
+            font-weight: 800;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active .progress-circle {
+            border-color: var(--color-528hz);
+            background: var(--color-528hz);
+            box-shadow: 0 0 20px rgba(82, 139, 255, 0.6);
+        }
+        
+        .progress-step.completed .progress-circle {
+            border-color: var(--color-etheric);
+            background: var(--color-etheric);
+            color: var(--color-cosmic-void);
+        }
+        
+        .progress-label {
+            font-size: 0.85rem;
+            color: var(--color-crystalline);
+            opacity: 0.6;
+        }
+        
+        .progress-step.active .progress-label,
+        .progress-step.completed .progress-label {
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .status-waiting {
+            background: rgba(128, 128, 128, 0.3);
+            color: #ccc;
+        }
+        
+        .status-processing {
+            background: rgba(82, 139, 255, 0.3);
+            color: var(--color-528hz);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-success {
+            background: rgba(0, 255, 170, 0.3);
+            color: var(--color-etheric);
+        }
+        
+        .status-error {
+            background: rgba(255, 107, 157, 0.3);
+            color: #FF6B9D;
+        }
+        
+        /* Network Badge */
+        .network-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: rgba(130, 71, 229, 0.3);
+            border: 1px solid #8247e5;
+            border-radius: var(--space-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #a78bfa;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .preview-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-label {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">🌀 NFT Cross Minting</h1>
+            <p class="subtitle">Polygon IPFS Integration • Vibrational Proof • 528Hz Immutability</p>
+        </div>
+        
+        <!-- Network Status -->
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-md);">
+                <div>
+                    <h3 style="color: var(--color-crystalline); margin-bottom: var(--space-sm);">Network</h3>
+                    <div class="network-badge">
+                        <span>⬡</span>
+                        <span id="networkName">Polygon Mainnet</span>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="connectWalletBtn" onclick="connectWallet()">
+                        <span id="walletBtnText">Connect Wallet</span>
+                    </button>
+                </div>
+            </div>
+            <div id="walletInfo" style="margin-top: var(--space-lg); display: none;">
+                <p style="color: var(--color-etheric);">
+                    <strong>Connected:</strong> <span id="walletAddress"></span>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Minting Progress -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>⚡</span>
+                <span>Minting Progress</span>
+            </h2>
+            <div class="progress-steps">
+                <div class="progress-line">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
+                <div class="progress-step" id="step1">
+                    <div class="progress-circle">1</div>
+                    <div class="progress-label">Prepare</div>
+                </div>
+                <div class="progress-step" id="step2">
+                    <div class="progress-circle">2</div>
+                    <div class="progress-label">Upload IPFS</div>
+                </div>
+                <div class="progress-step" id="step3">
+                    <div class="progress-circle">3</div>
+                    <div class="progress-label">Mint NFT</div>
+                </div>
+                <div class="progress-step" id="step4">
+                    <div class="progress-circle">4</div>
+                    <div class="progress-label">Complete</div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <span class="status-badge status-waiting" id="statusBadge">Waiting to start</span>
+            </div>
+        </div>
+        
+        <!-- NFT Form -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>📝</span>
+                <span>NFT Metadata</span>
+            </h2>
+            <form id="nftForm">
+                <div class="form-group">
+                    <label class="form-label" for="nftName">NFT Name *</label>
+                    <input 
+                        type="text" 
+                        id="nftName" 
+                        class="form-input" 
+                        placeholder="e.g., Chrono-Weaver Scroll #528"
+                        required
+                    />
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="nftDescription">Description *</label>
+                    <textarea 
+                        id="nftDescription" 
+                        class="form-textarea" 
+                        placeholder="Describe the vibrational essence and sacred properties of this scroll..."
+                        required
+                    ></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="nftFrequency">Sacred Frequency</label>
+                    <select id="nftFrequency" class="form-select">
+                        <option value="528">528Hz - Miracle Frequency</option>
+                        <option value="432">432Hz - Universal Harmony</option>
+                        <option value="639">639Hz - Connection</option>
+                        <option value="741">741Hz - Awakening</option>
+                        <option value="852">852Hz - Intuition</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="nftRarity">Rarity Tier</label>
+                    <select id="nftRarity" class="form-select">
+                        <option value="common">Common - Emerald</option>
+                        <option value="rare">Rare - Gold</option>
+                        <option value="epic">Epic - Platinum</option>
+                        <option value="legendary">Legendary - Rhodium</option>
+                        <option value="mythic">Mythic - Arcturian</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="nftAttributes">Special Attributes (one per line)</label>
+                    <textarea 
+                        id="nftAttributes" 
+                        class="form-textarea" 
+                        placeholder="Divine Inspiration: 100&#10;Phi Ratio: 1.618&#10;Dimensional Depth: ∞"
+                    ></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="mintBtn">
+                    🚀 Mint NFT on Polygon
+                </button>
+            </form>
+        </div>
+        
+        <!-- NFT Preview -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>👁️</span>
+                <span>NFT Preview</span>
+            </h2>
+            <div class="preview-card">
+                <div class="preview-header" id="previewName">Your NFT Name</div>
+                <div class="preview-image" id="previewImage">
+                    🌀
+                </div>
+                <div class="preview-details">
+                    <div class="preview-item">
+                        <div class="preview-item-label">Frequency</div>
+                        <div class="preview-item-value" id="previewFrequency">528Hz</div>
+                    </div>
+                    <div class="preview-item">
+                        <div class="preview-item-label">Rarity</div>
+                        <div class="preview-item-value" id="previewRarity">Common</div>
+                    </div>
+                    <div class="preview-item">
+                        <div class="preview-item-label">Network</div>
+                        <div class="preview-item-value">Polygon</div>
+                    </div>
+                    <div class="preview-item">
+                        <div class="preview-item-label">Standard</div>
+                        <div class="preview-item-value">ERC-721</div>
+                    </div>
+                </div>
+            </div>
+            <div id="mintedInfo" style="margin-top: var(--space-xl); display: none;">
+                <h3 style="color: var(--color-golden); margin-bottom: var(--space-md);">✅ Minted Successfully!</h3>
+                <div style="background: rgba(0, 255, 170, 0.1); padding: var(--space-lg); border-radius: var(--space-md); border-left: 4px solid var(--color-etheric);">
+                    <p style="margin-bottom: var(--space-sm);"><strong>Token ID:</strong> <span id="tokenId"></span></p>
+                    <p style="margin-bottom: var(--space-sm);"><strong>IPFS Hash:</strong> <span id="ipfsHash"></span></p>
+                    <p style="margin-bottom: var(--space-sm);"><strong>Transaction:</strong> <span id="txHash"></span></p>
+                    <div style="margin-top: var(--space-lg);">
+                        <a href="#" id="viewOnExplorer" class="btn btn-success" target="_blank">View on PolygonScan</a>
+                        <a href="#" id="viewOnIPFS" class="btn btn-secondary" style="margin-left: var(--space-md);" target="_blank">View on IPFS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div style="text-align: center; margin-top: var(--space-3xl);">
+            <a href="analytics-dashboard.html" class="btn btn-secondary">← Analytics Dashboard</a>
+            <a href="version-history.html" class="btn btn-primary" style="margin-left: var(--space-md);">
+                Version History →
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // ============================================================================
+        // NFT Minting System
+        // ============================================================================
+        
+        let web3 = null;
+        let currentAccount = null;
+        
+        /**
+         * Connect to Web3 wallet
+         */
+        async function connectWallet() {
+            try {
+                if (typeof window.ethereum === 'undefined') {
+                    alert('🦊 Please install MetaMask to mint NFTs!\n\nVisit: https://metamask.io');
+                    return;
+                }
+                
+                // Request accounts
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+                
+                currentAccount = accounts[0];
+                web3 = new Web3(window.ethereum);
+                
+                // Get network
+                const chainId = await web3.eth.getChainId();
+                updateNetworkDisplay(chainId);
+                
+                // Update UI
+                document.getElementById('walletAddress').textContent = 
+                    currentAccount.substring(0, 6) + '...' + currentAccount.substring(38);
+                document.getElementById('walletInfo').style.display = 'block';
+                document.getElementById('walletBtnText').textContent = '✓ Connected';
+                document.getElementById('connectWalletBtn').disabled = true;
+                
+                console.log('✅ Wallet connected:', currentAccount);
+                
+                // Check if on Polygon
+                const POLYGON_MAINNET = 137;
+                const POLYGON_MUMBAI = 80001;
+                
+                if (chainId !== POLYGON_MAINNET && chainId !== POLYGON_MUMBAI) {
+                    const networkNames = {
+                        1: 'Ethereum Mainnet',
+                        5: 'Goerli Testnet',
+                        137: 'Polygon Mainnet',
+                        80001: 'Polygon Mumbai Testnet'
+                    };
+                    const currentNetwork = networkNames[chainId] || `Network ${chainId}`;
+                    
+                    if (confirm(`⚠️ You are currently on ${currentNetwork}.\n\nThis feature requires Polygon network.\n\nSwitch to Polygon Mainnet now?`)) {
+                        await switchToPolygon();
+                    }
+                }
+                
+            } catch (error) {
+                console.error('❌ Wallet connection error:', error);
+                alert('Failed to connect wallet: ' + error.message);
+            }
+        }
+        
+        /**
+         * Switch to Polygon network
+         */
+        async function switchToPolygon() {
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: '0x89' }], // Polygon Mainnet
+                });
+            } catch (switchError) {
+                // Network not added, add it
+                if (switchError.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [{
+                                chainId: '0x89',
+                                chainName: 'Polygon Mainnet',
+                                nativeCurrency: {
+                                    name: 'MATIC',
+                                    symbol: 'MATIC',
+                                    decimals: 18
+                                },
+                                rpcUrls: ['https://polygon-rpc.com/'],
+                                blockExplorerUrls: ['https://polygonscan.com/']
+                            }]
+                        });
+                    } catch (addError) {
+                        console.error('Failed to add Polygon network:', addError);
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Update network display
+         */
+        function updateNetworkDisplay(chainId) {
+            const networkNames = {
+                1: 'Ethereum Mainnet',
+                137: 'Polygon Mainnet',
+                80001: 'Polygon Mumbai Testnet',
+                5: 'Goerli Testnet'
+            };
+            
+            const networkName = networkNames[chainId] || `Network ${chainId}`;
+            document.getElementById('networkName').textContent = networkName;
+        }
+        
+        /**
+         * Update progress indicator
+         */
+        function updateProgress(step) {
+            const steps = ['step1', 'step2', 'step3', 'step4'];
+            const percentage = (step / 4) * 100;
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            
+            steps.forEach((id, index) => {
+                const el = document.getElementById(id);
+                if (index < step) {
+                    el.classList.add('completed');
+                    el.classList.remove('active');
+                } else if (index === step - 1) {
+                    el.classList.add('active');
+                    el.classList.remove('completed');
+                } else {
+                    el.classList.remove('active', 'completed');
+                }
+            });
+        }
+        
+        /**
+         * Update status badge
+         */
+        function updateStatus(text, type) {
+            const badge = document.getElementById('statusBadge');
+            badge.textContent = text;
+            badge.className = 'status-badge status-' + type;
+        }
+        
+        /**
+         * Simulate IPFS upload
+         */
+        async function uploadToIPFS(metadata) {
+            // Simulate upload delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Generate mock IPFS hash (CIDv0 format simulation)
+            // Real IPFS hashes are base58-encoded multihashes
+            // Example real hash: QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+            const base58chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+            let hash = 'Qm';
+            for (let i = 0; i < 44; i++) {
+                hash += base58chars.charAt(Math.floor(Math.random() * base58chars.length));
+            }
+            
+            console.log('📦 Uploaded to IPFS:', hash);
+            return hash;
+        }
+        
+        /**
+         * Simulate NFT minting
+         */
+        async function mintNFT(ipfsHash) {
+            // Simulate minting delay
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            // Generate mock transaction hash
+            const txHash = '0x' + Math.random().toString(16).substring(2, 15) + 
+                           Math.random().toString(16).substring(2, 15) +
+                           Math.random().toString(16).substring(2, 15) +
+                           Math.random().toString(16).substring(2, 15);
+            
+            const tokenId = Math.floor(Math.random() * 10000) + 1;
+            
+            console.log('✨ Minted NFT:', tokenId);
+            return { txHash, tokenId };
+        }
+        
+        /**
+         * Handle form submission
+         */
+        document.getElementById('nftForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!currentAccount) {
+                alert('⚠️ Please connect your wallet first!');
+                return;
+            }
+            
+            const mintBtn = document.getElementById('mintBtn');
+            mintBtn.disabled = true;
+            mintBtn.textContent = '⏳ Minting...';
+            
+            try {
+                // Step 1: Prepare metadata
+                updateProgress(1);
+                updateStatus('Preparing metadata...', 'processing');
+                
+                const metadata = {
+                    name: document.getElementById('nftName').value,
+                    description: document.getElementById('nftDescription').value,
+                    frequency: document.getElementById('nftFrequency').value + 'Hz',
+                    rarity: document.getElementById('nftRarity').value,
+                    attributes: document.getElementById('nftAttributes').value.split('\n').filter(a => a.trim()),
+                    created: new Date().toISOString(),
+                    creator: currentAccount
+                };
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Step 2: Upload to IPFS
+                updateProgress(2);
+                updateStatus('Uploading to IPFS...', 'processing');
+                const ipfsHash = await uploadToIPFS(metadata);
+                
+                // Step 3: Mint NFT
+                updateProgress(3);
+                updateStatus('Minting on Polygon...', 'processing');
+                const { txHash, tokenId } = await mintNFT(ipfsHash);
+                
+                // Step 4: Complete
+                updateProgress(4);
+                updateStatus('Minted successfully!', 'success');
+                
+                // Show minted info
+                document.getElementById('tokenId').textContent = `#${tokenId}`;
+                document.getElementById('ipfsHash').textContent = ipfsHash;
+                document.getElementById('txHash').textContent = 
+                    txHash.substring(0, 10) + '...' + txHash.substring(58);
+                
+                document.getElementById('viewOnExplorer').href = 
+                    `https://polygonscan.com/tx/${txHash}`;
+                document.getElementById('viewOnIPFS').href = 
+                    `https://ipfs.io/ipfs/${ipfsHash}`;
+                
+                document.getElementById('mintedInfo').style.display = 'block';
+                
+                mintBtn.textContent = '✅ Minted!';
+                
+                // Show success message
+                alert('🎉 NFT Minted Successfully!\n\n' +
+                      `Token ID: #${tokenId}\n` +
+                      `IPFS: ${ipfsHash}\n` +
+                      `Transaction: ${txHash.substring(0, 10)}...`);
+                
+            } catch (error) {
+                console.error('❌ Minting error:', error);
+                updateStatus('Minting failed', 'error');
+                alert('❌ Minting failed: ' + error.message);
+                mintBtn.disabled = false;
+                mintBtn.textContent = '🚀 Mint NFT on Polygon';
+            }
+        });
+        
+        /**
+         * Update preview on input
+         */
+        function updatePreview() {
+            const name = document.getElementById('nftName').value || 'Your NFT Name';
+            const frequency = document.getElementById('nftFrequency').value + 'Hz';
+            const rarity = document.getElementById('nftRarity').options[
+                document.getElementById('nftRarity').selectedIndex
+            ].text;
+            
+            document.getElementById('previewName').textContent = name;
+            document.getElementById('previewFrequency').textContent = frequency;
+            document.getElementById('previewRarity').textContent = rarity;
+        }
+        
+        // Attach input listeners
+        ['nftName', 'nftFrequency', 'nftRarity'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePreview);
+            document.getElementById(id).addEventListener('change', updatePreview);
+        });
+        
+        // ============================================================================
+        // Initialize
+        // ============================================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 NFT Minting interface loaded');
+            
+            // Check if wallet already connected
+            if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.request({ method: 'eth_accounts' })
+                    .then(accounts => {
+                        if (accounts.length > 0) {
+                            connectWallet();
+                        }
+                    });
+            }
+        });
+        
+        // Listen for account changes
+        if (typeof window.ethereum !== 'undefined') {
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    location.reload();
+                } else {
+                    connectWallet();
+                }
+            });
+            
+            window.ethereum.on('chainChanged', () => {
+                location.reload();
+            });
+        }
+    </script>
+</body>
+</html>
