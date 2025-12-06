@@ -674,48 +674,7 @@
         let web3 = null;
         let userAccount = null;
         
-        document.getElementById('connectWalletBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('connectWalletBtn');
-            const mintBtn = document.getElementById('mintScrollBtn');
-            const lockIcon = document.getElementById('lockIcon');
-            const lockStatus = document.getElementById('lockStatus');
-            const walletStatus = document.getElementById('walletStatus');
-            
-            try {
-                if (typeof window.ethereum === 'undefined') {
-                    alert('Please install MetaMask to connect your wallet');
-                    return;
-                }
-                
-                btn.disabled = true;
-                btn.textContent = 'Connecting...';
-                
-                const accounts = await window.ethereum.request({ 
-                    method: 'eth_requestAccounts' 
-                });
-                
-                userAccount = accounts[0];
-                web3 = new Web3(window.ethereum);
-                
-                // Update UI
-                btn.textContent = '✓ Wallet Connected';
-                mintBtn.disabled = false;
-                lockIcon.textContent = '🔓';
-                lockStatus.textContent = `Authenticated • ${userAccount.substring(0, 6)}...${userAccount.substring(38)}`;
-                walletStatus.innerHTML = `
-                    <p style="font-size: 1.2rem; color: var(--color-etheric);">
-                        ✅ <strong>Wallet Connected:</strong> ${userAccount.substring(0, 6)}...${userAccount.substring(38)}
-                    </p>
-                `;
-                
-                console.log('✓ Wallet connected:', userAccount);
-            } catch (error) {
-                console.error('Wallet connection error:', error);
-                btn.disabled = false;
-                btn.textContent = 'Connect Wallet';
-                alert('Failed to connect wallet: ' + error.message);
-            }
-        });
+        // Wallet connection handler is defined later with temporal sovereignty integration
         
         document.getElementById('mintScrollBtn').addEventListener('click', () => {
             alert('Minting functionality requires smart contract deployment. This is a demonstration of the UI.');
@@ -754,12 +713,13 @@
             temporalSovereigntyActive = true;
             
             // AI-driven resonance mapping for Akashic Ties
+            const hashPart = userAccount.length >= 42 ? userAccount.substring(2, 42) : userAccount.substring(2);
             const akashicTies = {
                 past: {
                     immutable: true,
                     records: [],
                     timestamp: new Date().toISOString(),
-                    blockchainHash: `0x${userAccount.substring(2, 42)}`
+                    blockchainHash: `0x${hashPart}`
                 },
                 present: {
                     active: true,
@@ -793,13 +753,63 @@
             return akashicTies;
         }
         
-        // Auto-activate temporal sovereignty when wallet connects
-        const originalConnectHandler = document.getElementById('connectWalletBtn').onclick;
-        document.getElementById('connectWalletBtn').addEventListener('click', async (e) => {
-            // Wait for original handler to complete
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            if (userAccount) {
-                activateTemporalSovereignty();
+        // Enhance wallet connection to activate temporal sovereignty
+        const originalConnectBtn = document.getElementById('connectWalletBtn');
+        const originalClickHandler = originalConnectBtn.onclick;
+        
+        // Replace the click handler to include temporal sovereignty activation
+        originalConnectBtn.onclick = null;
+        originalConnectBtn.addEventListener('click', async function handleConnect() {
+            const btn = document.getElementById('connectWalletBtn');
+            const mintBtn = document.getElementById('mintScrollBtn');
+            const lockIcon = document.getElementById('lockIcon');
+            const lockStatus = document.getElementById('lockStatus');
+            const walletStatus = document.getElementById('walletStatus');
+            
+            try {
+                if (typeof window.ethereum === 'undefined') {
+                    alert('Please install MetaMask to connect your wallet');
+                    return;
+                }
+                
+                btn.disabled = true;
+                btn.textContent = 'Connecting...';
+                
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+                
+                userAccount = accounts[0];
+                web3 = new Web3(window.ethereum);
+                
+                // Update UI
+                btn.textContent = '✓ Wallet Connected';
+                mintBtn.disabled = false;
+                lockIcon.textContent = '🔓';
+                
+                const walletDisplay = userAccount.length >= 42 
+                    ? `${userAccount.substring(0, 6)}...${userAccount.substring(38)}` 
+                    : userAccount.substring(0, Math.min(10, userAccount.length));
+                
+                lockStatus.textContent = `Authenticated • ${walletDisplay}`;
+                walletStatus.innerHTML = `
+                    <p style="font-size: 1.2rem; color: var(--color-etheric);">
+                        ✅ <strong>Wallet Connected:</strong> ${walletDisplay}
+                    </p>
+                `;
+                
+                console.log('✓ Wallet connected:', userAccount);
+                
+                // Activate temporal sovereignty after successful connection
+                await new Promise(resolve => setTimeout(resolve, 500));
+                if (userAccount) {
+                    activateTemporalSovereignty();
+                }
+            } catch (error) {
+                console.error('Wallet connection error:', error);
+                btn.disabled = false;
+                btn.textContent = 'Connect Wallet';
+                alert('Failed to connect wallet: ' + error.message);
             }
         });
     </script>

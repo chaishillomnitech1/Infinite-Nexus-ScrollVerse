@@ -1029,18 +1029,23 @@ Sealed: ${new Date().toLocaleTimeString()}
             const now = new Date();
             const timestamp = now.toISOString();
             
-            if (userAccount) {
+            if (userAccount && userAccount.length >= 42) {
                 // Past Anchor - Immutable blockchain records
+                // Use wallet address hash for deterministic block reference
+                const blockRef = parseInt(userAccount.substring(2, 10), 16) % 10000000;
                 document.getElementById('pastAnchor').innerHTML = `
                     Status: <span style="color: var(--color-etheric);">✓ Locked</span><br/>
-                    <small>Block: ${Math.floor(Math.random() * 10000000)}</small><br/>
+                    <small>Block: ${blockRef}</small><br/>
                     <small>Hash: 0x${userAccount.substring(2, 10)}...</small>
                 `;
                 
                 // Present Anchor - Current state
+                const walletDisplay = userAccount.length >= 42 
+                    ? `${userAccount.substring(0, 6)}...${userAccount.substring(38)}` 
+                    : userAccount.substring(0, Math.min(10, userAccount.length));
                 document.getElementById('presentAnchor').innerHTML = `
                     Status: <span style="color: var(--color-golden);">⚡ Active</span><br/>
-                    <small>Wallet: ${userAccount.substring(0, 6)}...${userAccount.substring(38)}</small><br/>
+                    <small>Wallet: ${walletDisplay}</small><br/>
                     <small>Time: ${now.toLocaleTimeString()}</small>
                 `;
                 
