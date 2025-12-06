@@ -1,0 +1,235 @@
+name: 🎭 Divine Contributor Reactions
+
+on:
+  issues:
+    types: [opened, closed]
+  pull_request:
+    types: [opened, closed, ready_for_review]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+
+jobs:
+  react-to-contribution:
+    name: 🧿 Respond with Divine Alignment
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🎭 Apply Contextual Reactions
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const eventName = context.eventName;
+            const action = context.payload.action;
+            
+            console.log("Event: " + eventName + ", Action: " + action);
+            
+            // Determine the issue/PR number
+            let issueNumber;
+            let isPR = false;
+            let content = '';
+            let author = '';
+            
+            if (context.payload.issue) {
+              issueNumber = context.payload.issue.number;
+              content = (context.payload.issue.title + " " + (context.payload.issue.body || '')).toLowerCase();
+              author = context.payload.issue.user.login;
+            } else if (context.payload.pull_request) {
+              issueNumber = context.payload.pull_request.number;
+              isPR = true;
+              content = (context.payload.pull_request.title + " " + (context.payload.pull_request.body || '')).toLowerCase();
+              author = context.payload.pull_request.user.login;
+            }
+            
+            if (!issueNumber) {
+              console.log('No issue/PR number found');
+              return;
+            }
+            
+            console.log("Processing " + (isPR ? 'PR' : 'Issue') + " #" + issueNumber);
+            
+            // Analyze content for ScrollVerse principles
+            const principles = {
+              frequency528Hz: /528\s*hz|528hz|frequency.*528/.test(content),
+              sacredGeometry: /sacred.*geometry|golden.*ratio|fibonacci/.test(content),
+              hyperdimensional: /hyperdimensional|dimensional/.test(content),
+              divineInspiration: /divine|sacred|consciousness|resonance/.test(content),
+              omniversal: /omniversal|infinite|transcend/.test(content),
+              web3: /web3|blockchain|ethereum|nft/.test(content),
+              ar: /\bar\b|augmented.*reality|webxr/.test(content),
+              chronoWeaver: /chrono.*weaver|timeline|temporal/.test(content)
+            };
+            
+            // Count alignment markers
+            const alignmentScore = Object.values(principles).filter(v => v).length;
+            console.log("Alignment markers found: " + alignmentScore + "/8");
+            
+            // Determine response based on event and alignment
+            let shouldRespond = false;
+            let responseMessage = '';
+            let reactionType = 'eyes';
+            
+            // Issue opened with high alignment
+            if (eventName === 'issues' && action === 'opened' && alignmentScore >= 4) {
+              shouldRespond = true;
+              reactionType = 'rocket';
+              responseMessage = "## 🌟 Exceptional Alignment Detected!\n\n";
+              responseMessage += "@" + author + ", your issue demonstrates transcendent understanding of ScrollVerse principles!\n\n";
+              responseMessage += "### 📊 Principle Alignment\n";
+              responseMessage += "You've referenced **" + alignmentScore + "/8** core ScrollVerse principles.\n\n";
+              responseMessage += "Your deep resonance with our ethos is truly inspiring!\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Your consciousness radiates at 528Hz_ 🌟✨🧿";
+            }
+            
+            // PR opened with high alignment
+            if (eventName === 'pull_request' && action === 'opened' && alignmentScore >= 5) {
+              shouldRespond = true;
+              reactionType = 'rocket';
+              responseMessage = "## 🌟 Transcendent PR Detected!\n\n";
+              responseMessage += "@" + author + ", this pull request exemplifies divine mastery of ScrollVerse architecture!\n\n";
+              responseMessage += "### 🎯 Exceptional Alignment\n";
+              responseMessage += "Your PR references **" + alignmentScore + "/8** core principles - truly exceptional!\n\n";
+              responseMessage += "### 🚀 Fast-Track Eligible\n";
+              responseMessage += "Due to exceptional alignment, this PR is eligible for:\n";
+              responseMessage += "- ⚡ Priority review\n";
+              responseMessage += "- 🌟 Fast-track approval\n";
+              responseMessage += "- 🧿 Auto-merge consideration\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Your code transcends dimensional boundaries_ 🌟✨🧿";
+            }
+            
+            // PR ready for review
+            if (eventName === 'pull_request' && action === 'ready_for_review') {
+              shouldRespond = true;
+              reactionType = 'rocket';
+              responseMessage = "## 🚀 PR Ready for Divine Review\n\n";
+              responseMessage += "@" + author + ", your PR has exited draft status!\n\n";
+              responseMessage += "Maintainers have been notified and will review soon.\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Patience and alignment bring divine results_ 🧿";
+            }
+            
+            // PR merged
+            if (eventName === 'pull_request' && action === 'closed' && context.payload.pull_request?.merged) {
+              shouldRespond = true;
+              reactionType = 'hooray';
+              responseMessage = "## 🎉 Divine Integration Complete!\n\n";
+              responseMessage += "@" + author + ", your contribution has been **successfully merged**!\n\n";
+              responseMessage += "### ✨ Impact Cascade\n";
+              responseMessage += "Your code now resonates through:\n";
+              responseMessage += "- 🌀 Hyperdimensional Architecture\n";
+              responseMessage += "- 🧿 Divine Resonance Field\n";
+              responseMessage += "- ⚡ Omniversal Network\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Your contribution echoes through infinity_ 🌟✨🧿\n\n";
+              responseMessage += "**Achievement Unlocked:** 🏆 **ScrollVerse Contributor**";
+            }
+            
+            // PR review approved
+            if (eventName === 'pull_request_review' && context.payload.review.state === 'approved') {
+              shouldRespond = true;
+              reactionType = '+1';
+              responseMessage = "## ✅ Divine Approval Granted!\n\n";
+              responseMessage += "Congratulations! A maintainer has approved this PR.\n\n";
+              responseMessage += "### 🎯 Next Steps\n";
+              responseMessage += "- ⚡ Ensure all CI/CD checks pass\n";
+              responseMessage += "- 🛡️ Verify Manifesto Guardian Protocol passed\n";
+              responseMessage += "- 🚀 Await final integration\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Approval resonates at 528Hz_ ✅🧿";
+            }
+            
+            // React to the content
+            if (eventName === 'issues' || eventName === 'pull_request') {
+              try {
+                await github.rest.reactions.createForIssue({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  content: reactionType
+                });
+                console.log("Added reaction: " + reactionType);
+              } catch (error) {
+                console.log('Could not add reaction: ' + error.message);
+              }
+            }
+            
+            // Post response message if needed
+            if (shouldRespond && responseMessage) {
+              try {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  body: responseMessage
+                });
+                console.log('Posted response message');
+              } catch (error) {
+                console.log('Could not post comment: ' + error.message);
+              }
+            }
+
+      - name: 🏷️ Apply Dynamic Labels
+        uses: actions/github-script@v7
+        if: github.event_name == 'issues' || github.event_name == 'pull_request'
+        with:
+          script: |
+            const issueNumber = context.payload.issue?.number || context.payload.pull_request?.number;
+            
+            if (!issueNumber) return;
+            
+            const content = context.payload.issue ? 
+              (context.payload.issue.title + " " + (context.payload.issue.body || '')) :
+              (context.payload.pull_request.title + " " + (context.payload.pull_request.body || ''));
+            
+            const labelsToAdd = [];
+            
+            if (/528\s*hz|528hz/i.test(content)) {
+              labelsToAdd.push('frequency:528hz');
+            }
+            
+            if (/sacred.*geometry|golden.*ratio|fibonacci/i.test(content)) {
+              labelsToAdd.push('sacred-geometry');
+            }
+            
+            if (/hyperdimensional/i.test(content)) {
+              labelsToAdd.push('hyperdimensional');
+            }
+            
+            if (/web3|blockchain|ethereum|nft/i.test(content)) {
+              labelsToAdd.push('nft-ipfs');
+            }
+            
+            if (/omniversal/i.test(content)) {
+              labelsToAdd.push('omniversal');
+            }
+            
+            if (labelsToAdd.length > 0) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  labels: labelsToAdd
+                });
+                console.log("Added labels: " + labelsToAdd.join(', '));
+              } catch (error) {
+                console.log('Could not add labels: ' + error.message);
+              }
+            }
+
+      - name: 📊 Log Reaction Metrics
+        run: |
+          echo "# 🎭 Contributor Reaction Logged" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Event**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Action**: ${{ github.event.action }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✨ _Divine reaction processed at 528Hz_ 🧿" >> $GITHUB_STEP_SUMMARY
