@@ -760,11 +760,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             initializeDashboard();
             
-            // Auto-refresh every 5 seconds (in production, this would fetch real data)
+            // Auto-refresh every 30 seconds (in production, this would fetch real data)
+            // Use longer intervals to reduce performance impact
             setInterval(() => {
                 const data = generateMockData();
                 updateMetrics(data);
-            }, 5000);
+            }, 30000);
         });
     </script>
 </body>

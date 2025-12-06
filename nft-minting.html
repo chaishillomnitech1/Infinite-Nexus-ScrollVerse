@@ -592,8 +592,19 @@
                 console.log('✅ Wallet connected:', currentAccount);
                 
                 // Check if on Polygon
-                if (chainId !== 137 && chainId !== 80001) {
-                    if (confirm('⚠️ You are not on Polygon network. Switch to Polygon?')) {
+                const POLYGON_MAINNET = 137;
+                const POLYGON_MUMBAI = 80001;
+                
+                if (chainId !== POLYGON_MAINNET && chainId !== POLYGON_MUMBAI) {
+                    const networkNames = {
+                        1: 'Ethereum Mainnet',
+                        5: 'Goerli Testnet',
+                        137: 'Polygon Mainnet',
+                        80001: 'Polygon Mumbai Testnet'
+                    };
+                    const currentNetwork = networkNames[chainId] || `Network ${chainId}`;
+                    
+                    if (confirm(`⚠️ You are currently on ${currentNetwork}.\n\nThis feature requires Polygon network.\n\nSwitch to Polygon Mainnet now?`)) {
                         await switchToPolygon();
                     }
                 }
@@ -692,9 +703,14 @@
             // Simulate upload delay
             await new Promise(resolve => setTimeout(resolve, 2000));
             
-            // Generate mock IPFS hash
-            const hash = 'Qm' + Math.random().toString(36).substring(2, 15) + 
-                         Math.random().toString(36).substring(2, 15);
+            // Generate mock IPFS hash (CIDv0 format simulation)
+            // Real IPFS hashes are base58-encoded multihashes
+            // Example real hash: QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+            const base58chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+            let hash = 'Qm';
+            for (let i = 0; i < 44; i++) {
+                hash += base58chars.charAt(Math.floor(Math.random() * base58chars.length));
+            }
             
             console.log('📦 Uploaded to IPFS:', hash);
             return hash;

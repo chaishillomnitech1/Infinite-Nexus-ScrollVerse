@@ -552,9 +552,10 @@ class ActiveScrollsManager {
       
       versionHistory.versions.push(version);
       
-      // Keep only last 50 versions to avoid excessive storage
-      if (versionHistory.versions.length > 50) {
-        versionHistory.versions = versionHistory.versions.slice(-50);
+      // Keep only last MAX_VERSIONS to avoid excessive storage
+      const MAX_VERSIONS = 50;
+      if (versionHistory.versions.length > MAX_VERSIONS) {
+        versionHistory.versions = versionHistory.versions.slice(-MAX_VERSIONS);
       }
       
       await this.dataManager.saveData(versionKey, versionHistory);

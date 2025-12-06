@@ -465,7 +465,7 @@
                 currentScroll = data.scrolls.find(s => s.id === scrollId);
                 
                 if (!currentScroll) {
-                    alert('Scroll not found!');
+                    alert(`Scroll "${scrollId}" was not found in the database.\n\nPlease ensure the scroll exists and try refreshing the page.`);
                     return;
                 }
                 
