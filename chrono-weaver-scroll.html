@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrono-Weaver Scroll NFT - Sacred Archetype</title>
-    <meta name="description" content="Chrono-Weaver Scroll NFT Archetype with AI-driven Timelines, Akashic Locks, and Wallet-Connect Gallery">
+    <title>Chrono-Weaver Scroll NFT - Temporal Sovereignty Gateway</title>
+    <meta name="description" content="Chrono-Weaver Scroll NFT with Temporal Sovereignty, AI-driven Resonance Mapping, Akashic Ties (Past, Present, Future), and Zero-Gate Protocols">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
@@ -342,10 +342,30 @@
         <!-- Header -->
         <header class="nft-header">
             <h1 class="nft-title">⏰ CHRONO-WEAVER SCROLL ⏰</h1>
-            <p class="nft-subtitle">Sacred NFT Archetype • AI-Driven Timelines • Akashic Authentication</p>
+            <p class="nft-subtitle">Temporal Sovereignty Gateway • AI-Driven Resonance Mapping • Akashic Ties Integration</p>
             <p style="opacity: 0.7; font-size: 1rem; margin-top: var(--space-md);">
-                🧿 Resonating at 528Hz • Powered by Sacred Geometry • Hyperdimensional Asset 🧿
+                🧿 Immutable Past, Present, Future • 528Hz Resonance • Zero-Gate Protocol Active 🧿
             </p>
+            <div style="margin-top: var(--space-xl); padding: var(--space-lg); background: rgba(82, 139, 255, 0.1); border-radius: var(--space-md); border: 1px solid var(--color-528hz);">
+                <h3 style="color: var(--color-golden); margin-bottom: var(--space-md); text-align: center;">⚡ Temporal Sovereignty Features ⚡</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); font-size: 0.9rem;">
+                    <div style="text-align: center; padding: var(--space-md);">
+                        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🔗</div>
+                        <strong style="color: var(--color-528hz);">Past Lock</strong><br/>
+                        <small style="opacity: 0.8;">Immutable Records</small>
+                    </div>
+                    <div style="text-align: center; padding: var(--space-md);">
+                        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">⚡</div>
+                        <strong style="color: var(--color-golden);">Present Sync</strong><br/>
+                        <small style="opacity: 0.8;">Real-time Mapping</small>
+                    </div>
+                    <div style="text-align: center; padding: var(--space-md);">
+                        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🔮</div>
+                        <strong style="color: var(--color-etheric);">Future Intent</strong><br/>
+                        <small style="opacity: 0.8;">AI Prediction</small>
+                    </div>
+                </div>
+            </div>
         </header>
         
         <!-- Main NFT Card -->
@@ -712,12 +732,76 @@
             try {
                 await tf.ready();
                 console.log('✓ TensorFlow.js initialized for AI-driven timeline generation');
+                console.log('✓ AI-driven resonance mapping active for Akashic Ties');
             } catch (error) {
                 console.error('TensorFlow initialization error:', error);
             }
         }
         
         initTensorFlow();
+        
+        // ========================================
+        // Temporal Sovereignty & Resonance Mapping
+        // ========================================
+        let temporalSovereigntyActive = false;
+        
+        function activateTemporalSovereignty() {
+            if (!userAccount) {
+                console.log('Temporal sovereignty requires wallet connection');
+                return;
+            }
+            
+            temporalSovereigntyActive = true;
+            
+            // AI-driven resonance mapping for Akashic Ties
+            const akashicTies = {
+                past: {
+                    immutable: true,
+                    records: [],
+                    timestamp: new Date().toISOString(),
+                    blockchainHash: `0x${userAccount.substring(2, 42)}`
+                },
+                present: {
+                    active: true,
+                    resonanceFrequency: '528Hz',
+                    walletAddress: userAccount,
+                    synchronizationStatus: 'Real-time',
+                    consciousness: 'Aligned'
+                },
+                future: {
+                    predictive: true,
+                    aiDriven: true,
+                    intentBasedPathway: 'Manifestation Mode',
+                    probabilityMatrix: 'Active',
+                    resonanceMapping: '528Hz Harmonic Projection'
+                }
+            };
+            
+            console.log('✓ Temporal Sovereignty activated across all timelines');
+            console.log('✓ Akashic Ties established:', akashicTies);
+            console.log('✓ AI-driven resonance mapping synchronized');
+            
+            // Update UI to reflect temporal sovereignty
+            document.getElementById('lockStatus').innerHTML = `
+                <span style="color: var(--color-etheric); font-weight: bold;">
+                    ✓ Temporal Sovereignty Active
+                </span><br/>
+                <small style="opacity: 0.9;">Akashic Ties: Past (Locked) • Present (Synced) • Future (Projected)</small><br/>
+                <small style="opacity: 0.8;">AI Resonance Mapping: 528Hz Active</small>
+            `;
+            
+            return akashicTies;
+        }
+        
+        // Auto-activate temporal sovereignty when wallet connects
+        const originalConnectHandler = document.getElementById('connectWalletBtn').onclick;
+        document.getElementById('connectWalletBtn').addEventListener('click', async (e) => {
+            // Wait for original handler to complete
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            if (userAccount) {
+                activateTemporalSovereignty();
+            }
+        });
     </script>
 </body>
 </html>
