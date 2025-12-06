@@ -252,6 +252,7 @@ class FirestoreStorage {
     try {
       console.log(`🔥 Saving to Firestore: ${key}`);
       const docRef = this.db.collection('scrollverse').doc(key);
+      // merge: true allows partial updates without overwriting entire document
       await docRef.set(data, { merge: true });
       console.log(`✅ Data saved to Firestore: ${key}`);
       return true;
@@ -490,10 +491,12 @@ class ActiveScrollsManager {
     const data = await this.getData();
     
     // Generate ID if not provided
+    // Note: Assumes all scroll IDs follow 'SCR-XXX' format
     if (!scroll.id) {
       const maxId = data.scrolls.reduce((max, s) => {
         const num = parseInt(s.id.replace('SCR-', ''));
-        return num > max ? num : max;
+        // Handle invalid ID formats by treating as 0
+        return isNaN(num) ? max : Math.max(num, max);
       }, 0);
       scroll.id = `SCR-${String(maxId + 1).padStart(3, '0')}`;
     }
