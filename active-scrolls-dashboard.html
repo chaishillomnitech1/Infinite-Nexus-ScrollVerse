@@ -686,6 +686,11 @@
                         await this.scrollsManager.saveData(data);
                         console.log('✅ Initial data loaded');
                     }
+                    
+                    // Render initial data
+                    if (data) {
+                        this.renderDashboard(data);
+                    }
                 } catch (error) {
                     console.error('❌ Error loading initial data:', error);
                 }
