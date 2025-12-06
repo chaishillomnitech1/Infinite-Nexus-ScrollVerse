@@ -1,0 +1,125 @@
+{
+  "researchTrends": [
+    {
+      "year": 2020,
+      "papers": {
+        "transformers": 145,
+        "reinforcement_learning": 98,
+        "computer_vision": 132,
+        "nlp": 156,
+        "generative_models": 78
+      }
+    },
+    {
+      "year": 2021,
+      "papers": {
+        "transformers": 234,
+        "reinforcement_learning": 112,
+        "computer_vision": 148,
+        "nlp": 198,
+        "generative_models": 134
+      }
+    },
+    {
+      "year": 2022,
+      "papers": {
+        "transformers": 312,
+        "reinforcement_learning": 145,
+        "computer_vision": 167,
+        "nlp": 256,
+        "generative_models": 223
+      }
+    },
+    {
+      "year": 2023,
+      "papers": {
+        "transformers": 445,
+        "reinforcement_learning": 178,
+        "computer_vision": 189,
+        "nlp": 334,
+        "generative_models": 398
+      }
+    },
+    {
+      "year": 2024,
+      "papers": {
+        "transformers": 598,
+        "reinforcement_learning": 234,
+        "computer_vision": 212,
+        "nlp": 445,
+        "generative_models": 567
+      }
+    }
+  ],
+  "topicsBreakdown": {
+    "transformers": {
+      "name": "Transformers & Attention Mechanisms",
+      "color": "#528BFF",
+      "description": "Transformer architectures and attention-based models"
+    },
+    "reinforcement_learning": {
+      "name": "Reinforcement Learning",
+      "color": "#FFD700",
+      "description": "RL algorithms and applications"
+    },
+    "computer_vision": {
+      "name": "Computer Vision",
+      "color": "#00FFAA",
+      "description": "Image recognition, object detection, and visual understanding"
+    },
+    "nlp": {
+      "name": "Natural Language Processing",
+      "color": "#FF6B9D",
+      "description": "Language models, text generation, and understanding"
+    },
+    "generative_models": {
+      "name": "Generative Models",
+      "color": "#9D00FF",
+      "description": "GANs, VAEs, Diffusion models, and other generative approaches"
+    }
+  },
+  "citationTrends": [
+    {
+      "paper": "Attention Is All You Need",
+      "year": 2017,
+      "citations": [1245, 3456, 6789, 12345, 18901, 25678, 32456, 38901]
+    },
+    {
+      "paper": "BERT: Pre-training of Deep Bidirectional Transformers",
+      "year": 2018,
+      "citations": [892, 2456, 5678, 9876, 14567, 19234, 23456]
+    },
+    {
+      "paper": "GPT-3: Language Models are Few-Shot Learners",
+      "year": 2020,
+      "citations": [0, 0, 0, 2345, 6789, 12456, 18901, 24567]
+    }
+  ],
+  "emergingTopics": [
+    {
+      "topic": "Multimodal Learning",
+      "growth_rate": 245,
+      "relevance_score": 95
+    },
+    {
+      "topic": "AI Safety & Alignment",
+      "growth_rate": 198,
+      "relevance_score": 92
+    },
+    {
+      "topic": "Quantum Machine Learning",
+      "growth_rate": 156,
+      "relevance_score": 78
+    },
+    {
+      "topic": "Neuromorphic Computing",
+      "growth_rate": 134,
+      "relevance_score": 72
+    },
+    {
+      "topic": "Federated Learning",
+      "growth_rate": 189,
+      "relevance_score": 85
+    }
+  ]
+}

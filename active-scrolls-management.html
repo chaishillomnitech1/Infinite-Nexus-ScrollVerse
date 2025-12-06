@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Scrolls Management - 528Hz Control System</title>
+    <meta name="description" content="Active Scrolls Management with 528Hz resonance integration">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            --phi: 1.618;
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .controls {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: var(--space-lg);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            color: var(--color-crystalline);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-etheric);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: var(--space-md);
+        }
+        
+        .filter-btn {
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(82, 139, 255, 0.2);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            color: var(--color-crystalline);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(82, 139, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background: var(--color-528hz);
+            color: white;
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: var(--space-2xl);
+            padding: var(--space-xl);
+            background: rgba(82, 139, 255, 0.1);
+            border-radius: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-golden);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--color-crystalline);
+            opacity: 0.8;
+        }
+        
+        .scrolls-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .scrolls-table thead {
+            background: rgba(82, 139, 255, 0.2);
+        }
+        
+        .scrolls-table th,
+        .scrolls-table td {
+            padding: var(--space-lg);
+            text-align: left;
+            border-bottom: 1px solid rgba(82, 139, 255, 0.2);
+        }
+        
+        .scrolls-table th {
+            color: var(--color-528hz);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        
+        .scrolls-table tbody tr {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .scrolls-table tbody tr:hover {
+            background: rgba(82, 139, 255, 0.1);
+        }
+        
+        .scrolls-table tbody tr.expanded {
+            background: rgba(82, 139, 255, 0.15);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-active {
+            background: rgba(0, 255, 170, 0.2);
+            color: var(--color-etheric);
+            border: 1px solid var(--color-etheric);
+        }
+        
+        .status-pending {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--color-golden);
+            border: 1px solid var(--color-golden);
+        }
+        
+        .status-resolved {
+            background: rgba(82, 139, 255, 0.2);
+            color: var(--color-528hz);
+            border: 1px solid var(--color-528hz);
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--space-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .priority-high {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+        
+        .priority-medium {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--color-golden);
+            border: 1px solid var(--color-golden);
+        }
+        
+        .priority-low {
+            background: rgba(82, 139, 255, 0.2);
+            color: var(--color-528hz);
+            border: 1px solid var(--color-528hz);
+        }
+        
+        .details-panel {
+            display: none;
+            padding: var(--space-2xl);
+            background: rgba(10, 14, 39, 0.8);
+            border-top: 2px solid var(--color-528hz);
+        }
+        
+        .details-panel.visible {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+        }
+        
+        .detail-section {
+            background: rgba(255, 255, 255, 0.03);
+            padding: var(--space-lg);
+            border-radius: var(--space-md);
+            border: 1px solid rgba(82, 139, 255, 0.3);
+        }
+        
+        .detail-section h4 {
+            color: var(--color-etheric);
+            margin-bottom: var(--space-md);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .property-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .property-label {
+            color: var(--color-crystalline);
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+        
+        .property-value {
+            color: var(--color-golden);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+        }
+        
+        .tag {
+            padding: var(--space-xs) var(--space-md);
+            background: rgba(82, 139, 255, 0.2);
+            border: 1px solid var(--color-528hz);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--color-crystalline);
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: var(--space-lg) var(--space-2xl);
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--space-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(82, 139, 255, 0.6);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 1000px; }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: var(--space-lg);
+            }
+            
+            .scrolls-table {
+                font-size: 0.85rem;
+            }
+            
+            .scrolls-table th,
+            .scrolls-table td {
+                padding: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">📜 ACTIVE SCROLLS MANAGEMENT 📜</h1>
+            <p class="subtitle">Organize & Track ScrollVerse Scrolls • 528Hz Resonance System</p>
+        </div>
+        
+        <a href="index.html" class="back-btn">← Back to ScrollVerse Nexus</a>
+        
+        <div class="card">
+            <!-- Controls -->
+            <div class="controls">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="search-input" 
+                        placeholder="🔍 Search scrolls by title, ID, or category..."
+                    >
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                    <button class="filter-btn" data-filter="resolved">Resolved</button>
+                </div>
+            </div>
+            
+            <!-- Statistics -->
+            <div class="stats-bar" id="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="total-scrolls">0</div>
+                    <div class="stat-label">Total Scrolls</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="active-scrolls">0</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="pending-scrolls">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="resolved-scrolls">0</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+            </div>
+            
+            <!-- Scrolls Table -->
+            <div style="overflow-x: auto;">
+                <table class="scrolls-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Frequency</th>
+                            <th>Category</th>
+                            <th>Last Modified</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scrolls-tbody">
+                        <!-- Scrolls will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Active Scrolls Management JavaScript
+        let scrollsData = null;
+        let currentFilter = 'all';
+        let searchQuery = '';
+        
+        // Initialize dashboard
+        async function initializeDashboard() {
+            console.log('🌌 Initializing Active Scrolls Management at 528Hz');
+            
+            try {
+                // Load data from JSON file
+                const response = await fetch('data/active-scrolls-data.json');
+                scrollsData = await response.json();
+                
+                // Load data from localStorage if available (for persistence)
+                const storedData = localStorage.getItem('active_scrolls_data');
+                if (storedData) {
+                    scrollsData = JSON.parse(storedData);
+                }
+                
+                // Render dashboard
+                renderStatistics();
+                renderScrollsTable();
+                
+                // Setup event listeners
+                setupEventListeners();
+                
+                console.log('✅ Dashboard initialized successfully');
+            } catch (error) {
+                console.error('❌ Failed to load scrolls data:', error);
+            }
+        }
+        
+        // Render statistics
+        function renderStatistics() {
+            const stats = scrollsData.statistics;
+            
+            document.getElementById('total-scrolls').textContent = stats.total;
+            document.getElementById('active-scrolls').textContent = stats.active;
+            document.getElementById('pending-scrolls').textContent = stats.pending;
+            document.getElementById('resolved-scrolls').textContent = stats.resolved;
+        }
+        
+        // Render scrolls table
+        function renderScrollsTable() {
+            const tbody = document.getElementById('scrolls-tbody');
+            tbody.innerHTML = '';
+            
+            // Filter scrolls
+            let filteredScrolls = scrollsData.scrolls;
+            
+            if (currentFilter !== 'all') {
+                filteredScrolls = filteredScrolls.filter(scroll => scroll.status === currentFilter);
+            }
+            
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredScrolls = filteredScrolls.filter(scroll => 
+                    scroll.id.toLowerCase().includes(query) ||
+                    scroll.title.toLowerCase().includes(query) ||
+                    scroll.category.toLowerCase().includes(query) ||
+                    scroll.description.toLowerCase().includes(query)
+                );
+            }
+            
+            // Render each scroll
+            filteredScrolls.forEach(scroll => {
+                // Main row
+                const row = document.createElement('tr');
+                row.dataset.scrollId = scroll.id;
+                row.innerHTML = `
+                    <td style="font-weight: 600; color: var(--color-528hz);">${scroll.id}</td>
+                    <td style="font-weight: 600;">${scroll.title}</td>
+                    <td><span class="status-badge status-${scroll.status}">${scroll.status}</span></td>
+                    <td><span class="priority-badge priority-${scroll.priority}">${scroll.priority}</span></td>
+                    <td style="color: var(--color-golden);">${scroll.frequency}</td>
+                    <td>${scroll.category}</td>
+                    <td style="font-size: 0.85rem; opacity: 0.8;">${formatDate(scroll.lastModified)}</td>
+                `;
+                
+                // Details panel row
+                const detailsRow = document.createElement('tr');
+                detailsRow.innerHTML = `
+                    <td colspan="7">
+                        <div class="details-panel" id="details-${scroll.id}">
+                            ${renderDetailsPanel(scroll)}
+                        </div>
+                    </td>
+                `;
+                
+                // Click event to toggle details
+                row.addEventListener('click', () => {
+                    const detailsPanel = document.getElementById(`details-${scroll.id}`);
+                    const isVisible = detailsPanel.classList.contains('visible');
+                    
+                    // Close all other panels
+                    document.querySelectorAll('.details-panel').forEach(panel => {
+                        panel.classList.remove('visible');
+                    });
+                    document.querySelectorAll('.scrolls-table tbody tr').forEach(tr => {
+                        tr.classList.remove('expanded');
+                    });
+                    
+                    // Toggle current panel
+                    if (!isVisible) {
+                        detailsPanel.classList.add('visible');
+                        row.classList.add('expanded');
+                    }
+                });
+                
+                tbody.appendChild(row);
+                tbody.appendChild(detailsRow);
+            });
+        }
+        
+        // Render details panel for a scroll
+        function renderDetailsPanel(scroll) {
+            return `
+                <div class="details-grid">
+                    <div class="detail-section">
+                        <h4>📋 Basic Information</h4>
+                        <div class="property-row">
+                            <span class="property-label">Description:</span>
+                        </div>
+                        <div style="margin-top: var(--space-sm); color: var(--color-crystalline); opacity: 0.8;">
+                            ${scroll.description}
+                        </div>
+                        <div class="property-row" style="margin-top: var(--space-md);">
+                            <span class="property-label">Author:</span>
+                            <span class="property-value">${scroll.author}</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Created:</span>
+                            <span class="property-value">${formatDate(scroll.createdDate)}</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Last Modified:</span>
+                            <span class="property-value">${formatDate(scroll.lastModified)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>🔮 Metadata</h4>
+                        <div class="property-row">
+                            <span class="property-label">Dimensional Layer:</span>
+                            <span class="property-value">${scroll.metadata.dimensionalLayer}</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Consciousness Level:</span>
+                            <span class="property-value">${scroll.metadata.consciousnessLevel}</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Sacred Geometry:</span>
+                            <span class="property-value">${scroll.metadata.sacredGeometry}</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Anchor Hash:</span>
+                            <span class="property-value" style="font-size: 0.75rem;">${scroll.metadata.anchorHash}</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">NFT Status:</span>
+                            <span class="property-value">${scroll.metadata.NFTStatus}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>⚡ Properties</h4>
+                        <div class="property-row">
+                            <span class="property-label">Energy:</span>
+                            <span class="property-value">${scroll.properties.energy}%</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Stability:</span>
+                            <span class="property-value">${scroll.properties.stability}%</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Resonance Quality:</span>
+                            <span class="property-value">${scroll.properties.resonanceQuality}</span>
+                        </div>
+                        <div class="property-row">
+                            <span class="property-label">Blockchain Anchored:</span>
+                            <span class="property-value">${scroll.properties.blockchainAnchored ? '✅ Yes' : '❌ No'}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>🏷️ Tags</h4>
+                        <div class="tags-container">
+                            ${scroll.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderScrollsTable();
+            });
+            
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active state
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Update filter
+                    currentFilter = btn.dataset.filter;
+                    renderScrollsTable();
+                });
+            });
+        }
+        
+        // Save data to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('active_scrolls_data', JSON.stringify(scrollsData));
+            console.log('💾 Data saved to localStorage');
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html>

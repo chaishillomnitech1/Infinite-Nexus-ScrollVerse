@@ -1,0 +1,219 @@
+{
+  "ambassadorProgram": {
+    "name": "MiniMax Developer Ambassador Initiative",
+    "description": "Track progress and opportunities in the MiniMax Developer Ambassador program",
+    "startDate": "2024-01-01",
+    "frequency": "528Hz"
+  },
+  "metrics": {
+    "totalTasks": 24,
+    "completedTasks": 15,
+    "inProgressTasks": 6,
+    "pendingTasks": 3,
+    "ambassadorRank": 7,
+    "totalAmbassadors": 150,
+    "pointsEarned": 1580,
+    "totalPoints": 2400
+  },
+  "tasks": [
+    {
+      "id": "AMB-001",
+      "title": "Create Tutorial Video",
+      "description": "Produce educational content showcasing MiniMax API integration",
+      "category": "Content Creation",
+      "status": "completed",
+      "points": 100,
+      "deadline": "2024-11-15",
+      "completedDate": "2024-11-12"
+    },
+    {
+      "id": "AMB-002",
+      "title": "Write Technical Blog Post",
+      "description": "Author detailed technical article on MiniMax best practices",
+      "category": "Content Creation",
+      "status": "completed",
+      "points": 80,
+      "deadline": "2024-11-20",
+      "completedDate": "2024-11-18"
+    },
+    {
+      "id": "AMB-003",
+      "title": "Community Q&A Session",
+      "description": "Host live Q&A session for developers",
+      "category": "Community Engagement",
+      "status": "completed",
+      "points": 120,
+      "deadline": "2024-11-25",
+      "completedDate": "2024-11-24"
+    },
+    {
+      "id": "AMB-004",
+      "title": "Code Review Contribution",
+      "description": "Review and provide feedback on community code samples",
+      "category": "Technical Support",
+      "status": "in_progress",
+      "points": 60,
+      "deadline": "2024-12-05",
+      "completedDate": null
+    },
+    {
+      "id": "AMB-005",
+      "title": "Build Sample Application",
+      "description": "Create reference implementation using MiniMax API",
+      "category": "Development",
+      "status": "in_progress",
+      "points": 150,
+      "deadline": "2024-12-10",
+      "completedDate": null
+    },
+    {
+      "id": "AMB-006",
+      "title": "Social Media Campaign",
+      "description": "Create and share MiniMax content across social platforms",
+      "category": "Marketing",
+      "status": "in_progress",
+      "points": 70,
+      "deadline": "2024-12-08",
+      "completedDate": null
+    },
+    {
+      "id": "AMB-007",
+      "title": "Documentation Update",
+      "description": "Improve official documentation with examples",
+      "category": "Documentation",
+      "status": "pending",
+      "points": 90,
+      "deadline": "2024-12-15",
+      "completedDate": null
+    },
+    {
+      "id": "AMB-008",
+      "title": "Workshop Presentation",
+      "description": "Present at developer workshop or meetup",
+      "category": "Community Engagement",
+      "status": "pending",
+      "points": 140,
+      "deadline": "2024-12-20",
+      "completedDate": null
+    }
+  ],
+  "rankings": [
+    {
+      "rank": 1,
+      "username": "CodeMaster_AI",
+      "points": 2450,
+      "badges": 8
+    },
+    {
+      "rank": 2,
+      "username": "DevGuru_528",
+      "points": 2340,
+      "badges": 7
+    },
+    {
+      "rank": 3,
+      "username": "TechWizard_X",
+      "points": 2180,
+      "badges": 7
+    },
+    {
+      "rank": 7,
+      "username": "You (Chais the Great)",
+      "points": 1580,
+      "badges": 5,
+      "isCurrentUser": true
+    },
+    {
+      "rank": 8,
+      "username": "APIExplorer_99",
+      "points": 1520,
+      "badges": 5
+    },
+    {
+      "rank": 9,
+      "username": "CloudBuilder_42",
+      "points": 1480,
+      "badges": 4
+    }
+  ],
+  "upcomingDeadlines": [
+    {
+      "taskId": "AMB-004",
+      "title": "Code Review Contribution",
+      "deadline": "2024-12-05",
+      "daysRemaining": 8,
+      "priority": "medium"
+    },
+    {
+      "taskId": "AMB-006",
+      "title": "Social Media Campaign",
+      "deadline": "2024-12-08",
+      "daysRemaining": 11,
+      "priority": "medium"
+    },
+    {
+      "taskId": "AMB-005",
+      "title": "Build Sample Application",
+      "deadline": "2024-12-10",
+      "daysRemaining": 13,
+      "priority": "high"
+    },
+    {
+      "taskId": "AMB-007",
+      "title": "Documentation Update",
+      "deadline": "2024-12-15",
+      "daysRemaining": 18,
+      "priority": "low"
+    }
+  ],
+  "badges": [
+    {
+      "id": "first-contribution",
+      "name": "First Contribution",
+      "icon": "🌟",
+      "earned": true
+    },
+    {
+      "id": "content-creator",
+      "name": "Content Creator",
+      "icon": "📝",
+      "earned": true
+    },
+    {
+      "id": "community-champion",
+      "name": "Community Champion",
+      "icon": "🏆",
+      "earned": true
+    },
+    {
+      "id": "tech-expert",
+      "name": "Technical Expert",
+      "icon": "💻",
+      "earned": true
+    },
+    {
+      "id": "quick-responder",
+      "name": "Quick Responder",
+      "icon": "⚡",
+      "earned": true
+    },
+    {
+      "id": "code-reviewer",
+      "name": "Code Reviewer",
+      "icon": "🔍",
+      "earned": false
+    },
+    {
+      "id": "app-builder",
+      "name": "App Builder",
+      "icon": "🛠️",
+      "earned": false
+    },
+    {
+      "id": "master-ambassador",
+      "name": "Master Ambassador",
+      "icon": "👑",
+      "earned": false
+    }
+  ]
+}
