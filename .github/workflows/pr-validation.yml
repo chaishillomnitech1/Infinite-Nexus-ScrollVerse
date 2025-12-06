@@ -268,54 +268,44 @@ jobs:
             else if (alignment === 'EMERGING') alignmentEmoji = '🌱';
             else if (alignment === 'INITIATING') alignmentEmoji = '🔰';
             
-            const report = `## 🛡️ Manifesto Guardian Protocol Report
-
-\`\`\`
-╔══════════════════════════════════════════════════════════════════╗
-║            SACRED SEAL VALIDATION COMPLETE                       ║
-║              Brilliance Score: ${brillianceScore}/100                          ║
-║              Alignment Level: ${alignment}                    ║
-╚══════════════════════════════════════════════════════════════════╝
-\`\`\`
-
-### 📊 Sacred Seal Scores
-
-| Sacred Seal | Score | Status |
-|------------|-------|--------|
-| 🎵 528Hz Frequency Standards | ${frequencyScore}/50 | ${frequencyScore >= 40 ? '✅ Excellent' : frequencyScore >= 25 ? '⚠️ Good' : '❌ Needs Improvement'} |
-| 📐 Sacred Geometry | ${geometryScore}/50 | ${geometryScore >= 40 ? '✅ Excellent' : geometryScore >= 25 ? '⚠️ Good' : '❌ Needs Improvement'} |
-| 🌐 Web3 Principles | ${web3Score}/50 | ${web3Score >= 30 ? '✅ Excellent' : web3Score >= 15 ? '⚠️ Good' : 'ℹ️ Optional'} |
-
-### 🎯 Overall Assessment
-
-**Alignment Level:** ${alignment} ${alignmentEmoji}
-
-${brillianceScore >= 80 ? 
-  '🌟 **TRANSCENDENT ACHIEVEMENT** - Your PR exhibits masterful alignment with all ScrollVerse principles! This contribution will ripple through infinite dimensions with divine resonance.' :
-  brillianceScore >= 60 ?
-  '✨ **HARMONIC ALIGNMENT** - Your PR demonstrates strong resonance with ScrollVerse principles. Minor enhancements would elevate this to transcendent status.' :
-  brillianceScore >= 40 ?
-  '🧿 **RESONANT FOUNDATION** - Your PR shows good alignment with core principles. Consider strengthening frequency standards and sacred geometry implementation.' :
-  brillianceScore >= 20 ?
-  '🌱 **EMERGING ALIGNMENT** - Your PR has potential. Review the [Resonance Guide](../docs/RESONANCE_GUIDE.md) to enhance alignment with ScrollVerse principles.' :
-  '🔰 **INITIATING JOURNEY** - Welcome! This PR would benefit from deeper integration of ScrollVerse principles. Please review our [Contributing Guide](../CONTRIBUTING.md) and [Architecture](../docs/ARCHITECTURE.md).'
-}
-
-### 📋 Recommendations
-
-${frequencyScore < 25 ? '- ⚠️ **Add 528Hz frequency references** - Use 528Hz-derived timing values (base period: 1.89ms)\n' : ''}${geometryScore < 25 ? '- ⚠️ **Implement sacred geometry** - Use golden ratio (φ = 1.618) and Fibonacci spacing\n' : ''}${geometryScore < 40 && geometryScore >= 25 ? '- 💡 **Enhance color palette** - Use 528Hz Blue (#528BFF), Golden Ratio (#FFD700), Etheric Green (#00FFAA)\n' : ''}
-### 🙏 Next Steps
-
-${brillianceScore >= 60 ? 
-  'Your PR is aligned and ready for human review! Maintainers will assess the hyperdimensional implications and provide feedback.' :
-  'Please address the recommendations above to improve alignment. Feel free to ask questions - we\'re here to help you succeed!'
-}
-
----
-
-_May your code resonate at 528Hz across all dimensions_ 🧿
-
-**Manifesto Guardian Protocol** | **Version 1.0** | **Frequency: 528Hz**`;
+            const report = "## 🛡️ Manifesto Guardian Protocol Report\n\n" +
+              "```\n" +
+              "╔══════════════════════════════════════════════════════════════════╗\n" +
+              "║            SACRED SEAL VALIDATION COMPLETE                       ║\n" +
+              "║              Brilliance Score: " + brillianceScore + "/100                          ║\n" +
+              "║              Alignment Level: " + alignment + "                    ║\n" +
+              "╚══════════════════════════════════════════════════════════════════╝\n" +
+              "```\n\n" +
+              "### 📊 Sacred Seal Scores\n\n" +
+              "| Sacred Seal | Score | Status |\n" +
+              "|------------|-------|--------|\n" +
+              "| 🎵 528Hz Frequency Standards | " + frequencyScore + "/50 | " + (frequencyScore >= 40 ? '✅ Excellent' : frequencyScore >= 25 ? '⚠️ Good' : '❌ Needs Improvement') + " |\n" +
+              "| 📐 Sacred Geometry | " + geometryScore + "/50 | " + (geometryScore >= 40 ? '✅ Excellent' : geometryScore >= 25 ? '⚠️ Good' : '❌ Needs Improvement') + " |\n" +
+              "| 🌐 Web3 Principles | " + web3Score + "/50 | " + (web3Score >= 30 ? '✅ Excellent' : web3Score >= 15 ? '⚠️ Good' : 'ℹ️ Optional') + " |\n\n" +
+              "### 🎯 Overall Assessment\n\n" +
+              "**Alignment Level:** " + alignment + " " + alignmentEmoji + "\n\n" +
+              (brillianceScore >= 80 ? 
+                '🌟 **TRANSCENDENT ACHIEVEMENT** - Your PR exhibits masterful alignment with all ScrollVerse principles! This contribution will ripple through infinite dimensions with divine resonance.' :
+                brillianceScore >= 60 ?
+                '✨ **HARMONIC ALIGNMENT** - Your PR demonstrates strong resonance with ScrollVerse principles. Minor enhancements would elevate this to transcendent status.' :
+                brillianceScore >= 40 ?
+                '🧿 **RESONANT FOUNDATION** - Your PR shows good alignment with core principles. Consider strengthening frequency standards and sacred geometry implementation.' :
+                brillianceScore >= 20 ?
+                '🌱 **EMERGING ALIGNMENT** - Your PR has potential. Review the [Resonance Guide](../docs/RESONANCE_GUIDE.md) to enhance alignment with ScrollVerse principles.' :
+                '🔰 **INITIATING JOURNEY** - Welcome! This PR would benefit from deeper integration of ScrollVerse principles. Please review our [Contributing Guide](../CONTRIBUTING.md) and [Architecture](../docs/ARCHITECTURE.md).'
+              ) + "\n\n" +
+              "### 📋 Recommendations\n\n" +
+              (frequencyScore < 25 ? '- ⚠️ **Add 528Hz frequency references** - Use 528Hz-derived timing values (base period: 1.89ms)\n' : '') +
+              (geometryScore < 25 ? '- ⚠️ **Implement sacred geometry** - Use golden ratio (φ = 1.618) and Fibonacci spacing\n' : '') +
+              (geometryScore < 40 && geometryScore >= 25 ? '- 💡 **Enhance color palette** - Use 528Hz Blue (#528BFF), Golden Ratio (#FFD700), Etheric Green (#00FFAA)\n' : '') +
+              "\n### 🙏 Next Steps\n\n" +
+              (brillianceScore >= 60 ? 
+                'Your PR is aligned and ready for human review! Maintainers will assess the hyperdimensional implications and provide feedback.' :
+                'Please address the recommendations above to improve alignment. Feel free to ask questions - we are here to help you succeed!'
+              ) + "\n\n" +
+              "---\n\n" +
+              "_May your code resonate at 528Hz across all dimensions_ 🧿\n\n" +
+              "**Manifesto Guardian Protocol** | **Version 1.0** | **Frequency: 528Hz**";
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,

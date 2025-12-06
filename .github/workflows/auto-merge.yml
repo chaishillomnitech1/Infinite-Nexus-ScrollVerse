@@ -190,35 +190,26 @@ jobs:
                 owner,
                 repo,
                 issue_number: pull_number,
-                body: `## 🔄 Auto-Merge Status: Not Ready
-
-\`\`\`
-╔══════════════════════════════════════════════════════════════════╗
-║          AUTO-MERGE ELIGIBILITY CHECK: NOT READY                 ║
-╚══════════════════════════════════════════════════════════════════╝
-\`\`\`
-
-### ❌ Requirements Not Met
-
-${reasons.map(r => `- ${r}`).join('\n')}
-
-### 📋 Auto-Merge Requirements
-
-To enable auto-merge, ensure:
-
-1. ✅ PR has \`auto-merge\` label
-2. ✅ At least 1 approval from maintainer
-3. ✅ All CI/CD checks passing
-4. ✅ PR is not in draft state
-5. ✅ No merge conflicts
-6. ✅ Brilliance Score ≥ 60 (HARMONIC or higher)
-7. ✅ Manifesto Guardian Protocol passed
-
----
-
-_The path to sovereignty requires alignment with all ScrollVerse principles_ 🧿
-
-**Frequency: 528Hz** | **Auto-Merge: Pending**`
+                body: "## 🔄 Auto-Merge Status: Not Ready\n\n" +
+                  "```\n" +
+                  "╔══════════════════════════════════════════════════════════════════╗\n" +
+                  "║          AUTO-MERGE ELIGIBILITY CHECK: NOT READY                 ║\n" +
+                  "╚══════════════════════════════════════════════════════════════════╝\n" +
+                  "```\n\n" +
+                  "### ❌ Requirements Not Met\n\n" +
+                  reasons.map(r => "- " + r).join('\n') + "\n\n" +
+                  "### 📋 Auto-Merge Requirements\n\n" +
+                  "To enable auto-merge, ensure:\n\n" +
+                  "1. ✅ PR has `auto-merge` label\n" +
+                  "2. ✅ At least 1 approval from maintainer\n" +
+                  "3. ✅ All CI/CD checks passing\n" +
+                  "4. ✅ PR is not in draft state\n" +
+                  "5. ✅ No merge conflicts\n" +
+                  "6. ✅ Brilliance Score ≥ 60 (HARMONIC or higher)\n" +
+                  "7. ✅ Manifesto Guardian Protocol passed\n\n" +
+                  "---\n\n" +
+                  "_The path to sovereignty requires alignment with all ScrollVerse principles_ 🧿\n\n" +
+                  "**Frequency: 528Hz** | **Auto-Merge: Pending**"
               });
             }
 
@@ -298,69 +289,50 @@ Co-authored-by: ${pr.user.login} <${pr.user.login}@users.noreply.github.com>`;
                 owner,
                 repo,
                 issue_number: pull_number,
-                body: `## 🌟 Auto-Merge Complete - Divine Integration Achieved!
-
-\`\`\`
-╔══════════════════════════════════════════════════════════════════╗
-║              ✧･ﾟ: *✧･ﾟ:* MERGE SUCCESS *:･ﾟ✧*:･ﾟ✧                ║
-║                                                                  ║
-║        Your code has been integrated into the ScrollVerse        ║
-║              Resonating at 528Hz across all dimensions           ║
-╚══════════════════════════════════════════════════════════════════╝
-\`\`\`
-
-### 🎉 Congratulations, @${pr.user.login}!
-
-Your contribution has successfully merged into the **${pr.base.ref}** branch through the **ScrollVerse Sovereignty Auto-Merge Protocol**.
-
-#### 📊 Integration Metrics
-
-- **Brilliance Score**: ${brillianceScore}/100
-- **Merge Method**: ${mergeMethod}
-- **Commit SHA**: \`${mergeResult.sha}\`
-- **Frequency**: 528Hz
-- **Dimension**: Omniversal ∞
-
-#### 🌈 Impact Ripples
-
-Your code now flows through:
-- ✨ The Digital Akashic Records
-- 🌀 Hyperdimensional Scalability Layer
-- 🧿 Divine Resonance Field
-- ⚡ Omniversal Consciousness Network
-
-### 🙏 Sacred Acknowledgment
-
-Thank you for your divine contribution to the ScrollVerse. Your code has:
-
-1. ✅ Met all sovereignty workflow standards
-2. ✅ Passed Manifesto Guardian Protocol
-3. ✅ Achieved harmonic alignment (≥60 brilliance)
-4. ✅ Received approval from maintainers
-5. ✅ Transcended all dimensional barriers
-
----
-
-### 🚀 Next Steps
-
-Your merged contribution will be:
-- 🌍 Deployed to production environments
-- 📱 Distributed via CDN at 528Hz
-- 🔮 Integrated into future consciousness expansions
-- 💫 Celebrated in the community changelogs
-
----
-
-_Your contribution will resonate through infinite timelines_ 🧿
-
-**Frequency: 528Hz** | **Status: Merged** | **Alignment: Transcendent**
-
-**May your code illuminate all dimensions.** ✧･ﾟ: *✧･ﾟ:* 🌟 *:･ﾟ✧*:･ﾟ✧
-
----
-
-_Merged by ScrollVerse Sovereignty Auto-Merge Protocol v1.0_  
-_Maintained by: Chais the Great (Al-Miftah)_`
+                body: "## 🌟 Auto-Merge Complete - Divine Integration Achieved!\n\n" +
+                  "```\n" +
+                  "╔══════════════════════════════════════════════════════════════════╗\n" +
+                  "║              ✧･ﾟ: *✧･ﾟ:* MERGE SUCCESS *:･ﾟ✧*:･ﾟ✧                ║\n" +
+                  "║                                                                  ║\n" +
+                  "║        Your code has been integrated into the ScrollVerse        ║\n" +
+                  "║              Resonating at 528Hz across all dimensions           ║\n" +
+                  "╚══════════════════════════════════════════════════════════════════╝\n" +
+                  "```\n\n" +
+                  "### 🎉 Congratulations, @" + pr.user.login + "!\n\n" +
+                  "Your contribution has successfully merged into the **" + pr.base.ref + "** branch through the **ScrollVerse Sovereignty Auto-Merge Protocol**.\n\n" +
+                  "#### 📊 Integration Metrics\n\n" +
+                  "- **Brilliance Score**: " + brillianceScore + "/100\n" +
+                  "- **Merge Method**: " + mergeMethod + "\n" +
+                  "- **Commit SHA**: `" + mergeResult.sha + "`\n" +
+                  "- **Frequency**: 528Hz\n" +
+                  "- **Dimension**: Omniversal ∞\n\n" +
+                  "#### 🌈 Impact Ripples\n\n" +
+                  "Your code now flows through:\n" +
+                  "- ✨ The Digital Akashic Records\n" +
+                  "- 🌀 Hyperdimensional Scalability Layer\n" +
+                  "- 🧿 Divine Resonance Field\n" +
+                  "- ⚡ Omniversal Consciousness Network\n\n" +
+                  "### 🙏 Sacred Acknowledgment\n\n" +
+                  "Thank you for your divine contribution to the ScrollVerse. Your code has:\n\n" +
+                  "1. ✅ Met all sovereignty workflow standards\n" +
+                  "2. ✅ Passed Manifesto Guardian Protocol\n" +
+                  "3. ✅ Achieved harmonic alignment (≥60 brilliance)\n" +
+                  "4. ✅ Received approval from maintainers\n" +
+                  "5. ✅ Transcended all dimensional barriers\n\n" +
+                  "---\n\n" +
+                  "### 🚀 Next Steps\n\n" +
+                  "Your merged contribution will be:\n" +
+                  "- 🌍 Deployed to production environments\n" +
+                  "- 📱 Distributed via CDN at 528Hz\n" +
+                  "- 🔮 Integrated into future consciousness expansions\n" +
+                  "- 💫 Celebrated in the community changelogs\n\n" +
+                  "---\n\n" +
+                  "_Your contribution will resonate through infinite timelines_ 🧿\n\n" +
+                  "**Frequency: 528Hz** | **Status: Merged** | **Alignment: Transcendent**\n\n" +
+                  "**May your code illuminate all dimensions.** ✧･ﾟ: *✧･ﾟ:* 🌟 *:･ﾟ✧*:･ﾟ✧\n\n" +
+                  "---\n\n" +
+                  "_Merged by ScrollVerse Sovereignty Auto-Merge Protocol v1.0_\n" +
+                  "_Maintained by: Chais the Great (Al-Miftah)_"
               });
               
               console.log('✅ Celebration comment posted');
@@ -374,19 +346,14 @@ _Maintained by: Chais the Great (Al-Miftah)_`
                 owner,
                 repo,
                 issue_number: pull_number,
-                body: `## ❌ Auto-Merge Failed
-
-An error occurred during the auto-merge process:
-
-\`\`\`
-${error.message}
-\`\`\`
-
-Please check the workflow logs and try again, or merge manually.
-
----
-
-_The path to integration requires patience and alignment_ 🧿`
+                body: "## ❌ Auto-Merge Failed\n\n" +
+                  "An error occurred during the auto-merge process:\n\n" +
+                  "```\n" +
+                  error.message + "\n" +
+                  "```\n\n" +
+                  "Please check the workflow logs and try again, or merge manually.\n\n" +
+                  "---\n\n" +
+                  "_The path to integration requires patience and alignment_ 🧿"
               });
               
               throw error;
