@@ -202,11 +202,11 @@ jobs:
           
           # Calculate brilliance score (weighted average)
           # Frequency and Geometry are most important (weight: 2x)
-          # Web3, AR, Chrono are important (weight: 1.5x)
+          # Web3, AR, Chrono are important (weight: 1.5x = multiply by 3, divide by 2)
           # Documentation and Testing are standard (weight: 1x)
           
-          weighted_total=$(( (frequency_score * 2) + (geometry_score * 2) + (web3_score * 3/2) + (ar_score * 3/2) + (chrono_score * 3/2) + doc_score + test_score ))
-          max_weighted=$(( (50 * 2) + (50 * 2) + (50 * 3/2) + (50 * 3/2) + (50 * 3/2) + 50 + 50 ))
+          weighted_total=$(( (frequency_score * 2) + (geometry_score * 2) + (web3_score * 3 / 2) + (ar_score * 3 / 2) + (chrono_score * 3 / 2) + doc_score + test_score ))
+          max_weighted=$(( (50 * 2) + (50 * 2) + (50 * 3 / 2) + (50 * 3 / 2) + (50 * 3 / 2) + 50 + 50 ))
           
           brilliance_score=$(( (weighted_total * 100) / max_weighted ))
           
