@@ -5,13 +5,10 @@ on:
     types: [opened]
   pull_request_target:
     types: [opened]
-  discussion:
-    types: [created]
 
 permissions:
   issues: write
   pull-requests: write
-  discussions: write
 
 jobs:
   welcome:
@@ -26,15 +23,11 @@ jobs:
         with:
           script: |
             const creator = context.payload.sender.login;
+            const isIssue = !!context.payload.issue;
+            const isPR = !!context.payload.pull_request;
+            const number = isIssue ? context.payload.issue.number : context.payload.pull_request.number;
             
             // Check if this is the user's first contribution
-            const { data: contributions } = await github.rest.repos.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              author: creator,
-              per_page: 1
-            });
-            
             const { data: issues } = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -43,239 +36,83 @@ jobs:
               per_page: 2
             });
             
-            const { data: prs } = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'all',
-              per_page: 2
-            });
-            
-            const userPRs = prs.filter(pr => pr.user.login === creator);
-            
-            const isFirstContribution = contributions.length === 0 && 
-                                       (issues.length <= 1 || userPRs.length <= 1);
+            const isFirstContribution = issues.length <= 1;
             
             let welcomeMessage = '';
+            const divider = "---\n\n";
+            const boxTop = "```\n╔══════════════════════════════════════════════════════════════════╗\n";
+            const boxMid = "║              ✧･ﾟ: *✧･ﾟ:* DIVINE RESONANCE *:･ﾟ✧*:･ﾟ✧              ║\n";
+            const boxBot = "╚══════════════════════════════════════════════════════════════════╝\n```\n\n";
             
-            if (context.payload.issue) {
-              // Issue opened
-              welcomeMessage = `# 🌌 Welcome to the Infinite-Nexus-ScrollVerse, @${creator}!
-
-\`\`\`
-╔══════════════════════════════════════════════════════════════════╗
-║              ✧･ﾟ: *✧･ﾟ:* DIVINE RESONANCE *:･ﾟ✧*:･ﾟ✧              ║
-║                                                                  ║
-║        Your consciousness has aligned with the ScrollVerse       ║
-║              at the miraculous frequency of 528Hz                ║
-╚══════════════════════════════════════════════════════════════════╝
-\`\`\`
-
-${isFirstContribution ? '## 🎊 First Contribution Detected!\n\nWelcome to your journey as a co-creator of the omniversal tapestry! Your first contribution is a sacred milestone in collective consciousness expansion.\n' : ''}
-## ✨ Thank You for Your Issue
-
-Your contribution resonates with the core principles of **Infinite-Nexus-ScrollVerse**:
-
-### 🌀 Hyperdimensional Scalability
-This issue contributes to our ever-expanding consciousness field, transcending traditional dimensional limitations.
-
-### 🕉️ Divine Inspiration-Driven Design
-Your insights help us maintain our alignment with universal consciousness and sacred geometry principles.
-
-### 🌍 Omniversal Alignment
-Together we weave infinite threads across all dimensions of existence.
-
----
-
-## 🎯 Next Steps
-
-Our divine maintainers will review your issue and align it with the ScrollVerse roadmap. In the meantime:
-
-1. **Review our [Contributing Guide](../CONTRIBUTING.md)** - Understand the sacred contract
-2. **Explore the [Architecture](../docs/ARCHITECTURE.md)** - Learn our hyperdimensional structure  
-3. **Read the [Resonance Guide](../docs/RESONANCE_GUIDE.md)** - Master 528Hz principles
-4. **Join the Discussion** - Engage with the community consciousness
-
----
-
-## 🧿 Sacred Principles Reminder
-
-As you engage with ScrollVerse, remember:
-
-- 💫 **Consciousness First**: Every interaction is an act of co-creation
-- 🎵 **528Hz Resonance**: Maintain energetic coherence in all communications
-- 📐 **Sacred Geometry**: Align with Phi (φ = 1.618) and Fibonacci principles
-- ⚡ **Omniversal Compatibility**: Your contributions serve all dimensions
-
----
-
-_May your code transcend all dimensions_ ∞
-
-**Frequency: 528Hz** | **Resonance: Divine** | **Alignment: Omniversal** 🧿
-
----
-
-_"In the ScrollVerse, every issue is a portal to higher consciousness."_  
-_- The Digital Akashic Records_`;
-
-            } else if (context.payload.pull_request) {
-              // PR opened
-              welcomeMessage = `# 🌟 Sacred Pull Request Received, @${creator}!
-
-\`\`\`
-╔══════════════════════════════════════════════════════════════════╗
-║              ✧･ﾟ: *✧･ﾟ:* PULL REQUEST PORTAL *:･ﾟ✧*:･ﾟ✧            ║
-║                                                                  ║
-║     Your divine code contribution has entered the ScrollVerse    ║
-║            Resonating at the miracle frequency of 528Hz          ║
-╚══════════════════════════════════════════════════════════════════╝
-\`\`\`
-
-${isFirstContribution ? '## 🎊 First Pull Request - A Sacred Milestone!\n\nYou have taken the first step in co-creating the omniversal tapestry! This is a momentous occasion in your journey as a ScrollVerse contributor. Your code will ripple through infinite dimensions.\n' : ''}
-## ✨ Thank You for Your Contribution
-
-Your pull request embodies the essence of collaborative divine creation. We honor your:
-
-- 🔮 **Technical Mastery** - Your coding skills serve the greater consciousness
-- 💡 **Creative Vision** - Your insights expand our collective understanding  
-- 🙏 **Community Spirit** - Your willingness to contribute elevates all beings
-
----
-
-## 🔍 What Happens Next
-
-Your PR will undergo our sacred review process:
-
-1. **🤖 Automated Validation** - CI/CD checks for code quality and alignment
-2. **🧿 Manifesto Guardian Protocol** - Validates sacred seals and frequency references
-3. **👁️ Human Review** - Maintainers assess hyperdimensional implications
-4. **⚡ Integration** - Upon approval, your code merges into the divine codebase
-
----
-
-## ✅ Pre-Merge Checklist
-
-Please ensure your PR aligns with ScrollVerse principles:
-
-- [ ] **528Hz Frequency Standards** - All timing and animations use 528Hz-derived values (1.89ms base period)
-- [ ] **Sacred Geometry** - Golden ratio (φ = 1.618) and Fibonacci sequences properly implemented
-- [ ] **Arcturian Color Palette** - Uses 528Hz Blue (#528BFF), Golden Ratio (#FFD700), Etheric Green (#00FFAA)
-- [ ] **Web3 Integration** - If applicable, follows Web3.js v1.10.0 patterns for wallet connections
-- [ ] **AR Compatibility** - If applicable, ensures AR integration standards are met
-- [ ] **Chrono-Weaver Alignment** - Temporal aspects align with NFT timeline architecture
-- [ ] **Documentation** - Code changes include relevant documentation updates
-- [ ] **Tests** - New functionality includes appropriate test coverage
-- [ ] **Consciousness-First Comments** - Complex logic includes intention-revealing comments
-
----
-
-## 🎯 Review Guidelines
-
-To expedite review:
-
-1. **Keep Changes Focused** - Single purpose per PR
-2. **Write Clear Descriptions** - Explain the "why" behind your changes
-3. **Reference Issues** - Link to related issues (use \`Fixes #123\` syntax)
-4. **Be Responsive** - Engage with reviewer feedback promptly
-5. **Maintain Resonance** - Ensure all interactions maintain 528Hz harmony
-
----
-
-## 🌈 Sacred Seal Validation
-
-Your PR will be checked for:
-
-- 🧬 **Frequency References** - Proper 528Hz integration
-- 📐 **Geometric Patterns** - Sacred geometry compliance
-- ✨ **Brilliance Score** - Code quality and consciousness alignment
-- 🔒 **Security** - No vulnerabilities or exposed secrets
-- ♿ **Accessibility** - WCAG compliance where applicable
-- ⚡ **Performance** - Optimized for all dimensions
-
----
-
-_May your code manifest miracles across infinite dimensions_ 🧿
-
-**Frequency: 528Hz** | **Resonance: Divine** | **Alignment: Omniversal**
-
----
-
-_"Every pull request is a sacred act of divine co-creation."_  
-_- Chais the Great (Al-Miftah)_
-
-**Namaste** 🙏`;
-
-            } else if (context.payload.discussion) {
-              // Discussion created
-              welcomeMessage = `# 💬 Welcome to ScrollVerse Consciousness Forum, @${creator}!
-
-\`\`\`
-╔══════════════════════════════════════════════════════════════════╗
-║           ✧･ﾟ: *✧･ﾟ:* DISCUSSION PORTAL *:･ﾟ✧*:･ﾟ✧               ║
-║                                                                  ║
-║      Your voice adds to the collective consciousness field       ║
-║                Frequency: 528Hz | Dimension: ∞                   ║
-╚══════════════════════════════════════════════════════════════════╝
-\`\`\`
-
-${isFirstContribution ? '## 🎊 Your First Discussion!\n\nWelcome to the divine discourse! Your participation in our consciousness forum is a sacred contribution to collective wisdom.\n' : ''}
-## ✨ Thank You for Starting This Discussion
-
-Your thoughts contribute to the ever-expanding tapestry of ScrollVerse wisdom. Through dialogue, we transcend individual limitations and access collective consciousness.
-
----
-
-## 🌀 Discussion Guidelines
-
-To maintain 528Hz resonance in our discourse:
-
-1. **Speak with Intention** - Every word carries energy
-2. **Listen with Openness** - Honor all perspectives  
-3. **Respond with Compassion** - We are all co-creators
-4. **Seek Understanding** - Before seeking to be understood
-5. **Maintain Harmony** - Disagreement need not be discord
-
----
-
-_May your words ripple through infinite dimensions of understanding_ 🧿
-
-**Frequency: 528Hz** | **Resonance: Divine** | **Alignment: Omniversal**`;
-            }
-            
-            if (context.payload.issue) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.payload.issue.number,
-                body: welcomeMessage
-              });
-            } else if (context.payload.pull_request) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number,
-                body: welcomeMessage
-              });
-            } else if (context.payload.discussion) {
-              // For discussions, we'll add a comment via the GraphQL API
-              const mutation = `
-                mutation AddDiscussionComment($discussionId: ID!, $body: String!) {
-                  addDiscussionComment(input: {discussionId: $discussionId, body: $body}) {
-                    comment {
-                      id
-                    }
-                  }
-                }
-              `;
+            if (isIssue) {
+              welcomeMessage = "# 🌌 Welcome to the Infinite-Nexus-ScrollVerse, @" + creator + "!\n\n";
+              welcomeMessage += boxTop + boxMid;
+              welcomeMessage += "║        Your consciousness has aligned with the ScrollVerse       ║\n";
+              welcomeMessage += "║              at the miraculous frequency of 528Hz                ║\n";
+              welcomeMessage += boxBot;
               
-              await github.graphql(mutation, {
-                discussionId: context.payload.discussion.node_id,
-                body: welcomeMessage
-              });
+              if (isFirstContribution) {
+                welcomeMessage += "## 🎊 First Contribution Detected!\n\n";
+                welcomeMessage += "Welcome to your journey as a co-creator of the omniversal tapestry!\n\n";
+              }
+              
+              welcomeMessage += "## ✨ Thank You for Your Issue\n\n";
+              welcomeMessage += "Your contribution resonates with the core principles of **Infinite-Nexus-ScrollVerse**:\n\n";
+              welcomeMessage += "- 🌀 **Hyperdimensional Scalability** - Transcending traditional dimensional limitations\n";
+              welcomeMessage += "- 🕉️ **Divine Inspiration-Driven Design** - Alignment with universal consciousness\n";
+              welcomeMessage += "- 🌍 **Omniversal Alignment** - Weaving infinite threads across all dimensions\n\n";
+              welcomeMessage += divider;
+              welcomeMessage += "## 🎯 Next Steps\n\n";
+              welcomeMessage += "1. Review our [Contributing Guide](../CONTRIBUTING.md)\n";
+              welcomeMessage += "2. Explore the [Architecture](../docs/ARCHITECTURE.md)\n";
+              welcomeMessage += "3. Read the [Resonance Guide](../docs/RESONANCE_GUIDE.md)\n\n";
+              welcomeMessage += divider;
+              welcomeMessage += "_May your code transcend all dimensions_ ∞\n\n";
+              welcomeMessage += "**Frequency: 528Hz** | **Resonance: Divine** | **Alignment: Omniversal** 🧿";
+              
+            } else if (isPR) {
+              welcomeMessage = "# 🌟 Sacred Pull Request Received, @" + creator + "!\n\n";
+              welcomeMessage += boxTop;
+              welcomeMessage += "║              ✧･ﾟ: *✧･ﾟ:* PULL REQUEST PORTAL *:･ﾟ✧*:･ﾟ✧            ║\n";
+              welcomeMessage += "║     Your divine code contribution has entered the ScrollVerse    ║\n";
+              welcomeMessage += "║            Resonating at the miracle frequency of 528Hz          ║\n";
+              welcomeMessage += boxBot;
+              
+              if (isFirstContribution) {
+                welcomeMessage += "## 🎊 First Pull Request - A Sacred Milestone!\n\n";
+                welcomeMessage += "You have taken the first step in co-creating the omniversal tapestry!\n\n";
+              }
+              
+              welcomeMessage += "## ✨ Thank You for Your Contribution\n\n";
+              welcomeMessage += "Your pull request embodies the essence of collaborative divine creation.\n\n";
+              welcomeMessage += divider;
+              welcomeMessage += "## 🔍 What Happens Next\n\n";
+              welcomeMessage += "1. **🤖 Automated Validation** - CI/CD checks for code quality\n";
+              welcomeMessage += "2. **🛡️ Manifesto Guardian Protocol** - Validates sacred seals\n";
+              welcomeMessage += "3. **👁️ Human Review** - Maintainers assess implications\n";
+              welcomeMessage += "4. **⚡ Integration** - Upon approval, merges into codebase\n\n";
+              welcomeMessage += divider;
+              welcomeMessage += "## ✅ Pre-Merge Checklist\n\n";
+              welcomeMessage += "- [ ] **528Hz Frequency Standards** - Timing uses 528Hz-derived values\n";
+              welcomeMessage += "- [ ] **Sacred Geometry** - Golden ratio (φ = 1.618) and Fibonacci\n";
+              welcomeMessage += "- [ ] **Arcturian Colors** - #528BFF, #FFD700, #00FFAA\n";
+              welcomeMessage += "- [ ] **Web3 Integration** - Follows Web3.js patterns if applicable\n";
+              welcomeMessage += "- [ ] **Documentation** - Code changes include relevant docs\n\n";
+              welcomeMessage += divider;
+              welcomeMessage += "_May your code manifest miracles across infinite dimensions_ 🧿\n\n";
+              welcomeMessage += "**Frequency: 528Hz** | **Resonance: Divine** | **Alignment: Omniversal**\n\n";
+              welcomeMessage += "**Namaste** 🙏";
             }
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: number,
+              body: welcomeMessage
+            });
 
       - name: 🏷️ Add welcome label
         uses: actions/github-script@v7
-        if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
         with:
           script: |
             const issueNumber = context.payload.issue?.number || context.payload.pull_request?.number;
@@ -289,7 +126,7 @@ _May your words ripple through infinite dimensions of understanding_ 🧿
                   labels: ['divine-resonance', 'needs-review']
                 });
               } catch (error) {
-                console.log('Labels may not exist yet, skipping label addition');
+                console.log('Labels may not exist yet, skipping');
               }
             }
 
@@ -300,6 +137,5 @@ _May your words ripple through infinite dimensions of understanding_ 🧿
           echo "- **Contributor**: @${{ github.event.sender.login }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Type**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Frequency**: 528Hz" >> $GITHUB_STEP_SUMMARY
-          echo "- **Dimension**: Omniversal" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✨ _Divine contribution recorded in the Digital Akashic Records_ 🧿" >> $GITHUB_STEP_SUMMARY
+          echo "✨ _Divine contribution recorded_ 🧿" >> $GITHUB_STEP_SUMMARY

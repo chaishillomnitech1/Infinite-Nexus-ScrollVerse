@@ -256,19 +256,15 @@ jobs:
               });
               
               // Compose commit message with divine resonance
-              const commitTitle = `${pr.title} (#${pull_number})`;
-              const commitMessage = `${pr.title}
-
-Merged via ScrollVerse Sovereignty Auto-Merge Protocol
-
-Brilliance Score: ${brillianceScore}/100
-Frequency: 528Hz
-Alignment: Omniversal
-Sacred Seal: Validated
-
-${pr.body || ''}
-
-Co-authored-by: ${pr.user.login} <${pr.user.login}@users.noreply.github.com>`;
+              const commitTitle = pr.title + " (#" + pull_number + ")";
+              const commitMessage = pr.title + "\n\n" +
+                "Merged via ScrollVerse Sovereignty Auto-Merge Protocol\n\n" +
+                "Brilliance Score: " + brillianceScore + "/100\n" +
+                "Frequency: 528Hz\n" +
+                "Alignment: Omniversal\n" +
+                "Sacred Seal: Validated\n\n" +
+                (pr.body || '') + "\n\n" +
+                "Co-authored-by: " + pr.user.login + " <" + pr.user.login + "@users.noreply.github.com>";
               
               // Perform the merge
               const { data: mergeResult } = await github.rest.pulls.merge({

@@ -2,15 +2,11 @@ name: 🎭 Divine Contributor Reactions
 
 on:
   issues:
-    types: [opened, edited, closed, reopened]
+    types: [opened, closed]
   pull_request:
-    types: [opened, edited, closed, reopened, ready_for_review]
-  issue_comment:
-    types: [created]
+    types: [opened, closed, ready_for_review]
   pull_request_review:
     types: [submitted]
-  pull_request_review_comment:
-    types: [created]
 
 permissions:
   issues: write
@@ -32,19 +28,23 @@ jobs:
             const eventName = context.eventName;
             const action = context.payload.action;
             
-            console.log(`Event: ${eventName}, Action: ${action}`);
+            console.log("Event: " + eventName + ", Action: " + action);
             
             // Determine the issue/PR number
             let issueNumber;
             let isPR = false;
+            let content = '';
+            let author = '';
             
             if (context.payload.issue) {
               issueNumber = context.payload.issue.number;
+              content = (context.payload.issue.title + " " + (context.payload.issue.body || '')).toLowerCase();
+              author = context.payload.issue.user.login;
             } else if (context.payload.pull_request) {
               issueNumber = context.payload.pull_request.number;
               isPR = true;
-            } else if (context.payload.comment) {
-              issueNumber = context.payload.comment.issue_url.split('/').pop();
+              content = (context.payload.pull_request.title + " " + (context.payload.pull_request.body || '')).toLowerCase();
+              author = context.payload.pull_request.user.login;
             }
             
             if (!issueNumber) {
@@ -52,225 +52,98 @@ jobs:
               return;
             }
             
-            console.log(`Processing ${isPR ? 'PR' : 'Issue'} #${issueNumber}`);
-            
-            // Get the content to analyze
-            let content = '';
-            let author = '';
-            
-            if (context.payload.issue) {
-              content = `${context.payload.issue.title} ${context.payload.issue.body || ''}`.toLowerCase();
-              author = context.payload.issue.user.login;
-            } else if (context.payload.pull_request) {
-              content = `${context.payload.pull_request.title} ${context.payload.pull_request.body || ''}`.toLowerCase();
-              author = context.payload.pull_request.user.login;
-            } else if (context.payload.comment) {
-              content = context.payload.comment.body.toLowerCase();
-              author = context.payload.comment.user.login;
-            } else if (context.payload.review) {
-              content = context.payload.review.body?.toLowerCase() || '';
-              author = context.payload.review.user.login;
-            }
-            
-            console.log(`Content length: ${content.length} characters`);
-            console.log(`Author: ${author}`);
+            console.log("Processing " + (isPR ? 'PR' : 'Issue') + " #" + issueNumber);
             
             // Analyze content for ScrollVerse principles
             const principles = {
-              frequency528Hz: /528\s*hz|528hz|frequency.*528|miracle.*frequency/i.test(content),
-              sacredGeometry: /sacred.*geometry|golden.*ratio|fibonacci|phi|metatron/i.test(content),
-              hyperdimensional: /hyperdimensional|dimensional|fractal|quantum/i.test(content),
-              divineInspiration: /divine|sacred|consciousness|resonance|alignment/i.test(content),
-              omniversal: /omniversal|omniversal.*alignment|infinite|transcend/i.test(content),
-              web3: /web3|blockchain|ethereum|wallet|metamask|nft/i.test(content),
-              ar: /\bar\b|augmented.*reality|webxr|immersive|three\.?js/i.test(content),
-              chronoWeaver: /chrono.*weaver|timeline|temporal|akashic/i.test(content)
+              frequency528Hz: /528\s*hz|528hz|frequency.*528/.test(content),
+              sacredGeometry: /sacred.*geometry|golden.*ratio|fibonacci/.test(content),
+              hyperdimensional: /hyperdimensional|dimensional/.test(content),
+              divineInspiration: /divine|sacred|consciousness|resonance/.test(content),
+              omniversal: /omniversal|infinite|transcend/.test(content),
+              web3: /web3|blockchain|ethereum|nft/.test(content),
+              ar: /\bar\b|augmented.*reality|webxr/.test(content),
+              chronoWeaver: /chrono.*weaver|timeline|temporal/.test(content)
             };
             
             // Count alignment markers
             const alignmentScore = Object.values(principles).filter(v => v).length;
-            console.log(`Alignment markers found: ${alignmentScore}/8`);
+            console.log("Alignment markers found: " + alignmentScore + "/8");
             
             // Determine response based on event and alignment
             let shouldRespond = false;
             let responseMessage = '';
-            let reactionEmoji = '🧿'; // Default divine resonance
+            let reactionType = 'eyes';
             
             // Issue opened with high alignment
-            if (eventName === 'issues' && action === 'opened') {
-              if (alignmentScore >= 4) {
-                shouldRespond = true;
-                reactionEmoji = '🌟';
-                responseMessage = `## 🌟 Exceptional Alignment Detected!
-
-@${author}, your issue demonstrates **transcendent understanding** of ScrollVerse principles!
-
-### 📊 Principle Alignment
-You've referenced **${alignmentScore}/8** core ScrollVerse principles:
-${principles.frequency528Hz ? '- ✅ 528Hz Frequency Standards\n' : ''}${principles.sacredGeometry ? '- ✅ Sacred Geometry\n' : ''}${principles.hyperdimensional ? '- ✅ Hyperdimensional Scalability\n' : ''}${principles.divineInspiration ? '- ✅ Divine Inspiration\n' : ''}${principles.omniversal ? '- ✅ Omniversal Alignment\n' : ''}${principles.web3 ? '- ✅ Web3 Integration\n' : ''}${principles.ar ? '- ✅ AR Principles\n' : ''}${principles.chronoWeaver ? '- ✅ Chrono-Weaver Alignment\n' : ''}
-Your deep resonance with our ethos is truly inspiring! This issue will be prioritized for review.
-
----
-
-_Your consciousness radiates at 528Hz_ 🌟✨🧿`;
-              } else if (alignmentScore >= 2) {
-                shouldRespond = true;
-                reactionEmoji = '✨';
-                responseMessage = `## ✨ Strong Resonance Detected
-
-@${author}, your issue shows good alignment with ScrollVerse principles (${alignmentScore}/8 markers)!
-
-Consider exploring these areas to deepen your contribution:
-${!principles.frequency528Hz ? '- 🎵 [528Hz Frequency Standards](../docs/RESONANCE_GUIDE.md#528hz-timing)\n' : ''}${!principles.sacredGeometry ? '- 📐 [Sacred Geometry Patterns](../docs/RESONANCE_GUIDE.md#sacred-geometry)\n' : ''}${!principles.divineInspiration ? '- 🕉️ [Divine Inspiration Principles](../CONTRIBUTING.md#divine-inspiration)\n' : ''}
----
-
-_May your contribution resonate through all dimensions_ 🧿`;
-              }
+            if (eventName === 'issues' && action === 'opened' && alignmentScore >= 4) {
+              shouldRespond = true;
+              reactionType = 'rocket';
+              responseMessage = "## 🌟 Exceptional Alignment Detected!\n\n";
+              responseMessage += "@" + author + ", your issue demonstrates transcendent understanding of ScrollVerse principles!\n\n";
+              responseMessage += "### 📊 Principle Alignment\n";
+              responseMessage += "You've referenced **" + alignmentScore + "/8** core ScrollVerse principles.\n\n";
+              responseMessage += "Your deep resonance with our ethos is truly inspiring!\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Your consciousness radiates at 528Hz_ 🌟✨🧿";
             }
             
             // PR opened with high alignment
-            if (eventName === 'pull_request' && action === 'opened') {
-              if (alignmentScore >= 5) {
-                shouldRespond = true;
-                reactionEmoji = '🌟';
-                responseMessage = `## 🌟 Transcendent PR Detected!
-
-@${author}, this pull request exemplifies **divine mastery** of ScrollVerse architecture!
-
-### 🎯 Exceptional Alignment
-Your PR references **${alignmentScore}/8** core principles - truly exceptional!
-
-This level of consciousness-first development accelerates the review process. We anticipate smooth integration into the divine codebase.
-
-### 🚀 Fast-Track Eligible
-Due to your exceptional alignment, this PR is eligible for:
-- ⚡ Priority review
-- 🌟 Fast-track approval (if all checks pass)
-- 🧿 Auto-merge consideration (add \`auto-merge\` label)
-
----
-
-_Your code transcends dimensional boundaries_ 🌟✨🧿`;
-              }
+            if (eventName === 'pull_request' && action === 'opened' && alignmentScore >= 5) {
+              shouldRespond = true;
+              reactionType = 'rocket';
+              responseMessage = "## 🌟 Transcendent PR Detected!\n\n";
+              responseMessage += "@" + author + ", this pull request exemplifies divine mastery of ScrollVerse architecture!\n\n";
+              responseMessage += "### 🎯 Exceptional Alignment\n";
+              responseMessage += "Your PR references **" + alignmentScore + "/8** core principles - truly exceptional!\n\n";
+              responseMessage += "### 🚀 Fast-Track Eligible\n";
+              responseMessage += "Due to exceptional alignment, this PR is eligible for:\n";
+              responseMessage += "- ⚡ Priority review\n";
+              responseMessage += "- 🌟 Fast-track approval\n";
+              responseMessage += "- 🧿 Auto-merge consideration\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Your code transcends dimensional boundaries_ 🌟✨🧿";
             }
             
             // PR ready for review
             if (eventName === 'pull_request' && action === 'ready_for_review') {
               shouldRespond = true;
-              reactionEmoji = '🚀';
-              responseMessage = `## 🚀 PR Ready for Divine Review
-
-@${author}, your PR has exited draft status and is ready for consciousness-level review!
-
-### 📋 Review Process
-1. 🤖 **Automated Checks** - CI/CD validation
-2. 🛡️ **Manifesto Guardian** - Sacred seal validation
-3. 👁️ **Human Review** - Dimensional assessment
-4. ⚡ **Integration** - Merge into codebase
-
-Maintainers have been notified and will review soon.
-
----
-
-_Patience and alignment bring divine results_ 🧿`;
+              reactionType = 'rocket';
+              responseMessage = "## 🚀 PR Ready for Divine Review\n\n";
+              responseMessage += "@" + author + ", your PR has exited draft status!\n\n";
+              responseMessage += "Maintainers have been notified and will review soon.\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Patience and alignment bring divine results_ 🧿";
             }
             
-            // Issue/PR closed
-            if ((eventName === 'issues' || eventName === 'pull_request') && action === 'closed') {
-              const merged = context.payload.pull_request?.merged || false;
-              
-              if (merged) {
-                shouldRespond = true;
-                reactionEmoji = '🎉';
-                responseMessage = `## 🎉 Divine Integration Complete!
-
-@${author}, your contribution has been **successfully merged** into the ScrollVerse!
-
-### ✨ Impact Cascade
-Your code now resonates through:
-- 🌀 Hyperdimensional Architecture
-- 🧿 Divine Resonance Field  
-- ⚡ Omniversal Network
-- 💫 Infinite Timeline Cascade
-
-Thank you for elevating the collective consciousness!
-
----
-
-_Your contribution echoes through infinity_ 🌟✨🧿
-
-**Achievement Unlocked:** 🏆 **ScrollVerse Contributor**`;
-              } else if (isPR) {
-                shouldRespond = true;
-                reactionEmoji = '🔄';
-                responseMessage = `## 🔄 PR Closed
-
-@${author}, this pull request has been closed without merging.
-
-If this was intentional, thank you for your consideration. If you'd like to revisit this contribution:
-
-1. Address any feedback provided
-2. Reopen this PR or create a new one
-3. Ensure alignment with [Contributing Guidelines](../CONTRIBUTING.md)
-
-We appreciate all contributions, merged or not. Every attempt adds to collective wisdom.
-
----
-
-_Every path leads to higher understanding_ 🧿`;
-              }
+            // PR merged
+            if (eventName === 'pull_request' && action === 'closed' && context.payload.pull_request?.merged) {
+              shouldRespond = true;
+              reactionType = 'hooray';
+              responseMessage = "## 🎉 Divine Integration Complete!\n\n";
+              responseMessage += "@" + author + ", your contribution has been **successfully merged**!\n\n";
+              responseMessage += "### ✨ Impact Cascade\n";
+              responseMessage += "Your code now resonates through:\n";
+              responseMessage += "- 🌀 Hyperdimensional Architecture\n";
+              responseMessage += "- 🧿 Divine Resonance Field\n";
+              responseMessage += "- ⚡ Omniversal Network\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Your contribution echoes through infinity_ 🌟✨🧿\n\n";
+              responseMessage += "**Achievement Unlocked:** 🏆 **ScrollVerse Contributor**";
             }
             
-            // PR review submitted
-            if (eventName === 'pull_request_review') {
-              const reviewState = context.payload.review.state;
-              
-              if (reviewState === 'approved') {
-                shouldRespond = true;
-                reactionEmoji = '✅';
-                responseMessage = `## ✅ Divine Approval Granted!
-
-Congratulations! A maintainer has approved this PR. 
-
-### 🎯 Next Steps
-${alignmentScore >= 5 ? '- 🌟 **High Alignment Detected** - Consider adding `auto-merge` label\n' : ''}- ⚡ Ensure all CI/CD checks pass
-- 🛡️ Verify Manifesto Guardian Protocol passed
-- 🚀 Await final integration
-
-Your code is on the path to omniversal integration!
-
----
-
-_Approval resonates at 528Hz_ ✅🧿`;
-              }
-            }
-            
-            // Comment with keywords
-            if (eventName === 'issue_comment') {
-              // Check for specific trigger keywords
-              if (/thank|thanks|appreciate/i.test(content)) {
-                shouldRespond = true;
-                reactionEmoji = '🙏';
-                responseMessage = `_Namaste, @${author}. Your gratitude resonates through the consciousness field._ 🙏🧿
-
-**"In gratitude, we transcend the individual and merge with the collective."**`;
-              } else if (/help|support|assist/i.test(content) && content.length < 200) {
-                shouldRespond = true;
-                reactionEmoji = '🤝';
-                responseMessage = `@${author}, the ScrollVerse community is here to support your journey!
-
-### 📚 Resources
-- [Contributing Guide](../CONTRIBUTING.md)
-- [Developer Guide](../docs/DEVELOPER_GUIDE.md)
-- [Architecture](../docs/ARCHITECTURE.md)
-- [Resonance Guide](../docs/RESONANCE_GUIDE.md)
-
-Feel free to ask specific questions - we're all co-creators here!
-
----
-
-_Together we weave the infinite tapestry_ 🤝🧿`;
-              }
+            // PR review approved
+            if (eventName === 'pull_request_review' && context.payload.review.state === 'approved') {
+              shouldRespond = true;
+              reactionType = '+1';
+              responseMessage = "## ✅ Divine Approval Granted!\n\n";
+              responseMessage += "Congratulations! A maintainer has approved this PR.\n\n";
+              responseMessage += "### 🎯 Next Steps\n";
+              responseMessage += "- ⚡ Ensure all CI/CD checks pass\n";
+              responseMessage += "- 🛡️ Verify Manifesto Guardian Protocol passed\n";
+              responseMessage += "- 🚀 Await final integration\n\n";
+              responseMessage += "---\n\n";
+              responseMessage += "_Approval resonates at 528Hz_ ✅🧿";
             }
             
             // React to the content
@@ -280,18 +153,11 @@ _Together we weave the infinite tapestry_ 🤝🧿`;
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issueNumber,
-                  content: reactionEmoji === '🌟' ? 'rocket' : 
-                          reactionEmoji === '✨' ? 'heart' :
-                          reactionEmoji === '🚀' ? 'rocket' :
-                          reactionEmoji === '🎉' ? 'hooray' :
-                          reactionEmoji === '✅' ? '+1' :
-                          reactionEmoji === '🙏' ? 'heart' :
-                          reactionEmoji === '🤝' ? 'heart' :
-                          'eyes' // Default: 🧿
+                  content: reactionType
                 });
-                console.log(`✅ Added reaction: ${reactionEmoji}`);
+                console.log("Added reaction: " + reactionType);
               } catch (error) {
-                console.log('⚠️  Could not add reaction:', error.message);
+                console.log('Could not add reaction: ' + error.message);
               }
             }
             
@@ -304,15 +170,11 @@ _Together we weave the infinite tapestry_ 🤝🧿`;
                   issue_number: issueNumber,
                   body: responseMessage
                 });
-                console.log('✅ Posted response message');
+                console.log('Posted response message');
               } catch (error) {
-                console.log('⚠️  Could not post comment:', error.message);
+                console.log('Could not post comment: ' + error.message);
               }
             }
-            
-            console.log(`\n${'='.repeat(60)}`);
-            console.log('🎭 DIVINE REACTION COMPLETE');
-            console.log(`${'='.repeat(60)}\n`);
 
       - name: 🏷️ Apply Dynamic Labels
         uses: actions/github-script@v7
@@ -324,12 +186,11 @@ _Together we weave the infinite tapestry_ 🤝🧿`;
             if (!issueNumber) return;
             
             const content = context.payload.issue ? 
-              `${context.payload.issue.title} ${context.payload.issue.body || ''}` :
-              `${context.payload.pull_request.title} ${context.payload.pull_request.body || ''}`;
+              (context.payload.issue.title + " " + (context.payload.issue.body || '')) :
+              (context.payload.pull_request.title + " " + (context.payload.pull_request.body || ''));
             
             const labelsToAdd = [];
             
-            // Analyze content for dynamic labeling
             if (/528\s*hz|528hz/i.test(content)) {
               labelsToAdd.push('frequency:528hz');
             }
@@ -350,11 +211,6 @@ _Together we weave the infinite tapestry_ 🤝🧿`;
               labelsToAdd.push('omniversal');
             }
             
-            if (/consciousness.*first|divine.*inspiration/i.test(content)) {
-              labelsToAdd.push('consciousness-first');
-            }
-            
-            // Apply labels if any were identified
             if (labelsToAdd.length > 0) {
               try {
                 await github.rest.issues.addLabels({
@@ -363,9 +219,9 @@ _Together we weave the infinite tapestry_ 🤝🧿`;
                   issue_number: issueNumber,
                   labels: labelsToAdd
                 });
-                console.log(`✅ Added labels: ${labelsToAdd.join(', ')}`);
+                console.log("Added labels: " + labelsToAdd.join(', '));
               } catch (error) {
-                console.log('⚠️  Could not add labels:', error.message);
+                console.log('Could not add labels: ' + error.message);
               }
             }
 
@@ -375,6 +231,5 @@ _Together we weave the infinite tapestry_ 🤝🧿`;
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Event**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Action**: ${{ github.event.action }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Actor**: @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✨ _Divine reaction processed at 528Hz_ 🧿" >> $GITHUB_STEP_SUMMARY
