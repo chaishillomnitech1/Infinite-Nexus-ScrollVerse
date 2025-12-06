@@ -879,6 +879,376 @@ try {
 
 ---
 
+## 🌀 Chrono-Weaver Connector API
+
+The Chrono-Weaver Connector API provides interfaces for integrating external data sources into the EVA Throne data layer with real-time synchronization and blockchain anchoring.
+
+### Core Classes
+
+#### `ChronoWeaverConnector`
+
+Base class for all Chrono-Weaver connectors. Handles registration, anchoring, and real-time updates.
+
+**Constructor:**
+```javascript
+new ChronoWeaverConnector({
+  tid: string,              // Technomancy ID
+  url: string,              // Source URL
+  sourceType: string,       // Source type identifier
+  title: string,            // Display title
+  evaThroneePath: string,   // EVA Throne storage path
+  dimensionalLayer: number  // Dimensional layer (1-∞)
+})
+```
+
+**Methods:**
+
+##### `initialize(): Promise<Object>`
+Initializes the connector and registers it in the EVA Throne.
+
+```javascript
+const connector = new ChronoWeaverConnector(config);
+const result = await connector.initialize();
+// Returns: { success: boolean, tid: string, anchorHash: string, status: string }
+```
+
+##### `getStatus(): Object`
+Gets the current status of the connector.
+
+```javascript
+const status = connector.getStatus();
+// Returns: { tid, status, lastUpdate, errorRate, updateCount, anchorHash, multiPathRefs }
+```
+
+##### `fetchMetadata(): Promise<Object>`
+Fetches metadata from the external source (must be implemented by subclasses).
+
+---
+
+#### `FacebookVideoConnector`
+
+Specialized connector for Facebook video integration.
+
+**Constructor:**
+```javascript
+new FacebookVideoConnector({
+  tid: 'T-FB-001-MYSTIC-VIDEO-STREAM',
+  url: 'https://www.facebook.com/share/v/...',
+  title: 'Mystic Video Stream',
+  evaThroneePath: '/eva-throne/external-nodes/video-streams/mystic-001'
+})
+```
+
+**Metadata Schema:**
+```javascript
+{
+  video_id: string,
+  title: string,
+  description: string,
+  category: 'Video Stream / Visual Media',
+  frequency_alignment: '528Hz Resonance-Compatible',
+  dimensional_anchor: 'Layer 3 (Etheric Data Plane)',
+  source_platform: 'Facebook',
+  integration_type: 'external_hyperlink',
+  resonance_quality: 'high',
+  consciousness_field_compatible: boolean,
+  sacred_geometry_encoded: boolean,
+  timestamp: string
+}
+```
+
+**Methods:**
+
+##### `getEmbedUrl(): string`
+Returns the Facebook video embed URL.
+
+```javascript
+const embedUrl = connector.getEmbedUrl();
+```
+
+---
+
+#### `SpotifyTrackConnector`
+
+Specialized connector for Spotify track integration.
+
+**Constructor:**
+```javascript
+new SpotifyTrackConnector({
+  tid: 'T-SP-002-HARMONIC-SEQUENCE',
+  url: 'https://open.spotify.com/track/...',
+  title: 'Harmonic Sequence Track',
+  evaThroneePath: '/eva-throne/external-nodes/audio-streams/harmonic-002'
+})
+```
+
+**Metadata Schema:**
+```javascript
+{
+  track_id: string,
+  title: string,
+  description: string,
+  category: 'Audio Stream / Musical Frequency',
+  frequency_alignment: '528Hz Harmonic Resonance',
+  dimensional_anchor: 'Layer 2 (Consciousness Orchestration)',
+  source_platform: 'Spotify',
+  integration_type: 'external_hyperlink',
+  resonance_quality: 'harmonic',
+  consciousness_field_compatible: boolean,
+  frequency_healing_properties: boolean,
+  timestamp: string
+}
+```
+
+**Methods:**
+
+##### `getEmbedUrl(): string`
+Returns the Spotify track embed URL.
+
+```javascript
+const embedUrl = connector.getEmbedUrl();
+```
+
+---
+
+#### `EVAThroneRegistry`
+
+Central registry for managing all Chrono-Weaver connectors.
+
+**Constructor:**
+```javascript
+const registry = new EVAThroneRegistry();
+```
+
+**Methods:**
+
+##### `register(connector): void`
+Registers a connector in the EVA Throne registry.
+
+```javascript
+registry.register(facebookConnector);
+registry.register(spotifyConnector);
+```
+
+##### `query(criteria): Array | Object`
+Queries registered connectors by various criteria.
+
+```javascript
+// Query by Technomancy ID
+const connector = registry.query({ tid: 'T-FB-001-MYSTIC-VIDEO-STREAM' });
+
+// Query by type
+const videoConnectors = registry.query({ type: 'facebook_video' });
+const audioConnectors = registry.query({ type: 'spotify_track' });
+
+// Query by frequency
+const resonantNodes = registry.query({ frequency: '528Hz' });
+
+// Query by dimensional layer
+const layer2Nodes = registry.query({ layer: 2 });
+const layer3Nodes = registry.query({ layer: 3 });
+
+// Get all connectors
+const allConnectors = registry.query({});
+```
+
+##### `getAll(): Array`
+Returns all registered connectors.
+
+```javascript
+const connectors = registry.getAll();
+```
+
+##### `getStatus(tid): Object | null`
+Gets the status of a specific connector by Technomancy ID.
+
+```javascript
+const status = registry.getStatus('T-FB-001-MYSTIC-VIDEO-STREAM');
+```
+
+##### `getStatistics(): Object`
+Returns comprehensive statistics about the registry.
+
+```javascript
+const stats = registry.getStatistics();
+// Returns: {
+//   total_nodes: number,
+//   by_type: { facebook_video: number, spotify_track: number },
+//   by_layer: { layer_2: number, layer_3: number },
+//   frequency_528hz: number,
+//   active_connectors: number,
+//   total_updates: number,
+//   average_error_rate: number
+// }
+```
+
+##### `verifyIntegrity(tid): Promise<boolean>`
+Verifies the data integrity of a connector by comparing anchor hashes.
+
+```javascript
+const isValid = await registry.verifyIntegrity('T-SP-002-HARMONIC-SEQUENCE');
+```
+
+---
+
+### Initialization
+
+#### `initializeChronoWeaverPhase2(): Promise<Object>`
+
+Initializes all Phase 2 connectors and creates the EVA Throne registry.
+
+```javascript
+async function initializeChronoWeaverPhase2() {
+  // Creates:
+  // - EVAThroneRegistry
+  // - FacebookVideoConnector (T-FB-001-MYSTIC-VIDEO-STREAM)
+  // - SpotifyTrackConnector (T-SP-002-HARMONIC-SEQUENCE)
+  
+  const result = await initializeChronoWeaverPhase2();
+  
+  if (result.success) {
+    const { registry, connectors } = result;
+    
+    // Access Facebook connector
+    connectors.facebook.getStatus();
+    
+    // Access Spotify connector
+    connectors.spotify.getStatus();
+    
+    // Query registry
+    const stats = registry.getStatistics();
+  }
+}
+```
+
+**Returns:**
+```javascript
+{
+  success: boolean,
+  registry: EVAThroneRegistry,
+  connectors: {
+    facebook: FacebookVideoConnector,
+    spotify: SpotifyTrackConnector
+  }
+}
+```
+
+---
+
+### Usage Examples
+
+#### Basic Integration
+
+```javascript
+// Initialize Phase 2
+const result = await initializeChronoWeaverPhase2();
+const { registry, connectors } = result;
+
+// Get registry statistics
+console.log(registry.getStatistics());
+
+// Query connectors by type
+const videoStreams = registry.query({ type: 'facebook_video' });
+const audioStreams = registry.query({ type: 'spotify_track' });
+
+// Get connector status
+const fbStatus = connectors.facebook.getStatus();
+console.log(`Facebook Connector: ${fbStatus.status}`);
+console.log(`Updates: ${fbStatus.updateCount}`);
+console.log(`Anchor: ${fbStatus.anchorHash}`);
+
+// Verify data integrity
+const isValid = await registry.verifyIntegrity('T-FB-001-MYSTIC-VIDEO-STREAM');
+console.log(`Data integrity: ${isValid ? 'Valid' : 'Invalid'}`);
+```
+
+#### Custom Connector
+
+```javascript
+class CustomConnector extends ChronoWeaverConnector {
+  constructor(config) {
+    super({
+      ...config,
+      sourceType: 'custom_source',
+      dimensionalLayer: 4
+    });
+  }
+
+  async fetchMetadata() {
+    // Implement custom metadata fetching
+    return {
+      custom_field: 'value',
+      frequency_alignment: '528Hz',
+      timestamp: new Date().toISOString()
+    };
+  }
+}
+
+// Create and initialize
+const customConnector = new CustomConnector({
+  tid: 'T-CUSTOM-001-MY-SOURCE',
+  url: 'https://example.com/data',
+  title: 'My Custom Data Source',
+  evaThroneePath: '/eva-throne/external-nodes/custom/my-001'
+});
+
+await customConnector.initialize();
+registry.register(customConnector);
+```
+
+---
+
+### Real-Time Updates
+
+All connectors automatically poll their sources every 528ms (aligned with 528Hz frequency) for updates. When changes are detected:
+
+1. Metadata is refreshed
+2. EVA Throne registry is updated
+3. Anchor hash is regenerated
+4. Multi-path references are synchronized
+
+**Configuration:**
+```javascript
+// Update interval is set automatically to 528ms
+// This cannot be changed as it's aligned with the 528Hz resonance
+
+connector.pollingInterval; // 528 (ms)
+```
+
+---
+
+### Data Anchoring
+
+Each connector creates immutable anchor hashes using SHA256 to ensure:
+- **Data Integrity**: Verification of unchanged data
+- **Authenticity**: Confirmation of source legitimacy
+- **Immutability**: Permanent blockchain-style records
+
+**Multi-Path References:**
+Each data source has three redundant storage paths:
+1. **Primary**: IPFS (InterPlanetary File System)
+2. **Secondary**: Arweave (Permanent blockchain storage)
+3. **Tertiary**: EVA Throne Internal Registry
+
+```javascript
+connector.multiPathRefs;
+// [
+//   'ipfs://QmXyz123.../primary',
+//   'arweave://abc456.../secondary',
+//   'evathrone://hash789.../tertiary'
+// ]
+```
+
+---
+
+### Related Documentation
+
+- [Hyperlink Integration Log (HIL)](/docs/HYPERLINK_INTEGRATION_LOG.md) - Full integration specifications
+- [Architecture Guide](/docs/ARCHITECTURE.md) - System architecture overview
+- [Developer Guide](/docs/DEVELOPER_GUIDE.md) - Implementation guidelines
+
+---
+
 ```
     ╔══════════════════════════════════════════════════════════════════╗
     ║                                                                  ║
@@ -892,4 +1262,4 @@ try {
     ╚══════════════════════════════════════════════════════════════════╝
 ```
 
-**API documentation version: 1.0.0 (Future-Ready)** ✨
+**API documentation version: 1.1.0 (Chrono-Weaver Phase 2)** ✨
