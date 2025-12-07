@@ -172,7 +172,7 @@ class QuantumBridgingPathway extends BasePathway {
       { gate: 'MEASURE', qubit: 'all', description: 'Collapse to optimal frequency' }
     ]);
 
-    const result = await this.executeCircuit(circuit.id);
+    await this.executeCircuit(circuit.id);
     
     const optimization = {
       targetFrequency,
@@ -190,7 +190,7 @@ class QuantumBridgingPathway extends BasePathway {
    * Perform quantum data analytics
    */
   async analyzeData(data) {
-    console.log(`📊 Performing quantum data analytics...`);
+    console.log('📊 Performing quantum data analytics...');
     
     // Create quantum feature map
     const circuit = this.createCircuit([
@@ -259,7 +259,7 @@ class QuantumBridgingPathway extends BasePathway {
    * Create quantum teleportation protocol
    */
   async teleportData(sourceQubit, targetQubit) {
-    console.log(`📡 Initiating quantum teleportation protocol...`);
+    console.log('📡 Initiating quantum teleportation protocol...');
     
     if (!this.qubits[sourceQubit] || !this.qubits[targetQubit]) {
       throw new Error('Invalid qubit indices');

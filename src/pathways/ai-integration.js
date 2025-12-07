@@ -231,7 +231,7 @@ class AIIntegrationPathway extends BasePathway {
   /**
    * Helper: Generate suggested actions
    */
-  generateSuggestedActions(context) {
+  generateSuggestedActions(_context) {
     return [
       'Align with 528Hz frequency meditation',
       'Engage with ScrollVerse community',
@@ -259,14 +259,14 @@ class AIIntegrationPathway extends BasePathway {
   /**
    * Helper: Suggest improvement
    */
-  suggestImprovement(action, context) {
+  suggestImprovement(_action, _context) {
     return `Increase ${this.sacredGeometry} alignment by 15% for optimal resonance`;
   }
 
   /**
    * Helper: Generate next steps
    */
-  generateNextSteps(action) {
+  generateNextSteps(_action) {
     return [
       'Continue current trajectory',
       'Increase frequency alignment',

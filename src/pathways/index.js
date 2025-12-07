@@ -78,11 +78,15 @@ class PathwaysOrchestrator {
 
     console.log('⚡ Activating all pathways...');
 
+    // Ensure all activations complete before synchronization
     const results = await Promise.all([
       this.pathways.ai.activate(),
       this.pathways.quantum.activate(),
       this.pathways.expansion.activate()
     ]);
+
+    // Wait a tick to ensure all async side effects complete
+    await new Promise(resolve => setImmediate(resolve));
 
     // Auto-sync if enabled
     if (this.config.autoSync) {

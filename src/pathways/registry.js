@@ -75,10 +75,25 @@ class PathwayRegistry {
    */
   async synchronizeAll() {
     const activePathways = this.getActivePathways();
+    if (activePathways.length === 0) {
+      return {
+        success: true,
+        totalPathways: 0,
+        synchronizations: []
+      };
+    }
+    
     const results = [];
     
+    // Pre-compute pathway relationships to avoid O(n²) filtering
+    const pathwayMap = new Map();
     for (const pathway of activePathways) {
       const others = activePathways.filter(p => p.pathwayNumber !== pathway.pathwayNumber);
+      pathwayMap.set(pathway.pathwayNumber, others);
+    }
+    
+    for (const pathway of activePathways) {
+      const others = pathwayMap.get(pathway.pathwayNumber);
       const result = await pathway.synchronize(others);
       results.push({
         pathway: pathway.pathwayNumber,
@@ -98,6 +113,17 @@ class PathwayRegistry {
    */
   getStatistics() {
     const pathways = Array.from(this.pathways.values());
+    if (pathways.length === 0) {
+      return {
+        totalPathways: 0,
+        initialized: 0,
+        active: 0,
+        deployed: 0,
+        totalActivations: 0,
+        averageResonance: 0,
+        totalEnergyFlow: 0
+      };
+    }
     return {
       totalPathways: pathways.length,
       initialized: pathways.filter(p => p.status === 'initialized').length,
