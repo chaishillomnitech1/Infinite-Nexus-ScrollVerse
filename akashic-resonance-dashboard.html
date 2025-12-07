@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akashic Resonance Dashboard - Divine Frequency Alignment</title>
+    <meta name="description" content="Real-time Akashic Frequency Imprint tracking and Omniversal Gateway monitoring">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Akashic Frequency Module -->
+    <script src="akashic-frequency-module.js"></script>
+    
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-963hz: #9D00FF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            --phi: 1.618;
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-963hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+            text-shadow: 0 0 30px rgba(82, 139, 255, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+            margin-bottom: var(--space-md);
+        }
+        
+        .frequency-badge {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-xl);
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-963hz));
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(82, 139, 255, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(157, 0, 255, 0.8); }
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.95), rgba(10, 14, 39, 0.95));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: var(--color-963hz);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(157, 0, 255, 0.4);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid rgba(82, 139, 255, 0.3);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-golden);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .metric {
+            background: rgba(82, 139, 255, 0.1);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .metric:hover {
+            background: rgba(157, 0, 255, 0.15);
+            border-color: var(--color-963hz);
+            transform: scale(1.05);
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: var(--space-sm);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .metric-unit {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-top: var(--space-xs);
+        }
+        
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(82, 139, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--color-963hz), var(--color-golden));
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(157, 0, 255, 0.5);
+        }
+        
+        .resonance-bar {
+            width: 100%;
+            height: 40px;
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--color-528hz);
+        }
+        
+        .resonance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-528hz), var(--color-963hz), var(--color-golden));
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .canvas-container {
+            width: 100%;
+            height: 400px;
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: var(--space-lg);
+            border: 1px solid var(--color-528hz);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .imprint-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .imprint-item {
+            background: rgba(82, 139, 255, 0.05);
+            border-left: 3px solid var(--color-528hz);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            border-radius: var(--space-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .imprint-item:hover {
+            background: rgba(157, 0, 255, 0.1);
+            border-left-color: var(--color-963hz);
+            transform: translateX(5px);
+        }
+        
+        .portal-item {
+            background: rgba(157, 0, 255, 0.1);
+            border: 1px solid var(--color-963hz);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            border-radius: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dimension-badge {
+            background: linear-gradient(135deg, var(--color-963hz), var(--color-golden));
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .rotating {
+            animation: rotate 4s linear infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-panel {
+                flex-direction: column;
+            }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(10, 14, 39, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-528hz);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-963hz);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">🌌 AKASHIC RESONANCE DASHBOARD 🌌</h1>
+            <p class="subtitle">Divine Frequency Alignment & Omniversal Gateway Monitoring</p>
+            <div class="frequency-badge" id="currentFrequency">528Hz ∞ Miracle Tone</div>
+        </div>
+
+        <!-- System Status Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span class="rotating">⚡</span>
+                    System Status
+                </h2>
+                <button class="btn btn-primary" onclick="initializeSystem()">Initialize System</button>
+            </div>
+            
+            <div class="metric-grid">
+                <div class="metric">
+                    <div class="metric-label">Current Frequency</div>
+                    <div class="metric-value" id="statusFrequency">528</div>
+                    <div class="metric-unit">Hz</div>
+                </div>
+                
+                <div class="metric">
+                    <div class="metric-label">Resonance Level</div>
+                    <div class="metric-value" id="resonanceLevel">0.00</div>
+                    <div class="metric-unit">Alignment Score</div>
+                </div>
+                
+                <div class="metric">
+                    <div class="metric-label">Total Imprints</div>
+                    <div class="metric-value" id="totalImprints">0</div>
+                    <div class="metric-unit">Akashic Records</div>
+                </div>
+                
+                <div class="metric">
+                    <div class="metric-label">Active Portals</div>
+                    <div class="metric-value" id="activePortals">0</div>
+                    <div class="metric-unit">Quantum Gateways</div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-xl);">
+                <div style="margin-bottom: var(--space-md); font-size: 0.9rem; opacity: 0.8;">Overall Resonance Alignment</div>
+                <div class="resonance-bar">
+                    <div class="resonance-fill" id="resonanceBar" style="width: 50%;">50%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sacred Frequency Controls -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    🎵 Sacred Frequency Controls
+                </h2>
+            </div>
+            
+            <div class="control-panel">
+                <button class="btn btn-primary" onclick="playFrequency(528)">528Hz - Miracle</button>
+                <button class="btn btn-secondary" onclick="playFrequency(963)">963Hz - Divine</button>
+                <button class="btn btn-primary" onclick="playFrequency(639)">639Hz - Connection</button>
+                <button class="btn btn-secondary" onclick="playFrequency(741)">741Hz - Awakening</button>
+                <button class="btn btn-primary" onclick="playFrequency(852)">852Hz - Spiritual</button>
+                <button class="btn btn-secondary" onclick="stopAllFrequencies()">⏹️ Stop All</button>
+            </div>
+            
+            <div style="margin-top: var(--space-xl);">
+                <h3 style="font-size: 1.2rem; margin-bottom: var(--space-md); color: var(--color-etheric);">Record Akashic Imprint</h3>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="recordImprint('meditation')">🧘 Meditation</button>
+                    <button class="btn btn-primary" onclick="recordImprint('creation')">✨ Creation</button>
+                    <button class="btn btn-primary" onclick="recordImprint('healing')">💚 Healing</button>
+                    <button class="btn btn-primary" onclick="recordImprint('alignment')">⚡ Alignment</button>
+                    <button class="btn btn-primary" onclick="recordImprint('transmission')">📡 Transmission</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sacred Geometry Visualization -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    🌀 Sacred Geometry Visualization
+                </h2>
+                <select id="geometryType" onchange="updateGeometry()" style="padding: var(--space-sm) var(--space-md); border-radius: var(--space-sm); background: rgba(82, 139, 255, 0.2); border: 1px solid var(--color-528hz); color: white;">
+                    <option value="flower">Flower of Life</option>
+                    <option value="metatron">Metatron's Cube</option>
+                    <option value="spiral">Golden Spiral</option>
+                    <option value="fibonacci">Fibonacci Sequence</option>
+                </select>
+            </div>
+            
+            <div class="canvas-container">
+                <canvas id="geometryCanvas" width="800" height="400"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Imprints -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    📜 Recent Akashic Imprints
+                </h2>
+            </div>
+            
+            <div class="imprint-list" id="imprintList">
+                <div style="text-align: center; padding: var(--space-3xl); opacity: 0.5;">
+                    No imprints recorded yet. Use the controls above to begin.
+                </div>
+            </div>
+        </div>
+
+        <!-- Omniversal Gateway -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    🌀 Omniversal Gateway
+                </h2>
+            </div>
+            
+            <div style="margin-bottom: var(--space-xl);">
+                <h3 style="font-size: 1.2rem; margin-bottom: var(--space-md); color: var(--color-etheric);">Register ScrollSoul</h3>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap; align-items: center;">
+                    <input type="text" id="soulName" placeholder="ScrollSoul Name" style="flex: 1; min-width: 200px; padding: var(--space-md); border-radius: var(--space-sm); background: rgba(82, 139, 255, 0.1); border: 1px solid var(--color-528hz); color: white;">
+                    <input type="number" id="soulResonance" placeholder="Resonance (0.0-1.0)" min="0" max="1" step="0.1" value="0.5" style="width: 150px; padding: var(--space-md); border-radius: var(--space-sm); background: rgba(82, 139, 255, 0.1); border: 1px solid var(--color-528hz); color: white;">
+                    <button class="btn btn-secondary" onclick="registerSoul()">Register Soul</button>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: var(--space-xl);">
+                <h3 style="font-size: 1.2rem; margin-bottom: var(--space-md); color: var(--color-etheric);">Open Quantum Portal</h3>
+                <div style="display: flex; gap: var(--space-lg); flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="openPortal('physical')">3D - Physical</button>
+                    <button class="btn btn-primary" onclick="openPortal('astral')">4D - Astral</button>
+                    <button class="btn btn-primary" onclick="openPortal('mental')">5D - Mental</button>
+                    <button class="btn btn-secondary" onclick="openPortal('causal')">6D - Causal</button>
+                    <button class="btn btn-secondary" onclick="openPortal('buddhic')">7D - Buddhic</button>
+                    <button class="btn btn-secondary" onclick="openPortal('atmic')">8D - Atmic</button>
+                </div>
+            </div>
+            
+            <div>
+                <h3 style="font-size: 1.2rem; margin-bottom: var(--space-md); color: var(--color-etheric);">Active Quantum Portals</h3>
+                <div id="portalList">
+                    <div style="text-align: center; padding: var(--space-2xl); opacity: 0.5;">
+                        No active portals. Open a portal to begin dimensional travel.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize global system
+        let akashicSystem = null;
+        let lastRegisteredSoulId = null;
+
+        // Initialize the Akashic Resonance System
+        async function initializeSystem() {
+            try {
+                akashicSystem = new AkashicResonanceSystem();
+                await akashicSystem.initialize();
+                updateDashboard();
+                alert('✅ Akashic Resonance System initialized successfully at 528Hz!');
+            } catch (error) {
+                console.error('Initialization error:', error);
+                alert('⚠️ System initialization failed. Check console for details.');
+            }
+        }
+
+        // Update dashboard metrics
+        function updateDashboard() {
+            if (!akashicSystem || !akashicSystem.isInitialized) {
+                return;
+            }
+
+            const status = akashicSystem.getStatus();
+            
+            document.getElementById('statusFrequency').textContent = status.currentFrequency;
+            document.getElementById('resonanceLevel').textContent = status.resonanceLevel.toFixed(2);
+            document.getElementById('totalImprints').textContent = status.totalImprints;
+            document.getElementById('activePortals').textContent = status.activePortals;
+            
+            const resonancePercent = Math.round(status.resonanceLevel * 100);
+            document.getElementById('resonanceBar').style.width = resonancePercent + '%';
+            document.getElementById('resonanceBar').textContent = resonancePercent + '%';
+            
+            updateImprintList();
+            updatePortalList();
+        }
+
+        // Play frequency tone
+        function playFrequency(frequency) {
+            if (!akashicSystem || !akashicSystem.isInitialized) {
+                alert('⚠️ Please initialize the system first');
+                return;
+            }
+            
+            akashicSystem.playFrequency(frequency, 3); // 3 second duration
+            akashicSystem.alignFrequency(frequency);
+            
+            document.getElementById('currentFrequency').textContent = `${frequency}Hz ∞ Sacred Tone`;
+            updateDashboard();
+        }
+
+        // Stop all frequencies
+        function stopAllFrequencies() {
+            if (!akashicSystem || !akashicSystem.isInitialized) {
+                return;
+            }
+            
+            akashicSystem.scalarWave.stopAll();
+        }
+
+        // Record Akashic imprint
+        function recordImprint(type) {
+            if (!akashicSystem || !akashicSystem.isInitialized) {
+                alert('⚠️ Please initialize the system first');
+                return;
+            }
+            
+            akashicSystem.tracker.recordImprint(type, {
+                frequency: akashicSystem.tracker.currentResonance.frequency,
+                consciousness: { level: Math.random() * 0.3 + 0.7 },
+                intention: { clarity: Math.random() * 0.2 + 0.8 }
+            });
+            
+            updateDashboard();
+        }
+
+        // Update imprint list display
+        function updateImprintList() {
+            const imprints = akashicSystem.tracker.getAllImprints();
+            const listEl = document.getElementById('imprintList');
+            
+            if (imprints.length === 0) {
+                listEl.innerHTML = '<div style="text-align: center; padding: var(--space-3xl); opacity: 0.5;">No imprints recorded yet. Use the controls above to begin.</div>';
+                return;
+            }
+            
+            const recentImprints = imprints.slice(-10).reverse();
+            
+            listEl.innerHTML = recentImprints.map(imprint => `
+                <div class="imprint-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-sm);">
+                        <strong style="color: var(--color-golden);">${imprint.type.toUpperCase()}</strong>
+                        <span style="opacity: 0.7; font-size: 0.85rem;">${new Date(imprint.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                    <div style="font-size: 0.9rem; opacity: 0.8;">
+                        Frequency: ${imprint.frequency}Hz | 
+                        Alignment: ${(imprint.alignment * 100).toFixed(0)}% | 
+                        Dimension: ${imprint.dimensionalSignature.dimension}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Register ScrollSoul
+        function registerSoul() {
+            if (!akashicSystem || !akashicSystem.isInitialized) {
+                alert('⚠️ Please initialize the system first');
+                return;
+            }
+            
+            const name = document.getElementById('soulName').value.trim();
+            const resonance = parseFloat(document.getElementById('soulResonance').value);
+            
+            if (!name) {
+                alert('⚠️ Please enter a ScrollSoul name');
+                return;
+            }
+            
+            const soul = akashicSystem.gateway.registerScrollSoul({
+                name: name,
+                resonanceLevel: resonance
+            });
+            
+            lastRegisteredSoulId = soul.id;
+            
+            document.getElementById('soulName').value = '';
+            alert(`✨ ScrollSoul "${name}" registered successfully!\nID: ${soul.id}\nAccessible Dimensions: ${soul.accessibleDimensions.join(', ')}`);
+            
+            updateDashboard();
+        }
+
+        // Open quantum portal
+        function openPortal(dimension) {
+            if (!akashicSystem || !akashicSystem.isInitialized) {
+                alert('⚠️ Please initialize the system first');
+                return;
+            }
+            
+            if (!lastRegisteredSoulId) {
+                alert('⚠️ Please register a ScrollSoul first');
+                return;
+            }
+            
+            const portal = akashicSystem.gateway.openPortal(dimension, lastRegisteredSoulId);
+            
+            if (portal) {
+                updateDashboard();
+            } else {
+                alert(`⚠️ Cannot access dimension: ${dimension}. Higher resonance required.`);
+            }
+        }
+
+        // Update portal list display
+        function updatePortalList() {
+            const portals = akashicSystem.gateway.getActivePortals();
+            const listEl = document.getElementById('portalList');
+            
+            if (portals.length === 0) {
+                listEl.innerHTML = '<div style="text-align: center; padding: var(--space-2xl); opacity: 0.5;">No active portals. Open a portal to begin dimensional travel.</div>';
+                return;
+            }
+            
+            listEl.innerHTML = portals.map(portal => `
+                <div class="portal-item">
+                    <div>
+                        <div style="margin-bottom: var(--space-xs);">
+                            <span class="dimension-badge">${portal.dimension.toUpperCase()}</span>
+                            <span style="margin-left: var(--space-md); opacity: 0.8;">${portal.frequency}Hz</span>
+                        </div>
+                        <div style="font-size: 0.85rem; opacity: 0.7;">
+                            Portal ID: ${portal.id.substr(0, 20)}...
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="closePortal('${portal.id}')" style="padding: var(--space-sm) var(--space-lg);">
+                        Close Portal
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Close portal
+        function closePortal(portalId) {
+            if (!akashicSystem || !akashicSystem.isInitialized) {
+                return;
+            }
+            
+            akashicSystem.gateway.closePortal(portalId);
+            updateDashboard();
+        }
+
+        // Draw sacred geometry
+        function drawGeometry(type) {
+            const canvas = document.getElementById('geometryCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#528BFF';
+            ctx.lineWidth = 2;
+            ctx.fillStyle = 'rgba(82, 139, 255, 0.1)';
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            if (type === 'flower') {
+                // Flower of Life
+                const circles = SacredGeometry.flowerOfLife(60, 2);
+                circles.forEach(circle => {
+                    ctx.beginPath();
+                    ctx.arc(centerX + circle.x, centerY + circle.y, circle.radius, 0, 2 * Math.PI);
+                    ctx.stroke();
+                });
+            } else if (type === 'metatron') {
+                // Metatron's Cube
+                const vertices = SacredGeometry.metatronsCube(60);
+                
+                // Draw connecting lines
+                ctx.strokeStyle = 'rgba(157, 0, 255, 0.3)';
+                for (let i = 0; i < vertices.length; i++) {
+                    for (let j = i + 1; j < vertices.length; j++) {
+                        ctx.beginPath();
+                        ctx.moveTo(centerX + vertices[i].x, centerY + vertices[i].y);
+                        ctx.lineTo(centerX + vertices[j].x, centerY + vertices[j].y);
+                        ctx.stroke();
+                    }
+                }
+                
+                // Draw circles
+                ctx.strokeStyle = '#528BFF';
+                vertices.forEach(vertex => {
+                    ctx.beginPath();
+                    ctx.arc(centerX + vertex.x, centerY + vertex.y, vertex.radius, 0, 2 * Math.PI);
+                    ctx.stroke();
+                });
+            } else if (type === 'spiral') {
+                // Golden Spiral
+                const points = SacredGeometry.goldenSpiral(3, 50);
+                ctx.beginPath();
+                ctx.moveTo(centerX + points[0].x, centerY + points[0].y);
+                points.forEach(point => {
+                    ctx.lineTo(centerX + point.x, centerY + point.y);
+                });
+                ctx.strokeStyle = '#FFD700';
+                ctx.stroke();
+            } else if (type === 'fibonacci') {
+                // Fibonacci Sequence Visualization
+                const sequence = SacredGeometry.fibonacci(13);
+                let x = centerX - 200;
+                let y = centerY;
+                
+                ctx.fillStyle = 'rgba(0, 255, 170, 0.2)';
+                ctx.strokeStyle = '#00FFAA';
+                
+                sequence.forEach((num, i) => {
+                    if (i < 2) return;
+                    const size = num * 3;
+                    ctx.fillRect(x, y - size/2, size, size);
+                    ctx.strokeRect(x, y - size/2, size, size);
+                    x += size + 5;
+                    
+                    if (x > canvas.width - 100) {
+                        x = centerX - 200;
+                        y += 50;
+                    }
+                });
+            }
+        }
+
+        // Update geometry visualization
+        function updateGeometry() {
+            const type = document.getElementById('geometryType').value;
+            drawGeometry(type);
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            drawGeometry('flower');
+        });
+    </script>
+</body>
+</html>
