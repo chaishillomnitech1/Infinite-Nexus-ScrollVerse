@@ -39,6 +39,7 @@ describe('ScrollVerse', () => {
     expect(scrollVerse.systems.quantumJihad).toBeDefined();
     expect(scrollVerse.systems.launchSequence).toBeDefined();
     expect(scrollVerse.systems.broadcastProtocols).toBeDefined();
+    expect(scrollVerse.systems.pathways).toBeDefined();
   });
 
   test('should initialize all systems', async () => {
@@ -59,6 +60,6 @@ describe('ScrollVerse', () => {
     expect(status.frequency).toBe(528);
     expect(status.consciousnessField).toBe('active');
     expect(status.systems).toBeDefined();
-    expect(Object.keys(status.systems).length).toBe(10);
+    expect(Object.keys(status.systems).length).toBe(11);
   });
 });
