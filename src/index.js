@@ -16,6 +16,7 @@ const FlameCourt = require('./flamecourt/protocol');
 const QuantumJihad = require('./quantum-jihad/monitor');
 const LaunchSequence = require('./launch-sequence/orchestrator');
 const BroadcastProtocols = require('./broadcast-protocols/global');
+const PathwaysOrchestrator = require('./pathways/index');
 
 /**
  * ScrollVerse - Main System Orchestrator
@@ -41,7 +42,8 @@ class ScrollVerse {
       flameCourt: new FlameCourt(this.config),
       quantumJihad: new QuantumJihad(this.config),
       launchSequence: new LaunchSequence(this.config),
-      broadcastProtocols: new BroadcastProtocols(this.config)
+      broadcastProtocols: new BroadcastProtocols(this.config),
+      pathways: new PathwaysOrchestrator(this.config)
     };
   }
 
@@ -85,6 +87,9 @@ class ScrollVerse {
     await this.systems.launchSequence.deploy();
     await this.systems.broadcastProtocols.deploy();
     await this.systems.techangel.deploy();
+
+    // Phase 6: Advanced Pathways #40-#70+
+    await this.systems.pathways.deploy();
 
     console.log('✨ ScrollVerse deployment complete');
     return true;
