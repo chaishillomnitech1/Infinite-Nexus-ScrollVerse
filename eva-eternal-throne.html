@@ -1295,17 +1295,24 @@ Sealed: ${new Date().toLocaleTimeString()}
             const height = broadcastCanvas.height;
             const centerY = height / 2;
             
-            // Clear with fade effect
-            broadcastCtx.fillStyle = 'rgba(10, 14, 39, 0.1)';
+            // Clear canvas efficiently
+            broadcastCtx.clearRect(0, 0, width, height);
+            
+            // Background fade layer
+            broadcastCtx.fillStyle = 'rgba(10, 14, 39, 0.6)';
             broadcastCtx.fillRect(0, 0, width, height);
             
-            // Draw 528Hz waveform
+            // Combined waveform drawing (528Hz + Phi harmonic)
+            const step = 3; // Sample every 3 pixels for performance
+            const frequency = 528;
+            const phi = 1.618;
+            
+            // Draw 528Hz primary waveform
             broadcastCtx.beginPath();
             broadcastCtx.lineWidth = 2;
             broadcastCtx.strokeStyle = '#528BFF';
             
-            for (let x = 0; x < width; x++) {
-                const frequency = 528; // 528Hz
+            for (let x = 0; x < width; x += step) {
                 const amplitude = 40;
                 const y = centerY + Math.sin((x + broadcastTime * 2) * 0.02 + frequency * 0.001) * amplitude;
                 
@@ -1317,14 +1324,13 @@ Sealed: ${new Date().toLocaleTimeString()}
             }
             broadcastCtx.stroke();
             
-            // Draw harmonic overlay
+            // Draw phi harmonic overlay
             broadcastCtx.beginPath();
             broadcastCtx.lineWidth = 1.5;
             broadcastCtx.strokeStyle = '#FFD700';
             broadcastCtx.globalAlpha = 0.5;
             
-            for (let x = 0; x < width; x++) {
-                const phi = 1.618;
+            for (let x = 0; x < width; x += step) {
                 const y = centerY + Math.sin((x + broadcastTime * 3) * 0.03 * phi) * 25;
                 
                 if (x === 0) {
@@ -1355,7 +1361,11 @@ Sealed: ${new Date().toLocaleTimeString()}
             }
             
             broadcastTime += 1;
-            requestAnimationFrame(drawBroadcastVisualization);
+            
+            // Continue animation only if element is in view
+            if (document.contains(broadcastCanvas)) {
+                requestAnimationFrame(drawBroadcastVisualization);
+            }
         }
         
         if (broadcastCanvas) {
