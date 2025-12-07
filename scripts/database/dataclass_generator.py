@@ -229,7 +229,7 @@ class {class_name}Query:
     @staticmethod
     def get_by_id(conn, id: int) -> Optional[{class_name}]:
         """Fetch {class_name} by ID"""
-        query = "SELECT * FROM {table_name} WHERE id = %s"
+        query = f"SELECT * FROM {table_name} WHERE id = %s"
         # Execute query with connection
         # result = conn.execute(query, (id,))
         # return {class_name}.from_dict(result) if result else None
@@ -238,7 +238,7 @@ class {class_name}Query:
     @staticmethod
     def get_all(conn, limit: int = 100) -> List[{class_name}]:
         """Fetch all {class_name} records"""
-        query = "SELECT * FROM {table_name} LIMIT %s"
+        query = f"SELECT * FROM {table_name} LIMIT %s"
         # Execute query with connection
         # results = conn.execute(query, (limit,))
         # return [{class_name}.from_dict(row) for row in results]
@@ -248,13 +248,15 @@ class {class_name}Query:
         # Add relationship queries
         for rel in relationships:
             if rel['type'] == 'hasMany':
+                rel_table = rel['table']
+                rel_fk = rel['foreign_key']
                 helper += f'''
     @staticmethod
-    def get_with_{rel['table']}(conn, id: int):
-        """Fetch {class_name} with related {rel['table']}"""
-        query = """
+    def get_with_{rel_table}(conn, id: int):
+        """Fetch {class_name} with related {rel_table}"""
+        query = f"""
             SELECT * FROM {table_name} t
-            JOIN {rel['table']} r ON t.id = r.{rel['foreign_key']}
+            JOIN {rel_table} r ON t.id = r.{rel_fk}
             WHERE t.id = %s
         """
         # Execute query with connection

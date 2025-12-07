@@ -61,6 +61,11 @@ describe('ScrollVerse', () => {
     expect(status.frequency).toBe(528);
     expect(status.consciousnessField).toBe('active');
     expect(status.systems).toBeDefined();
-    expect(Object.keys(status.systems).length).toBe(12);
+    // Verify database system was added
+    expect(status.systems.database).toBeDefined();
+    // Verify all expected systems are present
+    expect(Object.keys(status.systems)).toContain('database');
+    expect(Object.keys(status.systems)).toContain('pathways');
+    expect(Object.keys(status.systems)).toContain('techangel');
   });
 });

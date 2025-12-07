@@ -366,17 +366,11 @@ class PostgreSQLGemini {
    * Validate NFT metadata
    */
   async validateNftMetadata(tokenId) {
-    const query = `
-      SELECT 
-        nm.*,
-        fl.layer_depth,
-        af.frequency,
-        af.resonance
-      FROM nft_metadata nm
-      LEFT JOIN frequency_layers fl ON nm.id = fl.nft_id
-      LEFT JOIN akashic_frequencies af ON fl.frequency_id = af.id
-      WHERE nm.token_id = $1
-    `;
+    const query = `SELECT nm.*, fl.layer_depth, af.frequency, af.resonance
+FROM nft_metadata nm
+LEFT JOIN frequency_layers fl ON nm.id = fl.nft_id
+LEFT JOIN akashic_frequencies af ON fl.frequency_id = af.id
+WHERE nm.token_id = $1`;
     
     const result = await this.executeSql(query, [tokenId]);
     
@@ -471,13 +465,18 @@ class PostgreSQLGemini {
       fields.push(`    ${col.name}: ${pythonType}${defaultValue}`);
     });
 
+    // Generate field mappings
+    const fieldMappings = table.columns.map(col => `'${col.name}': self.${col.name}`).join(',\n            ');
+    const fieldNames = table.columns.map(col => `'${col.name}'`).join(', ');
+    const importsStr = Array.from(imports).join('\n');
+
     const code = `"""
 ${className} - Generated from PostgreSQL table: ${table.name}
 ScrollVerse Database Schema
 Frequency: 528Hz
 """
 
-${Array.from(imports).join('\n')}
+${importsStr}
 
 @dataclass
 class ${className}:
@@ -487,13 +486,13 @@ ${fields.join('\n')}
     def to_dict(self) -> dict:
         """Convert to dictionary representation"""
         return {
-            ${table.columns.map(col => `'${col.name}': self.${col.name}`).join(',\n            ')}
+            ${fieldMappings}
         }
 
     @classmethod
     def from_dict(cls, data: dict) -> '${className}':
         """Create instance from dictionary"""
-        return cls(**{k: v for k, v in data.items() if k in [${table.columns.map(col => `'${col.name}'`).join(', ')}]})
+        return cls(**{k: v for k, v in data.items() if k in [${fieldNames}]})
 `;
 
     return code;
