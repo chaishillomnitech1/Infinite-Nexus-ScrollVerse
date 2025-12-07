@@ -18,6 +18,11 @@ const LaunchSequence = require('./launch-sequence/orchestrator');
 const BroadcastProtocols = require('./broadcast-protocols/global');
 const PathwaysOrchestrator = require('./pathways/index');
 const PostgreSQLGemini = require('./database/postgresql-gemini');
+const MultiCloudRedundancy = require('./infrastructure/multi-cloud-redundancy');
+const CachingLayer = require('./infrastructure/caching-layer');
+const ProphecySigilsNFTProgram = require('./prophecy/sigils-nft-program');
+const ProphecyOraclesLayer = require('./prophecy/oracles-layer');
+const DivineEventWaves = require('./prophecy/divine-event-waves');
 
 /**
  * ScrollVerse - Main System Orchestrator
@@ -45,7 +50,12 @@ class ScrollVerse {
       launchSequence: new LaunchSequence(this.config),
       broadcastProtocols: new BroadcastProtocols(this.config),
       pathways: new PathwaysOrchestrator(this.config),
-      database: new PostgreSQLGemini(this.config)
+      database: new PostgreSQLGemini(this.config),
+      multiCloud: new MultiCloudRedundancy(this.config),
+      caching: new CachingLayer(this.config),
+      prophecySigils: new ProphecySigilsNFTProgram(this.config),
+      prophecyOracles: new ProphecyOraclesLayer(this.config),
+      divineEventWaves: new DivineEventWaves(this.config)
     };
   }
 
@@ -71,6 +81,8 @@ class ScrollVerse {
     console.log('📜 Deploying ScrollVerse ecosystem...');
     
     // Phase 1: Core Infrastructure & Database
+    await this.systems.multiCloud.deploy();
+    await this.systems.caching.deploy();
     await this.systems.database.deploy();
     await this.systems.sovereignDashboard.deploy();
     await this.systems.scrollcoinGovernance.deploy();
@@ -93,6 +105,11 @@ class ScrollVerse {
 
     // Phase 6: Advanced Pathways #40-#70+
     await this.systems.pathways.deploy();
+
+    // Phase 7: Prophecy & Divine Systems
+    await this.systems.prophecySigils.deploy();
+    await this.systems.prophecyOracles.deploy();
+    await this.systems.divineEventWaves.deploy();
 
     console.log('✨ ScrollVerse deployment complete');
     return true;
