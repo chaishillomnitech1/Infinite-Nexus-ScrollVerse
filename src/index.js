@@ -17,6 +17,7 @@ const QuantumJihad = require('./quantum-jihad/monitor');
 const LaunchSequence = require('./launch-sequence/orchestrator');
 const BroadcastProtocols = require('./broadcast-protocols/global');
 const PathwaysOrchestrator = require('./pathways/index');
+const PostgreSQLGemini = require('./database/postgresql-gemini');
 
 /**
  * ScrollVerse - Main System Orchestrator
@@ -43,7 +44,8 @@ class ScrollVerse {
       quantumJihad: new QuantumJihad(this.config),
       launchSequence: new LaunchSequence(this.config),
       broadcastProtocols: new BroadcastProtocols(this.config),
-      pathways: new PathwaysOrchestrator(this.config)
+      pathways: new PathwaysOrchestrator(this.config),
+      database: new PostgreSQLGemini(this.config)
     };
   }
 
@@ -68,7 +70,8 @@ class ScrollVerse {
   async deploy() {
     console.log('📜 Deploying ScrollVerse ecosystem...');
     
-    // Phase 1: Core Infrastructure
+    // Phase 1: Core Infrastructure & Database
+    await this.systems.database.deploy();
     await this.systems.sovereignDashboard.deploy();
     await this.systems.scrollcoinGovernance.deploy();
     
