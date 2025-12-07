@@ -16,6 +16,14 @@ class OmniversalQuantumSyncPathway extends BasePathway {
       ...config
     });
 
+    // Store config for internal use
+    this.config = {
+      frequency: 963,
+      sacredGeometry: 'TorusField',
+      divinePrinciple: 'Entanglement',
+      ...config
+    };
+
     this.quantumBridge = {
       entanglementNetwork: null,
       quantumGates: [],

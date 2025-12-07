@@ -16,6 +16,14 @@ class AICollectiveResonancePathway extends BasePathway {
       ...config
     });
 
+    // Store config for internal use
+    this.config = {
+      frequency: 963,
+      sacredGeometry: 'SriYantra',
+      divinePrinciple: 'Unity',
+      ...config
+    };
+
     this.aiSystems = {
       gemini: null,
       eva: null,

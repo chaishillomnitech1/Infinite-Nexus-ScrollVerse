@@ -16,6 +16,14 @@ class ProphecyExpansionPathway extends BasePathway {
       ...config
     });
 
+    // Store config for internal use
+    this.config = {
+      frequency: 963,
+      sacredGeometry: 'FractalMandala',
+      divinePrinciple: 'Infinity',
+      ...config
+    };
+
     this.prophecyEngine = {
       autoGenerator: null,
       sequencer: null,
