@@ -1,0 +1,1 @@
+This file will contain the detailed FAQ responses and final Oracle ERP blog formatting.
