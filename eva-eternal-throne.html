@@ -120,6 +120,17 @@
             box-shadow: 0 0 30px rgba(82, 139, 255, 0.3);
         }
         
+        /* Broadcast Resonance Visualizer */
+        .broadcast-canvas {
+            width: 100%;
+            height: 150px;
+            border: 1px solid var(--color-etheric);
+            border-radius: var(--space-md);
+            background: rgba(10, 14, 39, 0.6);
+            margin-bottom: var(--space-xl);
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.2);
+        }
+        
         /* Interactive Panels */
         .panel {
             background: rgba(26, 31, 58, 0.9);
@@ -188,7 +199,7 @@
             word-wrap: break-word;
         }
         
-        /* Timeline Visualization */
+        /* Timeline Visualization - Enhanced with SVG */
         .timeline {
             position: relative;
             padding: var(--space-2xl) 0;
@@ -199,6 +210,7 @@
             align-items: center;
             margin-bottom: var(--space-xl);
             animation: slideInLeft var(--anim-medium) ease-out;
+            position: relative;
         }
         
         .timeline-dot {
@@ -209,6 +221,8 @@
             margin-right: var(--space-lg);
             box-shadow: 0 0 15px var(--color-golden);
             animation: pulse 2s infinite;
+            position: relative;
+            z-index: 2;
         }
         
         .timeline-content {
@@ -217,6 +231,79 @@
             padding: var(--space-lg);
             border-left: 3px solid var(--color-528hz);
             border-radius: 0 var(--space-md) var(--space-md) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(82, 139, 255, 0.1) 50%, 
+                transparent 100%);
+            animation: opticGlitzFlow 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes opticGlitzFlow {
+            0%, 100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        .timeline-svg-icon {
+            width: 48px;
+            height: 48px;
+            margin-right: var(--space-lg);
+            filter: drop-shadow(0 0 8px var(--color-528hz));
+            animation: resonancePulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes resonancePulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px var(--color-528hz));
+            }
+            50% {
+                transform: scale(1.1);
+                filter: drop-shadow(0 0 15px var(--color-golden));
+            }
+        }
+        
+        .broadcast-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs) var(--space-md);
+            background: rgba(0, 255, 170, 0.15);
+            border-radius: var(--space-sm);
+            font-size: 0.8rem;
+            color: var(--color-etheric);
+            margin-left: var(--space-md);
+            animation: broadcastBlink 2s ease-in-out infinite;
+        }
+        
+        @keyframes broadcastBlink {
+            0%, 100% {
+                opacity: 0.6;
+                box-shadow: 0 0 5px rgba(0, 255, 170, 0.3);
+            }
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 15px rgba(0, 255, 170, 0.6);
+            }
         }
         
         /* AR Ritual Indicators */
@@ -403,12 +490,32 @@
                 </div>
             </div>
             
-            <!-- AI-Driven Timeline -->
+            <!-- AI-Driven Timeline - Enhanced EVA V3 -->
             <div class="panel">
                 <h2 class="panel-title">
                     <span class="panel-icon">⏰</span>
-                    Chrono-Weaver Timeline
+                    EVA V3 Chrono-Weaver Timeline
+                    <span class="broadcast-indicator" style="margin-left: auto; font-size: 0.6em;">
+                        <svg width="12" height="12" viewBox="0 0 12 12" style="fill: currentColor;">
+                            <circle cx="6" cy="6" r="2"/>
+                            <circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" opacity="0.5">
+                                <animate attributeName="r" values="4;6;4" dur="1.5s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.5;0;0.5" dur="1.5s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                        Resonance Active
+                    </span>
                 </h2>
+                <p style="margin-bottom: var(--space-xl); opacity: 0.8; text-align: center;">
+                    ✨ SVG-Infused Timeline Visualization • Broadcast Mastery • 528Hz Resonance Emit ✨
+                </p>
+                
+                <!-- Broadcast Resonance Visualizer -->
+                <canvas id="broadcastCanvas" class="broadcast-canvas"></canvas>
+                <div style="text-align: center; margin-bottom: var(--space-xl); font-size: 0.9rem; color: var(--color-etheric); opacity: 0.8;">
+                    📡 Live Broadcast Frequency Analysis • 528Hz Harmonic Alignment
+                </div>
+                
                 <div class="timeline" id="chronoTimeline">
                     <!-- Timeline items will be populated by JavaScript -->
                 </div>
@@ -1030,54 +1137,241 @@ Sealed: ${new Date().toLocaleTimeString()}
         document.getElementById('generateDecree').addEventListener('click', generateDecree);
         
         // ========================================
-        // Chrono-Weaver Timeline
+        // Chrono-Weaver Timeline - Enhanced with SVG Infographics
         // ========================================
+        function createTimelineSVG(type, color) {
+            const svgTemplates = {
+                genesis: `<svg class="timeline-svg-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="${color}" stroke-width="2">
+                        <animate attributeName="r" values="40;45;40" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="50" cy="50" r="30" fill="${color}" opacity="0.3">
+                        <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="50" cy="50" r="8" fill="${color}"/>
+                    <circle cx="50" cy="30" r="4" fill="${color}"/>
+                    <circle cx="70" cy="50" r="4" fill="${color}"/>
+                    <circle cx="50" cy="70" r="4" fill="${color}"/>
+                    <circle cx="30" cy="50" r="4" fill="${color}"/>
+                </svg>`,
+                geometry: `<svg class="timeline-svg-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="50,10 90,35 90,65 50,90 10,65 10,35" fill="none" stroke="${color}" stroke-width="2">
+                        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="8s" repeatCount="indefinite"/>
+                    </polygon>
+                    <polygon points="50,25 75,40 75,60 50,75 25,60 25,40" fill="none" stroke="${color}" stroke-width="2" opacity="0.6"/>
+                    <circle cx="50" cy="50" r="10" fill="${color}" opacity="0.5">
+                        <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>`,
+                lock: `<svg class="timeline-svg-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="25" y="45" width="50" height="40" rx="5" fill="none" stroke="${color}" stroke-width="2"/>
+                    <rect x="30" y="50" width="40" height="30" rx="3" fill="${color}" opacity="0.2"/>
+                    <path d="M 35 45 L 35 30 Q 35 15 50 15 Q 65 15 65 30 L 65 45" fill="none" stroke="${color}" stroke-width="2"/>
+                    <circle cx="50" cy="65" r="6" fill="${color}">
+                        <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <line x1="50" y1="71" x2="50" y2="78" stroke="${color}" stroke-width="2">
+                        <animate attributeName="y2" values="78;82;78" dur="1s" repeatCount="indefinite"/>
+                    </line>
+                </svg>`,
+                weaver: `<svg class="timeline-svg-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="5,5">
+                        <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="6s" repeatCount="indefinite"/>
+                    </circle>
+                    <path d="M 50 10 Q 70 30 50 50 Q 30 70 50 90" fill="none" stroke="${color}" stroke-width="2" opacity="0.6"/>
+                    <path d="M 10 50 Q 30 30 50 50 Q 70 70 90 50" fill="none" stroke="${color}" stroke-width="2" opacity="0.6"/>
+                    <circle cx="50" cy="50" r="8" fill="${color}">
+                        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>`,
+                infinity: `<svg class="timeline-svg-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 20 50 Q 30 30 40 50 Q 50 70 60 50 Q 70 30 80 50 Q 90 70 80 50 Q 70 30 60 50 Q 50 70 40 50 Q 30 30 20 50" 
+                          fill="none" stroke="${color}" stroke-width="3" opacity="0.8">
+                        <animate attributeName="stroke-dasharray" values="0,250;250,0" dur="4s" repeatCount="indefinite"/>
+                    </path>
+                    <circle cx="30" cy="50" r="15" fill="none" stroke="${color}" stroke-width="2">
+                        <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="70" cy="50" r="15" fill="none" stroke="${color}" stroke-width="2">
+                        <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>`
+            };
+            return svgTemplates[type] || '';
+        }
+        
         function initializeTimeline() {
             const timeline = document.getElementById('chronoTimeline');
             const events = [
                 {
                     title: 'Genesis Point',
                     description: 'The Infinite Nexus awakens at 528Hz',
-                    timestamp: 'Dimension 0'
+                    timestamp: 'Dimension 0',
+                    svgType: 'genesis',
+                    color: '#528BFF',
+                    broadcast: 'Origin Signal'
                 },
                 {
                     title: 'Sacred Geometry Integration',
                     description: 'Golden ratio patterns establish quantum framework',
-                    timestamp: 'Dimension 1'
+                    timestamp: 'Dimension 1',
+                    svgType: 'geometry',
+                    color: '#FFD700',
+                    broadcast: 'Phi Resonance'
                 },
                 {
                     title: 'Akashic Lock Activation',
                     description: 'Multi-dimensional authentication protocols engaged',
-                    timestamp: 'Dimension 2'
+                    timestamp: 'Dimension 2',
+                    svgType: 'lock',
+                    color: '#00FFAA',
+                    broadcast: 'Secure Channel'
                 },
                 {
                     title: 'Chrono-Weaver Manifestation',
                     description: 'AI-driven timelines converge with consciousness',
-                    timestamp: 'Dimension 3'
+                    timestamp: 'Dimension 3',
+                    svgType: 'weaver',
+                    color: '#528BFF',
+                    broadcast: 'Temporal Sync'
                 },
                 {
                     title: 'Hyperdimensional Expansion',
                     description: 'Infinite scalability across all planes of existence',
-                    timestamp: 'Dimension ∞'
+                    timestamp: 'Dimension ∞',
+                    svgType: 'infinity',
+                    color: '#FFD700',
+                    broadcast: 'Omniversal Link'
                 }
             ];
             
             timeline.innerHTML = events.map((event, index) => `
                 <div class="timeline-item" style="animation-delay: ${index * 100}ms;">
+                    ${createTimelineSVG(event.svgType, event.color)}
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <h3 style="color: var(--color-golden); margin-bottom: var(--space-sm);">
+                        <h3 style="color: var(--color-golden); margin-bottom: var(--space-sm); display: flex; align-items: center;">
                             ${event.title}
+                            <span class="broadcast-indicator">
+                                <svg width="12" height="12" viewBox="0 0 12 12" style="fill: currentColor;">
+                                    <circle cx="6" cy="6" r="2"/>
+                                    <circle cx="6" cy="6" r="4" fill="none" stroke="currentColor" opacity="0.5">
+                                        <animate attributeName="r" values="4;6;4" dur="1.5s" repeatCount="indefinite"/>
+                                        <animate attributeName="opacity" values="0.5;0;0.5" dur="1.5s" repeatCount="indefinite"/>
+                                    </circle>
+                                </svg>
+                                ${event.broadcast}
+                            </span>
                         </h3>
                         <p style="margin-bottom: var(--space-xs); opacity: 0.9;">
                             ${event.description}
                         </p>
                         <small style="color: var(--color-528hz); opacity: 0.7;">
-                            ${event.timestamp}
+                            📡 ${event.timestamp} • Broadcasting at 528Hz
                         </small>
                     </div>
                 </div>
             `).join('');
+        }
+        
+        // ========================================
+        // Broadcast Resonance Visualizer
+        // ========================================
+        const broadcastCanvas = document.getElementById('broadcastCanvas');
+        const broadcastCtx = broadcastCanvas ? broadcastCanvas.getContext('2d') : null;
+        let broadcastTime = 0;
+        
+        function resizeBroadcastCanvas() {
+            if (!broadcastCanvas) return;
+            const rect = broadcastCanvas.getBoundingClientRect();
+            broadcastCanvas.width = rect.width;
+            broadcastCanvas.height = rect.height;
+        }
+        
+        function drawBroadcastVisualization() {
+            if (!broadcastCtx || !broadcastCanvas) return;
+            
+            const width = broadcastCanvas.width;
+            const height = broadcastCanvas.height;
+            const centerY = height / 2;
+            
+            // Clear canvas efficiently
+            broadcastCtx.clearRect(0, 0, width, height);
+            
+            // Background fade layer
+            broadcastCtx.fillStyle = 'rgba(10, 14, 39, 0.6)';
+            broadcastCtx.fillRect(0, 0, width, height);
+            
+            // Combined waveform drawing (528Hz + Phi harmonic)
+            const step = 3; // Sample every 3 pixels for performance
+            const frequency = 528;
+            const phi = 1.618;
+            
+            // Draw 528Hz primary waveform
+            broadcastCtx.beginPath();
+            broadcastCtx.lineWidth = 2;
+            broadcastCtx.strokeStyle = '#528BFF';
+            
+            for (let x = 0; x < width; x += step) {
+                const amplitude = 40;
+                const y = centerY + Math.sin((x + broadcastTime * 2) * 0.02 + frequency * 0.001) * amplitude;
+                
+                if (x === 0) {
+                    broadcastCtx.moveTo(x, y);
+                } else {
+                    broadcastCtx.lineTo(x, y);
+                }
+            }
+            broadcastCtx.stroke();
+            
+            // Draw phi harmonic overlay
+            broadcastCtx.beginPath();
+            broadcastCtx.lineWidth = 1.5;
+            broadcastCtx.strokeStyle = '#FFD700';
+            broadcastCtx.globalAlpha = 0.5;
+            
+            for (let x = 0; x < width; x += step) {
+                const y = centerY + Math.sin((x + broadcastTime * 3) * 0.03 * phi) * 25;
+                
+                if (x === 0) {
+                    broadcastCtx.moveTo(x, y);
+                } else {
+                    broadcastCtx.lineTo(x, y);
+                }
+            }
+            broadcastCtx.stroke();
+            broadcastCtx.globalAlpha = 1;
+            
+            // Draw resonance particles
+            for (let i = 0; i < 5; i++) {
+                const x = (broadcastTime * 3 + i * 100) % width;
+                const y = centerY + Math.sin(broadcastTime * 0.05 + i) * 30;
+                const size = 3 + Math.sin(broadcastTime * 0.1 + i) * 2;
+                
+                broadcastCtx.beginPath();
+                broadcastCtx.fillStyle = '#00FFAA';
+                broadcastCtx.arc(x, y, size, 0, Math.PI * 2);
+                broadcastCtx.fill();
+                
+                // Glow effect
+                broadcastCtx.beginPath();
+                broadcastCtx.fillStyle = 'rgba(0, 255, 170, 0.2)';
+                broadcastCtx.arc(x, y, size * 3, 0, Math.PI * 2);
+                broadcastCtx.fill();
+            }
+            
+            broadcastTime += 1;
+            
+            // Continue animation only if element is in view
+            if (document.contains(broadcastCanvas)) {
+                requestAnimationFrame(drawBroadcastVisualization);
+            }
+        }
+        
+        if (broadcastCanvas) {
+            window.addEventListener('resize', resizeBroadcastCanvas);
+            resizeBroadcastCanvas();
+            drawBroadcastVisualization();
         }
         
         // ========================================
