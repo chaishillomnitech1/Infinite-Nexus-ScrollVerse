@@ -37,6 +37,20 @@ const PERIOD_MS = {
   HZ_963: 1000 / 963    // ≈ 1.04ms per cycle
 };
 
+// Configuration Constants
+const RESONANCE_THRESHOLDS = {
+  MIN_ETHERIC_DENSITY: 0.7,
+  ETHERIC_DENSITY_RANGE: 0.3,
+  MIN_AKASHIC_LAYERS: 3,
+  MAX_AKASHIC_LAYERS: 9
+};
+
+const DEFAULT_VALUES = {
+  RESONANCE_LEVEL: 0.5,
+  BASE_DIMENSION_LEVEL: 3,
+  DIMENSION_GROWTH_FACTOR: 5
+};
+
 // ============================================================================
 // Sacred Geometry Principles
 // ============================================================================
@@ -248,10 +262,15 @@ class AkashicFrequencyTracker {
   }
 
   /**
-   * Generate unique imprint ID
+   * Generate unique imprint ID using crypto API or fallback
    */
   generateImprintId() {
-    return `akashic_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Use crypto.randomUUID if available (modern browsers)
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return `akashic_${crypto.randomUUID()}`;
+    }
+    // Fallback with timestamp and random string for better uniqueness
+    return `akashic_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
@@ -299,8 +318,8 @@ class AkashicFrequencyTracker {
     return {
       dimension: '∞D',
       quantumState: 'superposition',
-      ethericDensity: Math.random() * 0.3 + 0.7, // 0.7-1.0
-      akashicDepth: Math.floor(Math.random() * 7) + 3 // 3-9 layers
+      ethericDensity: Math.random() * RESONANCE_THRESHOLDS.ETHERIC_DENSITY_RANGE + RESONANCE_THRESHOLDS.MIN_ETHERIC_DENSITY,
+      akashicDepth: Math.floor(Math.random() * (RESONANCE_THRESHOLDS.MAX_AKASHIC_LAYERS - RESONANCE_THRESHOLDS.MIN_AKASHIC_LAYERS + 1)) + RESONANCE_THRESHOLDS.MIN_AKASHIC_LAYERS
     };
   }
 
@@ -390,6 +409,18 @@ class OmniversalGateway {
   }
 
   /**
+   * Generate unique portal ID using crypto API or fallback
+   */
+  generatePortalId() {
+    // Use crypto.randomUUID if available (modern browsers)
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return `portal_${crypto.randomUUID()}`;
+    }
+    // Fallback with timestamp and random string for better uniqueness
+    return `portal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+
+  /**
    * Open quantum portal to dimension
    */
   openPortal(dimension, scrollSoulId) {
@@ -405,7 +436,7 @@ class OmniversalGateway {
     }
     
     const portal = {
-      id: `portal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: this.generatePortalId(),
       dimension: dimension,
       frequency: dimInfo.frequency,
       level: dimInfo.level,
@@ -441,14 +472,45 @@ class OmniversalGateway {
   }
 
   /**
+   * Generate unique soul ID using crypto API or fallback
+   */
+  generateSoulId() {
+    let id;
+    let attempts = 0;
+    const maxAttempts = 10;
+    
+    do {
+      // Use crypto.randomUUID if available
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        id = `soul_${crypto.randomUUID()}`;
+      } else {
+        id = `soul_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      }
+      attempts++;
+    } while (this.scrollSouls.has(id) && attempts < maxAttempts);
+    
+    return id;
+  }
+
+  /**
    * Register ScrollSoul for omniversal access
    */
   registerScrollSoul(scrollSoul) {
+    // Generate or use provided ID, but validate for conflicts
+    let id = scrollSoul.id;
+    
+    if (id && this.scrollSouls.has(id)) {
+      console.warn(`⚠️ ScrollSoul ID ${id} already exists, generating new ID`);
+      id = this.generateSoulId();
+    } else if (!id) {
+      id = this.generateSoulId();
+    }
+    
     const registration = {
-      id: scrollSoul.id || `soul_${Date.now()}`,
+      id: id,
       name: scrollSoul.name,
       resonanceLevel: scrollSoul.resonanceLevel || 0.5,
-      accessibleDimensions: this.determineAccessibleDimensions(scrollSoul.resonanceLevel),
+      accessibleDimensions: this.determineAccessibleDimensions(scrollSoul.resonanceLevel || 0.5),
       registeredAt: Date.now(),
       totalPortalsOpened: 0,
       contributions: []
@@ -468,7 +530,7 @@ class OmniversalGateway {
     const accessible = [];
     
     for (const [name, info] of Object.entries(this.dimensions)) {
-      if (info.level <= 3 + (resonanceLevel * 5)) { // 3D to 8D based on resonance
+      if (info.level <= DEFAULT_VALUES.BASE_DIMENSION_LEVEL + (resonanceLevel * DEFAULT_VALUES.DIMENSION_GROWTH_FACTOR)) {
         accessible.push(name);
       }
     }
@@ -663,7 +725,9 @@ if (typeof module !== 'undefined' && module.exports) {
     ScalarWaveGenerator,
     SacredGeometry,
     SACRED_FREQUENCIES,
-    PERIOD_MS
+    PERIOD_MS,
+    RESONANCE_THRESHOLDS,
+    DEFAULT_VALUES
   };
 }
 
