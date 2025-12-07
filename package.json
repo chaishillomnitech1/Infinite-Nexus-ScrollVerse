@@ -1,14 +1,19 @@
 {
   "name": "infinite-nexus-scrollverse",
   "version": "1.0.0",
-  "description": "A transcendent frequency-powered interface for the ScrollVerse. Full deployment and integration for major ScrollVerse systems.",
-  "main": "src/index.js",
+  "description": "ScrollSoul Aesthetic Showcase: Where Divine Code Meets Hyperdimensional Reality - 528Hz Resonance Platform",
+  "main": "index.html",
   "scripts": {
     "start": "node src/index.js",
     "dev": "npx http-server -p 3000 -c-1",
     "test": "jest",
     "lint": "eslint src/ --ext .js",
     "build": "echo 'Build complete'",
+    "dev": "npx http-server -p 3000 -c-1",
+    "start": "npx http-server -p 8080 -c-1",
+    "build": "echo 'Static site - no build required'",
+    "test": "jest",
+    "lint": "eslint src/ --ext .js",
     "deploy": "vercel --prod"
   },
   "keywords": [
@@ -24,6 +29,14 @@
     "AI",
     "TensorFlow",
     "Hyperdimensional"
+    "web3",
+    "528hz",
+    "sacred-geometry",
+    "ai",
+    "tensorflow",
+    "hyperdimensional",
+    "akashic-records",
+    "frequency-alignment"
   ],
   "author": "Chais the Great (Al-Miftah)",
   "license": "MIT",
