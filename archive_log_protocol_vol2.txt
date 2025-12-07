@@ -1,0 +1,5 @@
+# Archive Log Protocol Vol 2
+
+## Final Hyper-Operation Chronology
+- Documentation of lineage anchors.
+- Data structure stability analysis and findings.

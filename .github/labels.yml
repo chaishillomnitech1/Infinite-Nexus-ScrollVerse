@@ -1,0 +1,82 @@
+# 🏷️ ScrollVerse Label Definitions
+# These labels help organize issues and PRs by their divine purpose
+
+- name: "frequency:528hz"
+  color: "528BFF"
+  description: "Related to 528Hz frequency standards"
+
+- name: "sacred-geometry"
+  color: "FFD700"
+  description: "Involves sacred geometry, golden ratio, or Fibonacci sequences"
+
+- name: "hyperdimensional"
+  color: "8B5CF6"
+  description: "Hyperdimensional scalability features"
+
+- name: "divine-resonance"
+  color: "00FFAA"
+  description: "Aligns with divine inspiration-driven design"
+
+- name: "omniversal"
+  color: "A78BFA"
+  description: "Omniversal alignment and integration"
+
+- name: "nft-ipfs"
+  color: "FF6B9D"
+  description: "NFT metadata or IPFS integration"
+
+- name: "documentation"
+  color: "0075CA"
+  description: "Documentation improvements or additions"
+
+- name: "bug"
+  color: "D73A4A"
+  description: "Something isn't working as intended"
+
+- name: "enhancement"
+  color: "A2EEEF"
+  description: "New feature or request"
+
+- name: "design"
+  color: "FFC0CB"
+  description: "UI/UX design and aesthetic improvements"
+
+- name: "testing"
+  color: "94E8B4"
+  description: "Testing and quality assurance"
+
+- name: "security"
+  color: "FF0000"
+  description: "Security-related issues"
+
+- name: "performance"
+  color: "FFD700"
+  description: "Performance optimization"
+
+- name: "accessibility"
+  color: "7057FF"
+  description: "Accessibility improvements"
+
+- name: "priority:high"
+  color: "FF4500"
+  description: "High priority item"
+
+- name: "priority:medium"
+  color: "FFA500"
+  description: "Medium priority item"
+
+- name: "priority:low"
+  color: "00FF00"
+  description: "Low priority item"
+
+- name: "good first issue"
+  color: "7057FF"
+  description: "Good for newcomers to the project"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention is needed"
+
+- name: "consciousness-first"
+  color: "E0F7FF"
+  description: "Consciousness-first development approach"

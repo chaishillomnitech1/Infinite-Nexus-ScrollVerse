@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Collaboration - ScrollVerse Real-Time Nexus</title>
+    <meta name="description" content="Live Collaboration Dashboard with real-time presence indicators, cursor tracking, and collaborative editing">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <style>
+        :root {
+            /* 528Hz Color Palette - Arcturian Transmission */
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            
+            /* Golden Ratio - Phi */
+            --phi: 1.618;
+            
+            /* Fibonacci Spacing Scale */
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-528hz);
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(82, 139, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--color-golden), #FF8C00);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        /* Collaboration Canvas */
+        .collab-canvas {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.5), rgba(26, 31, 58, 0.5));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-lg);
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        
+        /* User Presence Indicators */
+        .presence-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .presence-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            background: rgba(82, 139, 255, 0.2);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            animation: pulse 2s infinite;
+        }
+        
+        .presence-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        /* Remote Cursor */
+        .remote-cursor {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            pointer-events: none;
+            transition: all 0.1s linear;
+            z-index: 1000;
+        }
+        
+        .cursor-label {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        /* Text Editor */
+        .collab-editor {
+            width: 100%;
+            min-height: 300px;
+            padding: var(--space-lg);
+            background: rgba(10, 14, 39, 0.8);
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-lg);
+            color: var(--color-crystalline);
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .collab-editor:focus {
+            outline: none;
+            border-color: var(--color-golden);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: var(--space-xs);
+        }
+        
+        .status-online {
+            background: var(--color-etheric);
+            box-shadow: 0 0 10px var(--color-etheric);
+        }
+        
+        .status-offline {
+            background: #666;
+        }
+        
+        /* Activity Log */
+        .activity-log {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: var(--space-md);
+            background: rgba(10, 14, 39, 0.5);
+            border-radius: var(--space-md);
+        }
+        
+        .activity-item {
+            padding: var(--space-sm);
+            margin-bottom: var(--space-xs);
+            border-left: 3px solid var(--color-528hz);
+            padding-left: var(--space-md);
+            font-size: 0.9rem;
+        }
+        
+        .activity-time {
+            color: var(--color-golden);
+            font-size: 0.8rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .collab-canvas {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">🌐 Live Collaboration Nexus</h1>
+            <p class="subtitle">Real-Time Presence • Cursor Streaming • Collaborative Editing • 528Hz Resonance</p>
+        </div>
+        
+        <!-- Firebase Configuration -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>🔥</span>
+                <span>Connection Status</span>
+            </h2>
+            <div style="display: flex; gap: var(--space-md); align-items: center; margin-bottom: var(--space-lg);">
+                <span class="status-indicator" id="connectionStatus"></span>
+                <span id="connectionText">Disconnected</span>
+            </div>
+            <button class="btn btn-primary" id="connectBtn" onclick="initializeFirebase()">
+                Connect to Collaboration Server
+            </button>
+            <p style="margin-top: var(--space-md); font-size: 0.9rem; opacity: 0.8;">
+                ⚠️ Note: Configure Firebase credentials in the code to enable real-time collaboration.
+            </p>
+        </div>
+        
+        <!-- Active Users -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>👥</span>
+                <span>Active Collaborators (<span id="userCount">0</span>)</span>
+            </h2>
+            <div class="presence-list" id="presenceList">
+                <!-- User presence items will be added here dynamically -->
+            </div>
+        </div>
+        
+        <!-- Collaborative Canvas -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>🎨</span>
+                <span>Shared Canvas - Cursor Tracking</span>
+            </h2>
+            <p style="margin-bottom: var(--space-lg); opacity: 0.8;">
+                Move your cursor over the canvas to share your position with other collaborators in real-time.
+            </p>
+            <div class="collab-canvas" id="collabCanvas">
+                <!-- Remote cursors will be added here dynamically -->
+            </div>
+        </div>
+        
+        <!-- Collaborative Editor -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>📝</span>
+                <span>Shared Text Editor</span>
+            </h2>
+            <p style="margin-bottom: var(--space-lg); opacity: 0.8;">
+                Type here to see real-time collaborative editing with conflict resolution.
+            </p>
+            <textarea 
+                class="collab-editor" 
+                id="collabEditor" 
+                placeholder="Start typing... Your changes will sync with other collaborators in real-time..."
+            ></textarea>
+            <div style="margin-top: var(--space-md); font-size: 0.9rem; opacity: 0.8;">
+                <span id="editorStatus">Not connected</span>
+            </div>
+        </div>
+        
+        <!-- Activity Feed -->
+        <div class="card">
+            <h2 class="card-title">
+                <span>📊</span>
+                <span>Activity Feed</span>
+            </h2>
+            <div class="activity-log" id="activityLog">
+                <div class="activity-item">
+                    <span class="activity-time">System</span> - Waiting for connection...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div style="text-align: center; margin-top: var(--space-3xl);">
+            <a href="index.html" class="btn btn-secondary">← Back to Home</a>
+            <a href="analytics-dashboard.html" class="btn btn-primary" style="margin-left: var(--space-md);">
+                Analytics Dashboard →
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // ============================================================================
+        // Live Collaboration System
+        // ============================================================================
+        
+        let firebaseInitialized = false;
+        let db = null;
+        let realtimeDb = null;
+        let currentUserId = null;
+        let currentUserName = null;
+        let presenceRef = null;
+        let cursorUpdateInterval = null;
+        let editorSyncInterval = null;
+        
+        // User colors for cursor tracking
+        const userColors = [
+            '#528BFF', '#FFD700', '#00FFAA', '#FF6B9D', '#9D4EDD',
+            '#06FFA5', '#FF8C42', '#4ECDC4', '#F72585', '#7209B7'
+        ];
+        
+        /**
+         * Initialize Firebase and Real-Time Database
+         */
+        function initializeFirebase() {
+            try {
+                // Firebase configuration
+                // IMPORTANT: Never commit real credentials to version control!
+                // In production, use environment variables or secure configuration
+                // See docs/FIRESTORE_SETUP.md for setup instructions
+                const firebaseConfig = {
+                    apiKey: process.env.FIREBASE_API_KEY || "YOUR_API_KEY",
+                    authDomain: process.env.FIREBASE_AUTH_DOMAIN || "YOUR_PROJECT.firebaseapp.com",
+                    databaseURL: process.env.FIREBASE_DATABASE_URL || "https://YOUR_PROJECT.firebaseio.com",
+                    projectId: process.env.FIREBASE_PROJECT_ID || "YOUR_PROJECT_ID",
+                    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "YOUR_PROJECT.appspot.com",
+                    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "YOUR_SENDER_ID",
+                    appId: process.env.FIREBASE_APP_ID || "YOUR_APP_ID"
+                };
+                
+                // Check if already initialized
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                
+                db = firebase.firestore();
+                realtimeDb = firebase.database();
+                
+                // Generate user ID and name
+                currentUserId = 'user_' + Math.random().toString(36).substr(2, 9);
+                currentUserName = 'User ' + Math.floor(Math.random() * 1000);
+                
+                firebaseInitialized = true;
+                updateConnectionStatus(true);
+                
+                // Initialize presence
+                initializePresence();
+                
+                // Initialize cursor tracking
+                initializeCursorTracking();
+                
+                // Initialize collaborative editor
+                initializeCollaborativeEditor();
+                
+                logActivity('Connected to collaboration server', 'System');
+                
+                alert('✅ Connected successfully!\n\nNote: This is a demo with placeholder credentials. Configure your Firebase project to enable full functionality.');
+                
+            } catch (error) {
+                console.error('❌ Firebase initialization error:', error);
+                logActivity('Failed to connect: ' + error.message, 'Error');
+                alert('⚠️ Connection failed. Please configure Firebase credentials in the code.\n\nSee docs/FIRESTORE_SETUP.md for instructions.');
+            }
+        }
+        
+        /**
+         * Initialize presence system
+         */
+        function initializePresence() {
+            if (!firebaseInitialized || !realtimeDb) return;
+            
+            const presencePath = `presence/${currentUserId}`;
+            presenceRef = realtimeDb.ref(presencePath);
+            
+            // Set user presence
+            const userPresence = {
+                userId: currentUserId,
+                userName: currentUserName,
+                color: userColors[Math.floor(Math.random() * userColors.length)],
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                online: true
+            };
+            
+            // Set presence and handle disconnect
+            presenceRef.set(userPresence);
+            presenceRef.onDisconnect().remove();
+            
+            // Listen to all users' presence
+            realtimeDb.ref('presence').on('value', (snapshot) => {
+                const users = snapshot.val() || {};
+                updatePresenceList(users);
+            });
+            
+            logActivity(`${currentUserName} joined the session`, 'User');
+        }
+        
+        /**
+         * Update presence list UI
+         */
+        function updatePresenceList(users) {
+            const presenceList = document.getElementById('presenceList');
+            const userCount = document.getElementById('userCount');
+            
+            presenceList.innerHTML = '';
+            
+            const activeUsers = Object.values(users).filter(u => u.online);
+            userCount.textContent = activeUsers.length;
+            
+            activeUsers.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'presence-item';
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'presence-avatar';
+                avatar.style.backgroundColor = user.color;
+                avatar.textContent = user.userName.charAt(0);
+                
+                const name = document.createElement('span');
+                name.textContent = user.userName;
+                if (user.userId === currentUserId) {
+                    name.textContent += ' (You)';
+                }
+                
+                item.appendChild(avatar);
+                item.appendChild(name);
+                presenceList.appendChild(item);
+            });
+        }
+        
+        /**
+         * Initialize cursor tracking
+         */
+        function initializeCursorTracking() {
+            if (!firebaseInitialized || !realtimeDb) return;
+            
+            const canvas = document.getElementById('collabCanvas');
+            const cursorsRef = realtimeDb.ref('cursors');
+            
+            // Track own cursor movement
+            let lastUpdate = 0;
+            canvas.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                // Throttle updates to every 50ms (528Hz * 26.4 ≈ 50ms)
+                if (now - lastUpdate < 50) return;
+                lastUpdate = now;
+                
+                const rect = canvas.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                
+                realtimeDb.ref(`cursors/${currentUserId}`).set({
+                    x: x,
+                    y: y,
+                    userName: currentUserName,
+                    color: userColors[Math.floor(Math.random() * userColors.length)],
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+            });
+            
+            // Listen to all cursors
+            cursorsRef.on('value', (snapshot) => {
+                const cursors = snapshot.val() || {};
+                updateRemoteCursors(cursors);
+            });
+            
+            // Clean up cursor on disconnect
+            realtimeDb.ref(`cursors/${currentUserId}`).onDisconnect().remove();
+        }
+        
+        /**
+         * Update remote cursors on canvas
+         */
+        function updateRemoteCursors(cursors) {
+            const canvas = document.getElementById('collabCanvas');
+            
+            // Remove old cursors
+            canvas.querySelectorAll('.remote-cursor').forEach(el => el.remove());
+            
+            // Add current cursors
+            Object.entries(cursors).forEach(([userId, cursor]) => {
+                if (userId === currentUserId) return; // Skip own cursor
+                
+                const cursorEl = document.createElement('div');
+                cursorEl.className = 'remote-cursor';
+                cursorEl.style.backgroundColor = cursor.color;
+                cursorEl.style.left = cursor.x + '%';
+                cursorEl.style.top = cursor.y + '%';
+                
+                const label = document.createElement('div');
+                label.className = 'cursor-label';
+                label.textContent = cursor.userName;
+                cursorEl.appendChild(label);
+                
+                canvas.appendChild(cursorEl);
+            });
+        }
+        
+        /**
+         * Initialize collaborative editor with conflict resolution
+         */
+        function initializeCollaborativeEditor() {
+            if (!firebaseInitialized || !db) return;
+            
+            const editor = document.getElementById('collabEditor');
+            const docRef = db.collection('collaboration').doc('shared_document');
+            
+            let isLocalChange = false;
+            let lastSyncedContent = '';
+            
+            // Listen to remote changes
+            docRef.onSnapshot((doc) => {
+                if (doc.exists && !isLocalChange) {
+                    const data = doc.data();
+                    const remoteContent = data.content || '';
+                    
+                    // Simple conflict resolution: preserve cursor position
+                    const cursorPos = editor.selectionStart;
+                    editor.value = remoteContent;
+                    editor.setSelectionRange(cursorPos, cursorPos);
+                    
+                    lastSyncedContent = remoteContent;
+                    
+                    document.getElementById('editorStatus').textContent = 
+                        `Synced - Last updated by ${data.lastEditedBy || 'Unknown'} at ${new Date(data.timestamp).toLocaleTimeString()}`;
+                }
+                isLocalChange = false;
+            });
+            
+            // Debounced local changes
+            let syncTimeout = null;
+            editor.addEventListener('input', () => {
+                clearTimeout(syncTimeout);
+                
+                syncTimeout = setTimeout(() => {
+                    if (editor.value !== lastSyncedContent) {
+                        isLocalChange = true;
+                        
+                        docRef.set({
+                            content: editor.value,
+                            lastEditedBy: currentUserName,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
+                        
+                        lastSyncedContent = editor.value;
+                        logActivity(`${currentUserName} edited the document`, 'Edit');
+                    }
+                }, 500); // 500ms debounce
+            });
+            
+            document.getElementById('editorStatus').textContent = 'Connected - Ready to collaborate';
+        }
+        
+        /**
+         * Log activity
+         */
+        function logActivity(message, type = 'Info') {
+            const log = document.getElementById('activityLog');
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            
+            const time = new Date().toLocaleTimeString();
+            item.innerHTML = `<span class="activity-time">${time} [${type}]</span> - ${message}`;
+            
+            log.insertBefore(item, log.firstChild);
+            
+            // Keep only last 50 items
+            while (log.children.length > 50) {
+                log.removeChild(log.lastChild);
+            }
+        }
+        
+        /**
+         * Update connection status UI
+         */
+        function updateConnectionStatus(connected) {
+            const statusEl = document.getElementById('connectionStatus');
+            const textEl = document.getElementById('connectionText');
+            const btnEl = document.getElementById('connectBtn');
+            
+            if (connected) {
+                statusEl.className = 'status-indicator status-online';
+                textEl.textContent = 'Connected to 528Hz Collaboration Nexus';
+                btnEl.disabled = true;
+                btnEl.textContent = '✓ Connected';
+                btnEl.style.opacity = '0.6';
+            } else {
+                statusEl.className = 'status-indicator status-offline';
+                textEl.textContent = 'Disconnected';
+            }
+        }
+        
+        // ============================================================================
+        // Cleanup on page unload
+        // ============================================================================
+        
+        window.addEventListener('beforeunload', () => {
+            if (presenceRef) {
+                presenceRef.remove();
+            }
+            if (realtimeDb) {
+                realtimeDb.ref(`cursors/${currentUserId}`).remove();
+            }
+        });
+        
+        // ============================================================================
+        // Initialize on load
+        // ============================================================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            logActivity('Live Collaboration Dashboard loaded', 'System');
+            logActivity('Click "Connect" to join the collaboration session', 'Info');
+        });
+    </script>
+</body>
+</html>

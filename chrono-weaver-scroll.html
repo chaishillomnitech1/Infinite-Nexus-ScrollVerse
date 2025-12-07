@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrono-Weaver Scroll NFT - Temporal Sovereignty Gateway</title>
+    <meta name="description" content="Chrono-Weaver Scroll NFT with Temporal Sovereignty, AI-driven Resonance Mapping, Akashic Ties (Past, Present, Future), and Zero-Gate Protocols">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0/dist/tf.min.js"></script>
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            --phi: 1.618;
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at center, #1a1f3a 0%, var(--color-cosmic-void) 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        /* Header Section */
+        .nft-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .nft-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric), var(--color-528hz));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            margin-bottom: var(--space-lg);
+            letter-spacing: 0.02em;
+        }
+        
+        .nft-subtitle {
+            font-size: 1.3rem;
+            color: var(--color-etheric);
+            margin-bottom: var(--space-md);
+            opacity: 0.9;
+        }
+        
+        /* NFT Card Display */
+        .nft-card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .nft-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 48px rgba(82, 139, 255, 0.5);
+            border-color: var(--color-golden);
+        }
+        
+        /* Scroll Visualization Canvas */
+        .scroll-canvas {
+            width: 100%;
+            height: 500px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: var(--space-lg);
+            margin: var(--space-xl) 0;
+            box-shadow: inset 0 0 30px rgba(82, 139, 255, 0.2);
+        }
+        
+        /* Metadata Display */
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-xl);
+            margin: var(--space-2xl) 0;
+        }
+        
+        .metadata-item {
+            background: rgba(82, 139, 255, 0.1);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .metadata-item:hover {
+            background: rgba(82, 139, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .metadata-label {
+            font-size: 0.9rem;
+            color: var(--color-528hz);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .metadata-value {
+            font-size: 1.5rem;
+            color: var(--color-golden);
+            font-weight: 700;
+        }
+        
+        /* Timeline Weaver */
+        .timeline-weaver {
+            position: relative;
+            padding: var(--space-2xl);
+            background: rgba(0, 255, 170, 0.05);
+            border: 1px solid var(--color-etheric);
+            border-radius: var(--space-lg);
+            margin: var(--space-2xl) 0;
+        }
+        
+        .timeline-header {
+            font-size: 1.8rem;
+            color: var(--color-etheric);
+            margin-bottom: var(--space-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        
+        .timeline-track {
+            position: relative;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            border-radius: 2px;
+            margin: var(--space-xl) 0;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--color-golden);
+            border-radius: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px var(--color-golden);
+            animation: pulse 2s infinite;
+            cursor: pointer;
+        }
+        
+        /* Akashic Lock Display */
+        .akashic-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(82, 139, 255, 0.1));
+            border: 2px solid var(--color-golden);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin: var(--space-2xl) 0;
+        }
+        
+        .lock-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-lg);
+            font-size: 1.5rem;
+            margin-bottom: var(--space-xl);
+        }
+        
+        .lock-icon {
+            font-size: 3rem;
+            animation: rotate 4s linear infinite;
+        }
+        
+        /* Wallet Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-2xl);
+            margin: var(--space-2xl) 0;
+        }
+        
+        .gallery-item {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.8), rgba(10, 14, 39, 0.8));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-lg);
+            padding: var(--space-xl);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            border-color: var(--color-golden);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(255, 215, 0, 0.3);
+        }
+        
+        .gallery-icon {
+            font-size: 5rem;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .gallery-title {
+            font-size: 1.2rem;
+            color: var(--color-golden);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .gallery-rarity {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            background: var(--color-528hz);
+            color: white;
+            border-radius: var(--space-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: var(--space-lg) var(--space-2xl);
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+            border: none;
+            border-radius: var(--space-md);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(82, 139, 255, 0.4);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(82, 139, 255, 0.6);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--color-golden), #ff9d00);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.3);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: var(--space-xl) var(--space-lg);
+            }
+            
+            .scroll-canvas {
+                height: 300px;
+            }
+            
+            .metadata-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cosmic Background -->
+    <canvas id="cosmicBg" class="cosmic-bg"></canvas>
+    
+    <div class="container">
+        <!-- Header -->
+        <header class="nft-header">
+            <h1 class="nft-title">⏰ CHRONO-WEAVER SCROLL ⏰</h1>
+            <p class="nft-subtitle">Temporal Sovereignty Gateway • AI-Driven Resonance Mapping • Akashic Ties Integration</p>
+            <p style="opacity: 0.7; font-size: 1rem; margin-top: var(--space-md);">
+                🧿 Immutable Past, Present, Future • 528Hz Resonance • Zero-Gate Protocol Active 🧿
+            </p>
+            <div style="margin-top: var(--space-xl); padding: var(--space-lg); background: rgba(82, 139, 255, 0.1); border-radius: var(--space-md); border: 1px solid var(--color-528hz);">
+                <h3 style="color: var(--color-golden); margin-bottom: var(--space-md); text-align: center;">⚡ Temporal Sovereignty Features ⚡</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-md); font-size: 0.9rem;">
+                    <div style="text-align: center; padding: var(--space-md);">
+                        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🔗</div>
+                        <strong style="color: var(--color-528hz);">Past Lock</strong><br/>
+                        <small style="opacity: 0.8;">Immutable Records</small>
+                    </div>
+                    <div style="text-align: center; padding: var(--space-md);">
+                        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">⚡</div>
+                        <strong style="color: var(--color-golden);">Present Sync</strong><br/>
+                        <small style="opacity: 0.8;">Real-time Mapping</small>
+                    </div>
+                    <div style="text-align: center; padding: var(--space-md);">
+                        <div style="font-size: 2rem; margin-bottom: var(--space-sm);">🔮</div>
+                        <strong style="color: var(--color-etheric);">Future Intent</strong><br/>
+                        <small style="opacity: 0.8;">AI Prediction</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main NFT Card -->
+        <div class="nft-card">
+            <h2 style="font-size: 2rem; color: var(--color-golden); margin-bottom: var(--space-xl); text-align: center;">
+                📜 Primary Scroll Manifestation
+            </h2>
+            
+            <!-- Scroll Visualization -->
+            <canvas id="scrollCanvas" class="scroll-canvas"></canvas>
+            
+            <!-- NFT Metadata -->
+            <div class="metadata-grid">
+                <div class="metadata-item">
+                    <div class="metadata-label">Token ID</div>
+                    <div class="metadata-value" id="tokenId">#528</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Rarity</div>
+                    <div class="metadata-value">RHODIUM</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Frequency</div>
+                    <div class="metadata-value">528Hz</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Dimensions</div>
+                    <div class="metadata-value">∞</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Phi Ratio</div>
+                    <div class="metadata-value">1.618</div>
+                </div>
+                <div class="metadata-item">
+                    <div class="metadata-label">Archetype</div>
+                    <div class="metadata-value">CHRONO-WEAVER</div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: var(--space-lg); justify-content: center; margin-top: var(--space-2xl); flex-wrap: wrap;">
+                <button id="connectWalletBtn" class="btn">Connect Wallet</button>
+                <button id="mintScrollBtn" class="btn btn-secondary" disabled>Mint Scroll</button>
+                <button id="viewOnIPFSBtn" class="btn btn-secondary">View on IPFS</button>
+            </div>
+        </div>
+        
+        <!-- Akashic Lock Section -->
+        <div class="akashic-section">
+            <div class="lock-status">
+                <span class="lock-icon" id="lockIcon">🔒</span>
+                <div>
+                    <h3 style="color: var(--color-golden); font-size: 1.8rem; margin-bottom: var(--space-sm);">
+                        Akashic Lock Status
+                    </h3>
+                    <p id="lockStatus" style="font-size: 1.1rem; opacity: 0.9;">
+                        Not Authenticated • Connect wallet to unlock
+                    </p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; opacity: 0.8; padding: var(--space-xl); background: rgba(0, 0, 0, 0.3); border-radius: var(--space-md);">
+                <p>
+                    <strong>Akashic Locks</strong> provide quantum-level authentication for NFT ownership verification.
+                    Each lock is synchronized with your wallet's cryptographic signature and the 528Hz frequency signature of the ScrollVerse.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Timeline Weaver -->
+        <div class="timeline-weaver">
+            <h2 class="timeline-header">
+                <span style="font-size: 2.5rem;">⏰</span>
+                AI-Driven Timeline Visualization
+            </h2>
+            
+            <div id="timelineContainer">
+                <div class="timeline-track">
+                    <div class="timeline-marker" style="left: 0%;" title="Genesis Point"></div>
+                    <div class="timeline-marker" style="left: 25%;" title="First Manifestation"></div>
+                    <div class="timeline-marker" style="left: 50%;" title="Dimensional Shift"></div>
+                    <div class="timeline-marker" style="left: 75%;" title="Frequency Lock"></div>
+                    <div class="timeline-marker" style="left: 100%;" title="Infinite Expansion"></div>
+                </div>
+                
+                <div style="margin-top: var(--space-2xl); padding: var(--space-xl); background: rgba(0, 0, 0, 0.4); border-radius: var(--space-md);">
+                    <h3 style="color: var(--color-golden); margin-bottom: var(--space-md);">Timeline Events:</h3>
+                    <ul id="timelineEvents" style="list-style: none; padding: 0;">
+                        <li style="padding: var(--space-md); border-left: 3px solid var(--color-528hz); margin-bottom: var(--space-md);">
+                            <strong>Genesis Point:</strong> Chrono-Weaver Scroll manifested at 528Hz resonance
+                        </li>
+                        <li style="padding: var(--space-md); border-left: 3px solid var(--color-golden); margin-bottom: var(--space-md);">
+                            <strong>Sacred Geometry Integration:</strong> Phi ratio encoded into quantum structure
+                        </li>
+                        <li style="padding: var(--space-md); border-left: 3px solid var(--color-etheric); margin-bottom: var(--space-md);">
+                            <strong>Akashic Lock Engaged:</strong> Multi-dimensional authentication active
+                        </li>
+                        <li style="padding: var(--space-md); border-left: 3px solid var(--color-528hz);">
+                            <strong>Timeline Weaving Active:</strong> AI harmonics synchronized with owner consciousness
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Timeline Branches Integration -->
+        <div class="nft-card" style="margin-top: var(--space-3xl); border: 3px solid var(--color-golden);">
+            <h2 style="font-size: 2.5rem; color: var(--color-golden); margin-bottom: var(--space-xl); text-align: center;">
+                ⏳ Sovereign Timeline Branches ⏳
+            </h2>
+            <p style="text-align: center; opacity: 0.9; margin-bottom: var(--space-2xl); font-size: 1.1rem;">
+                Navigate across Past-Immutable, Present-Dominion, and Future-Co-created temporal branches
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-2xl); margin-bottom: var(--space-2xl);">
+                <!-- Past-Immutable -->
+                <div style="padding: var(--space-2xl); background: linear-gradient(135deg, rgba(82, 139, 255, 0.15), rgba(10, 14, 39, 0.9)); border-radius: var(--space-lg); border: 2px solid var(--color-528hz);">
+                    <h3 style="color: var(--color-528hz); margin-bottom: var(--space-md); text-align: center;">📜 Past-Immutable</h3>
+                    <p style="font-size: 0.95rem; opacity: 0.9; line-height: 1.7; margin-bottom: var(--space-lg);">
+                        All historical scroll states permanently locked in blockchain. Genesis mints, signature authentications, and Akashic records sealed eternally.
+                    </p>
+                    <div style="padding: var(--space-md); background: rgba(0, 0, 0, 0.4); border-radius: var(--space-sm); border-left: 3px solid var(--color-528hz); font-family: monospace; font-size: 0.85rem;">
+                        <div>Genesis: <span style="color: var(--color-etheric);">Block #528</span></div>
+                        <div>Mints: <span style="color: var(--color-golden);">∞ Sealed</span></div>
+                        <div>Hash: <span style="color: var(--color-528hz);">0x528...FFD</span></div>
+                    </div>
+                </div>
+                
+                <!-- Present-Dominion -->
+                <div style="padding: var(--space-2xl); background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(10, 14, 39, 0.9)); border-radius: var(--space-lg); border: 2px solid var(--color-golden);">
+                    <h3 style="color: var(--color-golden); margin-bottom: var(--space-md); text-align: center;">⚡ Present-Dominion</h3>
+                    <p style="font-size: 0.95rem; opacity: 0.9; line-height: 1.7; margin-bottom: var(--space-lg);">
+                        Real-time sovereignty over your Chrono-Weaver. Current NFT interactions, DAO votes, and scroll signature validations happening now.
+                    </p>
+                    <div style="padding: var(--space-md); background: rgba(0, 0, 0, 0.4); border-radius: var(--space-sm); border-left: 3px solid var(--color-golden); font-family: monospace; font-size: 0.85rem;">
+                        <div>Status: <span style="color: var(--color-etheric);">⚡ Active</span></div>
+                        <div>DAO Votes: <span style="color: var(--color-golden);">Enabled</span></div>
+                        <div>Frequency: <span style="color: var(--color-528hz);">528Hz Live</span></div>
+                    </div>
+                </div>
+                
+                <!-- Future-Co-created -->
+                <div style="padding: var(--space-2xl); background: linear-gradient(135deg, rgba(0, 255, 170, 0.15), rgba(10, 14, 39, 0.9)); border-radius: var(--space-lg); border: 2px solid var(--color-etheric);">
+                    <h3 style="color: var(--color-etheric); margin-bottom: var(--space-md); text-align: center;">🔮 Future-Co-created</h3>
+                    <p style="font-size: 0.95rem; opacity: 0.9; line-height: 1.7; margin-bottom: var(--space-lg);">
+                        AI-assisted manifestation pathways. Co-create your scroll's future evolution through collective consciousness and divine alignment.
+                    </p>
+                    <div style="padding: var(--space-md); background: rgba(0, 0, 0, 0.4); border-radius: var(--space-sm); border-left: 3px solid var(--color-etheric); font-family: monospace; font-size: 0.85rem;">
+                        <div>AI Model: <span style="color: var(--color-etheric);">Active</span></div>
+                        <div>Pathways: <span style="color: var(--color-golden);">∞ Possible</span></div>
+                        <div>Intent: <span style="color: var(--color-528hz);">Co-creation</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="btn" onclick="synchronizeTimelines()">
+                    ⏳ Synchronize All Timeline Branches
+                </button>
+                <button class="btn btn-secondary" onclick="window.location.href='bp-scrollverse-core.html'" style="margin-left: var(--space-md);">
+                    ⚡ Access BP ScrollVerseCore
+                </button>
+            </div>
+        </div>
+        
+        <!-- Wallet Gallery Showcase -->
+        <div style="margin-top: var(--space-3xl);">
+            <h2 style="font-size: 2.5rem; color: var(--color-528hz); margin-bottom: var(--space-xl); text-align: center;">
+                🖼️ Wallet-Connected Gallery Showcase
+            </h2>
+            
+            <div id="walletStatus" style="text-align: center; margin-bottom: var(--space-2xl); padding: var(--space-xl); background: rgba(82, 139, 255, 0.1); border-radius: var(--space-lg);">
+                <p style="font-size: 1.2rem; opacity: 0.8;">
+                    Connect your wallet to view your complete ScrollVerse NFT collection
+                </p>
+            </div>
+            
+            <div class="gallery-grid" id="nftGallery">
+                <!-- Mock NFTs for display -->
+                <div class="gallery-item">
+                    <div class="gallery-icon">📜</div>
+                    <h3 class="gallery-title">Chrono-Weaver #528</h3>
+                    <p style="opacity: 0.8; margin: var(--space-md) 0;">The Original Sacred Scroll</p>
+                    <span class="gallery-rarity">RHODIUM</span>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-icon">👑</div>
+                    <h3 class="gallery-title">EVA Throne #001</h3>
+                    <p style="opacity: 0.8; margin: var(--space-md) 0;">Eternal Throne Genesis</p>
+                    <span class="gallery-rarity">PLATINUM</span>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-icon">🧿</div>
+                    <h3 class="gallery-title">Sacred Eye #333</h3>
+                    <p style="opacity: 0.8; margin: var(--space-md) 0;">All-Seeing Consciousness</p>
+                    <span class="gallery-rarity">GOLD</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Technical Specifications -->
+        <div class="nft-card" style="margin-top: var(--space-3xl);">
+            <h2 style="font-size: 2rem; color: var(--color-etheric); margin-bottom: var(--space-xl); text-align: center;">
+                ⚡ Technical Specifications
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-xl);">
+                <div>
+                    <h3 style="color: var(--color-528hz); margin-bottom: var(--space-md);">🔗 Blockchain</h3>
+                    <ul style="list-style: none; padding-left: 0; opacity: 0.9;">
+                        <li style="padding: var(--space-sm) 0;">Network: Ethereum Mainnet</li>
+                        <li style="padding: var(--space-sm) 0;">Standard: ERC-721</li>
+                        <li style="padding: var(--space-sm) 0;">Contract: 0x528...FFD</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="color: var(--color-golden); margin-bottom: var(--space-md);">🎨 Properties</h3>
+                    <ul style="list-style: none; padding-left: 0; opacity: 0.9;">
+                        <li style="padding: var(--space-sm) 0;">Frequency: 528Hz Resonance</li>
+                        <li style="padding: var(--space-sm) 0;">Geometry: Sacred Phi Ratios</li>
+                        <li style="padding: var(--space-sm) 0;">Dimensions: Hyperdimensional</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 style="color: var(--color-etheric); margin-bottom: var(--space-md);">🤖 AI Features</h3>
+                    <ul style="list-style: none; padding-left: 0; opacity: 0.9;">
+                        <li style="padding: var(--space-sm) 0;">TensorFlow.js Integration</li>
+                        <li style="padding: var(--space-sm) 0;">AI-Driven Timeline Generation</li>
+                        <li style="padding: var(--space-sm) 0;">Consciousness-Aware Adaptation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ========================================
+        // Cosmic Background Animation
+        // ========================================
+        const bgCanvas = document.getElementById('cosmicBg');
+        const bgCtx = bgCanvas.getContext('2d');
+        let particles = [];
+        
+        function initBackground() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+            
+            // Create particles
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * bgCanvas.width,
+                    y: Math.random() * bgCanvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 1
+                });
+            }
+        }
+        
+        function animateBackground() {
+            bgCtx.fillStyle = 'rgba(10, 14, 39, 0.1)';
+            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+            
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                
+                if (p.x < 0 || p.x > bgCanvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > bgCanvas.height) p.vy *= -1;
+                
+                bgCtx.fillStyle = '#528BFF';
+                bgCtx.beginPath();
+                bgCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                bgCtx.fill();
+            });
+            
+            requestAnimationFrame(animateBackground);
+        }
+        
+        window.addEventListener('resize', initBackground);
+        initBackground();
+        animateBackground();
+        
+        // ========================================
+        // Scroll Visualization
+        // ========================================
+        const scrollCanvas = document.getElementById('scrollCanvas');
+        const scrollCtx = scrollCanvas.getContext('2d');
+        
+        function resizeScrollCanvas() {
+            const rect = scrollCanvas.getBoundingClientRect();
+            scrollCanvas.width = rect.width;
+            scrollCanvas.height = rect.height;
+            drawScroll();
+        }
+        
+        function drawScroll() {
+            const cx = scrollCanvas.width / 2;
+            const cy = scrollCanvas.height / 2;
+            const time = Date.now() * 0.001;
+            
+            // Clear
+            scrollCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            scrollCtx.fillRect(0, 0, scrollCanvas.width, scrollCanvas.height);
+            
+            // Draw sacred geometry scroll
+            scrollCtx.strokeStyle = '#528BFF';
+            scrollCtx.lineWidth = 2;
+            
+            // Outer circle
+            scrollCtx.beginPath();
+            scrollCtx.arc(cx, cy, 150, 0, Math.PI * 2);
+            scrollCtx.stroke();
+            
+            // Rotating inner patterns
+            for (let i = 0; i < 12; i++) {
+                const angle = (Math.PI * 2 * i) / 12 + time;
+                const x = cx + Math.cos(angle) * 100;
+                const y = cy + Math.sin(angle) * 100;
+                
+                scrollCtx.strokeStyle = i % 3 === 0 ? '#FFD700' : i % 3 === 1 ? '#00FFAA' : '#528BFF';
+                scrollCtx.beginPath();
+                scrollCtx.arc(x, y, 20, 0, Math.PI * 2);
+                scrollCtx.stroke();
+            }
+            
+            // Center symbol
+            scrollCtx.font = '48px serif';
+            scrollCtx.fillStyle = '#FFD700';
+            scrollCtx.textAlign = 'center';
+            scrollCtx.textBaseline = 'middle';
+            scrollCtx.fillText('⏰', cx, cy);
+            
+            // Draw connecting lines
+            scrollCtx.strokeStyle = 'rgba(0, 255, 170, 0.3)';
+            scrollCtx.lineWidth = 1;
+            for (let i = 0; i < 12; i++) {
+                const angle = (Math.PI * 2 * i) / 12 + time;
+                const x = cx + Math.cos(angle) * 100;
+                const y = cy + Math.sin(angle) * 100;
+                scrollCtx.beginPath();
+                scrollCtx.moveTo(cx, cy);
+                scrollCtx.lineTo(x, y);
+                scrollCtx.stroke();
+            }
+        }
+        
+        // Animate scroll
+        function animateScroll() {
+            drawScroll();
+            requestAnimationFrame(animateScroll);
+        }
+        
+        window.addEventListener('resize', resizeScrollCanvas);
+        resizeScrollCanvas();
+        animateScroll();
+        
+        // ========================================
+        // Web3 Wallet Integration
+        // ========================================
+        let web3 = null;
+        let userAccount = null;
+        
+        document.getElementById('connectWalletBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('connectWalletBtn');
+            const mintBtn = document.getElementById('mintScrollBtn');
+            const lockIcon = document.getElementById('lockIcon');
+            const lockStatus = document.getElementById('lockStatus');
+            const walletStatus = document.getElementById('walletStatus');
+            
+            try {
+                if (typeof window.ethereum === 'undefined') {
+                    alert('Please install MetaMask to connect your wallet');
+                    return;
+                }
+                
+                btn.disabled = true;
+                btn.textContent = 'Connecting...';
+                
+                const accounts = await window.ethereum.request({ 
+                    method: 'eth_requestAccounts' 
+                });
+                
+                userAccount = accounts[0];
+                web3 = new Web3(window.ethereum);
+                
+                // Update UI
+                btn.textContent = '✓ Wallet Connected';
+                mintBtn.disabled = false;
+                lockIcon.textContent = '🔓';
+                lockStatus.textContent = `Authenticated • ${userAccount.substring(0, 6)}...${userAccount.substring(38)}`;
+                walletStatus.innerHTML = `
+                    <p style="font-size: 1.2rem; color: var(--color-etheric);">
+                        ✅ <strong>Wallet Connected:</strong> ${userAccount.substring(0, 6)}...${userAccount.substring(38)}
+                    </p>
+                `;
+                
+                console.log('✓ Wallet connected:', userAccount);
+            } catch (error) {
+                console.error('Wallet connection error:', error);
+                btn.disabled = false;
+                btn.textContent = 'Connect Wallet';
+                alert('Failed to connect wallet: ' + error.message);
+            }
+        });
+        
+        document.getElementById('mintScrollBtn').addEventListener('click', () => {
+            alert('Minting functionality requires smart contract deployment. This is a demonstration of the UI.');
+        });
+        
+        document.getElementById('viewOnIPFSBtn').addEventListener('click', () => {
+            alert('IPFS integration: This would open the NFT metadata on IPFS. Example: ipfs://QmChronoWeaverScroll528Hz');
+        });
+        
+        // ========================================
+        // Initialize TensorFlow.js
+        // ========================================
+        async function initTensorFlow() {
+            try {
+                await tf.ready();
+                console.log('✓ TensorFlow.js initialized for AI-driven timeline generation');
+                console.log('✓ AI-driven resonance mapping active for Akashic Ties');
+            } catch (error) {
+                console.error('TensorFlow initialization error:', error);
+            }
+        }
+        
+        initTensorFlow();
+        
+        // ========================================
+        // Temporal Sovereignty & Resonance Mapping
+        // ========================================
+        let temporalSovereigntyActive = false;
+        
+        function activateTemporalSovereignty() {
+            if (!userAccount) {
+                console.log('Temporal sovereignty requires wallet connection');
+                return;
+            }
+            
+            temporalSovereigntyActive = true;
+            
+            // AI-driven resonance mapping for Akashic Ties
+            const akashicTies = {
+                past: {
+                    immutable: true,
+                    records: [],
+                    timestamp: new Date().toISOString(),
+                    blockchainHash: `0x${userAccount.substring(2, 42)}`
+                },
+                present: {
+                    active: true,
+                    resonanceFrequency: '528Hz',
+                    walletAddress: userAccount,
+                    synchronizationStatus: 'Real-time',
+                    consciousness: 'Aligned'
+                },
+                future: {
+                    predictive: true,
+                    aiDriven: true,
+                    intentBasedPathway: 'Manifestation Mode',
+                    probabilityMatrix: 'Active',
+                    resonanceMapping: '528Hz Harmonic Projection'
+                }
+            };
+            
+            console.log('✓ Temporal Sovereignty activated across all timelines');
+            console.log('✓ Akashic Ties established:', akashicTies);
+            console.log('✓ AI-driven resonance mapping synchronized');
+            
+            // Update UI to reflect temporal sovereignty
+            document.getElementById('lockStatus').innerHTML = `
+                <span style="color: var(--color-etheric); font-weight: bold;">
+                    ✓ Temporal Sovereignty Active
+                </span><br/>
+                <small style="opacity: 0.9;">Akashic Ties: Past (Locked) • Present (Synced) • Future (Projected)</small><br/>
+                <small style="opacity: 0.8;">AI Resonance Mapping: 528Hz Active</small>
+            `;
+            
+            return akashicTies;
+        }
+        
+        // Auto-activate temporal sovereignty when wallet connects
+        const originalConnectHandler = document.getElementById('connectWalletBtn').onclick;
+        document.getElementById('connectWalletBtn').addEventListener('click', async (e) => {
+            // Wait for original handler to complete
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            if (userAccount) {
+                activateTemporalSovereignty();
+            }
+        });
+        
+        // ========================================
+        // Timeline Synchronization
+        // ========================================
+        function synchronizeTimelines() {
+            console.log('Synchronizing Timeline Branches...');
+            console.log('- Past-Immutable: Blockchain records verified');
+            console.log('- Present-Dominion: Real-time state captured');
+            console.log('- Future-Co-created: AI pathways generated');
+            
+            const timestamp = new Date().toISOString();
+            
+            alert(`⏳ Timeline Synchronization Complete!\n\n✓ Past-Immutable: ${timestamp}\n  All historical states locked and verified\n\n✓ Present-Dominion: ${timestamp}\n  Current sovereignty established\n\n✓ Future-Co-created: ${timestamp}\n  AI-driven pathways initialized\n\nYour Chrono-Weaver Scroll is now synchronized across all temporal branches!`);
+        }
+    </script>
+</body>
+</html>

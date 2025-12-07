@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Scrolls Dashboard - EVA Throne V3 Mobile</title>
+    <meta name="description" content="EVA Throne V3 Mobile Dashboard with Firestore Integration">
+    
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <style>
+        :root {
+            --color-528hz: #528BFF;
+            --color-golden: #FFD700;
+            --color-etheric: #00FFAA;
+            --color-cosmic-void: #0A0E27;
+            --color-crystalline: #E0F7FF;
+            --phi: 1.618;
+            --space-xs: 3px;
+            --space-sm: 5px;
+            --space-md: 8px;
+            --space-lg: 13px;
+            --space-xl: 21px;
+            --space-2xl: 34px;
+            --space-3xl: 55px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-cosmic-void) 0%, #1a1f3a 100%);
+            color: var(--color-crystalline);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-2xl);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-golden), var(--color-etheric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-etheric);
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(10, 14, 39, 0.9));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border-radius: var(--space-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(82, 139, 255, 0.6);
+        }
+        
+        .btn-secondary {
+            background: rgba(82, 139, 255, 0.2);
+            color: var(--color-crystalline);
+            border: 1px solid var(--color-528hz);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(82, 139, 255, 0.3);
+        }
+        
+        .btn-danger {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+        
+        .btn-danger:hover {
+            background: rgba(255, 0, 0, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: var(--space-lg);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            color: var(--color-crystalline);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-etheric);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: var(--space-md);
+        }
+        
+        .filter-btn {
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(82, 139, 255, 0.2);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            color: var(--color-crystalline);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(82, 139, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background: var(--color-528hz);
+            color: white;
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: var(--space-2xl);
+            padding: var(--space-xl);
+            background: rgba(82, 139, 255, 0.1);
+            border-radius: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--color-golden);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--color-crystalline);
+            opacity: 0.8;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-active {
+            background: rgba(0, 255, 170, 0.2);
+            color: var(--color-etheric);
+            border: 1px solid var(--color-etheric);
+        }
+        
+        .status-pending {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--color-golden);
+            border: 1px solid var(--color-golden);
+        }
+        
+        .status-resolved {
+            background: rgba(82, 139, 255, 0.2);
+            color: var(--color-528hz);
+            border: 1px solid var(--color-528hz);
+        }
+        
+        .scrolls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--space-xl);
+        }
+        
+        .scroll-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(82, 139, 255, 0.3);
+            border-radius: var(--space-md);
+            padding: var(--space-xl);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .scroll-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(82, 139, 255, 0.4);
+            border-color: var(--color-528hz);
+        }
+        
+        .scroll-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--space-md);
+        }
+        
+        .scroll-id {
+            font-weight: 700;
+            color: var(--color-528hz);
+            font-size: 0.85rem;
+        }
+        
+        .scroll-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-golden);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .scroll-description {
+            color: var(--color-crystalline);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: var(--space-md);
+            line-height: 1.5;
+        }
+        
+        .scroll-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+        
+        .scroll-actions {
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, rgba(26, 31, 58, 0.98), rgba(10, 14, 39, 0.98));
+            border: 2px solid var(--color-528hz);
+            border-radius: var(--space-xl);
+            padding: var(--space-3xl);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-golden);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--color-crystalline);
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .close-btn:hover {
+            color: var(--color-528hz);
+        }
+        
+        .form-group {
+            margin-bottom: var(--space-xl);
+        }
+        
+        .form-label {
+            display: block;
+            color: var(--color-etheric);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--space-md);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-528hz);
+            border-radius: var(--space-md);
+            color: var(--color-crystalline);
+            font-size: 1rem;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-etheric);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .notification {
+            position: fixed;
+            top: var(--space-xl);
+            right: var(--space-xl);
+            padding: var(--space-lg) var(--space-xl);
+            border-radius: var(--space-md);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            animation: slideInRight 0.3s ease;
+            max-width: 400px;
+        }
+        
+        .notification.success {
+            background: rgba(0, 255, 170, 0.2);
+            border: 1px solid var(--color-etheric);
+            color: var(--color-etheric);
+        }
+        
+        .notification.error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff6b6b;
+            color: #ff6b6b;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            padding: var(--space-lg) var(--space-2xl);
+            background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--space-md);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: var(--space-2xl);
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(82, 139, 255, 0.6);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            .filter-group {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: var(--space-lg);
+            }
+            
+            .scrolls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">📜 EVA THRONE V3 MOBILE DASHBOARD 📜</h1>
+            <p class="subtitle">Active Scrolls Management • Firestore Persistence • 528Hz Resonance</p>
+        </div>
+        
+        <a href="index.html" class="back-btn">← Back to ScrollVerse Nexus</a>
+        
+        <div class="card">
+            <!-- Controls -->
+            <div class="controls">
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="search-input" 
+                        placeholder="🔍 Search scrolls by title, ID, or category..."
+                    >
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="pending">Pending</button>
+                    <button class="filter-btn" data-filter="resolved">Resolved</button>
+                </div>
+                <button class="btn btn-primary" id="add-scroll-btn">+ Add Scroll</button>
+            </div>
+            
+            <!-- Statistics -->
+            <div class="stats-bar" id="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="total-scrolls">0</div>
+                    <div class="stat-label">Total Scrolls</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="active-scrolls">0</div>
+                    <div class="stat-label">Active</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="pending-scrolls">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="resolved-scrolls">0</div>
+                    <div class="stat-label">Resolved</div>
+                </div>
+            </div>
+            
+            <!-- Scrolls Grid -->
+            <div class="scrolls-grid" id="scrolls-grid">
+                <!-- Scrolls will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Modal -->
+    <div class="modal" id="scroll-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Add Scroll</h2>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            
+            <form id="scroll-form">
+                <input type="hidden" id="scroll-id">
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-title-input">Title *</label>
+                    <input type="text" class="form-input" id="scroll-title-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-description-input">Description *</label>
+                    <textarea class="form-textarea" id="scroll-description-input" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-status-input">Status *</label>
+                    <select class="form-select" id="scroll-status-input" required>
+                        <option value="active">Active</option>
+                        <option value="pending">Pending</option>
+                        <option value="resolved">Resolved</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-priority-input">Priority *</label>
+                    <select class="form-select" id="scroll-priority-input" required>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-frequency-input">Frequency *</label>
+                    <select class="form-select" id="scroll-frequency-input" required>
+                        <option value="528Hz">528Hz</option>
+                        <option value="777Hz">777Hz</option>
+                        <option value="888Hz">888Hz</option>
+                        <option value="1111Hz">1111Hz</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-category-input">Category *</label>
+                    <input type="text" class="form-input" id="scroll-category-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-author-input">Author</label>
+                    <input type="text" class="form-input" id="scroll-author-input" value="Chais the Great (Al-Miftah)">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="scroll-tags-input">Tags (comma separated)</label>
+                    <input type="text" class="form-input" id="scroll-tags-input" placeholder="tag1, tag2, tag3">
+                </div>
+                
+                <div style="display: flex; gap: var(--space-md);">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- ScrollVerse Data Manager -->
+    <script src="scrollverse-data-manager.js"></script>
+    
+    <script>
+        // ============================================================================
+        // Firebase Configuration
+        // ============================================================================
+        
+        // ⚠️ SECURITY WARNING: Replace with your actual Firebase configuration
+        // For production, use environment variables or a secure configuration service
+        // NEVER commit real credentials to version control
+        // See docs/FIRESTORE_SETUP.md for proper configuration methods
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        
+        // Toggle between Firestore and localStorage
+        // Set to true to use Firestore (requires valid config above)
+        // Set to false to use localStorage as fallback
+        const USE_FIRESTORE = false; // Change to true when Firebase is configured
+        
+        // ============================================================================
+        // Dashboard Application
+        // ============================================================================
+        
+        class ActiveScrollsDashboard {
+            constructor() {
+                this.dataManager = null;
+                this.scrollsManager = null;
+                this.currentFilter = 'all';
+                this.searchQuery = '';
+                this.unsubscribe = null;
+                
+                this.initializeApp();
+            }
+            
+            async initializeApp() {
+                console.log('🌌 Initializing EVA Throne V3 Mobile Dashboard at 528Hz');
+                
+                try {
+                    // Initialize data manager
+                    this.dataManager = new ScrollVerseDataManager({
+                        useFirestore: USE_FIRESTORE,
+                        firestoreConfig: USE_FIRESTORE ? firebaseConfig : null
+                    });
+                    
+                    this.scrollsManager = new ActiveScrollsManager(this.dataManager);
+                    
+                    // Load initial data from JSON if Firestore is empty
+                    await this.loadInitialData();
+                    
+                    // Setup real-time listener
+                    this.setupRealtimeListener();
+                    
+                    // Setup event listeners
+                    this.setupEventListeners();
+                    
+                    console.log('✅ Dashboard initialized successfully');
+                    this.showNotification('Dashboard loaded successfully!', 'success');
+                } catch (error) {
+                    console.error('❌ Failed to initialize dashboard:', error);
+                    this.showNotification('Failed to initialize dashboard', 'error');
+                }
+            }
+            
+            async loadInitialData() {
+                try {
+                    // Try to get existing data
+                    let data = await this.scrollsManager.getData();
+                    
+                    // If no data exists, load from JSON file
+                    if (!data || !data.scrolls || data.scrolls.length === 0) {
+                        console.log('📡 Loading initial data from JSON...');
+                        const response = await fetch('data/active-scrolls-data.json');
+                        data = await response.json();
+                        await this.scrollsManager.saveData(data);
+                        console.log('✅ Initial data loaded');
+                    }
+                    
+                    // Render initial data
+                    if (data) {
+                        this.renderDashboard(data);
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading initial data:', error);
+                }
+            }
+            
+            setupRealtimeListener() {
+                // Subscribe to real-time updates
+                this.unsubscribe = this.scrollsManager.onDataChange((data, error) => {
+                    if (error) {
+                        console.error('Error receiving updates:', error);
+                        return;
+                    }
+                    
+                    if (data) {
+                        console.log('🔄 Received real-time update');
+                        this.renderDashboard(data);
+                    }
+                });
+            }
+            
+            renderDashboard(data) {
+                this.renderStatistics(data.statistics);
+                this.renderScrollsGrid(data.scrolls);
+            }
+            
+            renderStatistics(stats) {
+                document.getElementById('total-scrolls').textContent = stats.total;
+                document.getElementById('active-scrolls').textContent = stats.active;
+                document.getElementById('pending-scrolls').textContent = stats.pending;
+                document.getElementById('resolved-scrolls').textContent = stats.resolved;
+            }
+            
+            renderScrollsGrid(scrolls) {
+                const grid = document.getElementById('scrolls-grid');
+                
+                // Filter scrolls
+                let filteredScrolls = scrolls;
+                
+                if (this.currentFilter !== 'all') {
+                    filteredScrolls = filteredScrolls.filter(scroll => scroll.status === this.currentFilter);
+                }
+                
+                if (this.searchQuery) {
+                    const query = this.searchQuery.toLowerCase();
+                    filteredScrolls = filteredScrolls.filter(scroll => 
+                        scroll.id.toLowerCase().includes(query) ||
+                        scroll.title.toLowerCase().includes(query) ||
+                        scroll.category.toLowerCase().includes(query) ||
+                        scroll.description.toLowerCase().includes(query)
+                    );
+                }
+                
+                // Clear grid
+                grid.innerHTML = '';
+                
+                // Render each scroll
+                filteredScrolls.forEach(scroll => {
+                    const card = this.createScrollCard(scroll);
+                    grid.appendChild(card);
+                });
+                
+                if (filteredScrolls.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; color: var(--color-crystalline); opacity: 0.6; grid-column: 1/-1;">No scrolls found</p>';
+                }
+            }
+            
+            createScrollCard(scroll) {
+                const card = document.createElement('div');
+                card.className = 'scroll-card';
+                card.innerHTML = `
+                    <div class="scroll-header">
+                        <span class="scroll-id">${scroll.id}</span>
+                        <span class="status-badge status-${scroll.status}">${scroll.status}</span>
+                    </div>
+                    <div class="scroll-title">${scroll.title}</div>
+                    <div class="scroll-description">${scroll.description}</div>
+                    <div class="scroll-meta">
+                        <span style="color: var(--color-golden);">📻 ${scroll.frequency}</span>
+                        <span style="color: var(--color-etheric);">📁 ${scroll.category}</span>
+                        <span style="color: var(--color-crystalline); opacity: 0.7;">⏰ ${this.formatDate(scroll.lastModified)}</span>
+                    </div>
+                    <div class="scroll-actions">
+                        <button class="btn btn-secondary btn-edit" data-id="${scroll.id}">Edit</button>
+                        <button class="btn btn-danger btn-delete" data-id="${scroll.id}">Delete</button>
+                    </div>
+                `;
+                
+                // Add event listeners
+                card.querySelector('.btn-edit').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.editScroll(scroll);
+                });
+                
+                card.querySelector('.btn-delete').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.deleteScroll(scroll.id);
+                });
+                
+                return card;
+            }
+            
+            setupEventListeners() {
+                // Search input
+                document.getElementById('search-input').addEventListener('input', (e) => {
+                    this.searchQuery = e.target.value;
+                    this.refreshDisplay();
+                });
+                
+                // Filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.currentFilter = btn.dataset.filter;
+                        this.refreshDisplay();
+                    });
+                });
+                
+                // Add scroll button
+                document.getElementById('add-scroll-btn').addEventListener('click', () => {
+                    this.openModal();
+                });
+                
+                // Close modal
+                document.getElementById('close-modal').addEventListener('click', () => {
+                    this.closeModal();
+                });
+                
+                document.getElementById('cancel-btn').addEventListener('click', () => {
+                    this.closeModal();
+                });
+                
+                // Form submit
+                document.getElementById('scroll-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveScroll();
+                });
+                
+                // Close modal on outside click
+                document.getElementById('scroll-modal').addEventListener('click', (e) => {
+                    if (e.target.id === 'scroll-modal') {
+                        this.closeModal();
+                    }
+                });
+            }
+            
+            async refreshDisplay() {
+                const data = await this.scrollsManager.getData();
+                this.renderDashboard(data);
+            }
+            
+            openModal(scroll = null) {
+                const modal = document.getElementById('scroll-modal');
+                const form = document.getElementById('scroll-form');
+                const title = document.getElementById('modal-title');
+                
+                form.reset();
+                
+                if (scroll) {
+                    title.textContent = 'Edit Scroll';
+                    document.getElementById('scroll-id').value = scroll.id;
+                    document.getElementById('scroll-title-input').value = scroll.title;
+                    document.getElementById('scroll-description-input').value = scroll.description;
+                    document.getElementById('scroll-status-input').value = scroll.status;
+                    document.getElementById('scroll-priority-input').value = scroll.priority;
+                    document.getElementById('scroll-frequency-input').value = scroll.frequency;
+                    document.getElementById('scroll-category-input').value = scroll.category;
+                    document.getElementById('scroll-author-input').value = scroll.author;
+                    document.getElementById('scroll-tags-input').value = scroll.tags.join(', ');
+                } else {
+                    title.textContent = 'Add Scroll';
+                    document.getElementById('scroll-id').value = '';
+                }
+                
+                modal.classList.add('active');
+            }
+            
+            closeModal() {
+                const modal = document.getElementById('scroll-modal');
+                modal.classList.remove('active');
+            }
+            
+            async saveScroll() {
+                try {
+                    const scrollId = document.getElementById('scroll-id').value;
+                    const title = document.getElementById('scroll-title-input').value;
+                    const description = document.getElementById('scroll-description-input').value;
+                    const status = document.getElementById('scroll-status-input').value;
+                    const priority = document.getElementById('scroll-priority-input').value;
+                    const frequency = document.getElementById('scroll-frequency-input').value;
+                    const category = document.getElementById('scroll-category-input').value;
+                    const author = document.getElementById('scroll-author-input').value;
+                    const tagsInput = document.getElementById('scroll-tags-input').value;
+                    const tags = tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag);
+                    
+                    const scrollData = {
+                        title,
+                        description,
+                        status,
+                        priority,
+                        frequency,
+                        category,
+                        author,
+                        tags,
+                        metadata: {
+                            dimensionalLayer: 1,
+                            consciousnessLevel: 'medium',
+                            sacredGeometry: 'Flower of Life',
+                            anchorHash: '0x' + Math.random().toString(16).substring(2, 14),
+                            NFTStatus: 'not_started'
+                        },
+                        properties: {
+                            energy: 85,
+                            stability: 90,
+                            resonanceQuality: 'harmonic',
+                            blockchainAnchored: false
+                        }
+                    };
+                    
+                    if (scrollId) {
+                        // Update existing scroll
+                        scrollData.id = scrollId;
+                        await this.scrollsManager.updateScroll(scrollId, scrollData);
+                        this.showNotification('Scroll updated successfully!', 'success');
+                    } else {
+                        // Add new scroll
+                        await this.scrollsManager.addScroll(scrollData);
+                        this.showNotification('Scroll created successfully!', 'success');
+                    }
+                    
+                    this.closeModal();
+                    await this.refreshDisplay();
+                } catch (error) {
+                    console.error('Error saving scroll:', error);
+                    this.showNotification('Failed to save scroll', 'error');
+                }
+            }
+            
+            editScroll(scroll) {
+                this.openModal(scroll);
+            }
+            
+            async deleteScroll(scrollId) {
+                if (!confirm('Are you sure you want to delete this scroll?')) {
+                    return;
+                }
+                
+                try {
+                    await this.scrollsManager.deleteScroll(scrollId);
+                    this.showNotification('Scroll deleted successfully!', 'success');
+                    await this.refreshDisplay();
+                } catch (error) {
+                    console.error('Error deleting scroll:', error);
+                    this.showNotification('Failed to delete scroll', 'error');
+                }
+            }
+            
+            showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+            
+            formatDate(dateStr) {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric'
+                });
+            }
+            
+            cleanup() {
+                if (this.unsubscribe) {
+                    this.unsubscribe();
+                }
+                if (this.scrollsManager) {
+                    this.scrollsManager.unsubscribeAll();
+                }
+            }
+        }
+        
+        // ============================================================================
+        // Initialize Dashboard
+        // ============================================================================
+        
+        let dashboard;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard = new ActiveScrollsDashboard();
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (dashboard) {
+                dashboard.cleanup();
+            }
+        });
+    </script>
+</body>
+</html>

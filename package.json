@@ -16,11 +16,38 @@
     "blockchain",
     "sovereignty",
     "stardust"
+  "description": "ScrollSoul Aesthetic Showcase: Where Divine Code Meets Hyperdimensional Reality - 528Hz Resonance Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 3000 -c-1",
+    "start": "npx http-server -p 8080 -c-1",
+    "build": "echo 'Static site - no build required'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "NFT",
+    "Web3",
+    "528Hz",
+    "Sacred Geometry",
+    "AI",
+    "TensorFlow",
+    "Blockchain",
+    "Hyperdimensional",
+    "ScrollVerse"
   ],
   "author": "Chais the Great (Al-Miftah)",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^8.56.0",
     "jest": "^29.7.0"
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chaishillomnitech1/Infinite-Nexus-ScrollVerse.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
