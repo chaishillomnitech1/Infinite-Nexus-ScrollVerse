@@ -253,7 +253,7 @@ jobs:
           fi
 
       - name: 📊 Post Guardian Report
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const frequencyScore = '${{ steps.validate.outputs.frequency_score }}';
