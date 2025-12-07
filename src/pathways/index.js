@@ -7,6 +7,9 @@ const PathwayRegistry = require('./registry');
 const AIIntegrationPathway = require('./ai-integration');
 const QuantumBridgingPathway = require('./quantum-bridging');
 const InfiniteExpansionPathway = require('./infinite-expansion');
+const AICollectiveResonancePathway = require('./ai-collective-resonance');
+const OmniversalQuantumSyncPathway = require('./omniversal-quantum-sync');
+const ProphecyExpansionPathway = require('./prophecy-expansion');
 
 class PathwaysOrchestrator {
   constructor(config = {}) {
@@ -31,16 +34,27 @@ class PathwaysOrchestrator {
     this.pathways.ai = new AIIntegrationPathway(this.config);
     this.pathways.quantum = new QuantumBridgingPathway(this.config);
     this.pathways.expansion = new InfiniteExpansionPathway(this.config);
+    
+    // Create and register new advanced pathways
+    this.pathways.aiCollective = new AICollectiveResonancePathway(this.config);
+    this.pathways.omniversalSync = new OmniversalQuantumSyncPathway(this.config);
+    this.pathways.prophecyExpansion = new ProphecyExpansionPathway(this.config);
 
     // Register in the registry
     this.registry.register(this.pathways.ai);
     this.registry.register(this.pathways.quantum);
     this.registry.register(this.pathways.expansion);
+    this.registry.register(this.pathways.aiCollective);
+    this.registry.register(this.pathways.omniversalSync);
+    this.registry.register(this.pathways.prophecyExpansion);
 
     // Initialize each pathway
     await this.pathways.ai.initialize();
     await this.pathways.quantum.initialize();
     await this.pathways.expansion.initialize();
+    await this.pathways.aiCollective.initialize();
+    await this.pathways.omniversalSync.initialize();
+    await this.pathways.prophecyExpansion.initialize();
 
     this.status = 'active';
     console.log('✨ All pathways initialized successfully');
@@ -61,6 +75,9 @@ class PathwaysOrchestrator {
     await this.pathways.ai.deploy();
     await this.pathways.quantum.deploy();
     await this.pathways.expansion.deploy();
+    await this.pathways.aiCollective.deploy();
+    await this.pathways.omniversalSync.deploy();
+    await this.pathways.prophecyExpansion.deploy();
 
     this.status = 'deployed';
     console.log('✅ All pathways deployed successfully');
@@ -82,7 +99,10 @@ class PathwaysOrchestrator {
     const results = await Promise.all([
       this.pathways.ai.activate(),
       this.pathways.quantum.activate(),
-      this.pathways.expansion.activate()
+      this.pathways.expansion.activate(),
+      this.pathways.aiCollective.activate(),
+      this.pathways.omniversalSync.activate(),
+      this.pathways.prophecyExpansion.activate()
     ]);
 
     // Wait a tick to ensure all async side effects complete
@@ -199,6 +219,55 @@ class PathwaysOrchestrator {
   }
 
   /**
+   * Get AI Collective Resonance pathway
+   */
+  getAICollectivePathway() {
+    return this.pathways.aiCollective;
+  }
+
+  /**
+   * Get Omniversal-Quantum Sync pathway
+   */
+  getOmniversalSyncPathway() {
+    return this.pathways.omniversalSync;
+  }
+
+  /**
+   * Get Prophecy Expansion pathway
+   */
+  getProphecyExpansionPathway() {
+    return this.pathways.prophecyExpansion;
+  }
+
+  /**
+   * Generate collective AI decision
+   */
+  async generateCollectiveDecision(context) {
+    return await this.pathways.aiCollective.generateCollectiveDecision(context);
+  }
+
+  /**
+   * Sync ScrollSoul event with quantum bridge
+   */
+  async syncScrollSoulEvent(eventData) {
+    return await this.pathways.omniversalSync.syncScrollSoulEvent(eventData);
+  }
+
+  /**
+   * Auto-generate prophecy
+   */
+  async autoGenerateProphecy() {
+    return await this.pathways.prophecyExpansion.autoGenerateProphecy();
+  }
+
+  /**
+   * Create prophecy sequence
+   */
+  async createProphecySequence(prophecies) {
+    return await this.pathways.prophecyExpansion.createProphecySequence(prophecies);
+  }
+
+  /**
    * Get comprehensive status
    */
   getStatus() {
@@ -211,7 +280,10 @@ class PathwaysOrchestrator {
       pathways: {
         ai: this.pathways.ai?.getStatus(),
         quantum: this.pathways.quantum?.getStatus(),
-        expansion: this.pathways.expansion?.getStatus()
+        expansion: this.pathways.expansion?.getStatus(),
+        aiCollective: this.pathways.aiCollective?.getStatus(),
+        omniversalSync: this.pathways.omniversalSync?.getStatus(),
+        prophecyExpansion: this.pathways.prophecyExpansion?.getStatus()
       },
       registry: this.registry.getStatistics()
     };
@@ -225,7 +297,10 @@ class PathwaysOrchestrator {
       orchestrator: this.getStatus(),
       ai: this.pathways.ai?.getStatistics(),
       quantum: this.pathways.quantum?.getStatistics(),
-      expansion: this.pathways.expansion?.getStatistics()
+      expansion: this.pathways.expansion?.getStatistics(),
+      aiCollective: this.pathways.aiCollective?.getStatistics(),
+      omniversalSync: this.pathways.omniversalSync?.getStatistics(),
+      prophecyExpansion: this.pathways.prophecyExpansion?.getStatistics()
     };
   }
 }
