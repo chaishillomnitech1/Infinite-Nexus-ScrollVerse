@@ -4,16 +4,11 @@
   "description": "ScrollSoul Aesthetic Showcase: Where Divine Code Meets Hyperdimensional Reality - 528Hz Resonance Platform",
   "main": "index.html",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "npx http-server -p 3000 -c-1",
-    "test": "jest",
-    "lint": "eslint src/ --ext .js",
-    "build": "echo 'Build complete'",
-    "dev": "npx http-server -p 3000 -c-1",
     "start": "npx http-server -p 8080 -c-1",
-    "build": "echo 'Static site - no build required'",
+    "dev": "npx http-server -p 3000 -c-1",
     "test": "jest",
     "lint": "eslint src/ --ext .js",
+    "build": "echo 'Static site - no build required'",
     "deploy": "vercel --prod"
   },
   "keywords": [
@@ -28,7 +23,7 @@
     "Sacred Geometry",
     "AI",
     "TensorFlow",
-    "Hyperdimensional"
+    "Hyperdimensional",
     "web3",
     "528hz",
     "sacred-geometry",
