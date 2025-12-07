@@ -140,7 +140,7 @@ jobs:
     needs: generate-metadata
     steps:
       - name: 📥 Download metadata
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: nft-metadata
           path: metadata/
@@ -184,7 +184,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 📥 Download metadata
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: nft-metadata
           path: metadata/
