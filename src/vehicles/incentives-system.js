@@ -462,14 +462,18 @@ class IncentivesSystem {
     
     for (const [key, factor] of this.sustainabilityMetrics.entries()) {
       const userValue = userData[key.toLowerCase()] || factor.baseline;
-      const normalizedScore = (userValue - factor.baseline) / (factor.target - factor.baseline);
+      const denominator = factor.target - factor.baseline;
+      // Avoid division by zero
+      const normalizedScore = denominator !== 0 
+        ? (userValue - factor.baseline) / denominator 
+        : 0;
       const clampedScore = Math.max(0, Math.min(1, normalizedScore));
       
       totalScore += clampedScore * factor.weight;
       totalWeight += factor.weight;
     }
     
-    return totalScore / totalWeight;
+    return totalWeight > 0 ? totalScore / totalWeight : 0;
   }
 
   /**

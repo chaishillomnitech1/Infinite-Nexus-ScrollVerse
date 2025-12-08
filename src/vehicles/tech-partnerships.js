@@ -338,7 +338,7 @@ class TechPartnerships {
    * Generate unique sync ID
    */
   generateSyncId() {
-    return `SYNC-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `SYNC-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 
   /**
@@ -410,7 +410,7 @@ class TechPartnerships {
    * Generate unique set ID
    */
   generateSetId() {
-    return `SET-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `SET-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 
   /**
