@@ -488,21 +488,21 @@ class IncentivesSystem {
     let result = {};
     
     switch (experimentKey) {
-      case 'DYNAMIC_PRICING':
-        result = this.applyDynamicPricing(experiment, participantData);
-        break;
-      case 'LIFETIME_PROFITS':
-        result = this.applyLifetimeProfits(experiment, participantData);
-        break;
-      case 'TWIN_ADOPTION':
-        result = this.applyTwinAdoption(experiment, participantData);
-        break;
-      case 'SUSTAINABILITY_MARKET':
-        result = this.applySustainabilityMarket(experiment, participantData);
-        break;
-      case 'NFT_STAKING':
-        result = this.applyNFTStaking(experiment, participantData);
-        break;
+    case 'DYNAMIC_PRICING':
+      result = this.applyDynamicPricing(experiment, participantData);
+      break;
+    case 'LIFETIME_PROFITS':
+      result = this.applyLifetimeProfits(experiment, participantData);
+      break;
+    case 'TWIN_ADOPTION':
+      result = this.applyTwinAdoption(experiment, participantData);
+      break;
+    case 'SUSTAINABILITY_MARKET':
+      result = this.applySustainabilityMarket(experiment, participantData);
+      break;
+    case 'NFT_STAKING':
+      result = this.applyNFTStaking(experiment, participantData);
+      break;
     }
     
     return result;

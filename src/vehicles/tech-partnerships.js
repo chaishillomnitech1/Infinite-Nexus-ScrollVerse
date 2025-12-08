@@ -241,7 +241,7 @@ class TechPartnerships {
   async setupPartnerConnections() {
     console.log('🔌 Setting up partner connections...');
     
-    for (const [key, partner] of Object.entries(this.partners)) {
+    for (const [key] of Object.entries(this.partners)) {
       this.syncStatus.set(key, {
         status: 'connected',
         lastSync: Date.now(),
@@ -386,7 +386,7 @@ class TechPartnerships {
     };
     
     // Calculate set value and profit potential
-    for (const vehicleKey of vehicleKeys) {
+    for (let i = 0; i < vehicleKeys.length; i++) {
       // In real implementation, would fetch actual vehicle data
       matchingSet.totalValue += 50000; // Placeholder
       matchingSet.lifetimeProfitPotential += 5000; // Placeholder

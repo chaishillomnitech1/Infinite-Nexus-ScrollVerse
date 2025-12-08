@@ -98,7 +98,7 @@ class VehicleOrchestrator {
     // Apply pricing
     const pricing = this.techPartnerships.getPricingForVehicle(vehicleData);
     
-    console.log(`✓ Vehicle NFT minted with full integration`);
+    console.log('✓ Vehicle NFT minted with full integration');
     
     return {
       success: true,
@@ -113,7 +113,7 @@ class VehicleOrchestrator {
    * Create matching set with full incentives
    */
   async createMatchingSet(vehicleKeys, dealerAddress, userData = {}) {
-    console.log(`🎯 Creating integrated matching set...`);
+    console.log('🎯 Creating integrated matching set...');
     
     // Create matching set
     const matchingSet = await this.techPartnerships.createMatchingSet(vehicleKeys, dealerAddress);
@@ -130,7 +130,7 @@ class VehicleOrchestrator {
       { ...userData, vehicleCount: vehicleKeys.length }
     );
     
-    console.log(`✓ Matching set created with full incentives`);
+    console.log('✓ Matching set created with full incentives');
     
     return {
       success: true,
