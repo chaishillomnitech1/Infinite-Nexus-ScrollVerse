@@ -101,9 +101,9 @@ Each of the seven Pleiades stars maps to a sacred Solfeggio frequency and cosmic
 ### Initialization
 
 ```javascript
-const { PleiadesCossmicBridge } = require('./src/nft/pleiades-cosmic-bridge.js');
+const { PleiadesCosmicBridge } = require('./src/nft/pleiades-cosmic-bridge.js');
 
-const bridge = new PleiadesCossmicBridge({
+const bridge = new PleiadesCosmicBridge({
   baseFrequency: 528,      // Hz
   divineFrequency: 963,    // Hz
   enableMirrorSync: true,
@@ -308,12 +308,12 @@ const mirrorBridge = await bridge.synchronizeMirrorNFTs('nft_001', 'nft_002');
 
 ## API Reference
 
-### PleiadesCossmicBridge Class
+### PleiadesCosmicBridge Class
 
 #### Constructor
 
 ```javascript
-new PleiadesCossmicBridge(config)
+new PleiadesCosmicBridge(config)
 ```
 
 **Parameters:**
@@ -381,10 +381,10 @@ const status = bridge.getStatus();
 ### Example 1: Basic NFT Integration
 
 ```javascript
-const { PleiadesCossmicBridge } = require('./src/nft/pleiades-cosmic-bridge.js');
+const { PleiadesCosmicBridge } = require('./src/nft/pleiades-cosmic-bridge.js');
 
 async function integrateNFT() {
-  const bridge = new PleiadesCossmicBridge();
+  const bridge = new PleiadesCosmicBridge();
   await bridge.initialize();
   
   const nft = {
@@ -413,7 +413,7 @@ integrateNFT();
 
 ```javascript
 async function createMirrorCollection() {
-  const bridge = new PleiadesCossmicBridge();
+  const bridge = new PleiadesCosmicBridge();
   await bridge.initialize();
   
   // Create base NFTs
@@ -452,7 +452,7 @@ createMirrorCollection();
 
 ```javascript
 async function queryNFTs() {
-  const bridge = new PleiadesCossmicBridge();
+  const bridge = new PleiadesCosmicBridge();
   await bridge.initialize();
   
   // Integrate multiple NFTs

@@ -7,7 +7,7 @@
  */
 
 const {
-  PleiadesCossmicBridge,
+  PleiadesCosmicBridge,
   PLEIADES_STARS,
   PLEIADES_GEOMETRY,
   COSMIC_BRIDGE_CONFIG
@@ -17,7 +17,7 @@ describe('Pleiades Cosmic Bridge Module', () => {
   let bridge;
 
   beforeEach(async () => {
-    bridge = new PleiadesCossmicBridge();
+    bridge = new PleiadesCosmicBridge();
     await bridge.initialize();
   });
 

@@ -6,7 +6,7 @@
  * and synchronize mirror NFTs with cryptographic bridges.
  */
 
-const { PleiadesCossmicBridge } = require('../src/nft/pleiades-cosmic-bridge.js');
+const { PleiadesCosmicBridge } = require('../src/nft/pleiades-cosmic-bridge.js');
 
 /**
  * Example 1: Basic NFT Integration
@@ -16,7 +16,7 @@ async function example1_BasicIntegration() {
   console.log('\n=== Example 1: Basic NFT Integration ===\n');
   
   // Initialize Pleiades Cosmic Bridge
-  const bridge = new PleiadesCossmicBridge({
+  const bridge = new PleiadesCosmicBridge({
     baseFrequency: 528,      // Miracle tone
     divineFrequency: 963,    // Divine connection
     enableMirrorSync: true,
@@ -78,7 +78,7 @@ async function example1_BasicIntegration() {
 async function example2_SevenSistersCollection() {
   console.log('\n=== Example 2: Seven Sisters Collection ===\n');
   
-  const bridge = new PleiadesCossmicBridge();
+  const bridge = new PleiadesCosmicBridge();
   await bridge.initialize();
   
   // Sacred frequencies matching the seven stars
@@ -126,7 +126,7 @@ async function example2_SevenSistersCollection() {
 async function example3_MirrorSynchronization() {
   console.log('\n=== Example 3: Mirror NFT Synchronization ===\n');
   
-  const bridge = new PleiadesCossmicBridge();
+  const bridge = new PleiadesCosmicBridge();
   await bridge.initialize();
   
   // Create origin NFT
@@ -193,7 +193,7 @@ async function example3_MirrorSynchronization() {
 async function example4_SpatialCoordinates() {
   console.log('\n=== Example 4: Spatial Resonance Coordinates ===\n');
   
-  const bridge = new PleiadesCossmicBridge();
+  const bridge = new PleiadesCosmicBridge();
   await bridge.initialize();
   
   const nft = {
@@ -238,7 +238,7 @@ async function example4_SpatialCoordinates() {
 async function example5_QueryAnalytics() {
   console.log('\n=== Example 5: Query and Analytics ===\n');
   
-  const bridge = new PleiadesCossmicBridge();
+  const bridge = new PleiadesCosmicBridge();
   await bridge.initialize();
   
   // Integrate multiple NFTs

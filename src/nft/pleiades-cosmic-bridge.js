@@ -116,7 +116,7 @@ const COSMIC_BRIDGE_CONFIG = {
 // Pleiades Cosmic Bridge Class
 // ============================================================================
 
-class PleiadesCossmicBridge {
+class PleiadesCosmicBridge {
   constructor(config = {}) {
     this.config = {
       baseFrequency: 528, // Hz
@@ -679,7 +679,7 @@ class PleiadesCossmicBridge {
 // ============================================================================
 
 module.exports = {
-  PleiadesCossmicBridge,
+  PleiadesCosmicBridge,
   PLEIADES_STARS,
   PLEIADES_GEOMETRY,
   COSMIC_BRIDGE_CONFIG

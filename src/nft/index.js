@@ -4,14 +4,14 @@
  */
 
 const {
-  PleiadesCossmicBridge,
+  PleiadesCosmicBridge,
   PLEIADES_STARS,
   PLEIADES_GEOMETRY,
   COSMIC_BRIDGE_CONFIG
 } = require('./pleiades-cosmic-bridge.js');
 
 module.exports = {
-  PleiadesCossmicBridge,
+  PleiadesCosmicBridge,
   PLEIADES_STARS,
   PLEIADES_GEOMETRY,
   COSMIC_BRIDGE_CONFIG
