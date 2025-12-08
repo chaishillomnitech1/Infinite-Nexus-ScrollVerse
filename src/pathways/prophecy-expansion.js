@@ -388,13 +388,17 @@ class ProphecyExpansionPathway extends BasePathway {
    */
   getStatistics() {
     return {
-      ...super.getStatistics(),
+      pathwayNumber: this.pathwayNumber,
+      name: this.name,
+      status: this.status,
+      frequency: `${this.config.frequency}Hz`,
+      sacredGeometry: this.config.sacredGeometry,
+      divinePrinciple: this.config.divinePrinciple,
       ...this.statistics,
       totalSequences: this.prophecySequences.length,
       totalFractals: this.fractals.size,
       expansionLayers: this.expansionLayers.length,
-      totalCapacity: this.expansionLayers.reduce((sum, l) => sum + l.prophecyCapacity, 0),
-      frequency: `${this.config.frequency}Hz`
+      totalCapacity: this.expansionLayers.reduce((sum, l) => sum + l.prophecyCapacity, 0)
     };
   }
 

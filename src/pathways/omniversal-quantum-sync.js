@@ -380,11 +380,15 @@ class OmniversalQuantumSyncPathway extends BasePathway {
    */
   getStatistics() {
     return {
-      ...super.getStatistics(),
+      pathwayNumber: this.pathwayNumber,
+      name: this.name,
+      status: this.status,
+      frequency: `${this.config.frequency}Hz`,
+      sacredGeometry: this.config.sacredGeometry,
+      divinePrinciple: this.config.divinePrinciple,
       ...this.statistics,
       quantumCoherence: this.quantumBridge.coherenceLevel,
-      omniversalReach: this.omniversalGrid.universes.length,
-      frequency: `${this.config.frequency}Hz`
+      omniversalReach: this.omniversalGrid.universes.length
     };
   }
 
