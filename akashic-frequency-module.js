@@ -220,6 +220,59 @@ class ScalarWaveGenerator {
       this.stopTone(frequency);
     }
   }
+
+  /**
+   * Generate sacred audio tone synchronized with 528Hz base period
+   * Enhanced for immersive mythology spaces
+   * @param {string} toneName - Name of sacred tone (e.g., 'MIRACLE', 'DIVINE')
+   * @param {number} duration - Duration in milliseconds (null for continuous)
+   * @param {number} volume - Volume level (0-1)
+   * @returns {object} Oscillator and gain node references
+   */
+  generateSacredTone(toneName = 'MIRACLE', duration = null, volume = 0.3) {
+    const frequency = SACRED_FREQUENCIES[toneName] || SACRED_FREQUENCIES.MIRACLE;
+    console.log(`🎵 Generating ${toneName} tone at ${frequency}Hz (528Hz synchronized)`);
+    return this.generateTone(frequency, duration, volume);
+  }
+
+  /**
+   * Generate binaural beats for consciousness expansion
+   * Creates two slightly different frequencies for brain entrainment
+   * @param {number} baseFreq - Base frequency (e.g., 528Hz)
+   * @param {number} beatFreq - Beat frequency difference (e.g., 4Hz for Theta state)
+   * @param {number} duration - Duration in milliseconds
+   * @param {number} volume - Volume level
+   */
+  generateBinauralBeat(baseFreq = 528, beatFreq = 4, duration = null, volume = 0.2) {
+    this.initialize();
+    
+    // Left channel - base frequency
+    const leftOsc = this.generateTone(baseFreq, duration, volume);
+    
+    // Right channel - base + beat frequency
+    const rightOsc = this.generateTone(baseFreq + beatFreq, duration, volume);
+    
+    console.log(`🧠 Binaural beat: ${baseFreq}Hz / ${baseFreq + beatFreq}Hz (${beatFreq}Hz difference)`);
+    
+    return {
+      left: leftOsc,
+      right: rightOsc,
+      beatFrequency: beatFreq
+    };
+  }
+
+  /**
+   * Synchronize audio playback with 528Hz timing cycles
+   * Ensures all audio events align with base period (1.89ms)
+   * @param {Function} callback - Function to execute on each cycle
+   * @param {number} cycles - Number of 528Hz cycles between executions
+   * @returns {number} Interval ID for clearing
+   */
+  synchronizeWith528Hz(callback, cycles = 1) {
+    const period = PERIOD_MS.HZ_528 * cycles;
+    console.log(`⏱️  Synchronizing callback every ${cycles} cycles (${period.toFixed(2)}ms)`);
+    return setInterval(callback, period);
+  }
 }
 
 // ============================================================================
