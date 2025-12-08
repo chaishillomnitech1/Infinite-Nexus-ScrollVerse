@@ -42,6 +42,18 @@ contract AkashicFrequencyNFT is ERC721URIStorage, Ownable {
         bool isActive;                 // Whether the token is actively evolving
     }
     
+    // Pleiades Cosmic Attributes
+    struct PleiadesAttributes {
+        string starName;               // "Alcyone", "Atlas", "Electra", "Maia", "Merope", "Taygeta", "Pleione"
+        string starDesignation;        // e.g., "Eta Tauri"
+        uint256 resonanceFrequency;    // Star's sacred frequency
+        string cosmicAlignment;        // "Unity", "Foundation", "Illumination", etc.
+        string archetype;              // Star's archetype
+        uint256 luminosity;            // 0-1000 (representing 0.0-1.0)
+        string clusterMembership;      // "Seven Sisters"
+        bool isAligned;                // Whether token is aligned with Pleiades
+    }
+    
     // Token Embodiment tracking
     struct TokenEmbodiment {
         string scrollSoulId;
@@ -54,6 +66,7 @@ contract AkashicFrequencyNFT is ERC721URIStorage, Ownable {
     
     // Mappings
     mapping(uint256 => AkashicAttributes) public akashicAttributes;
+    mapping(uint256 => PleiadesAttributes) public pleiadesAttributes;
     mapping(uint256 => TokenEmbodiment) public tokenEmbodiments;
     mapping(uint256 => string) public tokenIPFSHashes;
     
@@ -81,6 +94,13 @@ contract AkashicFrequencyNFT is ERC721URIStorage, Ownable {
     event EmbodimentCreated(
         uint256 indexed tokenId,
         string scrollSoulId,
+        uint256 timestamp
+    );
+    
+    event PleiadesAligned(
+        uint256 indexed tokenId,
+        string starName,
+        uint256 resonanceFrequency,
         uint256 timestamp
     );
     
@@ -223,6 +243,36 @@ contract AkashicFrequencyNFT is ERC721URIStorage, Ownable {
         tokenEmbodiments[tokenId].prophecyLinks.push(prophecyId);
     }
     
+    /**
+     * @dev Align token with Pleiades star
+     */
+    function alignWithPleiades(
+        uint256 tokenId,
+        string memory starName,
+        string memory starDesignation,
+        uint256 resonanceFrequency,
+        string memory cosmicAlignment,
+        string memory archetype,
+        uint256 luminosity
+    ) public {
+        require(ownerOf(tokenId) == msg.sender, "Not token owner");
+        require(_isValidSacredFrequency(resonanceFrequency), "Not a sacred frequency");
+        require(luminosity <= 1000, "Invalid luminosity");
+        
+        pleiadesAttributes[tokenId] = PleiadesAttributes({
+            starName: starName,
+            starDesignation: starDesignation,
+            resonanceFrequency: resonanceFrequency,
+            cosmicAlignment: cosmicAlignment,
+            archetype: archetype,
+            luminosity: luminosity,
+            clusterMembership: "Seven Sisters",
+            isAligned: true
+        });
+        
+        emit PleiadesAligned(tokenId, starName, resonanceFrequency, block.timestamp);
+    }
+    
     // ============================================================================
     // View Functions
     // ============================================================================
@@ -274,6 +324,32 @@ contract AkashicFrequencyNFT is ERC721URIStorage, Ownable {
             embodiment.evolutionCount,
             embodiment.resonanceScore,
             embodiment.prophecyLinks.length
+        );
+    }
+    
+    /**
+     * @dev Get Pleiades attributes for a token
+     */
+    function getPleiadesAttributes(uint256 tokenId) public view returns (
+        string memory starName,
+        string memory starDesignation,
+        uint256 resonanceFrequency,
+        string memory cosmicAlignment,
+        string memory archetype,
+        uint256 luminosity,
+        string memory clusterMembership,
+        bool isAligned
+    ) {
+        PleiadesAttributes memory pleiades = pleiadesAttributes[tokenId];
+        return (
+            pleiades.starName,
+            pleiades.starDesignation,
+            pleiades.resonanceFrequency,
+            pleiades.cosmicAlignment,
+            pleiades.archetype,
+            pleiades.luminosity,
+            pleiades.clusterMembership,
+            pleiades.isAligned
         );
     }
     
