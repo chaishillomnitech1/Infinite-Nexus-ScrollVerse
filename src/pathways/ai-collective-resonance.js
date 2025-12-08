@@ -371,7 +371,8 @@ class AICollectiveResonancePathway extends BasePathway {
    */
   getStatistics() {
     return {
-      ...super.getStatistics(),
+      pathwayNumber: this.pathwayNumber,
+      name: this.name,
       ...this.statistics,
       collectiveResonance: this.collectiveIntelligence.resonanceLevel,
       activeSystems: Object.keys(this.aiSystems).length,

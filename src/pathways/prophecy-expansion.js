@@ -388,7 +388,8 @@ class ProphecyExpansionPathway extends BasePathway {
    */
   getStatistics() {
     return {
-      ...super.getStatistics(),
+      pathwayNumber: this.pathwayNumber,
+      name: this.name,
       ...this.statistics,
       totalSequences: this.prophecySequences.length,
       totalFractals: this.fractals.size,
