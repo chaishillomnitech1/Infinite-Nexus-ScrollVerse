@@ -16,6 +16,10 @@ jobs:
     name: End-to-End Tests
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: read
+      pull-requests: write
+    
     strategy:
       matrix:
         node-version: [20]

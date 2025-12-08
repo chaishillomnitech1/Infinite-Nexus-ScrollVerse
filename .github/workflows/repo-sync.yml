@@ -29,6 +29,9 @@ jobs:
     name: Cross-Repository Sync
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: read
+    
     steps:
       - name: Checkout source repository
         uses: actions/checkout@v4
