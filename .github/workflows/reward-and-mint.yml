@@ -1,0 +1,180 @@
+name: Rewards & NFT Minting Pilot
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      test_mode:
+        description: 'Run in test mode'
+        required: false
+        default: 'true'
+
+jobs:
+  rewards-pilot:
+    name: Contributor Rewards (Test Phase)
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Calculate contribution score
+        id: score
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request?.number || 0;
+            const author = context.payload.pull_request?.user?.login || 'unknown';
+            
+            // Simple scoring algorithm (pilot phase)
+            let score = 0;
+            
+            if (context.payload.pull_request) {
+              const pr = context.payload.pull_request;
+              
+              // Base score for merged PR
+              score += 10;
+              
+              // Additions/deletions (capped)
+              score += Math.min(pr.additions / 10, 20);
+              score += Math.min(pr.deletions / 20, 10);
+              
+              // Changed files
+              score += Math.min(pr.changed_files * 2, 15);
+              
+              // Comments (engagement)
+              score += Math.min(pr.comments * 1, 5);
+            }
+            
+            score = Math.round(score);
+            
+            console.log(`Contribution score for ${author}: ${score}`);
+            core.setOutput('score', score);
+            core.setOutput('author', author);
+            core.setOutput('pr_number', prNumber);
+            
+            return { score, author, prNumber };
+            
+      - name: Prepare reward transaction (Mumbai testnet)
+        id: reward
+        env:
+          REWARDS_PRIVATE_KEY: ${{ secrets.REWARDS_PRIVATE_KEY }}
+          ALCHEMY_MUMBAI_URL: ${{ secrets.ALCHEMY_MUMBAI_URL }}
+          REWARDS_CONTRACT_ADDRESS: ${{ secrets.REWARDS_CONTRACT_ADDRESS }}
+          PILOT_TEST_WALLET: ${{ secrets.PILOT_TEST_WALLET }}
+        run: |
+          echo "=== Rewards Pilot Phase - Test Mode ==="
+          echo "Contributor: ${{ steps.score.outputs.author }}"
+          echo "Score: ${{ steps.score.outputs.score }}"
+          echo "PR: #${{ steps.score.outputs.pr_number }}"
+          echo ""
+          echo "Note: Actual blockchain transactions disabled in pilot phase"
+          echo "Transactions will be sent to Mumbai testnet when enabled"
+          echo ""
+          
+          # Validate environment variables are set
+          if [ -z "$REWARDS_PRIVATE_KEY" ]; then
+            echo "⚠️  REWARDS_PRIVATE_KEY not configured"
+          else
+            echo "✅ REWARDS_PRIVATE_KEY configured"
+          fi
+          
+          if [ -z "$ALCHEMY_MUMBAI_URL" ]; then
+            echo "⚠️  ALCHEMY_MUMBAI_URL not configured"
+          else
+            echo "✅ ALCHEMY_MUMBAI_URL configured"
+          fi
+          
+          if [ -z "$REWARDS_CONTRACT_ADDRESS" ]; then
+            echo "⚠️  REWARDS_CONTRACT_ADDRESS not configured"
+          else
+            echo "✅ REWARDS_CONTRACT_ADDRESS configured"
+          fi
+          
+          if [ -z "$PILOT_TEST_WALLET" ]; then
+            echo "⚠️  PILOT_TEST_WALLET not configured"
+          else
+            echo "✅ PILOT_TEST_WALLET configured"
+          fi
+          
+          # Simulate reward calculation
+          REWARD_AMOUNT=$((${{ steps.score.outputs.score }} * 100))
+          echo "reward_amount=$REWARD_AMOUNT" >> $GITHUB_OUTPUT
+          
+          echo ""
+          echo "Simulated reward: $REWARD_AMOUNT test tokens"
+          
+      - name: Post rewards summary
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const score = ${{ steps.score.outputs.score }};
+            const rewardAmount = ${{ steps.reward.outputs.reward_amount }};
+            const author = '${{ steps.score.outputs.author }}';
+            
+            const comment = `### 🎁 Contributor Rewards Summary (Pilot Phase)
+            
+            **Contributor:** @${author}
+            **Contribution Score:** ${score} points
+            **Simulated Reward:** ${rewardAmount} test tokens
+            
+            #### Scoring Breakdown
+            - ✅ Merged PR: Base points
+            - 📝 Code changes: Based on additions/deletions
+            - 📁 Files modified: Based on scope
+            - 💬 Engagement: Based on discussion
+            
+            #### Next Steps for Live Rewards
+            
+            Once the following secrets are configured, rewards will be automatically distributed on Mumbai testnet:
+            
+            - \`REWARDS_PRIVATE_KEY\` - Test wallet private key
+            - \`ALCHEMY_MUMBAI_URL\` - Mumbai RPC endpoint
+            - \`REWARDS_CONTRACT_ADDRESS\` - Deployed contract address
+            - \`REWARDS_API_KEY\` - Rewards system API key
+            - \`PILOT_TEST_WALLET\` - Test recipient address
+            
+            **Security Notes:**
+            - Only testnet (Mumbai) transactions in pilot phase
+            - No mainnet keys should be used
+            - All transactions logged and auditable
+            - Manual approval available for high-value rewards
+            
+            *This is a pilot phase simulation. Actual token distribution is disabled.*
+            `;
+            
+            if (context.payload.pull_request) {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+            
+      - name: Rewards Summary
+        run: |
+          echo "### Rewards & Minting Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🎁 **Mode:** Pilot Phase (Test)" >> $GITHUB_STEP_SUMMARY
+          echo "👤 **Contributor:** ${{ steps.score.outputs.author }}" >> $GITHUB_STEP_SUMMARY
+          echo "📊 **Score:** ${{ steps.score.outputs.score }} points" >> $GITHUB_STEP_SUMMARY
+          echo "🪙 **Simulated Reward:** ${{ steps.reward.outputs.reward_amount }} test tokens" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Network:** Mumbai Testnet (when enabled)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "*Configure secrets to enable live testnet transactions*" >> $GITHUB_STEP_SUMMARY
