@@ -14,13 +14,27 @@
     
     <style>
         :root {
+            /* Color Palette */
             --color-528hz: #528BFF;
             --color-963hz: #9D00FF;
             --color-golden: #FFD700;
             --color-etheric: #00FFAA;
             --color-cosmic-void: #0A0E27;
             --color-crystalline: #E0F7FF;
+            
+            /* 528Hz Timing Variables (1.89ms base period) */
+            --timing-528hz-base: 1.89ms;
+            --timing-528hz-fast: 18.9ms;
+            --timing-528hz-smooth: 94.7ms;
+            --timing-528hz-medium: 189ms;
+            --timing-528hz-slow: 379ms;
+            --timing-528hz-gentle: 568ms;
+            
+            /* Golden Ratio & Sacred Geometry */
             --phi: 1.618;
+            --phi-inverse: 0.618;
+            
+            /* Fibonacci Spacing (Sacred Geometry) */
             --space-xs: 3px;
             --space-sm: 5px;
             --space-md: 8px;
@@ -97,7 +111,7 @@
             margin-bottom: var(--space-2xl);
             box-shadow: 0 8px 32px rgba(82, 139, 255, 0.3);
             backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            transition: all var(--timing-528hz-slow) ease;
         }
         
         .card:hover {
@@ -137,7 +151,7 @@
             border-radius: var(--space-lg);
             padding: var(--space-xl);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all var(--timing-528hz-medium) ease;
         }
         
         .metric:hover {
@@ -174,7 +188,7 @@
             border-radius: var(--space-md);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all var(--timing-528hz-medium) ease;
             border: none;
             outline: none;
             font-size: 1rem;
@@ -214,7 +228,7 @@
             height: 100%;
             background: linear-gradient(90deg, var(--color-528hz), var(--color-963hz), var(--color-golden));
             border-radius: 20px;
-            transition: width 0.5s ease;
+            transition: width var(--timing-528hz-gentle) ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -250,7 +264,7 @@
             padding: var(--space-lg);
             margin-bottom: var(--space-md);
             border-radius: var(--space-sm);
-            transition: all 0.3s ease;
+            transition: all var(--timing-528hz-medium) ease;
         }
         
         .imprint-item:hover {

@@ -8,10 +8,37 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         :root {
+            /* Color Palette */
             --color-528hz: #528BFF;
             --color-golden: #FFD700;
             --color-etheric: #00FFAA;
             --color-cosmic-void: #0A0E27;
+            
+            /* 528Hz Timing Variables (1.89ms base period) */
+            --timing-528hz-base: 1.89ms;
+            --timing-528hz-fast: 18.9ms;
+            --timing-528hz-smooth: 94.7ms;
+            --timing-528hz-medium: 189ms;
+            --timing-528hz-slow: 379ms;
+            --timing-528hz-gentle: 568ms;
+            
+            /* Golden Ratio Variables */
+            --phi: 1.618;
+            --phi-inverse: 0.618;
+            --phi-squared: 2.618;
+            
+            /* Fibonacci Spacing Variables */
+            --spacing-xs: 3px;
+            --spacing-sm: 5px;
+            --spacing-md: 8px;
+            --spacing-lg: 13px;
+            --spacing-xl: 21px;
+            --spacing-xxl: 34px;
+            --spacing-xxxl: 55px;
+            
+            /* Golden Layout Variables */
+            --layout-major: 61.8%;
+            --layout-minor: 38.2%;
         }
         
         body {
@@ -23,8 +50,8 @@
         
         .hero {
             text-align: center;
-            padding: 4rem 2rem;
-            animation: fadeIn 1s ease-out;
+            padding: calc(var(--spacing-xxxl) * 1.5) var(--spacing-xxl);
+            animation: fadeIn var(--timing-528hz-gentle) ease-out;
         }
         
         .title {
@@ -34,35 +61,35 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1rem;
+            margin-bottom: var(--spacing-xl);
         }
         
         .card {
             background: rgba(26, 31, 58, 0.8);
             border: 2px solid var(--color-528hz);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin: 1rem;
-            transition: all 0.3s ease;
+            border-radius: var(--spacing-lg);
+            padding: var(--spacing-xxl);
+            margin: var(--spacing-lg);
+            transition: all var(--timing-528hz-slow) ease;
             backdrop-filter: blur(10px);
         }
         
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(calc(-1 * var(--spacing-sm)));
             box-shadow: 0 10px 40px rgba(82, 139, 255, 0.4);
             border-color: var(--color-golden);
         }
         
         .btn {
             display: inline-block;
-            padding: 1rem 2rem;
+            padding: var(--spacing-lg) var(--spacing-xxl);
             background: linear-gradient(135deg, var(--color-528hz), var(--color-etheric));
             color: white;
             text-decoration: none;
-            border-radius: 0.5rem;
+            border-radius: var(--spacing-md);
             font-weight: 600;
-            transition: all 0.3s ease;
-            margin: 0.5rem;
+            transition: all var(--timing-528hz-medium) ease;
+            margin: var(--spacing-md);
         }
         
         .btn:hover {
@@ -71,7 +98,7 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
+            from { opacity: 0; transform: translateY(calc(-1 * var(--spacing-xl))); }
             to { opacity: 1; transform: translateY(0); }
         }
         
