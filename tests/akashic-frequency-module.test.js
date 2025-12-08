@@ -414,6 +414,68 @@ describe('ScalarWaveGenerator', () => {
     expect(generator.oscillators.size).toBe(0);
     expect(generator.gainNodes.size).toBe(0);
   });
+
+  test('should generate sacred tone by name', () => {
+    generator.initialize();
+    const { oscillator, gainNode } = generator.generateSacredTone('MIRACLE', 1, 0.3);
+
+    expect(oscillator).toBeDefined();
+    expect(gainNode).toBeDefined();
+    expect(oscillator.frequency.setValueAtTime).toHaveBeenCalled();
+  });
+
+  test('should default to MIRACLE tone if invalid name', () => {
+    generator.initialize();
+    const { oscillator } = generator.generateSacredTone('INVALID_TONE', 1, 0.3);
+
+    expect(oscillator).toBeDefined();
+  });
+
+  test('should generate binaural beat with two frequencies', () => {
+    generator.initialize();
+    const result = generator.generateBinauralBeat(528, 4, null, 0.2);
+
+    expect(result).toHaveProperty('left');
+    expect(result).toHaveProperty('right');
+    expect(result).toHaveProperty('beatFrequency', 4);
+    expect(result.left.oscillator).toBeDefined();
+    expect(result.right.oscillator).toBeDefined();
+  });
+
+  test('should synchronize callback with 528Hz timing', () => {
+    jest.useFakeTimers();
+    const callback = jest.fn();
+    
+    const intervalId = generator.synchronizeWith528Hz(callback, 10);
+    
+    expect(intervalId).toBeDefined();
+    
+    // Fast-forward time
+    jest.advanceTimersByTime(100);
+    
+    expect(callback).toHaveBeenCalled();
+    
+    clearInterval(intervalId);
+    jest.useRealTimers();
+  });
+
+  test('should calculate correct period for multiple cycles', () => {
+    jest.useFakeTimers();
+    const callback = jest.fn();
+    const cycles = 5;
+    // Using PERIOD_MS from akashic-frequency-module (matches sacred-constants.HZ_528_BASE_PERIOD_MS)
+    const expectedPeriod = PERIOD_MS.HZ_528 * cycles;
+    
+    const intervalId = generator.synchronizeWith528Hz(callback, cycles);
+    
+    // Fast-forward by expected period
+    jest.advanceTimersByTime(expectedPeriod);
+    
+    expect(callback).toHaveBeenCalledTimes(1);
+    
+    clearInterval(intervalId);
+    jest.useRealTimers();
+  });
 });
 
 describe('AkashicResonanceSystem', () => {
