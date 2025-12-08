@@ -463,6 +463,7 @@ describe('ScalarWaveGenerator', () => {
     jest.useFakeTimers();
     const callback = jest.fn();
     const cycles = 5;
+    // Using PERIOD_MS from akashic-frequency-module (matches sacred-constants.HZ_528_BASE_PERIOD_MS)
     const expectedPeriod = PERIOD_MS.HZ_528 * cycles;
     
     const intervalId = generator.synchronizeWith528Hz(callback, cycles);

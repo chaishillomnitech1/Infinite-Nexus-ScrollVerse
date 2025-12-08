@@ -106,17 +106,17 @@ const FIBONACCI_SEQUENCE = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 3
  * Use for margins, paddings, gaps, and element alignments
  */
 const FIBONACCI_SPACING = {
-  XXS: 2,    // Fib[3]
-  XS: 3,     // Fib[4]
-  SM: 5,     // Fib[5]
-  MD: 8,     // Fib[6]
-  LG: 13,    // Fib[7]
-  XL: 21,    // Fib[8]
-  XXL: 34,   // Fib[9]
-  XXXL: 55,  // Fib[10]
-  HUGE: 89,  // Fib[11]
-  MASSIVE: 144, // Fib[12]
-  COSMIC: 233,  // Fib[13]
+  XXS: 2,    // FIBONACCI_SEQUENCE[3] = 2
+  XS: 3,     // FIBONACCI_SEQUENCE[4] = 3
+  SM: 5,     // FIBONACCI_SEQUENCE[5] = 5
+  MD: 8,     // FIBONACCI_SEQUENCE[6] = 8
+  LG: 13,    // FIBONACCI_SEQUENCE[7] = 13
+  XL: 21,    // FIBONACCI_SEQUENCE[8] = 21
+  XXL: 34,   // FIBONACCI_SEQUENCE[9] = 34
+  XXXL: 55,  // FIBONACCI_SEQUENCE[10] = 55
+  HUGE: 89,  // FIBONACCI_SEQUENCE[11] = 89
+  MASSIVE: 144, // FIBONACCI_SEQUENCE[12] = 144
+  COSMIC: 233,  // FIBONACCI_SEQUENCE[13] = 233
   
   // CSS variables (with unit)
   CSS: {
@@ -249,7 +249,7 @@ function generateGoldenBreakpoints(baseWidth = 320) {
     xs: Math.round(baseWidth),
     sm: Math.round(scaleByGoldenRatio(baseWidth, 1)),  // ~518px
     md: Math.round(scaleByGoldenRatio(baseWidth, 2)),  // ~838px
-    lg: Math.round(scaleByGoldenRatio(baseWidth, 3)),  // ~1355px
+    lg: Math.round(scaleByGoldenRatio(baseWidth, 3)),  // ~1356px
     xl: Math.round(scaleByGoldenRatio(baseWidth, 4)),  // ~2193px
   };
 }
