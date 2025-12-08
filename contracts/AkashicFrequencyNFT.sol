@@ -245,6 +245,14 @@ contract AkashicFrequencyNFT is ERC721URIStorage, Ownable {
     
     /**
      * @dev Align token with Pleiades star
+     * 
+     * Note: This function allows manual alignment. For automated alignment based on
+     * frequency matching, use the PleiadesCosmicBridge off-chain module which provides
+     * the complete integration logic and then call this function to record on-chain.
+     * 
+     * The frequency-based assignment logic in the bridge module ensures proper star
+     * selection based on token attributes. This function should typically be called
+     * by trusted contracts or after off-chain validation via the bridge module.
      */
     function alignWithPleiades(
         uint256 tokenId,

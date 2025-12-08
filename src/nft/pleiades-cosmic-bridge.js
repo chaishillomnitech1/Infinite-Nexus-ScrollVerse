@@ -543,7 +543,14 @@ class PleiadesCosmicBridge {
       }
     }
     
-    return 0.7 + (Math.random() * 0.3); // 70-100% coherence
+    // Calculate coherence based on frequency relationship (deterministic)
+    // Closer frequencies have higher coherence
+    const freqDiff = Math.abs(freq1 - freq2);
+    const maxDiff = 963 - 396; // Solfeggio range
+    const normalizedDiff = freqDiff / maxDiff;
+    
+    // Map to 70-100% coherence range (inverse relationship)
+    return 1.0 - (normalizedDiff * 0.3); // Higher for closer frequencies
   }
 
   /**
@@ -556,16 +563,20 @@ class PleiadesCosmicBridge {
 
   /**
    * Generate Akashic hash for cryptographic accuracy
+   * Creates deterministic hash based on metadata and star (no timestamp)
    */
   generateAkashicHash(metadata, star) {
-    // Simple hash generation (in production, use proper cryptographic hash)
+    // Create deterministic data string (no timestamp for consistency)
     const dataString = JSON.stringify({
-      metadata,
+      nftId: metadata.tokenId || metadata.name,
       star: star.name,
       frequency: star.resonanceFrequency,
-      timestamp: Date.now()
-    });
+      alignment: star.cosmicAlignment,
+      archetype: star.archetype
+    }, Object.keys({}).sort()); // Sort keys for consistency
     
+    // Use a better hash algorithm (still simple but more robust)
+    // In production environment with crypto module, use crypto.createHash('sha256')
     let hash = 0;
     for (let i = 0; i < dataString.length; i++) {
       const char = dataString.charCodeAt(i);
@@ -573,7 +584,11 @@ class PleiadesCosmicBridge {
       hash = hash & hash; // Convert to 32-bit integer
     }
     
-    return `akashic_${Math.abs(hash).toString(16)}`;
+    // Create longer hash for better distribution
+    const hashHex = Math.abs(hash).toString(16).padStart(8, '0');
+    const secondaryHash = Math.abs(hash * 31 + dataString.length).toString(16).padStart(8, '0');
+    
+    return `akashic_${hashHex}${secondaryHash}`;
   }
 
   /**

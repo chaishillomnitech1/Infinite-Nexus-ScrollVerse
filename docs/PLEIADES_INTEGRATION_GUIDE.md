@@ -232,6 +232,8 @@ Cosmic artifacts linked to the NFT:
 
 Cryptographic bridges enable secure mirror NFT synchronization with Akashic accuracy.
 
+**Note on Hash Implementation**: The current implementation uses a deterministic hash algorithm suitable for development and testing. For production deployment, especially when handling sensitive data or requiring cryptographic security guarantees, integrate Node.js `crypto.createHash('sha256')` or similar industry-standard cryptographic hash functions. The hash is deterministic (no timestamp) to ensure consistent verification and recreation of hashes for identical inputs.
+
 ### Bridge Configuration
 
 ```javascript
