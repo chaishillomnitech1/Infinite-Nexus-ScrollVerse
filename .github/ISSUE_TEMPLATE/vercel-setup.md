@@ -92,9 +92,9 @@ Paste error messages here
 ### 🔗 Helpful Resources
 
 - [Vercel Documentation](https://vercel.com/docs)
-- [Infinite Nexus ScrollVerse Deployment Guide](../DEPLOYMENT.md)
-- [Environment Variables Template](../.env.example)
-- [Vercel Configuration](.vercel.json)
+- [Infinite Nexus ScrollVerse Deployment Guide](../../DEPLOYMENT.md)
+- [Environment Variables Template](../../.env.example)
+- [Vercel Configuration](../../.vercel.json)
 
 ---
 

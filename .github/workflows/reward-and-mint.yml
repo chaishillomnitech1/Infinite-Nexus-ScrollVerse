@@ -46,18 +46,31 @@ jobs:
             if (context.payload.pull_request) {
               const pr = context.payload.pull_request;
               
+              // Scoring configuration (pilot phase - tune based on feedback)
+              const SCORING = {
+                BASE_MERGED_PR: 10,
+                ADDITIONS_DIVISOR: 10,
+                ADDITIONS_CAP: 20,
+                DELETIONS_DIVISOR: 20,
+                DELETIONS_CAP: 10,
+                FILES_MULTIPLIER: 2,
+                FILES_CAP: 15,
+                COMMENTS_MULTIPLIER: 1,
+                COMMENTS_CAP: 5
+              };
+              
               // Base score for merged PR
-              score += 10;
+              score += SCORING.BASE_MERGED_PR;
               
-              // Additions/deletions (capped)
-              score += Math.min(pr.additions / 10, 20);
-              score += Math.min(pr.deletions / 20, 10);
+              // Additions/deletions (capped to prevent gaming)
+              score += Math.min(pr.additions / SCORING.ADDITIONS_DIVISOR, SCORING.ADDITIONS_CAP);
+              score += Math.min(pr.deletions / SCORING.DELETIONS_DIVISOR, SCORING.DELETIONS_CAP);
               
-              // Changed files
-              score += Math.min(pr.changed_files * 2, 15);
+              // Changed files (scope of changes)
+              score += Math.min(pr.changed_files * SCORING.FILES_MULTIPLIER, SCORING.FILES_CAP);
               
-              // Comments (engagement)
-              score += Math.min(pr.comments * 1, 5);
+              // Comments (engagement and collaboration)
+              score += Math.min(pr.comments * SCORING.COMMENTS_MULTIPLIER, SCORING.COMMENTS_CAP);
             }
             
             score = Math.round(score);
