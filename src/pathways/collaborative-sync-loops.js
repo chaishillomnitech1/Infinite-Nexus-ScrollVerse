@@ -476,12 +476,15 @@ class CollaborativeSyncLoopsPathway extends BasePathway {
     return {
       pathwayNumber: this.pathwayNumber,
       name: this.name,
+      status: this.status,
+      frequency: `${this.config.frequency}Hz`,
+      sacredGeometry: this.config.sacredGeometry,
+      divinePrinciple: this.config.divinePrinciple,
       ...this.statistics,
       activeSyncLoops: this.syncLoops.active.length,
       completedSyncLoops: this.syncLoops.completed.length,
       failedSyncLoops: this.syncLoops.failed.length,
-      cosmicResonance: this.cosmicSyncPaths.resonanceLevel,
-      frequency: `${this.config.frequency}Hz`
+      cosmicResonance: this.cosmicSyncPaths.resonanceLevel
     };
   }
 

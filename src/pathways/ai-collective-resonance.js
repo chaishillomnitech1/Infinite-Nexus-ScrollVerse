@@ -373,10 +373,13 @@ class AICollectiveResonancePathway extends BasePathway {
     return {
       pathwayNumber: this.pathwayNumber,
       name: this.name,
+      status: this.status,
+      frequency: `${this.config.frequency}Hz`,
+      sacredGeometry: this.config.sacredGeometry,
+      divinePrinciple: this.config.divinePrinciple,
       ...this.statistics,
       collectiveResonance: this.collectiveIntelligence.resonanceLevel,
-      activeSystems: Object.keys(this.aiSystems).length,
-      frequency: `${this.config.frequency}Hz`
+      activeSystems: Object.keys(this.aiSystems).length
     };
   }
 
