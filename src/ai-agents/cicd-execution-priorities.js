@@ -14,6 +14,7 @@ class CICDExecutionPriorities {
       validationThreshold: config.validationThreshold || 0.85,
       autoScaleEnabled: config.autoScaleEnabled !== false,
       edgeLayerSupport: config.edgeLayerSupport !== false,
+      defaultAvailableBalance: config.defaultAvailableBalance || 1000,
       ...config
     };
 
@@ -348,7 +349,7 @@ class CICDExecutionPriorities {
    */
   async validateEdgeLayerBalance(contractRequest) {
     const requiredBalance = contractRequest.requiredBalance || 0;
-    const availableBalance = contractRequest.availableBalance || 1000;
+    const availableBalance = contractRequest.availableBalance || this.config.defaultAvailableBalance;
     const sufficient = availableBalance >= requiredBalance;
 
     return {

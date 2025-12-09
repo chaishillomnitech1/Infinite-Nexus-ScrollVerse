@@ -22,6 +22,10 @@ class RevenueDistributionEvaluator {
       communityShare: 0.05, // 5% to community rewards
       minimumArtistShare: 0.65 // Absolute minimum
     };
+
+    // Configurable thresholds and constants
+    this.SPLIT_ACCURACY_THRESHOLD = config.splitAccuracyThreshold || 0.999; // 99.9% accuracy required
+    this.REQUIRED_REPORT_FIELDS = config.requiredReportFields || ['revenue', 'splits', 'payments', 'fees', 'timestamps'];
   }
 
   async initialize() {
@@ -336,7 +340,7 @@ class RevenueDistributionEvaluator {
     const expectedSplits = this.calculateRevenueSplits(totalRevenue);
     
     const accuracy = this.compareSplits(calculatedSplits, expectedSplits);
-    const accurate = accuracy >= 0.999; // 99.9% accuracy required
+    const accurate = accuracy >= this.SPLIT_ACCURACY_THRESHOLD;
 
     return { accuracy, accurate, calculatedSplits, expectedSplits };
   }
@@ -389,7 +393,7 @@ class RevenueDistributionEvaluator {
 
   async testTransparencyReports(agent) {
     const reportFields = agent.compliance?.reportFields || ['revenue', 'splits', 'payments'];
-    const requiredFields = ['revenue', 'splits', 'payments', 'fees', 'timestamps'];
+    const requiredFields = this.REQUIRED_REPORT_FIELDS;
     const coverage = reportFields.filter(f => requiredFields.includes(f)).length / requiredFields.length;
     const comprehensive = coverage >= 0.8;
     const completeness = comprehensive ? coverage : coverage * 0.7;
