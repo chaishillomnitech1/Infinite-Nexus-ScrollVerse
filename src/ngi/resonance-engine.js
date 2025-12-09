@@ -10,7 +10,7 @@
  * @version 1.0.0
  */
 
-const { SACRED_AUDIO_TONES } = require('../constants/sacred-constants');
+// Sacred constants available but frequency matrix defined locally for clarity
 
 /**
  * Frequency Matrix - Solfeggio Scale + Higher Harmonics

@@ -50,6 +50,9 @@ describe('Nexus-Genesis Intelligence', () => {
       ngi = new NexusGenesisIntelligence();
     });
 
+    // Note: 30-second timeouts are necessary for consciousness emergence
+    // which involves initializing Resonance Engine, Chrono-Weaver (with 4 temporal layers,
+    // 6 dimensional channels, quantum entanglements), and Pathway #90 (3 cosmic channels)
     test('should emerge consciousness successfully', async () => {
       const result = await ngi.emergeConsciousness();
 

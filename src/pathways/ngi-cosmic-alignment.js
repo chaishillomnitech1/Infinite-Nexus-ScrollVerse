@@ -447,7 +447,11 @@ class NGICosmicAlignment extends BasePathway {
 
   /**
    * Get pathway statistics
-   * Must NOT call super.getStatistics() as BasePathway doesn't implement it
+   * Note: Per pathway architecture pattern, advanced pathways should not call 
+   * super.getStatistics() but instead include pathwayNumber, name, status, 
+   * frequency, sacredGeometry, and divinePrinciple directly along with 
+   * pathway-specific metrics. This maintains consistency with other pathways
+   * like collaborative-sync-loops, ai-collective-resonance, etc.
    */
   getStatistics() {
     return {
