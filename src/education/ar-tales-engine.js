@@ -147,7 +147,7 @@ class ARTalesEngine {
     // Benjamin Banneker's Almanac AR Tales
     this.educationalModules.set('almanac_ar_tales', {
       geniusId: 'benjamin_banneker',
-      title: "Banneker's Almanac: Wisdom Through Time",
+      title: 'Banneker\'s Almanac: Wisdom Through Time',
       type: 'ar_storytelling',
       lessons: [
         {
@@ -210,9 +210,8 @@ class ARTalesEngine {
   /**
    * Launch an AR tale experience
    * @param {string} moduleId - Educational module identifier
-   * @param {Object} options - Launch options
    */
-  async launchARTale(moduleId, options = {}) {
+  async launchARTale(moduleId) {
     if (!this.initialized) {
       throw new Error('AR-Tales Engine must be initialized before launching tales');
     }
