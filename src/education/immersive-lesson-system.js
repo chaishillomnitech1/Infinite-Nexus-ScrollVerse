@@ -292,22 +292,32 @@ class ImmersiveLessonSystem {
    * @private
    */
   _calculateSovereigntyPoints(interactionType, data) {
+    // Sovereignty points constants
+    const BASE_INTERACTION_POINTS = 10;
+    const INTERACTION_BONUSES = {
+      multi_touch: 15,
+      strategy_selection: 20,
+      parameter_adjustment: 12
+    };
+    const ACCURACY_MULTIPLIER = 30;
+    const CREATIVITY_MULTIPLIER = 25;
+
     // Base points for any interaction
-    let points = 10;
+    let points = BASE_INTERACTION_POINTS;
 
     // Bonus points for complex interactions
-    if (interactionType === 'multi_touch') points += 15;
-    if (interactionType === 'strategy_selection') points += 20;
-    if (interactionType === 'parameter_adjustment') points += 12;
+    if (INTERACTION_BONUSES[interactionType]) {
+      points += INTERACTION_BONUSES[interactionType];
+    }
 
     // Bonus for accuracy (if provided)
     if (data.accuracy) {
-      points += Math.floor(data.accuracy * 30);
+      points += Math.floor(data.accuracy * ACCURACY_MULTIPLIER);
     }
 
     // Bonus for creativity (if provided)
     if (data.creativity) {
-      points += Math.floor(data.creativity * 25);
+      points += Math.floor(data.creativity * CREATIVITY_MULTIPLIER);
     }
 
     return points;

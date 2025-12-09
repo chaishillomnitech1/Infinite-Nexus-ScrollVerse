@@ -441,7 +441,7 @@ describe('Educational AR-Tales System', () => {
       const progress = educationalSystem.getStudentProgress('student_003');
       
       expect(progress.childId).toBe('student_003');
-      expect(progress.hasAccount).not.toBe(false);
+      expect(progress.accountId).toBeDefined();
       expect(progress.accountId).toBe(experience.accountId);
       expect(progress.currentAPY).toBe(0.05);
       expect(progress.currentBalance).toBe(1500);
