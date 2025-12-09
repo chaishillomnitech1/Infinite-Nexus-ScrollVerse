@@ -1,0 +1,34 @@
+# =============================================================================
+# Code Owners - Infinite Nexus ScrollVerse
+# =============================================================================
+# This file defines individuals or teams responsible for code review
+# All PRs must be reviewed by designated code owners before merging
+# =============================================================================
+
+# Default owner for all files in the repository
+* @chaishillomnitech1
+
+# Workflows and CI/CD configuration
+/.github/workflows/ @chaishillomnitech1
+/.github/ISSUE_TEMPLATE/ @chaishillomnitech1
+
+# Deployment configuration
+/vercel.json @chaishillomnitech1
+/.vercel.json @chaishillomnitech1
+/DEPLOYMENT.md @chaishillomnitech1
+
+# Smart contracts and blockchain code
+/contracts/ @chaishillomnitech1
+/src/nft/ @chaishillomnitech1
+
+# Core pathways and frequency modules
+/src/pathways/ @chaishillomnitech1
+/akashic-frequency-module.js @chaishillomnitech1
+
+# Security-sensitive files
+/.env.example @chaishillomnitech1
+/CODEOWNERS @chaishillomnitech1
+
+# Documentation
+/docs/ @chaishillomnitech1
+/*.md @chaishillomnitech1

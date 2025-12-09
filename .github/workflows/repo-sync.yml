@@ -1,0 +1,182 @@
+name: Repository Sync Hub
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'contracts/**'
+      - 'docs/**'
+  workflow_dispatch:
+    inputs:
+      target_repo:
+        description: 'Target repository to sync (org/repo)'
+        required: false
+        default: ''
+      sync_mode:
+        description: 'Sync mode'
+        required: false
+        default: 'selective'
+        type: choice
+        options:
+          - selective
+          - full
+          - dry-run
+
+jobs:
+  repo-sync:
+    name: Cross-Repository Sync
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_PAT }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Configure Git
+        run: |
+          git config --global user.name "ScrollVerse Sync Bot"
+          git config --global user.email "sync-bot@scrollverse.divine"
+          
+      - name: Determine sync targets
+        id: sync-config
+        run: |
+          echo "=== Repository Sync Configuration ==="
+          
+          # Default sync targets (can be configured via secrets)
+          SYNC_TARGETS="${{ secrets.SYNC_TARGET_REPOS || 'none' }}"
+          MANUAL_TARGET="${{ github.event.inputs.target_repo || '' }}"
+          
+          if [ -n "$MANUAL_TARGET" ]; then
+            echo "Manual target specified: $MANUAL_TARGET"
+            SYNC_TARGETS="$MANUAL_TARGET"
+          fi
+          
+          echo "sync_targets=$SYNC_TARGETS" >> $GITHUB_OUTPUT
+          
+          # Determine what changed
+          CHANGED_PATHS=$(git diff-tree --no-commit-id --name-only -r HEAD | head -20)
+          echo "changed_paths<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_PATHS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          echo ""
+          echo "Changed files:"
+          echo "$CHANGED_PATHS"
+          
+      - name: Selective file sync
+        if: github.event.inputs.sync_mode != 'full' && github.event.inputs.sync_mode != 'dry-run'
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+        run: |
+          echo "=== Selective Sync Mode ==="
+          
+          TARGETS="${{ steps.sync-config.outputs.sync_targets }}"
+          
+          if [ "$TARGETS" = "none" ] || [ -z "$TARGETS" ]; then
+            echo "⚠️  No sync targets configured"
+            echo "Set SYNC_TARGET_REPOS secret with comma-separated repositories"
+            echo "Example: 'org/repo1,org/repo2'"
+            exit 0
+          fi
+          
+          echo "Sync targets: $TARGETS"
+          
+          # Parse and sync to each target
+          IFS=',' read -ra REPO_ARRAY <<< "$TARGETS"
+          for REPO in "${REPO_ARRAY[@]}"; do
+            REPO=$(echo "$REPO" | xargs) # trim whitespace
+            
+            if [ -z "$REPO" ]; then
+              continue
+            fi
+            
+            echo ""
+            echo "Syncing to: $REPO"
+            
+            # In pilot phase, just log what would be synced
+            echo "Would sync the following paths:"
+            echo "${{ steps.sync-config.outputs.changed_paths }}"
+            
+            # Actual sync logic would go here using GitHub API or git commands
+            # Example: gh api repos/$REPO/contents/path -X PUT ...
+          done
+          
+      - name: Full repository sync
+        if: github.event.inputs.sync_mode == 'full'
+        run: |
+          echo "=== Full Sync Mode ==="
+          echo "Full sync is disabled in pilot phase for safety"
+          echo "Enable after testing selective sync"
+          
+      - name: Dry run mode
+        if: github.event.inputs.sync_mode == 'dry-run'
+        run: |
+          echo "=== Dry Run Mode ==="
+          echo "This would sync the following:"
+          echo ""
+          echo "Source: ${{ github.repository }}"
+          echo "Targets: ${{ steps.sync-config.outputs.sync_targets }}"
+          echo "Changed files:"
+          echo "${{ steps.sync-config.outputs.changed_paths }}"
+          echo ""
+          echo "No actual sync performed (dry run)"
+          
+      - name: Post sync summary
+        if: github.event_name == 'push'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const targets = '${{ steps.sync-config.outputs.sync_targets }}';
+            const changed = `${{ steps.sync-config.outputs.changed_paths }}`.split('\n').filter(Boolean);
+            
+            let summary = '### 🔄 Repository Sync Summary\n\n';
+            summary += '**Sync Status:** Pilot Phase\n';
+            summary += `**Changed Files:** ${changed.length}\n`;
+            summary += `**Sync Targets:** ${targets === 'none' ? 'Not configured' : targets}\n\n`;
+            
+            if (targets === 'none') {
+              summary += '#### Configuration Required\n\n';
+              summary += 'To enable repository sync, configure the following secrets:\n\n';
+              summary += '- `GITHUB_PAT` - Personal Access Token with repo permissions\n';
+              summary += '- `SYNC_TARGET_REPOS` - Comma-separated list of target repos (e.g., "org/repo1,org/repo2")\n\n';
+            }
+            
+            summary += '#### Changed Files\n\n';
+            changed.slice(0, 10).forEach(file => {
+              summary += `- \`${file}\`\n`;
+            });
+            
+            if (changed.length > 10) {
+              summary += `\n*...and ${changed.length - 10} more files*\n`;
+            }
+            
+            summary += '\n*Sync is in pilot phase. Actual file synchronization is disabled.*\n';
+            
+            console.log(summary);
+            
+      - name: Sync Summary
+        run: |
+          echo "### Repository Sync Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🔄 **Status:** Pilot Phase" >> $GITHUB_STEP_SUMMARY
+          echo "🎯 **Targets:** ${{ steps.sync-config.outputs.sync_targets }}" >> $GITHUB_STEP_SUMMARY
+          echo "📝 **Mode:** ${{ github.event.inputs.sync_mode || 'selective' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Configuration Required:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Set \`GITHUB_PAT\` secret (repo access)" >> $GITHUB_STEP_SUMMARY
+          echo "- Set \`SYNC_TARGET_REPOS\` secret (target repositories)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "*Enable sync after pilot phase testing*" >> $GITHUB_STEP_SUMMARY
