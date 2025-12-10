@@ -1,24 +1,24 @@
 {
   "deployment": {
     "network": "scroll-testnet",
-    "timestamp": "2025-12-10T07:56:42.765Z",
+    "timestamp": "2025-12-10T09:19:17.952Z",
     "deployer": "Simulated"
   },
   "contracts": {
     "archangelNFT": {
-      "address": "0xarchangelf7vcflkimbq000000000000000000",
+      "address": "0xarchangelvccmmvmdjkk000000000000000000",
       "name": "Archangel Genesis NFT",
       "symbol": "ARCHANGEL",
       "network": "scroll-testnet",
-      "deployedAt": 1765353401265
+      "deployedAt": 1765358356438
     },
     "angelCurrency": {
-      "address": "0xangeli636uyvtqg000000000000000000",
+      "address": "0xangelyctsxkqeu7000000000000000000",
       "name": "Angel Currency",
       "symbol": "ANGEL",
       "maxSupply": "528000000",
       "network": "scroll-testnet",
-      "deployedAt": 1765353401265
+      "deployedAt": 1765358356439
     }
   },
   "genesisTokens": [
@@ -57,55 +57,55 @@
   },
   "deploymentLog": [
     {
-      "timestamp": "2025-12-10T07:56:41.265Z",
+      "timestamp": "2025-12-10T09:19:16.438Z",
       "action": "deployed",
       "item": "ArchangelGenesisNFT",
-      "detail": "0xarchangelf7vcflkimbq000000000000000000"
+      "detail": "0xarchangelvccmmvmdjkk000000000000000000"
     },
     {
-      "timestamp": "2025-12-10T07:56:41.265Z",
+      "timestamp": "2025-12-10T09:19:16.439Z",
       "action": "deployed",
       "item": "AngelCurrency",
-      "detail": "0xangeli636uyvtqg000000000000000000"
+      "detail": "0xangelyctsxkqeu7000000000000000000"
     },
     {
-      "timestamp": "2025-12-10T07:56:41.265Z",
+      "timestamp": "2025-12-10T09:19:16.440Z",
       "action": "linked",
       "item": "AngelCurrency -> ArchangelGenesisNFT",
-      "detail": "0xarchangelf7vcflkimbq000000000000000000"
+      "detail": "0xarchangelvccmmvmdjkk000000000000000000"
     },
     {
-      "timestamp": "2025-12-10T07:56:41.764Z",
+      "timestamp": "2025-12-10T09:19:16.943Z",
       "action": "minted",
       "item": "Michael",
       "detail": 1
     },
     {
-      "timestamp": "2025-12-10T07:56:42.265Z",
+      "timestamp": "2025-12-10T09:19:17.447Z",
       "action": "minted",
       "item": "Raphael",
       "detail": 2
     },
     {
-      "timestamp": "2025-12-10T07:56:42.765Z",
+      "timestamp": "2025-12-10T09:19:17.950Z",
       "action": "minted",
       "item": "Gabriel",
       "detail": 3
     },
     {
-      "timestamp": "2025-12-10T07:56:42.765Z",
+      "timestamp": "2025-12-10T09:19:17.951Z",
       "action": "configured",
       "item": "Service Provider: AI Persona Engine",
       "detail": "0xServiceProvider1..."
     },
     {
-      "timestamp": "2025-12-10T07:56:42.765Z",
+      "timestamp": "2025-12-10T09:19:17.951Z",
       "action": "configured",
       "item": "Service Provider: DAO Governance",
       "detail": "0xServiceProvider2..."
     },
     {
-      "timestamp": "2025-12-10T07:56:42.765Z",
+      "timestamp": "2025-12-10T09:19:17.952Z",
       "action": "configured",
       "item": "Service Provider: Reward Distribution",
       "detail": "0xServiceProvider3..."
