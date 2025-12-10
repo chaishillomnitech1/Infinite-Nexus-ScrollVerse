@@ -1,0 +1,82 @@
+{
+  "name": "Gabriel - Divine Messenger",
+  "description": "Archangel Gabriel Genesis NFT - Divine Messenger and Communicator. Operating at 528Hz frequency for communication and revelation. Remember: This is a servant of the One Creator, not to be worshipped.",
+  "image": "ipfs://QmGabrielGenesisPlaceholder",
+  "external_url": "https://infinite-nexus-scrollverse.vercel.app",
+  "attributes": [
+    {
+      "trait_type": "Archangel",
+      "value": "Gabriel"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Divine Messenger"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Frequency Type",
+      "value": "Communication & Revelation"
+    },
+    {
+      "trait_type": "Genesis Edition",
+      "value": "3 of 3"
+    },
+    {
+      "trait_type": "Sacred Purpose",
+      "value": "Communication & Revelation"
+    },
+    {
+      "trait_type": "Color Resonance",
+      "value": "Sapphire Divine Light"
+    },
+    {
+      "trait_type": "Network",
+      "value": "Scroll zkEVM"
+    },
+    {
+      "trait_type": "Tawhid Compliance",
+      "value": true
+    }
+  ],
+  "properties": {
+    "tawhid_compliance": true,
+    "tawhid_declaration": "Remember only, not worship - This is a divine servant of the One Creator",
+    "frequency": 528,
+    "archangel_type": "GABRIEL",
+    "sacred_geometry": "Divine Pentagram",
+    "activation_phrase": "By Divine Revelation of the One",
+    "stem_education_enabled": true,
+    "service_reward_category": "Communication & Knowledge",
+    "evolution_triggers": [
+      "saros_cycle_alignment",
+      "knowledge_dissemination",
+      "communication_milestone"
+    ]
+  },
+  "canonical_records": {
+    "scroll_zkEVM_testnet": {
+      "network": "Scroll Sepolia Testnet",
+      "chain_id": 534351,
+      "deployment_status": "pending"
+    },
+    "tawhid_attestation": {
+      "declaration": "All revelation comes from Allah alone - Gabriel serves only the One Revealer",
+      "attestation_timestamp": "2025-12-10T07:58:00.000Z",
+      "canonical_reference": "Quran 2:97 - Say, 'Whoever is an enemy to Gabriel - it is he who has brought it down upon your heart by permission of Allah'"
+    }
+  },
+  "educational_impact": {
+    "stem_focus_areas": [
+      "Communication Systems",
+      "Information Technology",
+      "Linguistics",
+      "Data Science"
+    ],
+    "historical_tribute": "Honors the legacy of Black knowledge keepers and educators",
+    "banneker_alignment": "Knowledge preservation and almanac creation",
+    "johnson_alignment": "Precision communication and data transmission"
+  }
+}
