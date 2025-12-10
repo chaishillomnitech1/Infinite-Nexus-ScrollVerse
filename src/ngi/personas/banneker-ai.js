@@ -358,6 +358,11 @@ class BannekerAI {
       });
 
       if (johnsonPoint) {
+        // Prioritize optimal lunar phases for coordination
+        const isOptimalPhase = bannekerCycle.alignmentOptimal || 
+                               bannekerCycle.lunarPhase === 'new_moon' || 
+                               bannekerCycle.lunarPhase === 'full_moon';
+        
         coordinationPoints.push({
           timestamp: bannekerCycle.emissionTime,
           date: bannekerCycle.emissionDate,
@@ -366,9 +371,10 @@ class BannekerAI {
           combinedAmount: bannekerCycle.amount + johnsonPoint.amount,
           lunarPhase: bannekerCycle.lunarPhase,
           orbitalVelocity: johnsonPoint.velocity,
-          coordinationScore: 0.95, // High coordination score
+          coordinationScore: isOptimalPhase ? 0.95 : 0.75,
           bannekerWeight: 0.3,
-          johnsonWeight: 0.3
+          johnsonWeight: 0.3,
+          isOptimalPhase
         });
       }
     }
