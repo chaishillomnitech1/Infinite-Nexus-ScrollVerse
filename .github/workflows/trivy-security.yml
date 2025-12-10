@@ -1,0 +1,132 @@
+name: 🛡️ Trivy Security Scan
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run weekly on Tuesdays at 00:00 UTC
+    - cron: '0 0 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  trivy-fs-scan:
+    name: Trivy Filesystem Scan
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      security-events: write
+      
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🛡️ Run Trivy vulnerability scanner (filesystem)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-fs-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          vuln-type: 'os,library'
+
+      - name: 📤 Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-fs-results.sarif'
+          category: 'trivy-fs'
+
+      - name: 📊 Trivy Filesystem Summary
+        run: |
+          echo "### 🛡️ Trivy Filesystem Scan Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Trivy has scanned the filesystem for vulnerabilities." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Scan Configuration:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Scan type: Filesystem" >> $GITHUB_STEP_SUMMARY
+          echo "- Severities: CRITICAL, HIGH, MEDIUM" >> $GITHUB_STEP_SUMMARY
+          echo "- Vulnerability types: OS packages, Libraries" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Results uploaded to GitHub Security tab." >> $GITHUB_STEP_SUMMARY
+
+  trivy-config-scan:
+    name: Trivy Config Scan
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      security-events: write
+      
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Run Trivy config scanner
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-config-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+
+      - name: 📤 Upload Trivy config results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-config-results.sarif'
+          category: 'trivy-config'
+
+      - name: 📊 Trivy Config Summary
+        run: |
+          echo "### 🔍 Trivy Config Scan Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Trivy has scanned configuration files for security issues." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Scan Configuration:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Scan type: Configuration files" >> $GITHUB_STEP_SUMMARY
+          echo "- Severities: CRITICAL, HIGH, MEDIUM" >> $GITHUB_STEP_SUMMARY
+          echo "- Checks: Dockerfile, Kubernetes, Terraform, etc." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Results uploaded to GitHub Security tab." >> $GITHUB_STEP_SUMMARY
+
+  trivy-summary:
+    name: Trivy Security Summary
+    runs-on: ubuntu-latest
+    needs: [trivy-fs-scan, trivy-config-scan]
+    if: always()
+    
+    permissions:
+      contents: read
+      
+    steps:
+      - name: 📊 Generate Trivy summary
+        run: |
+          echo "# 🛡️ Trivy Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 📁 Filesystem Scan: ${{ needs.trivy-fs-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔍 Config Scan: ${{ needs.trivy-config-scan.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## About Trivy" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Trivy is a comprehensive security scanner that detects:" >> $GITHUB_STEP_SUMMARY
+          echo "- Vulnerabilities in OS packages and language dependencies" >> $GITHUB_STEP_SUMMARY
+          echo "- Misconfigurations in IaC files (Kubernetes, Docker, Terraform)" >> $GITHUB_STEP_SUMMARY
+          echo "- Sensitive information and secrets" >> $GITHUB_STEP_SUMMARY
+          echo "- Software licenses" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Results are available in:**" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Security tab (Code scanning alerts)" >> $GITHUB_STEP_SUMMARY
+          echo "- This workflow's detailed logs" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Continuous security monitoring with Trivy_ 🛡️" >> $GITHUB_STEP_SUMMARY

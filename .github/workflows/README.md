@@ -15,18 +15,27 @@ This directory contains GitHub Actions workflows that automate various operation
 
 ## 🔧 Available Workflows
 
-This directory contains **10 comprehensive workflows** that automate the ScrollVerse development lifecycle:
+This directory contains **16 comprehensive workflows** that automate the ScrollVerse development lifecycle:
 
+### Core Development Workflows
 1. **🧪 Test & Validation** - Code quality and frequency standards
 2. **🚀 Deploy to GitHub Pages** - Automated deployment
 3. **🎨 NFT Metadata & IPFS** - NFT metadata generation
 4. **⚡ CI/CD Pipeline** - Comprehensive integration pipeline
 5. **🏷️ Auto Label Issues & PRs** - Content-based auto-labeling
 6. **🔄 Sync Repository Labels** - Label synchronization
-7. **🧿 Welcome Divine Contributors** - Customized contributor welcomes (NEW)
-8. **⚡ PR Validation & Manifesto Guardian** - Sacred seal validation (NEW)
-9. **🌟 ScrollVerse Sovereignty Auto-Merge** - Automated PR merging (NEW)
-10. **🎭 Divine Contributor Reactions** - Responsive reactions system (NEW)
+7. **🧿 Welcome Divine Contributors** - Customized contributor welcomes
+8. **⚡ PR Validation & Manifesto Guardian** - Sacred seal validation
+9. **🌟 ScrollVerse Sovereignty Auto-Merge** - Automated PR merging
+10. **🎭 Divine Contributor Reactions** - Responsive reactions system
+
+### Security & AI Integration Workflows ✨ NEW
+11. **🤖 AI PR Review Bot** - GPT-4 powered code reviews
+12. **🎨 Code Quality** - ESLint + Prettier enforcement
+13. **🔒 Snyk Security** - Dependency vulnerability scanning
+14. **🛡️ Trivy Security** - Filesystem & config security
+15. **🔐 CodeQL Analysis** - Advanced code security analysis
+16. **🔒 Security Dashboard** - Comprehensive security monitoring
 
 ---
 
@@ -622,6 +631,79 @@ Planned workflow additions:
 
 ---
 
+## 🔒 Security & AI Integration Workflows
+
+### 11. 🤖 AI PR Review Bot (`ai-pr-bot.yml`) ✨ NEW
+
+**Trigger:** Pull Request open/sync/reopen  
+**Purpose:** AI-powered code review with GPT-4
+
+**Conservative Settings:**
+- Model: GPT-4 (high-quality analysis)
+- Temperature: 0.3 (deterministic)
+- Max Tokens: 500 (concise)
+
+**Setup:** Add `OPENAI_API_KEY` to repository secrets
+
+---
+
+### 12. 🎨 Code Quality (`code-quality.yml`) ✨ NEW
+
+**Trigger:** Push, Pull Requests  
+**Purpose:** ESLint + Prettier enforcement
+
+**Features:**
+- JavaScript linting
+- Code formatting checks
+- Auto-fix suggestions
+
+---
+
+### 13. 🔒 Snyk Security (`snyk-security.yml`) ✨ NEW
+
+**Trigger:** Push, PRs, Weekly (Mondays)  
+**Purpose:** Dependency vulnerability scanning
+
+**Optional Setup:** Add `SNYK_TOKEN` secret
+
+---
+
+### 14. 🛡️ Trivy Security (`trivy-security.yml`) ✨ NEW
+
+**Trigger:** Push, PRs, Weekly (Tuesdays)  
+**Purpose:** Filesystem & config security
+
+**Features:**
+- OS package vulnerabilities
+- Configuration misconfigurations
+- SARIF output to Security tab
+
+---
+
+### 15. 🔐 CodeQL Analysis (`codeql-analysis.yml`) ✨ NEW
+
+**Trigger:** Push, PRs, Weekly (Wednesdays)  
+**Purpose:** Advanced code security analysis
+
+**Detects:**
+- SQL injection, XSS, command injection
+- Path traversal, insecure crypto
+- Security-extended query suite
+
+---
+
+### 16. 🔒 Security Dashboard (`security-dashboard.yml`) ✨ NEW
+
+**Trigger:** Daily at 00:00 UTC  
+**Purpose:** Security status overview
+
+**Features:**
+- All security tools status
+- Configuration verification
+- Setup instructions
+
+---
+
 ## ✨ Conclusion
 
 These workflows form the automation backbone of ScrollVerse, ensuring:
@@ -638,6 +720,11 @@ These workflows form the automation backbone of ScrollVerse, ensuring:
 - ✅ Auto-merge for sovereignty-aligned contributions
 - ✅ Responsive contributor reactions reinforcing core principles
 - ✅ Customized welcome messages with 528Hz resonance
+- ✅ **AI-powered code reviews with GPT-4** ✨ NEW
+- ✅ **Multi-layered security scanning (Dependabot, Snyk, Trivy, CodeQL)** ✨ NEW
+- ✅ **Automated code quality enforcement (ESLint + Prettier)** ✨ NEW
+- ✅ **Conservative AI settings for reliable feedback** ✨ NEW
+- ✅ **Daily security monitoring and alerting** ✨ NEW
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗

@@ -23,7 +23,7 @@ updates:
     reviewers:
       - "chaishillomnitech1"
 
-  # npm dependencies (when package.json is added)
+  # npm dependencies
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -40,9 +40,16 @@ updates:
       prefix: "⬆️ [npm]"
       include: "scope"
     ignore:
-      # Ignore major version updates for stability
+      # Ignore major version updates for stability (except security updates)
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
     reviewers:
       - "chaishillomnitech1"
     versioning-strategy: increase
+    # Priority for security updates
+    groups:
+      security-updates:
+        patterns:
+          - "*"
+        update-types:
+          - "security"

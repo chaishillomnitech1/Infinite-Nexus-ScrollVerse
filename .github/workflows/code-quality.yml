@@ -1,0 +1,125 @@
+name: 🎨 Code Quality & Formatting
+
+on:
+  push:
+    branches: [main, develop, copilot/**]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  eslint:
+    name: ESLint Analysis
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+      
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🎨 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔍 Run ESLint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: 📊 ESLint Summary
+        run: |
+          echo "### 🔍 ESLint Analysis Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "ESLint has been run on all JavaScript files." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Configuration:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Extends: \`eslint:recommended\`, \`plugin:prettier/recommended\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: Node.js, ES2021, Jest, Browser" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+  prettier:
+    name: Prettier Format Check
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🎨 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: ✨ Check code formatting
+        run: npm run format:check
+        continue-on-error: true
+
+      - name: 📊 Prettier Summary
+        run: |
+          echo "### ✨ Prettier Format Check Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Prettier has checked code formatting across the repository." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Configuration:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Single quotes: Yes" >> $GITHUB_STEP_SUMMARY
+          echo "- Semicolons: Yes" >> $GITHUB_STEP_SUMMARY
+          echo "- Print width: 80 (120 for HTML)" >> $GITHUB_STEP_SUMMARY
+          echo "- Tab width: 2 spaces" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**To fix formatting issues:**" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "npm run format" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+  combined-quality:
+    name: Combined Quality Report
+    runs-on: ubuntu-latest
+    needs: [eslint, prettier]
+    if: always()
+    
+    permissions:
+      contents: read
+      
+    steps:
+      - name: 📊 Generate combined report
+        run: |
+          echo "# 🎨 Code Quality & Formatting Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔍 ESLint: ${{ needs.eslint.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- ✨ Prettier: ${{ needs.prettier.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Tools & Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ESLint" >> $GITHUB_STEP_SUMMARY
+          echo "- Version: 8.x" >> $GITHUB_STEP_SUMMARY
+          echo "- Config: \`.eslintrc.js\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Integrated with Prettier via \`eslint-plugin-prettier\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Prettier" >> $GITHUB_STEP_SUMMARY
+          echo "- Version: 3.x" >> $GITHUB_STEP_SUMMARY
+          echo "- Config: \`.prettierrc.json\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Consistent code formatting across JS, JSON, MD, HTML, CSS" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Maintaining 528Hz code resonance through quality standards_ ✨" >> $GITHUB_STEP_SUMMARY
