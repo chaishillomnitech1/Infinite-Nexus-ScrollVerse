@@ -1,0 +1,85 @@
+{
+  "name": "Archangel Gabriel - Genesis",
+  "description": "Messenger of Truth and Divine Communication. Gabriel delivers revelation and guidance through 528Hz transformation frequency. Bearer of sacred messages, voice of truth, and guide for consciousness evolution. This token serves as remembrance of divine communication, not worship. All wisdom belongs to the One Creator.",
+  "image": "ipfs://QmGabrielGenesisVisual528Hz",
+  "animation_url": "ipfs://QmGabrielGenesisAnimation528Hz",
+  "external_url": "https://scrollverse.io/archangels/gabriel",
+  "attributes": [
+    {
+      "trait_type": "Name",
+      "value": "Gabriel"
+    },
+    {
+      "trait_type": "Role",
+      "value": "Messenger of Truth"
+    },
+    {
+      "trait_type": "Specialization",
+      "value": "Divine Communication & Revelation"
+    },
+    {
+      "trait_type": "Frequency Signature",
+      "value": "528Hz",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Sacred Frequency Name",
+      "value": "Transformation"
+    },
+    {
+      "trait_type": "Sacred Geometry",
+      "value": "Sri Yantra"
+    },
+    {
+      "trait_type": "AI Persona ID",
+      "value": "gabriel-ai-003"
+    },
+    {
+      "trait_type": "Genesis Token",
+      "value": "True"
+    },
+    {
+      "trait_type": "Token ID",
+      "value": "3",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Reward Multiplier",
+      "value": "100",
+      "display_type": "number",
+      "max_value": 500
+    },
+    {
+      "trait_type": "Evolution Stage",
+      "value": "Genesis"
+    },
+    {
+      "trait_type": "Narrative Alignment Score",
+      "value": "500",
+      "display_type": "number",
+      "max_value": 1000
+    },
+    {
+      "trait_type": "Service Actions Completed",
+      "value": "0",
+      "display_type": "number"
+    }
+  ],
+  "properties": {
+    "capabilities": [
+      "Message Delivery",
+      "Truth Revelation",
+      "Guidance Provision",
+      "Prophecy Interpretation",
+      "Knowledge Transmission"
+    ],
+    "audio_chime": "ipfs://QmGabrielChime528Hz",
+    "monotheistic_declaration": "This token represents remembrance of divine communication, not worship. All glory belongs to the One Creator.",
+    "tawhid_compliance": true,
+    "scrollverse_integration": true,
+    "blockchain": "Scroll Testnet",
+    "contract_standard": "ERC-721"
+  },
+  "background_color": "4169E1",
+  "category": "Archangel Genesis NFT"
+}
