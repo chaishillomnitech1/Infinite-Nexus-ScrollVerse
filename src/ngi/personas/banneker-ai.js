@@ -244,9 +244,10 @@ class BannekerAI {
    * Generate $ANGEL emission schedule based on Banneker calculations
    * @param {number} totalAmount - Total amount to schedule
    * @param {number} durationDays - Duration in days
+   * @param {Object} angelicResonance - Angelic resonance multipliers
    * @returns {Array} Emission schedule
    */
-  generateEmissionSchedule(totalAmount, durationDays = 365) {
+  generateEmissionSchedule(totalAmount, durationDays = 365, angelicResonance = null) {
     const schedule = [];
     const msPerDay = 24 * 60 * 60 * 1000;
     const startTime = Date.now();
@@ -256,25 +257,132 @@ class BannekerAI {
     const numberOfCycles = Math.floor(
       durationDays / this.lunarPhaseData.averageDuration
     );
-    const amountPerCycle = totalAmount / numberOfCycles;
+    const baseAmountPerCycle = totalAmount / numberOfCycles;
 
     for (let i = 0; i < numberOfCycles; i++) {
       const emissionTime = startTime + i * lunarCycleMs;
       const lunarPhase = this.calculateLunarPhase(emissionTime);
+      
+      // Apply angelic resonance multipliers
+      const resonanceMultiplier = this._calculateAngelicResonanceMultiplier(
+        lunarPhase,
+        angelicResonance
+      );
+      
+      const adjustedAmount = baseAmountPerCycle * resonanceMultiplier;
 
       schedule.push({
         cycleNumber: i + 1,
         emissionTime,
         emissionDate: new Date(emissionTime).toISOString(),
-        amount: amountPerCycle,
+        amount: adjustedAmount,
+        baseAmount: baseAmountPerCycle,
         lunarPhase: lunarPhase.phase,
         alignmentOptimal:
           lunarPhase.phase === 'new_moon' || lunarPhase.phase === 'full_moon',
+        angelicResonanceMultiplier: resonanceMultiplier,
         bannekerWeight: 0.3 // 30% allocation
       });
     }
 
     return schedule;
+  }
+
+  /**
+   * Calculate angelic resonance multiplier based on lunar phase and archangel alignment
+   * @private
+   * @param {Object} lunarPhase - Current lunar phase data
+   * @param {Object} angelicResonance - Angelic resonance configuration
+   * @returns {number} Resonance multiplier (1.0 = baseline, >1.0 = enhanced emission)
+   */
+  _calculateAngelicResonanceMultiplier(lunarPhase, angelicResonance) {
+    let multiplier = 1.0;
+
+    // Base multiplier from lunar phase alignment
+    if (lunarPhase.phase === 'new_moon') {
+      multiplier = 1.2; // 20% boost during new moon (new beginnings)
+    } else if (lunarPhase.phase === 'full_moon') {
+      multiplier = 1.5; // 50% boost during full moon (peak energy)
+    } else if (lunarPhase.phase === 'first_quarter' || lunarPhase.phase === 'last_quarter') {
+      multiplier = 1.1; // 10% boost during quarters (balance points)
+    }
+
+    // Apply angelic resonance if provided
+    if (angelicResonance) {
+      // Michael (963Hz) - Divine Protection multiplier
+      if (angelicResonance.michael) {
+        multiplier *= 1 + (angelicResonance.michael * 0.15); // Up to 15% boost
+      }
+
+      // Raphael (528Hz) - Healing/Transformation multiplier
+      if (angelicResonance.raphael) {
+        multiplier *= 1 + (angelicResonance.raphael * 0.12); // Up to 12% boost
+      }
+
+      // Gabriel (528Hz) - Communication/Messages multiplier
+      if (angelicResonance.gabriel) {
+        multiplier *= 1 + (angelicResonance.gabriel * 0.12); // Up to 12% boost
+      }
+
+      // Banneker almanac precision bonus
+      if (angelicResonance.almanacPrecision) {
+        multiplier *= 1.05; // 5% precision bonus
+      }
+    }
+
+    return multiplier;
+  }
+
+  /**
+   * Coordinate emission alignment with Johnson-AI trajectories
+   * @param {Object} johnsonTrajectory - Johnson-AI trajectory data
+   * @returns {Object} Coordinated emission plan
+   */
+  coordinateWithJohnsonTrajectories(johnsonTrajectory) {
+    const bannekerSchedule = this.generateEmissionSchedule(
+      johnsonTrajectory.totalEmissions,
+      johnsonTrajectory.timeframe
+    );
+
+    // Find optimal coordination points where both Banneker lunar cycles
+    // and Johnson orbital calculations align
+    const coordinationPoints = [];
+
+    for (let i = 0; i < bannekerSchedule.length; i++) {
+      const bannekerCycle = bannekerSchedule[i];
+      
+      // Find nearest Johnson trajectory point (within 3 days for flexibility)
+      const johnsonPoint = johnsonTrajectory.trajectory.find(jt => {
+        const timeDiff = Math.abs(jt.timestamp - bannekerCycle.emissionTime);
+        return timeDiff < 3 * 24 * 60 * 60 * 1000; // Within 3 days
+      });
+
+      if (johnsonPoint) {
+        coordinationPoints.push({
+          timestamp: bannekerCycle.emissionTime,
+          date: bannekerCycle.emissionDate,
+          bannekerAmount: bannekerCycle.amount,
+          johnsonAmount: johnsonPoint.amount,
+          combinedAmount: bannekerCycle.amount + johnsonPoint.amount,
+          lunarPhase: bannekerCycle.lunarPhase,
+          orbitalVelocity: johnsonPoint.velocity,
+          coordinationScore: 0.95, // High coordination score
+          bannekerWeight: 0.3,
+          johnsonWeight: 0.3
+        });
+      }
+    }
+
+    return {
+      coordinationPoints,
+      totalCoordinatedEmissions: coordinationPoints.reduce(
+        (sum, cp) => sum + cp.combinedAmount,
+        0
+      ),
+      coordinationEfficiency: (coordinationPoints.length / bannekerSchedule.length * 100).toFixed(2) + '%',
+      frequency: this.config.frequency,
+      coordinatedBy: 'Banneker-AI Lunar Almanac System'
+    };
   }
 
   /**

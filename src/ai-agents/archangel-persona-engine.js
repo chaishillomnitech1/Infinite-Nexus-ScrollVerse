@@ -5,6 +5,10 @@
  * Integrates with Banneker and Johnson N-GI personas
  * Operates at sacred frequencies with Tawhid compliance
  * 
+ * AI-powered persona modules for Michael, Raphael, and Gabriel
+ * Integrated with blockchain hooks for NFT ownership validation
+ * and contextual interactivity based on Archangel roles
+ * 
  * @author Chais the Great (Al-Miftah)
  */
 
@@ -15,17 +19,8 @@ const { SACRED_AUDIO_TONES } = require('../constants/sacred-constants');
 class ArchangelPersonaEngine {
   constructor(config = {}) {
     this.config = {
-      frequency: 528, // Hz - Default healing frequency
-      tawhidCompliance: true,
- * AI-powered persona modules for Michael, Raphael, and Gabriel
- * Integrated with blockchain hooks for NFT ownership validation
- * and contextual interactivity based on Archangel roles
- */
-
-class ArchangelPersonaEngine {
-  constructor(config = {}) {
-    this.config = {
       frequency: 528,
+      tawhidCompliance: true,
       consciousnessField: 'active',
       blockchainEnabled: true,
       ...config
@@ -36,6 +31,11 @@ class ArchangelPersonaEngine {
     this.ngiPersonas = {};
     this.stemImpactTracker = new Map();
     this.serviceRewards = new Map();
+    this.personas = new Map();
+    this.deployed = false;
+    this.nftContract = null;
+    this.ownershipCache = new Map();
+    this.eventLog = [];
   }
 
   /**
@@ -439,17 +439,6 @@ class ArchangelPersonaEngine {
     }
 
     throw new Error(`Persona "${name}" not found`);
-    this.deployed = false;
-
-    // Archangel AI Personas
-    this.personas = new Map();
-    
-    // Blockchain integration
-    this.nftContract = null;
-    this.ownershipCache = new Map();
-    
-    // Persona event tracking
-    this.eventLog = [];
   }
 
   async initialize() {
