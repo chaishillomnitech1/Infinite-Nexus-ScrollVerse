@@ -52,8 +52,8 @@ describe('Archangel Genesis System', () => {
         )
       );
       
-      expect(report.monotoheisticIntegrity.tawhidDeclarations).toBe(4);
-      expect(report.monotoheisticIntegrity.constraint).toContain('remembrance, not worship');
+      expect(report.monotheisticIntegrity.tawhidDeclarations).toBe(4);
+      expect(report.monotheisticIntegrity.constraint).toContain('remembrance, not worship');
     });
 
     test('should verify deployment successfully', async () => {
@@ -413,8 +413,8 @@ describe('Archangel Genesis System', () => {
       );
 
       // Verify Tawhid declarations
-      expect(report.monotoheisticIntegrity.constraint).toContain('remembrance');
-      expect(report.monotoheisticIntegrity.creatorAcknowledgment).toContain('One Creator');
+      expect(report.monotheisticIntegrity.constraint).toContain('remembrance');
+      expect(report.monotheisticIntegrity.creatorAcknowledgment).toContain('One Creator');
 
       // Verify personas maintain this principle
       await personaEngine.initialize();

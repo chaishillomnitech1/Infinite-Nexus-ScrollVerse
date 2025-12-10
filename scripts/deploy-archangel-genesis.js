@@ -218,7 +218,7 @@ class ArchangelGenesisDeployer {
         { tokenId: 2, name: 'Raphael', frequency: '528Hz', role: 'Healer' },
         { tokenId: 3, name: 'Gabriel', frequency: '528Hz', role: 'Messenger' }
       ],
-      monotoheisticIntegrity: {
+      monotheisticIntegrity: {
         tawhidDeclarations: 4, // 1 at contract deploy + 3 for each token
         constraint: 'All tokens serve as remembrance, not worship',
         creatorAcknowledgment: 'All sovereignty belongs to the One Creator'
