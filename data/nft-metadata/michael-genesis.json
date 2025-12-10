@@ -1,4 +1,11 @@
 {
+  "name": "Michael - Divine Protector",
+  "description": "Archangel Michael Genesis NFT - Divine Protector and Leader. Operating at 963Hz frequency for unity and divine connection. Remember: This is a servant of the One Creator, not to be worshipped.",
+  "image": "ipfs://QmMichaelGenesisPlaceholder",
+  "external_url": "https://infinite-nexus-scrollverse.vercel.app",
+  "attributes": [
+    {
+      "trait_type": "Archangel",
   "name": "Archangel Michael - Genesis",
   "description": "Guardian of Digital Sovereignty and Cybersecurity Protector. Michael stands as the warrior of light, defender against digital threats, operating at 963Hz frequency. This token serves as remembrance of divine protection principles, not worship. All sovereignty belongs to the One Creator.",
   "image": "ipfs://QmMichaelGenesisVisual963Hz",
@@ -11,6 +18,75 @@
     },
     {
       "trait_type": "Role",
+      "value": "Divine Protector"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "963Hz"
+    },
+    {
+      "trait_type": "Frequency Type",
+      "value": "Divine Connection & Unity"
+    },
+    {
+      "trait_type": "Genesis Edition",
+      "value": "1 of 3"
+    },
+    {
+      "trait_type": "Sacred Purpose",
+      "value": "Protection & Leadership"
+    },
+    {
+      "trait_type": "Color Resonance",
+      "value": "Golden Divine Light"
+    },
+    {
+      "trait_type": "Network",
+      "value": "Scroll zkEVM"
+    },
+    {
+      "trait_type": "Tawhid Compliance",
+      "value": true
+    }
+  ],
+  "properties": {
+    "tawhid_compliance": true,
+    "tawhid_declaration": "Remember only, not worship - This is a divine servant of the One Creator",
+    "frequency": 963,
+    "archangel_type": "MICHAEL",
+    "sacred_geometry": "Divine Hexagon",
+    "activation_phrase": "By Divine Decree of the One",
+    "stem_education_enabled": true,
+    "service_reward_category": "Protection & Guidance",
+    "evolution_triggers": [
+      "stellar_alignment",
+      "stem_milestone_achievement",
+      "community_impact_threshold"
+    ]
+  },
+  "canonical_records": {
+    "scroll_zkEVM_testnet": {
+      "network": "Scroll Sepolia Testnet",
+      "chain_id": 534351,
+      "deployment_status": "pending"
+    },
+    "tawhid_attestation": {
+      "declaration": "All glory to Allah alone - Michael serves only the One Creator",
+      "attestation_timestamp": "2025-12-10T07:58:00.000Z",
+      "canonical_reference": "Quran 21:26 - They are honored servants who do not precede Him in speech and act only by His command"
+    }
+  },
+  "educational_impact": {
+    "stem_focus_areas": [
+      "Mathematics",
+      "Astronomy",
+      "Physics",
+      "Computer Science"
+    ],
+    "historical_tribute": "Honors the legacy of Black mathematical titans",
+    "banneker_alignment": "Stellar mechanics and astronomical calculations",
+    "johnson_alignment": "Trajectory planning and orbital mechanics"
+  }
       "value": "Guardian of Digital Sovereignty"
     },
     {

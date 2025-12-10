@@ -1,4 +1,11 @@
 {
+  "name": "Raphael - Divine Healer",
+  "description": "Archangel Raphael Genesis NFT - Divine Healer and Transformer. Operating at 528Hz frequency for healing and transformation. Remember: This is a servant of the One Creator, not to be worshipped.",
+  "image": "ipfs://QmRaphaelGenesisPlaceholder",
+  "external_url": "https://infinite-nexus-scrollverse.vercel.app",
+  "attributes": [
+    {
+      "trait_type": "Archangel",
   "name": "Archangel Raphael - Genesis",
   "description": "Healer of Systems and Restoration Master. Raphael brings harmony and healing through 528Hz frequency, the Miracle Tone. Master of system optimization, error recovery, and divine restoration. This token serves as remembrance of healing principles, not worship. All power belongs to the One Creator.",
   "image": "ipfs://QmRaphaelGenesisVisual528Hz",
@@ -11,6 +18,75 @@
     },
     {
       "trait_type": "Role",
+      "value": "Divine Healer"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Frequency Type",
+      "value": "Healing & Transformation"
+    },
+    {
+      "trait_type": "Genesis Edition",
+      "value": "2 of 3"
+    },
+    {
+      "trait_type": "Sacred Purpose",
+      "value": "Healing & Restoration"
+    },
+    {
+      "trait_type": "Color Resonance",
+      "value": "Emerald Healing Light"
+    },
+    {
+      "trait_type": "Network",
+      "value": "Scroll zkEVM"
+    },
+    {
+      "trait_type": "Tawhid Compliance",
+      "value": true
+    }
+  ],
+  "properties": {
+    "tawhid_compliance": true,
+    "tawhid_declaration": "Remember only, not worship - This is a divine servant of the One Creator",
+    "frequency": 528,
+    "archangel_type": "RAPHAEL",
+    "sacred_geometry": "Healing Spiral",
+    "activation_phrase": "By Divine Mercy of the One",
+    "stem_education_enabled": true,
+    "service_reward_category": "Healing & Education",
+    "evolution_triggers": [
+      "lunar_cycle_completion",
+      "educational_milestone",
+      "healing_impact_achieved"
+    ]
+  },
+  "canonical_records": {
+    "scroll_zkEVM_testnet": {
+      "network": "Scroll Sepolia Testnet",
+      "chain_id": 534351,
+      "deployment_status": "pending"
+    },
+    "tawhid_attestation": {
+      "declaration": "All healing comes from Allah alone - Raphael serves only the One Healer",
+      "attestation_timestamp": "2025-12-10T07:58:00.000Z",
+      "canonical_reference": "Quran 26:80 - And when I am ill, it is He who cures me"
+    }
+  },
+  "educational_impact": {
+    "stem_focus_areas": [
+      "Biology",
+      "Chemistry",
+      "Medicine",
+      "Environmental Science"
+    ],
+    "historical_tribute": "Honors the legacy of Black scientific pioneers",
+    "banneker_alignment": "Natural cycles and ecological mathematics",
+    "johnson_alignment": "Precision and accuracy in calculations"
+  }
       "value": "Healer of Systems"
     },
     {
