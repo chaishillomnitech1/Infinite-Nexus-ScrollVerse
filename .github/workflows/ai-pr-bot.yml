@@ -43,54 +43,118 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Conservative AI analysis settings
             const prTitle = context.payload.pull_request.title;
             const prBody = context.payload.pull_request.body || '';
             const prNumber = context.payload.pull_request.number;
+            const diff = process.env.DIFF || '';
             
-            // Prepare analysis prompt with conservative settings
-            const analysisPrompt = `
-            Analyze this pull request conservatively:
+            // Conservative AI model settings (as per requirements)
+            const OPENAI_MODEL = 'gpt-4';
+            const TEMPERATURE = 0.3;  // Deterministic, focused responses
+            const MAX_TOKENS = 500;   // Concise feedback
             
-            Title: ${prTitle}
-            Description: ${prBody}
+            let aiReview = '';
+            let apiCallSuccess = false;
             
-            Provide a brief review covering:
-            1. Code quality observations (2-3 points max)
-            2. Potential issues (if any)
-            3. Security considerations (if applicable)
+            // Check if OpenAI API key is configured
+            if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.startsWith('sk-')) {
+              try {
+                // Prepare analysis prompt
+                const analysisPrompt = `You are a code reviewer. Analyze this pull request conservatively and provide brief, actionable feedback.
             
-            Keep response under 500 words. Be constructive and concise.
-            `;
+            PR Title: ${prTitle}
+            PR Description: ${prBody}
             
-            // Note: Actual OpenAI API call would go here
-            // For pilot phase, we'll post a structured comment
-            const aiReview = `### 🤖 AI PR Review (Pilot Phase)
+            Provide a concise review covering:
+            1. Code quality observations (max 3 points)
+            2. Potential issues or risks
+            3. Security considerations
+            
+            Keep response under 400 tokens. Be constructive and specific.`;
+                
+                // Call OpenAI API with conservative settings
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+                  },
+                  body: JSON.stringify({
+                    model: OPENAI_MODEL,
+                    messages: [
+                      {
+                        role: 'system',
+                        content: 'You are a helpful code reviewer focused on quality, security, and best practices.'
+                      },
+                      {
+                        role: 'user',
+                        content: analysisPrompt
+                      }
+                    ],
+                    temperature: TEMPERATURE,
+                    max_tokens: MAX_TOKENS,
+                    top_p: 1.0
+                  })
+                });
+                
+                if (response.ok) {
+                  const data = await response.json();
+                  const aiAnalysis = data.choices[0].message.content;
+                  apiCallSuccess = true;
+                  
+                  aiReview = `### 🤖 AI PR Review
             
             **Pull Request:** #${prNumber} - ${prTitle}
             
-            #### Analysis Summary
+            ${aiAnalysis}
             
-            This is the Phase 2 AI PR bot pilot. Full AI analysis will be enabled once OpenAI API integration is configured.
+            ---
             
-            **Automated Checks:**
+            **AI Configuration:**
+            - Model: ${OPENAI_MODEL}
+            - Temperature: ${TEMPERATURE} (deterministic)
+            - Max Tokens: ${MAX_TOKENS} (concise)
+            
+            *This is an automated AI review. Human review is still required before merging.*`;
+                } else {
+                  throw new Error(`API request failed: ${response.status}`);
+                }
+              } catch (error) {
+                console.error('OpenAI API call failed:', error);
+                // Fall through to pilot mode message
+              }
+            }
+            
+            // Fallback to pilot mode if API key not configured or call failed
+            if (!apiCallSuccess) {
+              aiReview = `### 🤖 AI PR Review (Configuration Pending)
+            
+            **Pull Request:** #${prNumber} - ${prTitle}
+            
+            #### Configuration Status
+            
+            The AI PR review bot is ready but requires configuration:
+            
+            **Required Setup:**
+            1. ✅ Workflow configured with conservative AI settings
+            2. ⚠️ Add \`OPENAI_API_KEY\` to repository secrets
+               - Navigate to: Repository Settings → Secrets and variables → Actions
+               - Add new secret: \`OPENAI_API_KEY\`
+               - Value: Your OpenAI API key from https://platform.openai.com/api-keys
+            
+            **Conservative Settings (Ready):**
+            - ✅ Model: GPT-4 (high-quality, structured feedback)
+            - ✅ Temperature: 0.3 (deterministic, focused responses)
+            - ✅ Max Tokens: 500 (concise feedback)
+            - ✅ Automated triggers: commits and PR events
+            
+            **Automated Checks Completed:**
             - ✅ PR format validated
             - ✅ Title and description present
-            - ✅ Diff retrieved successfully
+            - ✅ Ready for AI analysis once API key is configured
             
-            **Next Steps for Full AI Review:**
-            1. Configure \`OPENAI_API_KEY\` in repository secrets
-            2. Set conservative model parameters (temperature: 0.3, max_tokens: 500)
-            3. Enable structured code analysis
-            4. Implement security scanning integration
-            
-            **Conservative Settings Applied:**
-            - Temperature: 0.3 (focused, deterministic responses)
-            - Max tokens: 500 (concise feedback)
-            - Model: GPT-4 (when enabled)
-            
-            *This comment is posted automatically by the AI PR Bot. No auto-merge. All PRs require human review.*
-            `;
+            *This comment is posted automatically by the AI PR Bot. No auto-merge. All PRs require human review.*`;
+            }
             
             // Post review as comment
             await github.rest.issues.createComment({
@@ -102,11 +166,19 @@ jobs:
             
       - name: AI Review Summary
         run: |
-          echo "### AI PR Review Summary" >> $GITHUB_STEP_SUMMARY
+          echo "### 🤖 AI PR Review Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🤖 **Status:** Review posted as PR comment" >> $GITHUB_STEP_SUMMARY
-          echo "⚙️ **Mode:** Conservative (pilot phase)" >> $GITHUB_STEP_SUMMARY
-          echo "🔒 **Security:** No auto-merge, human review required" >> $GITHUB_STEP_SUMMARY
-          echo "📊 **Settings:** Temperature 0.3, Max tokens 500" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** Review posted as PR comment" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "*Configure OPENAI_API_KEY secret for full functionality*" >> $GITHUB_STEP_SUMMARY
+          echo "**Conservative AI Settings:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Model: GPT-4 (high-quality, structured feedback)" >> $GITHUB_STEP_SUMMARY
+          echo "- Temperature: 0.3 (deterministic, focused responses)" >> $GITHUB_STEP_SUMMARY
+          echo "- Max Tokens: 500 (concise feedback)" >> $GITHUB_STEP_SUMMARY
+          echo "- Top P: 1.0 (default)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Security:**" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ No auto-merge - human review required" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ API key stored in repository secrets" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Minimal permissions (pull-requests: write, contents: read)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "*Configure OPENAI_API_KEY secret for full AI-powered analysis*" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,79 @@
+name: 🔐 CodeQL Security Analysis
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run weekly on Wednesdays at 00:00 UTC
+    - cron: '0 0 * * 3'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  codeql-analyze:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+      
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript']
+        
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended,security-and-quality
+          config: |
+            paths-ignore:
+              - node_modules
+              - '**/*.test.js'
+              - '**/*.spec.js'
+
+      - name: 🏗️ Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: 🔍 Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+          upload: true
+
+      - name: 📊 CodeQL Summary
+        run: |
+          echo "### 🔐 CodeQL Analysis Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "CodeQL has analyzed the codebase for security vulnerabilities." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Analysis Configuration:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Language: ${{ matrix.language }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Query suites: security-extended, security-and-quality" >> $GITHUB_STEP_SUMMARY
+          echo "- Paths ignored: node_modules, test files" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Security Checks Include:**" >> $GITHUB_STEP_SUMMARY
+          echo "- SQL injection vulnerabilities" >> $GITHUB_STEP_SUMMARY
+          echo "- Cross-site scripting (XSS)" >> $GITHUB_STEP_SUMMARY
+          echo "- Path traversal issues" >> $GITHUB_STEP_SUMMARY
+          echo "- Command injection" >> $GITHUB_STEP_SUMMARY
+          echo "- Insecure cryptography" >> $GITHUB_STEP_SUMMARY
+          echo "- And many more security patterns" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Results Location:**" >> $GITHUB_STEP_SUMMARY
+          echo "View detailed findings in the Security tab → Code scanning alerts" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Advanced semantic code analysis with CodeQL_ 🔐" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,39 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Build outputs
+dist
+build
+.vercel
+.next
+
+# Cache
+.cache
+*.log
+
+# Git
+.git
+.github
+
+# Environment
+.env
+.env.*
+
+# Test coverage
+coverage
+
+# Archives and data
+*.md5
+*.zip
+*.tar.gz
+data/
+archive/
+
+# Generated files
+*.min.js
+*.min.css
+
+# Documentation that shouldn't be formatted
+CHANGELOG.md
+LICENSE

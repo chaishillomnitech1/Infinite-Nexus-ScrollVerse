@@ -2,18 +2,20 @@ module.exports = {
   env: {
     node: true,
     es2021: true,
-    jest: true
+    jest: true,
+    browser: true
   },
-  extends: 'eslint:recommended',
+  extends: [
+    'eslint:recommended',
+    'plugin:prettier/recommended'
+  ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
   rules: {
-    'indent': ['error', 2],
-    'linebreak-style': ['error', 'unix'],
-    'quotes': ['error', 'single'],
-    'semi': ['error', 'always'],
-    'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }]
+    'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'prettier/prettier': 'error'
   }
 };
