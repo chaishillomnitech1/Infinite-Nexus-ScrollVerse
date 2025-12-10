@@ -6,6 +6,14 @@
   "attributes": [
     {
       "trait_type": "Archangel",
+  "name": "Archangel Michael - Genesis",
+  "description": "Guardian of Digital Sovereignty and Cybersecurity Protector. Michael stands as the warrior of light, defender against digital threats, operating at 963Hz frequency. This token serves as remembrance of divine protection principles, not worship. All sovereignty belongs to the One Creator.",
+  "image": "ipfs://QmMichaelGenesisVisual963Hz",
+  "animation_url": "ipfs://QmMichaelGenesisAnimation963Hz",
+  "external_url": "https://scrollverse.io/archangels/michael",
+  "attributes": [
+    {
+      "trait_type": "Name",
       "value": "Michael"
     },
     {
@@ -79,4 +87,75 @@
     "banneker_alignment": "Stellar mechanics and astronomical calculations",
     "johnson_alignment": "Trajectory planning and orbital mechanics"
   }
+      "value": "Guardian of Digital Sovereignty"
+    },
+    {
+      "trait_type": "Specialization",
+      "value": "Cybersecurity & Protection"
+    },
+    {
+      "trait_type": "Frequency Signature",
+      "value": "963Hz",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Sacred Frequency Name",
+      "value": "Divine Connection"
+    },
+    {
+      "trait_type": "Sacred Geometry",
+      "value": "Merkaba"
+    },
+    {
+      "trait_type": "AI Persona ID",
+      "value": "michael-ai-001"
+    },
+    {
+      "trait_type": "Genesis Token",
+      "value": "True"
+    },
+    {
+      "trait_type": "Token ID",
+      "value": "1",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Reward Multiplier",
+      "value": "100",
+      "display_type": "number",
+      "max_value": 500
+    },
+    {
+      "trait_type": "Evolution Stage",
+      "value": "Genesis"
+    },
+    {
+      "trait_type": "Narrative Alignment Score",
+      "value": "500",
+      "display_type": "number",
+      "max_value": 1000
+    },
+    {
+      "trait_type": "Service Actions Completed",
+      "value": "0",
+      "display_type": "number"
+    }
+  ],
+  "properties": {
+    "capabilities": [
+      "Threat Detection",
+      "Vulnerability Analysis",
+      "Security Advisory",
+      "Protection Protocols",
+      "Incident Response"
+    ],
+    "audio_chime": "ipfs://QmMichaelChime963Hz",
+    "monotheistic_declaration": "This token represents remembrance of divine protection principles, not worship. All glory belongs to the One Creator.",
+    "tawhid_compliance": true,
+    "scrollverse_integration": true,
+    "blockchain": "Scroll Testnet",
+    "contract_standard": "ERC-721"
+  },
+  "background_color": "1A1A2E",
+  "category": "Archangel Genesis NFT"
 }
