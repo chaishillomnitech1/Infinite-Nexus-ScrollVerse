@@ -48,6 +48,19 @@ jobs:
             const prNumber = context.payload.pull_request.number;
             const diff = process.env.DIFF || '';
             
+            // Sanitize inputs to prevent prompt injection
+            const sanitize = (text) => {
+              if (!text) return '';
+              // Remove potential injection patterns and limit length
+              return text
+                .replace(/[<>{}]/g, '') // Remove common injection characters
+                .slice(0, 1000) // Limit length
+                .trim();
+            };
+            
+            const safePrTitle = sanitize(prTitle);
+            const safePrBody = sanitize(prBody);
+            
             // Conservative AI model settings (as per requirements)
             const OPENAI_MODEL = 'gpt-4';
             const TEMPERATURE = 0.3;  // Deterministic, focused responses
@@ -58,15 +71,16 @@ jobs:
             
             // Check if OpenAI API key is configured with proper validation
             const apiKey = process.env.OPENAI_API_KEY || '';
-            const isValidApiKey = apiKey.startsWith('sk-') && apiKey.length > 20;
+            // OpenAI API keys: sk- keys are ~51 chars, sk-proj- keys are longer
+            const isValidApiKey = apiKey.startsWith('sk-') && apiKey.length >= 40;
             
             if (isValidApiKey) {
               try {
-                // Prepare analysis prompt
+                // Prepare analysis prompt with sanitized inputs
                 const analysisPrompt = `You are a code reviewer. Analyze this pull request conservatively and provide brief, actionable feedback.
             
-            PR Title: ${prTitle}
-            PR Description: ${prBody}
+            PR Title: ${safePrTitle}
+            PR Description: ${safePrBody}
             
             Provide a concise review covering:
             1. Code quality observations (max 3 points)
