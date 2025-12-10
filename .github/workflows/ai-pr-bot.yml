@@ -56,8 +56,11 @@ jobs:
             let aiReview = '';
             let apiCallSuccess = false;
             
-            // Check if OpenAI API key is configured
-            if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.startsWith('sk-')) {
+            // Check if OpenAI API key is configured with proper validation
+            const apiKey = process.env.OPENAI_API_KEY || '';
+            const isValidApiKey = apiKey.startsWith('sk-') && apiKey.length > 20;
+            
+            if (isValidApiKey) {
               try {
                 // Prepare analysis prompt
                 const analysisPrompt = `You are a code reviewer. Analyze this pull request conservatively and provide brief, actionable feedback.
@@ -99,6 +102,12 @@ jobs:
                 
                 if (response.ok) {
                   const data = await response.json();
+                  
+                  // Validate response structure
+                  if (!data.choices || !Array.isArray(data.choices) || data.choices.length === 0) {
+                    throw new Error('Invalid API response structure');
+                  }
+                  
                   const aiAnalysis = data.choices[0].message.content;
                   apiCallSuccess = true;
                   

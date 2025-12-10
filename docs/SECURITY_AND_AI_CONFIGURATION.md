@@ -41,7 +41,7 @@ Navigate to: **Repository Settings → Secrets and variables → Actions**
 2. Sign in or create an account
 3. Navigate to API Keys section
 4. Click "Create new secret key"
-5. Copy the key (starts with `sk-proj-` or `sk-`)
+5. Copy the key (typically starts with `sk-proj-` for project keys)
 
 **How to add**:
 1. Go to Repository Settings

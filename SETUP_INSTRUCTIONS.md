@@ -34,7 +34,7 @@ The following have been implemented and will work automatically:
    - Visit: https://platform.openai.com/api-keys
    - Sign in or create an account
    - Click "Create new secret key"
-   - Copy the key (starts with `sk-proj-` or `sk-`)
+   - Copy the key (typically starts with `sk-proj-` for project keys)
    - **Important:** Store it securely - you won't be able to see it again
 
 2. **Add to Repository Secrets**
