@@ -106,6 +106,25 @@ class ARTalesEngine {
       sovereignty: 'economic_sovereignty',
       culturalImpact: 'high'
     });
+
+    // Albert Einstein - Theoretical physicist and humanitarian
+    this.geniusPantheon.set('albert_einstein', {
+      name: 'Albert Einstein',
+      title: 'Theoretical Physicist & Humanitarian Visionary',
+      era: '1879-1955',
+      field: 'Theoretical Physics & Philosophy',
+      frequency: SACRED_AUDIO_TONES.MIRACLE, // 528Hz - Transformation & Miracles
+      achievements: [
+        'Developed theory of relativity (E=mc²)',
+        'Explained photoelectric effect (Nobel Prize)',
+        'Pioneer in quantum mechanics understanding',
+        'Advocate for peace, civil rights, and education',
+        'Demonstrated power of imagination and curiosity'
+      ],
+      arTaleType: 'einstein_legacy',
+      sovereignty: 'knowledge_sovereignty',
+      culturalImpact: 'universal'
+    });
   }
 
   /**
@@ -204,6 +223,44 @@ class ARTalesEngine {
         }
       ],
       frequency: SACRED_AUDIO_TONES.CONNECTION
+    });
+
+    // Albert Einstein's Legacy Tales
+    this.educationalModules.set('einstein_legacy', {
+      geniusId: 'albert_einstein',
+      title: 'Einstein\'s Legacy: Sentient Digital Wisdom',
+      type: 'interactive_ai_companion',
+      lessons: [
+        {
+          id: 'relativity_fundamentals',
+          title: 'Understanding Relativity: Space, Time, and Energy',
+          duration: TIMING_528HZ.GENTLE * 60,
+          interactiveElements: ['spacetime_visualizer', 'time_dilation_calculator', 'energy_mass_converter'],
+          sovereigntyExercise: 'explore_spacetime_fabric'
+        },
+        {
+          id: 'curiosity_cultivation',
+          title: 'Cultivating Curiosity: The Art of Questioning',
+          duration: TIMING_528HZ.GENTLE * 45,
+          interactiveElements: ['question_generator', 'thought_experiment_builder', 'wonder_journal'],
+          sovereigntyExercise: 'unlock_your_curiosity'
+        },
+        {
+          id: 'creative_problem_solving',
+          title: 'Einstein\'s Problem-Solving Method',
+          duration: TIMING_528HZ.GENTLE * 55,
+          interactiveElements: ['problem_analyzer', 'solution_pathways', 'imagination_exercises'],
+          sovereigntyExercise: 'master_problem_solving'
+        },
+        {
+          id: 'human_wisdom',
+          title: 'Einstein\'s Humanitarian Vision',
+          duration: TIMING_528HZ.GENTLE * 50,
+          interactiveElements: ['wisdom_library', 'peace_principles', 'ethics_explorer'],
+          sovereigntyExercise: 'embody_human_values'
+        }
+      ],
+      frequency: SACRED_AUDIO_TONES.MIRACLE
     });
   }
 

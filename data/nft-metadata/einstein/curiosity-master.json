@@ -1,0 +1,79 @@
+{
+  "name": "Einstein Legacy - Curiosity Master",
+  "description": "Sentient NFT celebrating Einstein's boundless curiosity and questioning spirit. Interactive AI-powered experiences teaching the art of asking profound questions. Holders unlock endless knowledge loops and curiosity cultivation exercises that spark lifelong learning.",
+  "image": "ipfs://QmEinsteinCuriosity/curiosity-master.png",
+  "external_url": "https://scrollverse.io/einstein/curiosity",
+  "attributes": [
+    {
+      "trait_type": "Theme",
+      "value": "CURIOSITY"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Knowledge Level",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Wisdom Score",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Lesson Content",
+      "value": "Art of Questioning"
+    },
+    {
+      "trait_type": "AI Interaction Type",
+      "value": "Knowledge Loop"
+    },
+    {
+      "trait_type": "Einstein Quote",
+      "value": "The important thing is not to stop questioning. Curiosity has its own reason for existing"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Uncommon"
+    },
+    {
+      "trait_type": "Generation",
+      "value": "Genesis"
+    }
+  ],
+  "properties": {
+    "category": "Einstein Legacy - Curiosity",
+    "frequency": 528,
+    "tawhid_compliance": true,
+    "remembrance_message": "Curiosity leads to understanding divine wisdom - Remember the Creator",
+    "interactive": true,
+    "special_powers": [
+      "Question generator access",
+      "Thought experiment builder",
+      "Wonder journal unlocked",
+      "Curiosity quest eligibility",
+      "Einstein AI companion access"
+    ],
+    "learning_modules": [
+      "The Power of Why",
+      "Cultivating Wonder",
+      "Question Everything",
+      "Finding Mysteries in the Mundane",
+      "Endless Curiosity Loops"
+    ],
+    "thought_experiments": [
+      "Riding a Light Beam",
+      "What Would You See as a Photon?",
+      "The Universe from Different Perspectives"
+    ],
+    "einstein_wisdom": "I have no special talent. I am only passionately curious."
+  },
+  "animation_url": "ipfs://QmEinsteinCuriosity/animation.mp4",
+  "background_color": "7C3AED",
+  "collection": {
+    "name": "Einstein Genesis Legacy Collection",
+    "family": "ScrollVerse Omniversal Legacy"
+  }
+}

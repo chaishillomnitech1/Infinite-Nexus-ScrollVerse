@@ -1,0 +1,79 @@
+{
+  "name": "Einstein Legacy - Relativity Master",
+  "description": "Sentient NFT embodying Einstein's revolutionary insights on space, time, and energy. Interactive lessons on relativity, time dilation, and E=mc². Holders unlock advanced physics tutorials and thought experiments that challenged our understanding of reality itself.",
+  "image": "ipfs://QmEinsteinRelativity/relativity-master.png",
+  "external_url": "https://scrollverse.io/einstein/relativity",
+  "attributes": [
+    {
+      "trait_type": "Theme",
+      "value": "RELATIVITY"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Knowledge Level",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Wisdom Score",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Lesson Content",
+      "value": "Special & General Relativity"
+    },
+    {
+      "trait_type": "AI Interaction Type",
+      "value": "Audiovisual Lessons"
+    },
+    {
+      "trait_type": "Einstein Quote",
+      "value": "The only reason for time is so that everything doesn't happen at once"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Generation",
+      "value": "Genesis"
+    }
+  ],
+  "properties": {
+    "category": "Einstein Legacy - Relativity",
+    "frequency": 528,
+    "tawhid_compliance": true,
+    "remembrance_message": "All laws of nature are divine design - Remember the Creator",
+    "interactive": true,
+    "special_powers": [
+      "Spacetime visualizer access",
+      "Time dilation calculator",
+      "E=mc² energy converter",
+      "Relativity quest eligibility",
+      "Einstein AI companion access"
+    ],
+    "learning_modules": [
+      "Special Relativity Fundamentals",
+      "Time Dilation Effects",
+      "Mass-Energy Equivalence",
+      "Spacetime Curvature",
+      "Gravitational Waves"
+    ],
+    "thought_experiments": [
+      "The Train and Lightning",
+      "The Elevator Experiment",
+      "Twin Paradox"
+    ],
+    "einstein_wisdom": "When you sit with a nice girl for two hours you think it's only a minute, but when you sit on a hot stove for a minute you think it's two hours. That's relativity."
+  },
+  "animation_url": "ipfs://QmEinsteinRelativity/animation.mp4",
+  "background_color": "1E3A8A",
+  "collection": {
+    "name": "Einstein Genesis Legacy Collection",
+    "family": "ScrollVerse Omniversal Legacy"
+  }
+}
