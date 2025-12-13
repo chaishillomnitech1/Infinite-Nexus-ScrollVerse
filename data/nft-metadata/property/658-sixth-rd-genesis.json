@@ -1,0 +1,157 @@
+{
+  "name": "658 Sixth Rd - Genesis Digital Twin",
+  "description": "Genesis NFT for the property at 658 Sixth Rd, Newtonville, New Jersey 08346. This digital twin represents the perpetual transformation of the property into a blockchain-based asset for prosperity. Owned by Keleen Joy Simpson and her daughters Jada Joy Hill and Nyasia Chais Hill. Operating at 528Hz (Healing) and 963Hz (Divine Protection) frequencies.",
+  "image": "ipfs://Qm658SixthRdGenesisVisual528Hz",
+  "animation_url": "ipfs://Qm658SixthRdGenesisAnimation",
+  "external_url": "https://infinite-nexus-scrollverse.vercel.app/property-digital-twin",
+  "attributes": [
+    {
+      "trait_type": "Property Address",
+      "value": "658 Sixth Rd, Newtonville, NJ 08346"
+    },
+    {
+      "trait_type": "GPS Coordinates",
+      "value": "39.5596,-74.9136"
+    },
+    {
+      "trait_type": "Property Type",
+      "value": "Residential"
+    },
+    {
+      "trait_type": "Digital Twin Type",
+      "value": "Genesis"
+    },
+    {
+      "trait_type": "Frequency - Healing",
+      "value": "528Hz",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Frequency - Protection",
+      "value": "963Hz",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Sacred Geometry",
+      "value": "Flower of Life"
+    },
+    {
+      "trait_type": "Blockchain Network",
+      "value": "Scroll zkEVM"
+    },
+    {
+      "trait_type": "Chain ID",
+      "value": "534352",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Primary Owner",
+      "value": "Keleen Joy Simpson"
+    },
+    {
+      "trait_type": "Co-Owner 1",
+      "value": "Jada Joy Hill"
+    },
+    {
+      "trait_type": "Co-Owner 2",
+      "value": "Nyasia Chais Hill"
+    },
+    {
+      "trait_type": "Ownership Structure",
+      "value": "50% / 25% / 25%"
+    },
+    {
+      "trait_type": "Revenue Enabled",
+      "value": "True"
+    },
+    {
+      "trait_type": "QR Verification",
+      "value": "Enabled"
+    },
+    {
+      "trait_type": "Smart Contract",
+      "value": "Upgradable"
+    },
+    {
+      "trait_type": "NFT Collection Size",
+      "value": "528",
+      "display_type": "number"
+    }
+  ],
+  "properties": {
+    "propertyInfo": {
+      "address": "658 Sixth Rd, Newtonville, New Jersey 08346",
+      "city": "Newtonville",
+      "state": "New Jersey",
+      "zipCode": "08346",
+      "country": "United States",
+      "coordinates": {
+        "latitude": 39.5596,
+        "longitude": -74.9136
+      }
+    },
+    "beneficiaries": {
+      "keleenJoySimpson": {
+        "name": "Keleen Joy Simpson",
+        "birthDate": "April 19, 1981",
+        "role": "Mother/Primary Owner",
+        "ownershipPercentage": 50,
+        "rights": ["NFT", "Revenue", "Governance"]
+      },
+      "jadaJoyHill": {
+        "name": "Jada Joy Hill",
+        "birthDate": "October 4, 2004",
+        "role": "Daughter/Co-Owner",
+        "ownershipPercentage": 25,
+        "rights": ["NFT", "Revenue", "Governance"]
+      },
+      "nyasiaChaisHill": {
+        "name": "Nyasia Chais Hill",
+        "birthDate": "March 13, 2006",
+        "role": "Daughter/Co-Owner",
+        "ownershipPercentage": 25,
+        "rights": ["NFT", "Revenue", "Governance"]
+      }
+    },
+    "revenueStreams": [
+      "NFT Sales",
+      "Digital Art Sales",
+      "PropertyCoin Revenue",
+      "Smart Contract Operations"
+    ],
+    "securityFeatures": [
+      "QR Signature Verification",
+      "Multi-Signature Wallet",
+      "Blockchain Audit Trail",
+      "Time-Locked Transactions",
+      "Immutable Records"
+    ],
+    "frequencies": {
+      "healing": 528,
+      "protection": 963,
+      "purpose": "Transformation & Prosperity"
+    },
+    "sacredGeometry": "Flower of Life",
+    "dimensionalAccess": [3, 5, 7, 9],
+    "infiniteGrowth": true,
+    "blockchainIntegration": {
+      "network": "Scroll zkEVM",
+      "chainId": 534352,
+      "standard": "ERC-721",
+      "upgradable": true
+    }
+  },
+  "family_story": {
+    "title": "Legacy of Prosperity",
+    "description": "This property represents a perpetual asset for the Simpson-Hill family. Through blockchain technology and digital twin mirroring, it transforms into a living revenue stream that supports financial health and sustainability across all dimensions and timelines.",
+    "dedication": "For Keleen Joy Simpson and her daughters Jada Joy Hill and Nyasia Chais Hill - may this property forever serve as a foundation of prosperity, safety, and infinite growth potential.",
+    "sacred_purpose": "To safeguard the house by transforming it into a revenue-generating and value-enhancing system that supports the family's financial future while maintaining love, knowledge-sharing, and financial health sustainability."
+  },
+  "milestone": {
+    "type": "Genesis Creation",
+    "date": "2025-12-13",
+    "significance": "First digital twin NFT created for the property, establishing blockchain-based ownership and revenue generation capabilities."
+  },
+  "background_color": "1A1A2E",
+  "category": "Property Digital Twin NFT"
+}
