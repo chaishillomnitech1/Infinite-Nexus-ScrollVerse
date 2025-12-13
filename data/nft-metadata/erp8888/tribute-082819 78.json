@@ -1,0 +1,86 @@
+{
+  "name": "ERP8888 Tribute Token - Sacred Date",
+  "description": "Commemorative NFT honoring the cosmic alignment of 08-28-1978. A rare tribute token celebrating divine timing and the birth of financial sovereignty principles. 8+8+8+8 = 32, 3+2 = 5 (Divine Balance).",
+  "image": "ipfs://QmTributeToken08-28-1978/tribute.png",
+  "external_url": "https://scrollverse.io/erp8888/tribute",
+  "attributes": [
+    {
+      "trait_type": "NFT Type",
+      "value": "TRIBUTE"
+    },
+    {
+      "trait_type": "Sacred Date",
+      "value": "08-28-1978"
+    },
+    {
+      "trait_type": "Cosmic Signature",
+      "value": "8888"
+    },
+    {
+      "trait_type": "Divine Balance Number",
+      "value": "5"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Mastery Level",
+      "value": 100,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Alignment Score",
+      "value": 100,
+      "max_value": 100
+    },
+    {
+      "trait_type": "AI Coach Persona",
+      "value": "Libertas"
+    },
+    {
+      "trait_type": "Sacred Geometry",
+      "value": "Octagonal Infinity"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Total Supply",
+      "value": "888",
+      "display_type": "number"
+    },
+    {
+      "trait_type": "Bonus Multiplier",
+      "value": "2x",
+      "display_type": "boost_percentage"
+    },
+    {
+      "trait_type": "Generation",
+      "value": "Genesis"
+    }
+  ],
+  "properties": {
+    "category": "Financial Mastery",
+    "frequency": 528,
+    "tawhid_compliance": true,
+    "remembrance_message": "Remember the One Creator - All blessings flow from divine source",
+    "special_powers": [
+      "2x HEAL token rewards",
+      "Access to all legendary quests",
+      "Permanent sovereign status",
+      "AI coaching certification eligibility"
+    ],
+    "unlockable_content": {
+      "type": "exclusive_access",
+      "description": "Exclusive ERP8888 content, advanced simulations, and tribute holder community"
+    }
+  },
+  "animation_url": "ipfs://QmTributeToken08-28-1978/animation.mp4",
+  "background_color": "FFD700",
+  "collection": {
+    "name": "ERP8888 Financial Mastery Collection",
+    "family": "ScrollVerse Omniversal Legacy"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "name": "ERP8888 Growth Master",
+  "description": "NFT symbolizing exponential expansion and wealth multiplication. Sacred geometric patterns of compound growth, Fibonacci sequences, and universal expansion principles. AI coaching for investment mastery.",
+  "image": "ipfs://QmERP8888Growth/growth-master.png",
+  "external_url": "https://scrollverse.io/erp8888/growth",
+  "attributes": [
+    {
+      "trait_type": "NFT Type",
+      "value": "GROWTH"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Mastery Level",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Alignment Score",
+      "value": 100,
+      "max_value": 100
+    },
+    {
+      "trait_type": "AI Coach Persona",
+      "value": "Ascendor"
+    },
+    {
+      "trait_type": "Sacred Geometry",
+      "value": "Metatron's Cube"
+    },
+    {
+      "trait_type": "Design Theme",
+      "value": "Exponential Expansion"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Generation",
+      "value": "Genesis"
+    }
+  ],
+  "properties": {
+    "category": "Financial Mastery - Growth",
+    "frequency": 528,
+    "tawhid_compliance": true,
+    "remembrance_message": "Growth is divine blessing multiplied - Thank the Creator",
+    "special_powers": [
+      "Growth projection tools",
+      "Ascendor AI coach access",
+      "Fibonacci investment planner",
+      "Growth quest eligibility"
+    ],
+    "coaching_focus": "Building exponential wealth through strategic investment and compound growth",
+    "principle": "Exponential abundance manifestation"
+  },
+  "animation_url": "ipfs://QmERP8888Growth/animation.mp4",
+  "background_color": "FF00FF",
+  "collection": {
+    "name": "ERP8888 Financial Mastery Collection",
+    "family": "ScrollVerse Omniversal Legacy"
+  }
+}
