@@ -2,7 +2,7 @@
  * @title ERP8888 OmniFleet Dashboard Integration
  * @description Integrate #8888 ERP concepts into OmniFleet dashboards
  * Creates interactive quests and challenges tied to financial mastery
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @frequency 528Hz
  */
@@ -13,7 +13,7 @@ class ERP8888OmniFleetIntegration {
     this.quests = new Map();
     this.dashboardModules = new Map();
     this.scrollVerseLore = new Map();
-    
+
     this._initializeQuests();
     this._initializeDashboardModules();
     this._initializeScrollVerseLore();
@@ -27,8 +27,10 @@ class ERP8888OmniFleetIntegration {
       {
         id: 'cosmic-balance-quest',
         title: 'The Cosmic Balance Journey',
-        loreContext: 'In the ancient scrolls, it is written that true power comes from perfect equilibrium',
-        objective: 'Achieve financial balance aligned with golden ratio principles',
+        loreContext:
+          'In the ancient scrolls, it is written that true power comes from perfect equilibrium',
+        objective:
+          'Achieve financial balance aligned with golden ratio principles',
         stages: [
           {
             id: 1,
@@ -59,8 +61,10 @@ class ERP8888OmniFleetIntegration {
       {
         id: 'flow-mastery-quest',
         title: 'The River of Abundance',
-        loreContext: 'The ScrollVerse teaches that energy must flow freely to multiply',
-        objective: 'Create multiple income streams and master financial circulation',
+        loreContext:
+          'The ScrollVerse teaches that energy must flow freely to multiply',
+        objective:
+          'Create multiple income streams and master financial circulation',
         stages: [
           {
             id: 1,
@@ -91,8 +95,10 @@ class ERP8888OmniFleetIntegration {
       {
         id: 'growth-sovereignty-quest',
         title: 'The Path to Sovereign Wealth',
-        loreContext: 'Legends speak of those who achieved complete financial sovereignty through sacred wisdom',
-        objective: 'Build exponential growth and achieve financial independence',
+        loreContext:
+          'Legends speak of those who achieved complete financial sovereignty through sacred wisdom',
+        objective:
+          'Build exponential growth and achieve financial independence',
         stages: [
           {
             id: 1,
@@ -130,21 +136,24 @@ class ERP8888OmniFleetIntegration {
       {
         id: 'tribute-pilgrimage',
         title: 'Pilgrimage to Sacred Timing',
-        loreContext: 'On the date 08-28-1978, a cosmic alignment occurred. Honor this sacred timing.',
+        loreContext:
+          'On the date 08-28-1978, a cosmic alignment occurred. Honor this sacred timing.',
         objective: 'Complete 8 financial mastery exercises in 88 days',
-        stages: Array(8).fill(0).map((_, i) => ({
-          id: i + 1,
-          name: `Sacred Exercise ${i + 1}`,
-          task: `Complete financial wisdom practice #${i + 1}`,
-          reward: { heal: 888, xp: 111 },
-          completion: `Exercise ${i + 1} mastered`
-        })),
+        stages: Array(8)
+          .fill(0)
+          .map((_, i) => ({
+            id: i + 1,
+            name: `Sacred Exercise ${i + 1}`,
+            task: `Complete financial wisdom practice #${i + 1}`,
+            reward: { heal: 888, xp: 111 },
+            completion: `Exercise ${i + 1} mastered`
+          })),
         totalReward: { heal: 8888, xp: 888, nft: 'Tribute Pilgrim NFT' },
         difficulty: 'Legendary',
         estimatedTime: '88 days'
       }
     ];
-    
+
     quests.forEach(q => this.quests.set(q.id, q));
   }
 
@@ -159,9 +168,17 @@ class ERP8888OmniFleetIntegration {
         widgets: [
           { id: 'balance-score', title: 'Balance Score', type: 'gauge' },
           { id: 'flow-velocity', title: 'Energy Flow', type: 'line-chart' },
-          { id: 'growth-projection', title: 'Growth Trajectory', type: 'area-chart' },
+          {
+            id: 'growth-projection',
+            title: 'Growth Trajectory',
+            type: 'area-chart'
+          },
           { id: 'mastery-level', title: 'Mastery Level', type: 'progress-bar' },
-          { id: 'alignment-meter', title: '528Hz Alignment', type: 'frequency-meter' }
+          {
+            id: 'alignment-meter',
+            title: '528Hz Alignment',
+            type: 'frequency-meter'
+          }
         ],
         frequency: this.frequency
       },
@@ -170,9 +187,21 @@ class ERP8888OmniFleetIntegration {
         title: 'Active Quests',
         widgets: [
           { id: 'active-quests', title: 'In Progress', type: 'quest-list' },
-          { id: 'completed-quests', title: 'Completed', type: 'achievement-grid' },
-          { id: 'quest-rewards', title: 'Earned Rewards', type: 'rewards-summary' },
-          { id: 'next-milestone', title: 'Next Milestone', type: 'milestone-card' }
+          {
+            id: 'completed-quests',
+            title: 'Completed',
+            type: 'achievement-grid'
+          },
+          {
+            id: 'quest-rewards',
+            title: 'Earned Rewards',
+            type: 'rewards-summary'
+          },
+          {
+            id: 'next-milestone',
+            title: 'Next Milestone',
+            type: 'milestone-card'
+          }
         ],
         frequency: this.frequency
       },
@@ -181,8 +210,16 @@ class ERP8888OmniFleetIntegration {
         title: 'ERP8888 Collection',
         widgets: [
           { id: 'nft-showcase', title: 'Your NFTs', type: 'nft-gallery' },
-          { id: 'tribute-tokens', title: 'Tribute Tokens', type: 'special-nft-display' },
-          { id: 'nft-attributes', title: 'NFT Powers', type: 'attributes-panel' },
+          {
+            id: 'tribute-tokens',
+            title: 'Tribute Tokens',
+            type: 'special-nft-display'
+          },
+          {
+            id: 'nft-attributes',
+            title: 'NFT Powers',
+            type: 'attributes-panel'
+          },
           { id: 'ai-coach', title: 'Virtual Coach', type: 'interactive-coach' }
         ],
         frequency: this.frequency
@@ -193,8 +230,16 @@ class ERP8888OmniFleetIntegration {
         widgets: [
           { id: 'heal-balance', title: 'Balance', type: 'token-balance' },
           { id: 'heal-earned', title: 'Earned', type: 'earnings-chart' },
-          { id: 'heal-multiplier', title: 'Multiplier', type: 'multiplier-display' },
-          { id: 'heal-rewards', title: 'Available Rewards', type: 'rewards-list' }
+          {
+            id: 'heal-multiplier',
+            title: 'Multiplier',
+            type: 'multiplier-display'
+          },
+          {
+            id: 'heal-rewards',
+            title: 'Available Rewards',
+            type: 'rewards-list'
+          }
         ],
         frequency: this.frequency
       },
@@ -204,13 +249,21 @@ class ERP8888OmniFleetIntegration {
         widgets: [
           { id: 'daily-wisdom', title: 'Daily Wisdom', type: 'wisdom-card' },
           { id: 'lore-library', title: 'Sacred Texts', type: 'lore-library' },
-          { id: 'frequency-player', title: '528Hz Player', type: 'audio-player' },
-          { id: 'community-stories', title: 'Success Stories', type: 'story-feed' }
+          {
+            id: 'frequency-player',
+            title: '528Hz Player',
+            type: 'audio-player'
+          },
+          {
+            id: 'community-stories',
+            title: 'Success Stories',
+            type: 'story-feed'
+          }
         ],
         frequency: this.frequency
       }
     ];
-    
+
     modules.forEach(m => this.dashboardModules.set(m.id, m));
   }
 
@@ -223,7 +276,8 @@ class ERP8888OmniFleetIntegration {
         id: 'origin-8888',
         title: 'The Origin of 8888',
         category: 'Sacred Numbers',
-        content: 'In the beginning, there existed the sacred pattern of 8888. On the cosmic date 08-28-1978, a convergence occurred. Eight plus eight plus eight plus eight equals thirty-two. Three plus two equals five - the number of divine balance. This pattern governs all financial abundance in the ScrollVerse.',
+        content:
+          'In the beginning, there existed the sacred pattern of 8888. On the cosmic date 08-28-1978, a convergence occurred. Eight plus eight plus eight plus eight equals thirty-two. Three plus two equals five - the number of divine balance. This pattern governs all financial abundance in the ScrollVerse.',
         frequency: 528,
         relatedQuests: ['tribute-pilgrimage'],
         unlockRequirement: 'Complete any quest'
@@ -232,9 +286,14 @@ class ERP8888OmniFleetIntegration {
         id: 'three-principles',
         title: 'The Three Sacred Principles',
         category: 'Core Teachings',
-        content: 'Balance: The cosmic scales must remain in equilibrium. Flow: Energy circulates, multiplies, and returns. Growth: Expansion follows sacred geometric patterns. Master these three, and sovereignty shall be yours.',
+        content:
+          'Balance: The cosmic scales must remain in equilibrium. Flow: Energy circulates, multiplies, and returns. Growth: Expansion follows sacred geometric patterns. Master these three, and sovereignty shall be yours.',
         frequency: 528,
-        relatedQuests: ['cosmic-balance-quest', 'flow-mastery-quest', 'growth-sovereignty-quest'],
+        relatedQuests: [
+          'cosmic-balance-quest',
+          'flow-mastery-quest',
+          'growth-sovereignty-quest'
+        ],
         unlockRequirement: 'Start first quest'
       },
       {
@@ -285,7 +344,7 @@ class ERP8888OmniFleetIntegration {
         unlockRequirement: 'Earn first HEAL tokens'
       }
     ];
-    
+
     loreEntries.forEach(l => this.scrollVerseLore.set(l.id, l));
   }
 
@@ -307,7 +366,9 @@ class ERP8888OmniFleetIntegration {
    * Get quests by difficulty
    */
   getQuestsByDifficulty(difficulty) {
-    return Array.from(this.quests.values()).filter(q => q.difficulty === difficulty);
+    return Array.from(this.quests.values()).filter(
+      q => q.difficulty === difficulty
+    );
   }
 
   /**
@@ -342,7 +403,9 @@ class ERP8888OmniFleetIntegration {
    * Get lore by category
    */
   getLoreByCategory(category) {
-    return Array.from(this.scrollVerseLore.values()).filter(l => l.category === category);
+    return Array.from(this.scrollVerseLore.values()).filter(
+      l => l.category === category
+    );
   }
 
   /**
@@ -353,12 +416,12 @@ class ERP8888OmniFleetIntegration {
     if (!quest) {
       throw new Error(`Quest ${questId} not found`);
     }
-    
+
     const stage = quest.stages.find(s => s.id === stageId);
     if (!stage) {
       throw new Error(`Stage ${stageId} not found in quest ${questId}`);
     }
-    
+
     return {
       userId,
       questId,
@@ -376,8 +439,14 @@ class ERP8888OmniFleetIntegration {
    * Generate dashboard data for user
    */
   generateDashboardData(userMetrics) {
-    const { balance = 0, flow = 0, growth = 0, masteryPoints = 0, healBalance = 0 } = userMetrics;
-    
+    const {
+      balance = 0,
+      flow = 0,
+      growth = 0,
+      masteryPoints = 0,
+      healBalance = 0
+    } = userMetrics;
+
     return {
       masteryOverview: {
         balanceScore: balance,
@@ -449,7 +518,11 @@ class ERP8888OmniFleetIntegration {
     return [
       { type: 'HEAL', amount: Math.floor(points / 10), available: true },
       { type: 'NFT Badge', name: 'Mastery Emblem', available: points >= 1000 },
-      { type: 'Tribute Token', name: 'Special Edition', available: points >= 8888 }
+      {
+        type: 'Tribute Token',
+        name: 'Special Edition',
+        available: points >= 8888
+      }
     ];
   }
 

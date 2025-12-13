@@ -1,10 +1,10 @@
 /**
  * Rogue AI Agent Evaluator Framework
- * 
+ *
  * Multidimensional testing framework for AI agents within CHAIS X MANUS ecosystem.
  * Integrates scenario testing, performance metrics, and real-time telemetry.
  * Operates at 528Hz-963Hz sacred frequencies for optimal resonance.
- * 
+ *
  * @module RogueAIAgentEvaluator
  */
 
@@ -41,8 +41,10 @@ class RogueAIAgentEvaluator {
    * Initialize the evaluator framework
    */
   async initialize() {
-    console.log(`🤖 Initializing Rogue AI Agent Evaluator at ${this.config.frequency}Hz...`);
-    
+    console.log(
+      `🤖 Initializing Rogue AI Agent Evaluator at ${this.config.frequency}Hz...`
+    );
+
     this.telemetry.startTime = Date.now();
     this.initialized = true;
 
@@ -62,10 +64,19 @@ class RogueAIAgentEvaluator {
     const AIIncentiveLayerEvaluator = require('./evaluators/ai-incentive-layer-evaluator');
     const RevenueDistributionEvaluator = require('./evaluators/revenue-distribution-evaluator');
 
-    this.evaluators.set('smartContract', new SmartContractEvaluator(this.config));
+    this.evaluators.set(
+      'smartContract',
+      new SmartContractEvaluator(this.config)
+    );
     this.evaluators.set('dspPlatform', new DSPPlatformEvaluator(this.config));
-    this.evaluators.set('aiIncentive', new AIIncentiveLayerEvaluator(this.config));
-    this.evaluators.set('revenueDistribution', new RevenueDistributionEvaluator(this.config));
+    this.evaluators.set(
+      'aiIncentive',
+      new AIIncentiveLayerEvaluator(this.config)
+    );
+    this.evaluators.set(
+      'revenueDistribution',
+      new RevenueDistributionEvaluator(this.config)
+    );
 
     // Initialize all evaluators
     for (const [name, evaluator] of this.evaluators) {
@@ -81,11 +92,15 @@ class RogueAIAgentEvaluator {
    */
   async runEvaluation(agent, scenarios = []) {
     if (!this.initialized) {
-      throw new Error('Evaluator must be initialized before running evaluations');
+      throw new Error(
+        'Evaluator must be initialized before running evaluations'
+      );
     }
 
-    console.log(`🔍 Running multidimensional evaluation for agent: ${agent.id || 'Unknown'}`);
-    
+    console.log(
+      `🔍 Running multidimensional evaluation for agent: ${agent.id || 'Unknown'}`
+    );
+
     const evaluationId = `EVAL-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
     const results = {
       evaluationId,
@@ -99,12 +114,14 @@ class RogueAIAgentEvaluator {
 
     // Run evaluations for each registered evaluator
     for (const [name, evaluator] of this.evaluators) {
-      const evaluatorScenarios = scenarios.filter(s => s.type === name || !s.type);
+      const evaluatorScenarios = scenarios.filter(
+        s => s.type === name || !s.type
+      );
       const result = await evaluator.evaluate(agent, evaluatorScenarios);
-      
+
       results.evaluators[name] = result;
       this.metrics.totalTests++;
-      
+
       if (result.passed) {
         this.metrics.passedTests++;
       } else {
@@ -119,13 +136,18 @@ class RogueAIAgentEvaluator {
     results.overallScore = scores.reduce((a, b) => a + b, 0) / scores.length;
     results.passed = results.overallScore >= 0.7; // 70% threshold
 
-    this.metrics.averageScore = (this.metrics.averageScore * (this.metrics.totalTests - 1) + results.overallScore) / this.metrics.totalTests;
+    this.metrics.averageScore =
+      (this.metrics.averageScore * (this.metrics.totalTests - 1) +
+        results.overallScore) /
+      this.metrics.totalTests;
     this.metrics.frequencyAlignment = this.calculateFrequencyAlignment(results);
 
     this.testResults.set(evaluationId, results);
 
-    console.log(`✓ Evaluation complete: ${results.passed ? 'PASSED' : 'FAILED'} (Score: ${(results.overallScore * 100).toFixed(2)}%)`);
-    
+    console.log(
+      `✓ Evaluation complete: ${results.passed ? 'PASSED' : 'FAILED'} (Score: ${(results.overallScore * 100).toFixed(2)}%)`
+    );
+
     return results;
   }
 
@@ -138,11 +160,17 @@ class RogueAIAgentEvaluator {
       throw new Error(`Evaluator '${evaluatorName}' not found`);
     }
 
-    console.log(`🎯 Running scenario test: ${scenario.name} on ${evaluatorName}`);
-    
+    console.log(
+      `🎯 Running scenario test: ${scenario.name} on ${evaluatorName}`
+    );
+
     const result = await evaluator.evaluateScenario(agent, scenario);
-    this.recordTelemetry('scenario_test', { evaluator: evaluatorName, scenario: scenario.name, result });
-    
+    this.recordTelemetry('scenario_test', {
+      evaluator: evaluatorName,
+      scenario: scenario.name,
+      result
+    });
+
     return result;
   }
 
@@ -161,7 +189,7 @@ class RogueAIAgentEvaluator {
     const alignmentScores = Object.values(results.evaluators).map(r => {
       if (!r.frequencyAlignment) return 0;
       const deviation = Math.abs(r.frequencyAlignment - targetFrequency);
-      return Math.max(0, 1 - (deviation / targetFrequency));
+      return Math.max(0, 1 - deviation / targetFrequency);
     });
 
     return alignmentScores.reduce((a, b) => a + b, 0) / alignmentScores.length;
@@ -184,8 +212,13 @@ class RogueAIAgentEvaluator {
   getMetrics() {
     return {
       ...this.metrics,
-      uptime: this.telemetry.startTime ? Date.now() - this.telemetry.startTime : 0,
-      successRate: this.metrics.totalTests > 0 ? this.metrics.passedTests / this.metrics.totalTests : 0,
+      uptime: this.telemetry.startTime
+        ? Date.now() - this.telemetry.startTime
+        : 0,
+      successRate:
+        this.metrics.totalTests > 0
+          ? this.metrics.passedTests / this.metrics.totalTests
+          : 0,
       telemetryEvents: this.telemetry.events.length
     };
   }
@@ -206,8 +239,8 @@ class RogueAIAgentEvaluator {
   getTelemetry() {
     return {
       ...this.telemetry,
-      duration: this.telemetry.endTime 
-        ? this.telemetry.endTime - this.telemetry.startTime 
+      duration: this.telemetry.endTime
+        ? this.telemetry.endTime - this.telemetry.startTime
         : Date.now() - this.telemetry.startTime
     };
   }

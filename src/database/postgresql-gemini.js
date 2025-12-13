@@ -1,10 +1,10 @@
 /**
  * PostgreSQL Gemini CLI Integration
- * 
+ *
  * Integrates PostgreSQL workflows using Gemini CLI extension capabilities
  * into the ScrollVerse operation pipeline. Provides database optimization,
  * schema exploration, and workflow automation for NFT and Akashic Frequency layers.
- * 
+ *
  * Frequency: 528Hz | Database Resonance | Akashic Data Flow
  */
 
@@ -15,10 +15,14 @@ class PostgreSQLGemini {
       resonanceField: 'active',
       host: config.host || process.env.POSTGRES_HOST || 'localhost',
       port: config.port || process.env.POSTGRES_PORT || 5432,
-      database: config.database || process.env.POSTGRES_DATABASE || 'scrollverse',
+      database:
+        config.database || process.env.POSTGRES_DATABASE || 'scrollverse',
       user: config.user || process.env.POSTGRES_USER || 'postgres',
       password: config.password || process.env.POSTGRES_PASSWORD || '',
-      ssl: config.ssl !== undefined ? config.ssl : process.env.POSTGRES_SSL === 'true',
+      ssl:
+        config.ssl !== undefined
+          ? config.ssl
+          : process.env.POSTGRES_SSL === 'true',
       maxConnections: config.maxConnections || 10,
       ...config
     };
@@ -26,7 +30,7 @@ class PostgreSQLGemini {
     this.initialized = false;
     this.deployed = false;
     this.connection = null;
-    
+
     this.metrics = {
       queriesExecuted: 0,
       tablesAnalyzed: 0,
@@ -45,10 +49,10 @@ class PostgreSQLGemini {
    */
   async initialize() {
     console.log('🔮 Initializing PostgreSQL Gemini CLI at 528Hz...');
-    
+
     // Validate configuration
     this.validateConfig();
-    
+
     // Simulate connection establishment (actual implementation would use pg library)
     this.connection = {
       host: this.config.host,
@@ -56,9 +60,11 @@ class PostgreSQLGemini {
       connected: true,
       timestamp: Date.now()
     };
-    
+
     this.initialized = true;
-    console.log(`✓ PostgreSQL connected: ${this.config.database}@${this.config.host}`);
+    console.log(
+      `✓ PostgreSQL connected: ${this.config.database}@${this.config.host}`
+    );
     return true;
   }
 
@@ -68,11 +74,13 @@ class PostgreSQLGemini {
   validateConfig() {
     const required = ['host', 'database', 'user'];
     const missing = required.filter(key => !this.config[key]);
-    
+
     if (missing.length > 0) {
-      throw new Error(`Missing required PostgreSQL configuration: ${missing.join(', ')}`);
+      throw new Error(
+        `Missing required PostgreSQL configuration: ${missing.join(', ')}`
+      );
     }
-    
+
     return true;
   }
 
@@ -85,16 +93,16 @@ class PostgreSQLGemini {
     }
 
     console.log('✨ Deploying PostgreSQL workflows for ScrollVerse...');
-    
+
     // Initialize database schemas
     await this.initializeSchemas();
-    
+
     // Configure autovacuum for optimization
     await this.configureAutovacuum();
-    
+
     this.deployed = true;
     console.log('⚡ PostgreSQL workflows deployed and active');
-    
+
     return {
       deployed: true,
       database: this.config.database,
@@ -112,7 +120,7 @@ class PostgreSQLGemini {
     }
 
     this.metrics.queriesExecuted++;
-    
+
     // Simulate table discovery
     const tables = [
       { schema, name: 'nft_metadata', rows: 1234, size: '2.5 MB' },
@@ -128,7 +136,7 @@ class PostgreSQLGemini {
     });
 
     this.metrics.tablesAnalyzed += tables.length;
-    
+
     console.log(`📊 Listed ${tables.length} tables in schema '${schema}'`);
     return tables;
   }
@@ -142,28 +150,28 @@ class PostgreSQLGemini {
     }
 
     this.metrics.queriesExecuted++;
-    
+
     // Simulate bloat analysis
     const bloatedTables = [
-      { 
+      {
         schema: 'public',
-        name: 'nft_metadata', 
+        name: 'nft_metadata',
         size: '2.5 MB',
         bloatSize: '0.8 MB',
         bloatPercent: 32,
         recommendation: 'VACUUM FULL or REINDEX'
       },
-      { 
+      {
         schema: 'public',
-        name: 'akashic_frequencies', 
+        name: 'akashic_frequencies',
         size: '8.3 MB',
         bloatSize: '1.2 MB',
         bloatPercent: 14,
         recommendation: 'VACUUM ANALYZE'
       },
-      { 
+      {
         schema: 'public',
-        name: 'scroll_souls', 
+        name: 'scroll_souls',
         size: '1.2 MB',
         bloatSize: '0.3 MB',
         bloatPercent: 25,
@@ -184,13 +192,13 @@ class PostgreSQLGemini {
     }
 
     this.metrics.queriesExecuted++;
-    
+
     // Simulate query execution
     console.log(`⚡ Executing SQL: ${query.substring(0, 50)}...`);
-    
+
     // Parse query type
     const queryType = query.trim().split(/\s+/)[0].toUpperCase();
-    
+
     let result = {
       query,
       type: queryType,
@@ -220,10 +228,15 @@ class PostgreSQLGemini {
    */
   simulateSelectResult(query) {
     const lowerQuery = query.toLowerCase();
-    
+
     if (lowerQuery.includes('nft_metadata')) {
       return [
-        { id: 1, token_id: 'NFT-001', name: 'Sovereign Genesis', frequency: 528 },
+        {
+          id: 1,
+          token_id: 'NFT-001',
+          name: 'Sovereign Genesis',
+          frequency: 528
+        },
         { id: 2, token_id: 'NFT-002', name: 'Akashic Scroll', frequency: 528 },
         { id: 3, token_id: 'NFT-003', name: 'Eternal Anchor', frequency: 528 }
       ];
@@ -234,7 +247,7 @@ class PostgreSQLGemini {
         { id: 3, frequency: 432, type: 'Natural Harmony', resonance: 0.88 }
       ];
     }
-    
+
     return [{ status: 'ok', timestamp: Date.now() }];
   }
 
@@ -247,7 +260,7 @@ class PostgreSQLGemini {
     }
 
     this.metrics.queriesExecuted++;
-    
+
     // Simulate autovacuum config retrieval
     const config = {
       autovacuum: 'on',
@@ -268,7 +281,7 @@ class PostgreSQLGemini {
 
     this.autovacuumConfig = config;
     console.log('🔧 Retrieved autovacuum configurations');
-    
+
     return config;
   }
 
@@ -278,7 +291,7 @@ class PostgreSQLGemini {
   async configureAutovacuum() {
     const config = await this.listAutovacuumConfigurations();
     this.metrics.optimizationsPerformed++;
-    
+
     console.log('✓ Autovacuum configured for optimal performance');
     return config;
   }
@@ -292,7 +305,7 @@ class PostgreSQLGemini {
     }
 
     this.metrics.queriesExecuted++;
-    
+
     // Simulate schema mapping
     const schemaMap = {
       schema,
@@ -321,7 +334,11 @@ class PostgreSQLGemini {
             { name: 'description', type: 'text' }
           ],
           relationships: [
-            { type: 'hasMany', table: 'frequency_layers', foreignKey: 'frequency_id' }
+            {
+              type: 'hasMany',
+              table: 'frequency_layers',
+              foreignKey: 'frequency_id'
+            }
           ]
         },
         {
@@ -329,13 +346,21 @@ class PostgreSQLGemini {
           columns: [
             { name: 'id', type: 'integer', primaryKey: true },
             { name: 'nft_id', type: 'integer', foreignKey: 'nft_metadata.id' },
-            { name: 'frequency_id', type: 'integer', foreignKey: 'akashic_frequencies.id' },
+            {
+              name: 'frequency_id',
+              type: 'integer',
+              foreignKey: 'akashic_frequencies.id'
+            },
             { name: 'layer_depth', type: 'integer' },
             { name: 'resonance_data', type: 'jsonb' }
           ],
           relationships: [
             { type: 'belongsTo', table: 'nft_metadata', foreignKey: 'nft_id' },
-            { type: 'belongsTo', table: 'akashic_frequencies', foreignKey: 'frequency_id' }
+            {
+              type: 'belongsTo',
+              table: 'akashic_frequencies',
+              foreignKey: 'frequency_id'
+            }
           ]
         }
       ],
@@ -344,8 +369,10 @@ class PostgreSQLGemini {
     };
 
     this.schemas.set(schema, schemaMap);
-    console.log(`🗺️  Mapped schema '${schema}' with ${schemaMap.tables.length} tables`);
-    
+    console.log(
+      `🗺️  Mapped schema '${schema}' with ${schemaMap.tables.length} tables`
+    );
+
     return schemaMap;
   }
 
@@ -358,7 +385,7 @@ class PostgreSQLGemini {
       WHERE frequency = $1 
       ORDER BY resonance DESC
     `;
-    
+
     return await this.executeSql(query, [frequency]);
   }
 
@@ -371,9 +398,9 @@ FROM nft_metadata nm
 LEFT JOIN frequency_layers fl ON nm.id = fl.nft_id
 LEFT JOIN akashic_frequencies af ON fl.frequency_id = af.id
 WHERE nm.token_id = $1`;
-    
+
     const result = await this.executeSql(query, [tokenId]);
-    
+
     const validation = {
       tokenId,
       valid: result.rows && result.rows.length > 0,
@@ -382,7 +409,7 @@ WHERE nm.token_id = $1`;
       frequency: `${this.config.frequency}Hz`,
       validatedAt: new Date().toISOString()
     };
-    
+
     console.log(`✓ NFT metadata validated for token: ${tokenId}`);
     return validation;
   }
@@ -413,7 +440,7 @@ WHERE nm.token_id = $1`;
     const dataclassCode = this.buildDataclassCode(className, table);
 
     console.log(`🐍 Generated Python dataclass for table: ${tableName}`);
-    
+
     return {
       tableName,
       className,
@@ -428,16 +455,16 @@ WHERE nm.token_id = $1`;
    */
   buildDataclassCode(className, table) {
     const typeMapping = {
-      'integer': 'int',
-      'bigint': 'int',
-      'varchar': 'str',
-      'text': 'str',
-      'boolean': 'bool',
-      'timestamp': 'datetime',
-      'date': 'date',
-      'decimal': 'Decimal',
-      'jsonb': 'dict',
-      'json': 'dict'
+      integer: 'int',
+      bigint: 'int',
+      varchar: 'str',
+      text: 'str',
+      boolean: 'bool',
+      timestamp: 'datetime',
+      date: 'date',
+      decimal: 'Decimal',
+      jsonb: 'dict',
+      json: 'dict'
     };
 
     const imports = new Set(['from dataclasses import dataclass, field']);
@@ -446,7 +473,7 @@ WHERE nm.token_id = $1`;
     table.columns.forEach(col => {
       const baseType = col.type.split('(')[0];
       let pythonType = typeMapping[baseType] || 'Any';
-      
+
       // Add Optional for nullable fields (assume all non-PK fields are nullable)
       if (!col.primaryKey) {
         pythonType = `Optional[${pythonType}]`;
@@ -466,7 +493,9 @@ WHERE nm.token_id = $1`;
     });
 
     // Generate field mappings
-    const fieldMappings = table.columns.map(col => `'${col.name}': self.${col.name}`).join(',\n            ');
+    const fieldMappings = table.columns
+      .map(col => `'${col.name}': self.${col.name}`)
+      .join(',\n            ');
     const fieldNames = table.columns.map(col => `'${col.name}'`).join(', ');
     const importsStr = Array.from(imports).join('\n');
 
@@ -513,9 +542,9 @@ ${fields.join('\n')}
    */
   async initializeSchemas() {
     console.log('📚 Initializing ScrollVerse database schemas...');
-    
+
     await this.mapSchemaRelationships('public');
-    
+
     console.log('✓ Schemas initialized for Akashic Frequency layers');
     return true;
   }
@@ -529,11 +558,20 @@ ${fields.join('\n')}
     }
 
     console.log('⚙️  Optimizing database for ScrollVerse operations...');
-    
+
     const tasks = [
-      { name: 'Analyze table bloat', action: () => this.listTopBloatedTables(5) },
-      { name: 'Configure autovacuum', action: () => this.configureAutovacuum() },
-      { name: 'Update table statistics', action: () => this.executeSql('ANALYZE') }
+      {
+        name: 'Analyze table bloat',
+        action: () => this.listTopBloatedTables(5)
+      },
+      {
+        name: 'Configure autovacuum',
+        action: () => this.configureAutovacuum()
+      },
+      {
+        name: 'Update table statistics',
+        action: () => this.executeSql('ANALYZE')
+      }
     ];
 
     const results = [];
@@ -547,8 +585,10 @@ ${fields.join('\n')}
       }
     }
 
-    console.log(`✓ Database optimization complete (${results.filter(r => r.success).length}/${results.length} tasks)`);
-    
+    console.log(
+      `✓ Database optimization complete (${results.filter(r => r.success).length}/${results.length} tasks)`
+    );
+
     return {
       optimizations: results,
       timestamp: new Date().toISOString(),

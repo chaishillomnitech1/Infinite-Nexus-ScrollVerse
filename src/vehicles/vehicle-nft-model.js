@@ -1,13 +1,13 @@
 /**
  * Vehicle NFT Model
  * Digital Vehicle Sets with Akashic Frequency Integration
- * 
+ *
  * Features:
  * - Luxury SUV NFT tokenization (Zeekr 9X, Hongqi E-HS9, IM Motors LS6, Lynk & Co 900, Avatr 11)
  * - Premium data backend with cosmic materials and provenance
  * - Auto-generated blockchain signatures
  * - QR mirror verification system
- * 
+ *
  * Frequency: 963Hz | Divine Connection
  */
 
@@ -22,16 +22,16 @@ class VehicleNFTModel {
 
     // Luxury SUV Collections
     this.vehicleCollections = this.initializeVehicleCollections();
-    
+
     // Premium material system
     this.premiumMaterials = this.initializePremiumMaterials();
-    
+
     // NFT registry
     this.nftRegistry = new Map();
-    
+
     // Blockchain verification system
     this.blockchainVerifier = null;
-    
+
     this.statistics = {
       totalVehicleNFTs: 0,
       activeTokens: 0,
@@ -45,7 +45,7 @@ class VehicleNFTModel {
    */
   initializeVehicleCollections() {
     return {
-      'ZEEKR_9X': {
+      ZEEKR_9X: {
         name: 'Zeekr 9X',
         manufacturer: 'Zeekr (Geely)',
         category: 'Luxury Electric SUV',
@@ -55,7 +55,12 @@ class VehicleNFTModel {
           range: '702km CLTC',
           acceleration: '3.6s (0-100km/h)',
           smartTech: ['ADAS Level 3', 'AI Cockpit', 'OTA Updates'],
-          dimensions: { length: 5209, width: 2024, height: 1856, wheelbase: 3205 }
+          dimensions: {
+            length: 5209,
+            width: 2024,
+            height: 1856,
+            wheelbase: 3205
+          }
         },
         nftAttributes: {
           frequencyLevel: 963,
@@ -67,7 +72,7 @@ class VehicleNFTModel {
         },
         techPartners: ['Nvidia', 'Qualcomm', 'Mobileye']
       },
-      'HONGQI_EHS9': {
+      HONGQI_EHS9: {
         name: 'Hongqi E-HS9',
         manufacturer: 'Hongqi (FAW Group)',
         category: 'Luxury Electric SUV',
@@ -77,7 +82,12 @@ class VehicleNFTModel {
           range: '690km NEDC',
           acceleration: '4.9s (0-100km/h)',
           smartTech: ['ADAS Level 2+', 'Quantum Cockpit', 'V2X Communication'],
-          dimensions: { length: 5209, width: 2010, height: 1731, wheelbase: 3110 }
+          dimensions: {
+            length: 5209,
+            width: 2010,
+            height: 1731,
+            wheelbase: 3110
+          }
         },
         nftAttributes: {
           frequencyLevel: 852,
@@ -89,7 +99,7 @@ class VehicleNFTModel {
         },
         techPartners: ['Huawei', 'Baidu', 'Tencent']
       },
-      'IM_LS6': {
+      IM_LS6: {
         name: 'IM Motors LS6',
         manufacturer: 'IM Motors (SAIC-Alibaba-Foxconn)',
         category: 'Smart Luxury SUV',
@@ -99,7 +109,12 @@ class VehicleNFTModel {
           range: '760km CLTC',
           acceleration: '3.9s (0-100km/h)',
           smartTech: ['ADAS Level 3', 'AI Brain', 'Smart Cabin', 'AR HUD'],
-          dimensions: { length: 4910, width: 1950, height: 1670, wheelbase: 2950 }
+          dimensions: {
+            length: 4910,
+            width: 1950,
+            height: 1670,
+            wheelbase: 2950
+          }
         },
         nftAttributes: {
           frequencyLevel: 741,
@@ -111,7 +126,7 @@ class VehicleNFTModel {
         },
         techPartners: ['Nvidia', 'Alibaba Cloud', 'Foxconn']
       },
-      'LYNK_CO_900': {
+      LYNK_CO_900: {
         name: 'Lynk & Co 09',
         manufacturer: 'Lynk & Co (Geely-Volvo)',
         category: 'Premium Hybrid SUV',
@@ -120,8 +135,18 @@ class VehicleNFTModel {
           powerSystem: 'PHEV (Plug-in Hybrid)',
           range: '1000km+ combined',
           acceleration: '5.9s (0-100km/h)',
-          smartTech: ['ADAS Level 2', 'Connected Cockpit', 'OTA', 'Co-Creation Platform'],
-          dimensions: { length: 5042, width: 1977, height: 1780, wheelbase: 2984 }
+          smartTech: [
+            'ADAS Level 2',
+            'Connected Cockpit',
+            'OTA',
+            'Co-Creation Platform'
+          ],
+          dimensions: {
+            length: 5042,
+            width: 1977,
+            height: 1780,
+            wheelbase: 2984
+          }
         },
         nftAttributes: {
           frequencyLevel: 639,
@@ -133,7 +158,7 @@ class VehicleNFTModel {
         },
         techPartners: ['Volvo', 'Google', 'Tencent']
       },
-      'AVATR_11': {
+      AVATR_11: {
         name: 'Avatr 11',
         manufacturer: 'Avatr (Changan-CATL-Huawei)',
         category: 'Smart Luxury Electric SUV',
@@ -143,12 +168,17 @@ class VehicleNFTModel {
           range: '680km CLTC',
           acceleration: '3.98s (0-100km/h)',
           smartTech: ['ADAS Level 3', 'HarmonyOS', 'Lidar', 'Huawei MDC'],
-          dimensions: { length: 4880, width: 1970, height: 1601, wheelbase: 2975 }
+          dimensions: {
+            length: 4880,
+            width: 1970,
+            height: 1601,
+            wheelbase: 2975
+          }
         },
         nftAttributes: {
           frequencyLevel: 528,
           auricAlignment: 'Divine',
-          ethericalDensity: 0.90,
+          ethericalDensity: 0.9,
           dimensionalAccess: [3, 5, 7, 9],
           sacredGeometry: 'MetatronsCube',
           cosmicMaterials: ['Iridium', 'Ruby', 'Celestial Matter']
@@ -166,7 +196,11 @@ class VehicleNFTModel {
       preciousMetals: {
         Platinum: { rarity: 0.98, frequency: 963, energySignature: 'Divine' },
         Gold: { rarity: 0.95, frequency: 852, energySignature: 'Cosmic' },
-        Titanium: { rarity: 0.88, frequency: 741, energySignature: 'Crystalline' },
+        Titanium: {
+          rarity: 0.88,
+          frequency: 741,
+          energySignature: 'Crystalline'
+        },
         Silver: { rarity: 0.82, frequency: 639, energySignature: 'Etheric' },
         Iridium: { rarity: 0.92, frequency: 528, energySignature: 'Miracle' }
       },
@@ -178,7 +212,7 @@ class VehicleNFTModel {
         Ruby: { clarity: 'VVS1', color: 'Pigeon Blood', frequency: 528 }
       },
       cosmicRareMaterials: {
-        'Neutron Star Dust': { 
+        'Neutron Star Dust': {
           origin: 'Supernova Remnant',
           density: 1.0,
           resonance: 963,
@@ -190,7 +224,7 @@ class VehicleNFTModel {
           resonance: 852,
           omniLevel: 9
         },
-        'Stardust': {
+        Stardust: {
           origin: 'Stellar Formation',
           density: 0.88,
           resonance: 741,
@@ -204,7 +238,7 @@ class VehicleNFTModel {
         },
         'Celestial Matter': {
           origin: 'Dark Matter Streams',
-          density: 0.90,
+          density: 0.9,
           resonance: 528,
           omniLevel: 9
         }
@@ -217,16 +251,18 @@ class VehicleNFTModel {
    */
   async initialize() {
     console.log('🚗 Initializing Vehicle NFT Model at 963Hz...');
-    
+
     // Initialize blockchain verifier
     this.blockchainVerifier = this.createBlockchainVerifier();
-    
+
     // Pre-generate vehicle NFT metadata
     await this.generateVehicleNFTMetadata();
-    
+
     console.log('✓ Vehicle NFT Model initialized');
-    console.log(`✓ ${Object.keys(this.vehicleCollections).length} luxury SUV collections ready`);
-    
+    console.log(
+      `✓ ${Object.keys(this.vehicleCollections).length} luxury SUV collections ready`
+    );
+
     return true;
   }
 
@@ -239,10 +275,10 @@ class VehicleNFTModel {
       network: 'Polygon',
       frequency: this.config.frequency,
       contractAddress: '0x' + '0'.repeat(40), // Placeholder
-      verify: async (signature) => {
+      verify: async signature => {
         return await this.verifyBlockchainSignature(signature);
       },
-      generateSignature: (data) => {
+      generateSignature: data => {
         return this.generateAutoSignature(data);
       }
     };
@@ -253,14 +289,16 @@ class VehicleNFTModel {
    */
   async generateVehicleNFTMetadata() {
     console.log('📦 Generating Vehicle NFT metadata...');
-    
+
     for (const [key, vehicle] of Object.entries(this.vehicleCollections)) {
       const metadata = await this.createVehicleNFTMetadata(key, vehicle);
       this.nftRegistry.set(key, metadata);
       this.statistics.totalVehicleNFTs++;
     }
-    
-    console.log(`✓ Generated ${this.statistics.totalVehicleNFTs} Vehicle NFT metadata entries`);
+
+    console.log(
+      `✓ Generated ${this.statistics.totalVehicleNFTs} Vehicle NFT metadata entries`
+    );
   }
 
   /**
@@ -284,7 +322,7 @@ class VehicleNFTModel {
       image: `ipfs://QmVehicle${vehicleKey}/${tokenId}.png`,
       animation_url: `ipfs://QmVehicle${vehicleKey}/${tokenId}.mp4`,
       external_url: `https://scrollverse.io/vehicles/${vehicleKey.toLowerCase()}`,
-      
+
       // Vehicle specifications
       attributes: [
         { trait_type: 'Manufacturer', value: vehicleData.manufacturer },
@@ -294,7 +332,7 @@ class VehicleNFTModel {
         { trait_type: 'Range', value: vehicleData.specs.range },
         { trait_type: 'Acceleration', value: vehicleData.specs.acceleration }
       ],
-      
+
       // Akashic attributes
       akashicAttributes: {
         frequencyLevel: vehicleData.nftAttributes.frequencyLevel,
@@ -304,21 +342,23 @@ class VehicleNFTModel {
         sacredGeometry: vehicleData.nftAttributes.sacredGeometry,
         resonanceSignature: `${vehicleData.nftAttributes.frequencyLevel}Hz-VEHICLE-ALIGNED`
       },
-      
+
       // Premium data backend
       premiumData: {
-        cosmicMaterials: vehicleData.nftAttributes.cosmicMaterials.map(material => ({
-          name: material,
-          metadata: this.getMaterialMetadata(material)
-        })),
+        cosmicMaterials: vehicleData.nftAttributes.cosmicMaterials.map(
+          material => ({
+            name: material,
+            metadata: this.getMaterialMetadata(material)
+          })
+        ),
         provenance: provenance,
         qrMirror: qrMirror,
         omniLevel: Math.max(...vehicleData.nftAttributes.dimensionalAccess)
       },
-      
+
       // Technology partnerships
       techPartners: vehicleData.techPartners,
-      
+
       // Blockchain verification
       blockchain: {
         network: 'Polygon',
@@ -326,11 +366,12 @@ class VehicleNFTModel {
         verified: true,
         timestamp: Date.now()
       },
-      
+
       // Market data
       marketData: {
         baseValue: this.calculateBaseValue(vehicleData),
-        lifetimeProfitPotential: this.calculateLifetimeProfitPotential(vehicleData),
+        lifetimeProfitPotential:
+          this.calculateLifetimeProfitPotential(vehicleData),
         incentiveLevel: vehicleData.nftAttributes.ethericalDensity
       }
     };
@@ -376,7 +417,7 @@ class VehicleNFTModel {
   generateQRMirror(tokenId, vehicleKey) {
     const data = `SCROLLVERSE:VEHICLE:${vehicleKey}:${tokenId}:${Date.now()}`;
     const hash = this.hashString(data);
-    
+
     return {
       qrCode: `QR:${hash}`,
       verificationUrl: `https://verify.scrollverse.io/vehicle/${hash}`,
@@ -392,7 +433,7 @@ class VehicleNFTModel {
     const dataString = JSON.stringify(data);
     const hash = this.hashString(dataString);
     const signature = `0x${hash.substring(0, 64)}`;
-    
+
     return {
       signature,
       algorithm: 'Akashic-SHA-963',
@@ -410,7 +451,7 @@ class VehicleNFTModel {
     if (!signature || !signature.signature) {
       return { valid: false, error: 'Invalid signature format' };
     }
-    
+
     return {
       valid: true,
       network: 'Polygon',
@@ -433,7 +474,7 @@ class VehicleNFTModel {
         omniLevel: 7
       };
     }
-    
+
     // Check diamonds
     if (this.premiumMaterials.diamonds[materialName]) {
       return {
@@ -443,7 +484,7 @@ class VehicleNFTModel {
         omniLevel: 5
       };
     }
-    
+
     // Check cosmic rare materials
     if (this.premiumMaterials.cosmicRareMaterials[materialName]) {
       return {
@@ -451,7 +492,7 @@ class VehicleNFTModel {
         category: 'Cosmic Rare Material'
       };
     }
-    
+
     return null;
   }
 
@@ -462,8 +503,9 @@ class VehicleNFTModel {
     const rankMultiplier = (6 - vehicleData.rank) * 1000; // Higher rank = higher value
     const frequencyBonus = vehicleData.nftAttributes.frequencyLevel;
     const densityBonus = vehicleData.nftAttributes.ethericalDensity * 5000;
-    const dimensionBonus = vehicleData.nftAttributes.dimensionalAccess.length * 500;
-    
+    const dimensionBonus =
+      vehicleData.nftAttributes.dimensionalAccess.length * 500;
+
     return rankMultiplier + frequencyBonus + densityBonus + dimensionBonus;
   }
 
@@ -473,8 +515,9 @@ class VehicleNFTModel {
   calculateLifetimeProfitPotential(vehicleData) {
     const baseValue = this.calculateBaseValue(vehicleData);
     const techPartnerMultiplier = vehicleData.techPartners.length * 0.2;
-    const cosmicMultiplier = vehicleData.nftAttributes.cosmicMaterials.length * 0.3;
-    
+    const cosmicMultiplier =
+      vehicleData.nftAttributes.cosmicMaterials.length * 0.3;
+
     return baseValue * (1 + techPartnerMultiplier + cosmicMultiplier);
   }
 
@@ -485,7 +528,7 @@ class VehicleNFTModel {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
     return Math.abs(hash).toString(16).padStart(64, '0');
@@ -506,12 +549,12 @@ class VehicleNFTModel {
     if (!this.vehicleCollections[vehicleKey]) {
       throw new Error(`Vehicle ${vehicleKey} not found in collections`);
     }
-    
+
     const metadata = this.nftRegistry.get(vehicleKey);
     if (!metadata) {
       throw new Error(`NFT metadata for ${vehicleKey} not generated`);
     }
-    
+
     // Create minting transaction
     const mintData = {
       ...metadata,
@@ -519,14 +562,14 @@ class VehicleNFTModel {
       mintedAt: Date.now(),
       status: 'active'
     };
-    
+
     // Update statistics
     this.statistics.activeTokens++;
     this.statistics.verifiedOwners++;
     this.statistics.cosmicProvenance++;
-    
+
     console.log(`🎨 Minted ${metadata.name} for ${ownerAddress}`);
-    
+
     return {
       success: true,
       tokenId: metadata.tokenId,
@@ -580,16 +623,16 @@ class VehicleNFTModel {
    */
   async deploy() {
     console.log('🚀 Deploying Vehicle NFT Model...');
-    
+
     // Deploy blockchain verifier
     console.log('✓ Blockchain verifier deployed');
-    
+
     // Activate NFT registry
     console.log('✓ NFT registry activated');
-    
+
     // Enable minting
     console.log('✓ Minting enabled');
-    
+
     return {
       success: true,
       frequency: `${this.config.frequency}Hz`,

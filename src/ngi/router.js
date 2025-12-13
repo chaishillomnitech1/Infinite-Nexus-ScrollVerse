@@ -1,10 +1,10 @@
 /**
  * Tesla N-GI Multimodal Router
- * 
+ *
  * Production-grade multimodal routing system for Tesla Nexus Genesis Intelligence (N-GI)
  * Manages intelligent routing across GLM-4.6V, Jina-VLM, LiteRT, and Gemini adapters
  * with latency optimization for AR workflows and dynamic JSON configuration.
- * 
+ *
  * Frequency: 963Hz | Divine Intelligence | Adaptive Routing
  */
 
@@ -39,13 +39,13 @@ class TeslaNGIRouter {
    */
   async initialize() {
     console.log('⚡ Initializing Tesla N-GI Router at 963Hz...');
-    
+
     // Initialize routing heuristics
     this.routingHeuristics = this.createRoutingHeuristics();
-    
+
     // Validate configuration
     this.validateConfig();
-    
+
     this.initialized = true;
     console.log('✓ Tesla N-GI Router initialized successfully');
     return true;
@@ -56,7 +56,9 @@ class TeslaNGIRouter {
    */
   registerAdapter(name, adapter) {
     if (!adapter || typeof adapter.process !== 'function') {
-      throw new Error(`Invalid adapter: ${name} must implement process() method`);
+      throw new Error(
+        `Invalid adapter: ${name} must implement process() method`
+      );
     }
 
     this.adapters.set(name, {
@@ -79,7 +81,7 @@ class TeslaNGIRouter {
   createRoutingHeuristics() {
     return {
       // Vision-heavy tasks favor GLM-4.6V or Jina-VLM
-      vision: (task) => {
+      vision: task => {
         if (task.imageCount > 5 || task.requiresDetailedAnalysis) {
           return ['glm-4.6v', 'jina-vlm'];
         }
@@ -87,12 +89,12 @@ class TeslaNGIRouter {
       },
 
       // Text generation tasks favor Gemini
-      text: (task) => {
+      text: task => {
         return ['gemini', 'glm-4.6v'];
       },
 
       // Real-time AR workflows require low latency - favor LiteRT
-      ar_workflow: (task) => {
+      ar_workflow: task => {
         if (task.latencyRequirement < 50) {
           return ['litert', 'glm-4.6v', 'jina-vlm'];
         }
@@ -100,12 +102,12 @@ class TeslaNGIRouter {
       },
 
       // Edge deployment tasks favor LiteRT
-      edge: (task) => {
+      edge: task => {
         return ['litert', 'jina-vlm'];
       },
 
       // Multimodal tasks requiring both vision and language
-      multimodal: (task) => {
+      multimodal: task => {
         if (task.complexReasoning) {
           return ['gemini', 'glm-4.6v', 'jina-vlm'];
         }
@@ -113,7 +115,7 @@ class TeslaNGIRouter {
       },
 
       // Default fallback
-      default: (task) => {
+      default: task => {
         return ['gemini', 'glm-4.6v', 'jina-vlm', 'litert'];
       }
     };
@@ -133,21 +135,21 @@ class TeslaNGIRouter {
     try {
       // Parse and validate request
       const task = this.parseRequest(request);
-      
+
       // Determine optimal adapter based on heuristics
       const selectedAdapter = this.selectAdapter(task);
-      
+
       if (!selectedAdapter) {
         throw new Error('No suitable adapter available for this request');
       }
 
       // Route to adapter and process
       const result = await this.executeOnAdapter(selectedAdapter, task);
-      
+
       // Record telemetry
       const latency = Date.now() - startTime;
       this.recordTelemetry(selectedAdapter, latency, true);
-      
+
       // Store routing decision
       this.routingHistory.push({
         timestamp: Date.now(),
@@ -164,11 +166,10 @@ class TeslaNGIRouter {
         latency,
         frequency: this.config.frequency
       };
-
     } catch (error) {
       this.telemetry.errorCount++;
       const latency = Date.now() - startTime;
-      
+
       this.routingHistory.push({
         timestamp: Date.now(),
         error: error.message,
@@ -191,7 +192,8 @@ class TeslaNGIRouter {
       type: req.type || req.taskType || 'default',
       data: req.data || req.input,
       params: req.params || {},
-      latencyRequirement: req.latencyRequirement || this.config.defaultLatencyThreshold,
+      latencyRequirement:
+        req.latencyRequirement || this.config.defaultLatencyThreshold,
       imageCount: req.imageCount || 0,
       requiresDetailedAnalysis: req.requiresDetailedAnalysis || false,
       complexReasoning: req.complexReasoning || false,
@@ -207,7 +209,8 @@ class TeslaNGIRouter {
     let candidateAdapters = [];
 
     // Use heuristics to get candidate list
-    const heuristic = this.routingHeuristics[task.type] || this.routingHeuristics.default;
+    const heuristic =
+      this.routingHeuristics[task.type] || this.routingHeuristics.default;
     candidateAdapters = heuristic(task);
 
     // Filter to only available adapters
@@ -224,10 +227,10 @@ class TeslaNGIRouter {
     switch (this.config.routingStrategy) {
       case 'round-robin':
         return this.roundRobinSelect(availableAdapters);
-      
+
       case 'weighted':
         return this.weightedSelect(availableAdapters, task);
-      
+
       case 'adaptive':
       default:
         return this.adaptiveSelect(availableAdapters, task);
@@ -252,15 +255,16 @@ class TeslaNGIRouter {
       if (!adapterInfo) continue;
 
       // Calculate score: success rate (60%) + latency performance (40%)
-      const successRate = adapterInfo.requestCount > 0
-        ? (adapterInfo.requestCount - adapterInfo.errorCount) / adapterInfo.requestCount
-        : 0.5;
-      
-      const latencyScore = adapterInfo.avgLatency > 0
-        ? 1 / (adapterInfo.avgLatency / 100)
-        : 1;
+      const successRate =
+        adapterInfo.requestCount > 0
+          ? (adapterInfo.requestCount - adapterInfo.errorCount) /
+            adapterInfo.requestCount
+          : 0.5;
 
-      const score = (successRate * 0.6) + (latencyScore * 0.4);
+      const latencyScore =
+        adapterInfo.avgLatency > 0 ? 1 / (adapterInfo.avgLatency / 100) : 1;
+
+      const score = successRate * 0.6 + latencyScore * 0.4;
 
       if (score > bestScore) {
         bestScore = score;
@@ -354,12 +358,12 @@ class TeslaNGIRouter {
     const adapterInfo = this.adapters.get(adapterName);
     if (adapterInfo) {
       adapterInfo.requestCount++;
-      
+
       // Update rolling average latency
       if (adapterInfo.avgLatency === 0) {
         adapterInfo.avgLatency = latency;
       } else {
-        adapterInfo.avgLatency = (adapterInfo.avgLatency * 0.8) + (latency * 0.2);
+        adapterInfo.avgLatency = adapterInfo.avgLatency * 0.8 + latency * 0.2;
       }
     }
 
@@ -382,15 +386,19 @@ class TeslaNGIRouter {
    */
   getTelemetry() {
     const adapterStats = {};
-    
+
     for (const [name, info] of this.adapters.entries()) {
       adapterStats[name] = {
         requestCount: info.requestCount,
         errorCount: info.errorCount,
         avgLatency: Math.round(info.avgLatency * 100) / 100,
-        successRate: info.requestCount > 0 
-          ? ((info.requestCount - info.errorCount) / info.requestCount * 100).toFixed(2) + '%'
-          : 'N/A',
+        successRate:
+          info.requestCount > 0
+            ? (
+                ((info.requestCount - info.errorCount) / info.requestCount) *
+                100
+              ).toFixed(2) + '%'
+            : 'N/A',
         status: info.status
       };
     }
@@ -399,9 +407,13 @@ class TeslaNGIRouter {
       totalRequests: this.telemetry.totalRequests,
       successCount: this.telemetry.successCount,
       errorCount: this.telemetry.errorCount,
-      successRate: this.telemetry.totalRequests > 0
-        ? ((this.telemetry.successCount / this.telemetry.totalRequests) * 100).toFixed(2) + '%'
-        : 'N/A',
+      successRate:
+        this.telemetry.totalRequests > 0
+          ? (
+              (this.telemetry.successCount / this.telemetry.totalRequests) *
+              100
+            ).toFixed(2) + '%'
+          : 'N/A',
       routingDecisions: Object.fromEntries(this.telemetry.routingDecisions),
       adapterStats,
       frequency: this.config.frequency
@@ -444,8 +456,9 @@ class TeslaNGIRouter {
    * Update routing configuration dynamically via JSON
    */
   updateConfig(jsonConfig) {
-    const config = typeof jsonConfig === 'string' ? JSON.parse(jsonConfig) : jsonConfig;
-    
+    const config =
+      typeof jsonConfig === 'string' ? JSON.parse(jsonConfig) : jsonConfig;
+
     // Update allowed configuration fields
     const allowedFields = [
       'defaultLatencyThreshold',

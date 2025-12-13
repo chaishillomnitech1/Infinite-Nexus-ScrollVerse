@@ -1,9 +1,9 @@
 /**
  * Smart Contract Evaluator
- * 
+ *
  * Tests NFT and smart contract reliability, security, and compliance.
  * Validates contract execution, gas efficiency, and security patterns.
- * 
+ *
  * @module SmartContractEvaluator
  */
 
@@ -18,7 +18,7 @@ class SmartContractEvaluator {
 
   async initialize() {
     console.log('  🔐 Initializing Smart Contract Evaluator...');
-    
+
     // Define default test scenarios
     this.testScenarios = [
       {
@@ -31,7 +31,11 @@ class SmartContractEvaluator {
         name: 'Contract Security',
         type: 'security',
         priority: 'critical',
-        tests: ['reentrancy_protection', 'access_control', 'overflow_protection']
+        tests: [
+          'reentrancy_protection',
+          'access_control',
+          'overflow_protection'
+        ]
       },
       {
         name: 'Gas Efficiency',
@@ -104,7 +108,10 @@ class SmartContractEvaluator {
     }
 
     // Calculate scenario score
-    const totalScore = result.tests.reduce((sum, t) => sum + (t.passed ? 1 : 0), 0);
+    const totalScore = result.tests.reduce(
+      (sum, t) => sum + (t.passed ? 1 : 0),
+      0
+    );
     result.score = totalScore / result.tests.length;
     result.passed = result.score >= 0.7;
 
@@ -130,66 +137,96 @@ class SmartContractEvaluator {
       switch (testName) {
         case 'mint_success':
           testResult.passed = await this.testMintSuccess(agent, scenario);
-          testResult.message = testResult.passed ? 'NFT minting successful' : 'NFT minting failed';
+          testResult.message = testResult.passed
+            ? 'NFT minting successful'
+            : 'NFT minting failed';
           testResult.gasUsed = this.estimateGas('mint', 100000);
           break;
 
         case 'metadata_integrity':
           testResult.passed = await this.testMetadataIntegrity(agent, scenario);
-          testResult.message = testResult.passed ? 'Metadata integrity verified' : 'Metadata integrity issues';
+          testResult.message = testResult.passed
+            ? 'Metadata integrity verified'
+            : 'Metadata integrity issues';
           break;
 
         case 'ownership_transfer':
           testResult.passed = await this.testOwnershipTransfer(agent, scenario);
-          testResult.message = testResult.passed ? 'Ownership transfer validated' : 'Ownership transfer failed';
+          testResult.message = testResult.passed
+            ? 'Ownership transfer validated'
+            : 'Ownership transfer failed';
           testResult.gasUsed = this.estimateGas('transfer', 65000);
           break;
 
         case 'reentrancy_protection':
-          testResult.passed = await this.testReentrancyProtection(agent, scenario);
-          testResult.message = testResult.passed ? 'Reentrancy protection verified' : 'Reentrancy vulnerability detected';
+          testResult.passed = await this.testReentrancyProtection(
+            agent,
+            scenario
+          );
+          testResult.message = testResult.passed
+            ? 'Reentrancy protection verified'
+            : 'Reentrancy vulnerability detected';
           break;
 
         case 'access_control':
           testResult.passed = await this.testAccessControl(agent, scenario);
-          testResult.message = testResult.passed ? 'Access control enforced' : 'Access control issues';
+          testResult.message = testResult.passed
+            ? 'Access control enforced'
+            : 'Access control issues';
           break;
 
         case 'overflow_protection':
-          testResult.passed = await this.testOverflowProtection(agent, scenario);
-          testResult.message = testResult.passed ? 'Overflow protection verified' : 'Overflow vulnerability detected';
+          testResult.passed = await this.testOverflowProtection(
+            agent,
+            scenario
+          );
+          testResult.message = testResult.passed
+            ? 'Overflow protection verified'
+            : 'Overflow vulnerability detected';
           break;
 
         case 'gas_optimization':
           testResult.passed = await this.testGasOptimization(agent, scenario);
-          testResult.message = testResult.passed ? 'Gas usage optimized' : 'Gas optimization needed';
+          testResult.message = testResult.passed
+            ? 'Gas usage optimized'
+            : 'Gas optimization needed';
           testResult.gasUsed = this.estimateGas('optimized', 45000);
           break;
 
         case 'batch_operations':
           testResult.passed = await this.testBatchOperations(agent, scenario);
-          testResult.message = testResult.passed ? 'Batch operations efficient' : 'Batch operations inefficient';
+          testResult.message = testResult.passed
+            ? 'Batch operations efficient'
+            : 'Batch operations inefficient';
           testResult.gasUsed = this.estimateGas('batch', 150000);
           break;
 
         case 'storage_efficiency':
           testResult.passed = await this.testStorageEfficiency(agent, scenario);
-          testResult.message = testResult.passed ? 'Storage usage efficient' : 'Storage optimization needed';
+          testResult.message = testResult.passed
+            ? 'Storage usage efficient'
+            : 'Storage optimization needed';
           break;
 
         case 'erc721_compliance':
           testResult.passed = await this.testERC721Compliance(agent, scenario);
-          testResult.message = testResult.passed ? 'ERC721 compliant' : 'ERC721 compliance issues';
+          testResult.message = testResult.passed
+            ? 'ERC721 compliant'
+            : 'ERC721 compliance issues';
           break;
 
         case 'royalty_support':
           testResult.passed = await this.testRoyaltySupport(agent, scenario);
-          testResult.message = testResult.passed ? 'Royalty support implemented' : 'Royalty support missing';
+          testResult.message = testResult.passed
+            ? 'Royalty support implemented'
+            : 'Royalty support missing';
           break;
 
         case 'metadata_standards':
           testResult.passed = await this.testMetadataStandards(agent, scenario);
-          testResult.message = testResult.passed ? 'Metadata standards met' : 'Metadata standards issues';
+          testResult.message = testResult.passed
+            ? 'Metadata standards met'
+            : 'Metadata standards issues';
           break;
 
         default:
@@ -213,32 +250,50 @@ class SmartContractEvaluator {
   // Test implementations
   async testMintSuccess(agent, _scenario) {
     // Simulate NFT minting test
-    return agent.capabilities?.includes('nft_minting') !== false && Math.random() > 0.1;
+    return (
+      agent.capabilities?.includes('nft_minting') !== false &&
+      Math.random() > 0.1
+    );
   }
 
   async testMetadataIntegrity(agent, _scenario) {
     // Simulate metadata integrity check
-    return agent.capabilities?.includes('metadata_validation') !== false && Math.random() > 0.05;
+    return (
+      agent.capabilities?.includes('metadata_validation') !== false &&
+      Math.random() > 0.05
+    );
   }
 
   async testOwnershipTransfer(agent, _scenario) {
     // Simulate ownership transfer test
-    return agent.capabilities?.includes('ownership_transfer') !== false && Math.random() > 0.08;
+    return (
+      agent.capabilities?.includes('ownership_transfer') !== false &&
+      Math.random() > 0.08
+    );
   }
 
   async testReentrancyProtection(agent, _scenario) {
     // Simulate reentrancy protection check
-    return agent.securityFeatures?.includes('reentrancy_guard') !== false && Math.random() > 0.02;
+    return (
+      agent.securityFeatures?.includes('reentrancy_guard') !== false &&
+      Math.random() > 0.02
+    );
   }
 
   async testAccessControl(agent, _scenario) {
     // Simulate access control verification
-    return agent.securityFeatures?.includes('access_control') !== false && Math.random() > 0.05;
+    return (
+      agent.securityFeatures?.includes('access_control') !== false &&
+      Math.random() > 0.05
+    );
   }
 
   async testOverflowProtection(agent, _scenario) {
     // Simulate overflow protection check
-    return agent.securityFeatures?.includes('overflow_protection') !== false && Math.random() > 0.02;
+    return (
+      agent.securityFeatures?.includes('overflow_protection') !== false &&
+      Math.random() > 0.02
+    );
   }
 
   async testGasOptimization(agent, _scenario) {
@@ -249,7 +304,10 @@ class SmartContractEvaluator {
 
   async testBatchOperations(agent, _scenario) {
     // Simulate batch operations test
-    return agent.capabilities?.includes('batch_processing') !== false && Math.random() > 0.1;
+    return (
+      agent.capabilities?.includes('batch_processing') !== false &&
+      Math.random() > 0.1
+    );
   }
 
   async testStorageEfficiency(agent, _scenario) {
@@ -260,17 +318,24 @@ class SmartContractEvaluator {
 
   async testERC721Compliance(agent, _scenario) {
     // Simulate ERC721 compliance check
-    return agent.standards?.includes('ERC721') !== false && Math.random() > 0.05;
+    return (
+      agent.standards?.includes('ERC721') !== false && Math.random() > 0.05
+    );
   }
 
   async testRoyaltySupport(agent, _scenario) {
     // Simulate royalty support check
-    return agent.standards?.includes('ERC2981') !== false && Math.random() > 0.1;
+    return (
+      agent.standards?.includes('ERC2981') !== false && Math.random() > 0.1
+    );
   }
 
   async testMetadataStandards(agent, _scenario) {
     // Simulate metadata standards check
-    return agent.metadataStandards?.includes('OpenSea') !== false && Math.random() > 0.08;
+    return (
+      agent.metadataStandards?.includes('OpenSea') !== false &&
+      Math.random() > 0.08
+    );
   }
 
   /**
@@ -279,8 +344,16 @@ class SmartContractEvaluator {
   getDefaultTests(scenarioType) {
     const defaultTests = {
       reliability: ['mint_success', 'metadata_integrity', 'ownership_transfer'],
-      security: ['reentrancy_protection', 'access_control', 'overflow_protection'],
-      performance: ['gas_optimization', 'batch_operations', 'storage_efficiency'],
+      security: [
+        'reentrancy_protection',
+        'access_control',
+        'overflow_protection'
+      ],
+      performance: [
+        'gas_optimization',
+        'batch_operations',
+        'storage_efficiency'
+      ],
       compliance: ['erc721_compliance', 'royalty_support', 'metadata_standards']
     };
 

@@ -1,7 +1,7 @@
 /**
  * Vehicle NFT System - Main Export Module
  * Integrates all vehicle-related systems
- * 
+ *
  * Frequency: 963Hz | Divine Connection
  */
 
@@ -25,7 +25,7 @@ class VehicleOrchestrator {
     this.vehicleNFT = new VehicleNFTModel(config);
     this.techPartnerships = new TechPartnerships(config);
     this.incentives = new IncentivesSystem(config);
-    
+
     this.status = 'initialized';
   }
 
@@ -34,14 +34,14 @@ class VehicleOrchestrator {
    */
   async initialize() {
     console.log('🚗 Initializing Vehicle NFT System Orchestra at 963Hz...');
-    
+
     // Initialize in sequence
     await this.vehicleNFT.initialize();
     await this.techPartnerships.initialize();
     await this.incentives.initialize();
-    
+
     this.status = 'active';
-    
+
     console.log('✓ Vehicle NFT System Orchestra fully initialized');
     return true;
   }
@@ -53,18 +53,18 @@ class VehicleOrchestrator {
     if (this.status !== 'active') {
       throw new Error('Vehicle systems must be initialized before deployment');
     }
-    
+
     console.log('🚀 Deploying Vehicle NFT System Orchestra...');
-    
+
     // Deploy subsystems
     const vehicleNFTResult = await this.vehicleNFT.deploy();
     const techPartnershipsResult = await this.techPartnerships.deploy();
     const incentivesResult = await this.incentives.deploy();
-    
+
     this.status = 'deployed';
-    
+
     console.log('✅ Vehicle NFT System Orchestra fully deployed');
-    
+
     return {
       success: true,
       frequency: `${this.config.frequency}Hz`,
@@ -81,25 +81,31 @@ class VehicleOrchestrator {
    */
   async mintVehicleNFT(vehicleKey, ownerAddress, userData = {}) {
     console.log(`🎨 Minting integrated Vehicle NFT: ${vehicleKey}...`);
-    
+
     // Mint NFT
-    const mintResult = await this.vehicleNFT.mintVehicleNFT(vehicleKey, ownerAddress);
-    
+    const mintResult = await this.vehicleNFT.mintVehicleNFT(
+      vehicleKey,
+      ownerAddress
+    );
+
     // Sync with tech partners
     const vehicleData = this.vehicleNFT.getVehicleCollection(vehicleKey);
     const syncResults = await this.techPartnerships.syncAllPartnersForVehicle(
       vehicleKey,
       mintResult.metadata
     );
-    
+
     // Calculate incentives
-    const incentives = this.incentives.calculateIncentives(userData, vehicleData);
-    
+    const incentives = this.incentives.calculateIncentives(
+      userData,
+      vehicleData
+    );
+
     // Apply pricing
     const pricing = this.techPartnerships.getPricingForVehicle(vehicleData);
-    
+
     console.log('✓ Vehicle NFT minted with full integration');
-    
+
     return {
       success: true,
       mint: mintResult,
@@ -114,24 +120,27 @@ class VehicleOrchestrator {
    */
   async createMatchingSet(vehicleKeys, dealerAddress, userData = {}) {
     console.log('🎯 Creating integrated matching set...');
-    
+
     // Create matching set
-    const matchingSet = await this.techPartnerships.createMatchingSet(vehicleKeys, dealerAddress);
-    
+    const matchingSet = await this.techPartnerships.createMatchingSet(
+      vehicleKeys,
+      dealerAddress
+    );
+
     // Calculate incentives for the set
     const setIncentives = this.incentives.calculateIncentives(
       { ...userData, vehicleCount: vehicleKeys.length },
       { totalValue: matchingSet.totalValue }
     );
-    
+
     // Apply pricing boost
     const pricingBoost = this.incentives.applyPricingBoost(
       matchingSet.totalValue,
       { ...userData, vehicleCount: vehicleKeys.length }
     );
-    
+
     console.log('✓ Matching set created with full incentives');
-    
+
     return {
       success: true,
       matchingSet: matchingSet,

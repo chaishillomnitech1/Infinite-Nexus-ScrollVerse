@@ -1,7 +1,7 @@
 /**
  * ⚡ Tesla Sonar Anchors
  * Vocal Decree Processing, Spectral Analysis, and AR Feedback System
- * 
+ *
  * Supporting vocal decrees, spectral inputs, and AR imagery for real-time
  * feedback and completion scaling for NFT metrics.
  */
@@ -11,11 +11,11 @@
 // ============================================================================
 
 const SONAR_FREQUENCIES = {
-  VOCAL_DECREE: 528,      // Primary vocal processing frequency
-  SPECTRAL_LOW: 256,      // Low spectral range
-  SPECTRAL_MID: 512,      // Mid spectral range  
-  SPECTRAL_HIGH: 1024,    // High spectral range
-  AR_FEEDBACK: 963        // AR imagery feedback frequency
+  VOCAL_DECREE: 528, // Primary vocal processing frequency
+  SPECTRAL_LOW: 256, // Low spectral range
+  SPECTRAL_MID: 512, // Mid spectral range
+  SPECTRAL_HIGH: 1024, // High spectral range
+  AR_FEEDBACK: 963 // AR imagery feedback frequency
 };
 
 const DECREE_TYPES = {
@@ -47,25 +47,25 @@ class TeslaSonarAnchor {
     this.enableARFeedback = config.enableARFeedback !== false;
     this.enableNFTMetrics = config.enableNFTMetrics !== false;
     this.initialized = false;
-    
+
     // Vocal decree processing
     this.vocalDecrees = [];
     this.activeDecree = null;
-    
+
     // Spectral analysis
     this.spectralData = {
       low: [],
       mid: [],
       high: []
     };
-    
+
     // AR feedback system
     this.arFeedback = {
       enabled: false,
       sessionActive: false,
       visualizations: []
     };
-    
+
     // NFT metrics
     this.nftMetrics = {
       completionScore: 0,
@@ -73,7 +73,7 @@ class TeslaSonarAnchor {
       multiplier: 1.0,
       achievements: []
     };
-    
+
     // Anchoring state
     this.anchorState = {
       grounded: false,
@@ -81,7 +81,7 @@ class TeslaSonarAnchor {
       stability: 0,
       energyLevel: 0
     };
-    
+
     // Performance metrics
     this.metrics = {
       totalDecrees: 0,
@@ -96,34 +96,34 @@ class TeslaSonarAnchor {
    */
   async initialize() {
     console.log(`⚡ Initializing Tesla Sonar Anchor: ${this.id}`);
-    
+
     try {
       // Initialize vocal decree system
       if (this.enableVocalDecrees) {
         await this.initializeVocalSystem();
       }
-      
+
       // Initialize spectral analysis
       if (this.enableSpectralAnalysis) {
         await this.initializeSpectralAnalysis();
       }
-      
+
       // Initialize AR feedback
       if (this.enableARFeedback) {
         await this.initializeARFeedback();
       }
-      
+
       // Initialize NFT metrics
       if (this.enableNFTMetrics) {
         await this.initializeNFTMetrics();
       }
-      
+
       // Ground the anchor
       await this.groundAnchor();
-      
+
       this.initialized = true;
       console.log(`✅ Tesla Sonar Anchor ${this.id} initialized`);
-      
+
       return {
         success: true,
         id: this.id,
@@ -140,7 +140,7 @@ class TeslaSonarAnchor {
    */
   async initializeVocalSystem() {
     console.log('🎤 Initializing vocal decree system...');
-    
+
     this.vocalSystem = {
       enabled: true,
       sampleRate: 48000,
@@ -151,7 +151,7 @@ class TeslaSonarAnchor {
       emotionalAnalysis: true,
       intentRecognition: true
     };
-    
+
     console.log('✅ Vocal decree system ready');
   }
 
@@ -160,17 +160,26 @@ class TeslaSonarAnchor {
    */
   async initializeSpectralAnalysis() {
     console.log('📊 Initializing spectral analysis...');
-    
+
     this.spectralAnalyzer = {
       enabled: true,
       fftSize: 2048,
       frequencyBins: 1024,
-      lowRange: [SONAR_FREQUENCIES.SPECTRAL_LOW - 50, SONAR_FREQUENCIES.SPECTRAL_LOW + 50],
-      midRange: [SONAR_FREQUENCIES.SPECTRAL_MID - 100, SONAR_FREQUENCIES.SPECTRAL_MID + 100],
-      highRange: [SONAR_FREQUENCIES.SPECTRAL_HIGH - 200, SONAR_FREQUENCIES.SPECTRAL_HIGH + 200],
+      lowRange: [
+        SONAR_FREQUENCIES.SPECTRAL_LOW - 50,
+        SONAR_FREQUENCIES.SPECTRAL_LOW + 50
+      ],
+      midRange: [
+        SONAR_FREQUENCIES.SPECTRAL_MID - 100,
+        SONAR_FREQUENCIES.SPECTRAL_MID + 100
+      ],
+      highRange: [
+        SONAR_FREQUENCIES.SPECTRAL_HIGH - 200,
+        SONAR_FREQUENCIES.SPECTRAL_HIGH + 200
+      ],
       smoothingFactor: 0.8
     };
-    
+
     console.log('✅ Spectral analysis configured');
   }
 
@@ -179,19 +188,23 @@ class TeslaSonarAnchor {
    */
   async initializeARFeedback() {
     console.log('🔮 Initializing AR feedback system...');
-    
+
     this.arFeedback = {
       enabled: true,
       sessionActive: false,
       renderMode: 'real-time',
-      visualizationTypes: ['frequency-wave', 'resonance-field', 'energy-matrix'],
+      visualizationTypes: [
+        'frequency-wave',
+        'resonance-field',
+        'energy-matrix'
+      ],
       overlayOpacity: 0.8,
       updateRate: 60, // 60 fps
       spatialTracking: true,
       environmentMapping: true,
       visualizations: []
     };
-    
+
     console.log('✅ AR feedback system ready');
   }
 
@@ -200,7 +213,7 @@ class TeslaSonarAnchor {
    */
   async initializeNFTMetrics() {
     console.log('💎 Initializing NFT metrics...');
-    
+
     this.nftMetrics = {
       completionScore: 0,
       tier: 'BRONZE',
@@ -209,7 +222,7 @@ class TeslaSonarAnchor {
       milestones: [25, 50, 75, 95, 100],
       scalingEnabled: true
     };
-    
+
     console.log('✅ NFT metrics initialized');
   }
 
@@ -218,7 +231,7 @@ class TeslaSonarAnchor {
    */
   async groundAnchor() {
     console.log('⚓ Grounding Tesla Sonar Anchor...');
-    
+
     this.anchorState = {
       grounded: true,
       resonance: 1.0,
@@ -227,7 +240,7 @@ class TeslaSonarAnchor {
       frequency: this.frequency,
       timestamp: new Date().toISOString()
     };
-    
+
     console.log('✅ Anchor grounded and stable');
   }
 
@@ -238,7 +251,7 @@ class TeslaSonarAnchor {
     if (!this.enableVocalDecrees) {
       throw new Error('Vocal decree processing not enabled');
     }
-    
+
     const decree = {
       id: `VD-${Date.now()}`,
       timestamp: new Date().toISOString(),
@@ -252,24 +265,24 @@ class TeslaSonarAnchor {
       transcription: options.transcription || '[Vocal decree transcription]',
       processed: true
     };
-    
+
     // Store decree
     this.vocalDecrees.push(decree);
     this.activeDecree = decree;
     this.metrics.totalDecrees++;
-    
+
     // Update NFT metrics based on decree
     if (this.enableNFTMetrics) {
       await this.updateNFTMetrics(decree);
     }
-    
+
     // Generate AR feedback if enabled
     if (this.enableARFeedback) {
       await this.generateARFeedback(decree);
     }
-    
+
     console.log(`🎤 Vocal decree processed: ${decree.id} (${decree.type})`);
-    
+
     return decree;
   }
 
@@ -279,7 +292,8 @@ class TeslaSonarAnchor {
   analyzeFrequency(audioInput) {
     // Simplified frequency analysis
     const samples = Array.isArray(audioInput) ? audioInput : [audioInput];
-    const avgAmplitude = samples.reduce((sum, s) => sum + Math.abs(s), 0) / samples.length;
+    const avgAmplitude =
+      samples.reduce((sum, s) => sum + Math.abs(s), 0) / samples.length;
     return Math.round(this.frequency * (1 + avgAmplitude * 0.1));
   }
 
@@ -299,7 +313,7 @@ class TeslaSonarAnchor {
    */
   analyzeEmotion(audioInput) {
     const intensity = this.calculateIntensity(audioInput);
-    
+
     // Simple emotion classification based on intensity and frequency
     if (intensity > 0.8) return 'passionate';
     if (intensity > 0.6) return 'confident';
@@ -313,7 +327,7 @@ class TeslaSonarAnchor {
   recognizeIntent(audioInput) {
     const freq = this.analyzeFrequency(audioInput);
     const intensity = this.calculateIntensity(audioInput);
-    
+
     // Simple intent recognition
     if (freq > 600 && intensity > 0.7) return 'manifestation';
     if (freq > 500 && intensity > 0.5) return 'affirmation';
@@ -327,7 +341,7 @@ class TeslaSonarAnchor {
     const freq = this.analyzeFrequency(audioInput);
     const targetFreq = this.frequency;
     const deviation = Math.abs(freq - targetFreq);
-    const resonance = Math.max(0, 1 - (deviation / targetFreq));
+    const resonance = Math.max(0, 1 - deviation / targetFreq);
     return Math.round(resonance * 100) / 100;
   }
 
@@ -338,7 +352,7 @@ class TeslaSonarAnchor {
     if (!this.enableSpectralAnalysis) {
       throw new Error('Spectral analysis not enabled');
     }
-    
+
     const analysis = {
       timestamp: new Date().toISOString(),
       low: this.analyzeSpectralBand(frequencyData, 'low'),
@@ -347,19 +361,19 @@ class TeslaSonarAnchor {
       dominant: this.findDominantFrequency(frequencyData),
       harmonics: this.extractHarmonics(frequencyData)
     };
-    
+
     // Store spectral data
     this.spectralData.low.push(analysis.low);
     this.spectralData.mid.push(analysis.mid);
     this.spectralData.high.push(analysis.high);
-    
+
     // Keep last 100 samples
     if (this.spectralData.low.length > 100) this.spectralData.low.shift();
     if (this.spectralData.mid.length > 100) this.spectralData.mid.shift();
     if (this.spectralData.high.length > 100) this.spectralData.high.shift();
-    
+
     this.metrics.spectralScans++;
-    
+
     return analysis;
   }
 
@@ -368,11 +382,14 @@ class TeslaSonarAnchor {
    */
   analyzeSpectralBand(frequencyData, band) {
     const range = this.spectralAnalyzer[`${band}Range`];
-    const samples = Array.isArray(frequencyData) ? frequencyData : [frequencyData];
-    
+    const samples = Array.isArray(frequencyData)
+      ? frequencyData
+      : [frequencyData];
+
     // Calculate average energy in band
-    const energy = samples.reduce((sum, s) => sum + Math.abs(s), 0) / samples.length;
-    
+    const energy =
+      samples.reduce((sum, s) => sum + Math.abs(s), 0) / samples.length;
+
     return {
       energy: Math.round(energy * 100) / 100,
       frequency: (range[0] + range[1]) / 2,
@@ -384,10 +401,12 @@ class TeslaSonarAnchor {
    * Find dominant frequency
    */
   findDominantFrequency(frequencyData) {
-    const samples = Array.isArray(frequencyData) ? frequencyData : [frequencyData];
+    const samples = Array.isArray(frequencyData)
+      ? frequencyData
+      : [frequencyData];
     const maxSample = Math.max(...samples.map(Math.abs));
     const maxIndex = samples.findIndex(s => Math.abs(s) === maxSample);
-    
+
     // Rough frequency estimate
     return Math.round(this.frequency * (1 + maxIndex / samples.length));
   }
@@ -398,7 +417,7 @@ class TeslaSonarAnchor {
   extractHarmonics(frequencyData) {
     const fundamental = this.findDominantFrequency(frequencyData);
     const harmonics = [];
-    
+
     for (let h = 2; h <= 5; h++) {
       harmonics.push({
         order: h,
@@ -406,7 +425,7 @@ class TeslaSonarAnchor {
         amplitude: 1.0 / h
       });
     }
-    
+
     return harmonics;
   }
 
@@ -417,7 +436,7 @@ class TeslaSonarAnchor {
     if (!this.enableARFeedback) {
       throw new Error('AR feedback not enabled');
     }
-    
+
     const visualization = {
       id: `AR-${Date.now()}`,
       timestamp: new Date().toISOString(),
@@ -431,17 +450,17 @@ class TeslaSonarAnchor {
       duration: 3000, // 3 seconds
       opacity: 0.8
     };
-    
+
     this.arFeedback.visualizations.push(visualization);
     this.metrics.arSessions++;
-    
+
     // Keep last 50 visualizations
     if (this.arFeedback.visualizations.length > 50) {
       this.arFeedback.visualizations.shift();
     }
-    
+
     console.log(`🔮 AR feedback generated: ${visualization.id}`);
-    
+
     return visualization;
   }
 
@@ -470,12 +489,12 @@ class TeslaSonarAnchor {
       'sri-yantra',
       'torus-field'
     ];
-    
+
     return {
       pattern: patterns[Math.floor(decree.frequency / 200) % patterns.length],
       complexity: Math.ceil(decree.resonance * 10),
       scale: decree.intensity,
-      rotation: (decree.frequency % 360)
+      rotation: decree.frequency % 360
     };
   }
 
@@ -486,13 +505,14 @@ class TeslaSonarAnchor {
     if (!this.enableNFTMetrics) {
       throw new Error('NFT metrics not enabled');
     }
-    
+
     // Calculate score increment based on decree quality
     const scoreIncrement = decree.resonance * decree.intensity * 10;
-    this.nftMetrics.completionScore = Math.min(100, 
+    this.nftMetrics.completionScore = Math.min(
+      100,
       this.nftMetrics.completionScore + scoreIncrement
     );
-    
+
     // Determine tier and multiplier
     const score = this.nftMetrics.completionScore;
     for (const [tier, scale] of Object.entries(NFT_METRIC_SCALES)) {
@@ -502,19 +522,23 @@ class TeslaSonarAnchor {
         break;
       }
     }
-    
+
     // Check for milestone achievements
     for (const milestone of this.nftMetrics.milestones) {
-      if (score >= milestone && 
-          !this.nftMetrics.achievements.includes(milestone)) {
+      if (
+        score >= milestone &&
+        !this.nftMetrics.achievements.includes(milestone)
+      ) {
         this.nftMetrics.achievements.push(milestone);
         console.log(`🏆 NFT Milestone achieved: ${milestone}%`);
       }
     }
-    
+
     this.metrics.nftUpdates++;
-    
-    console.log(`💎 NFT Metrics updated: ${score.toFixed(2)}% (${this.nftMetrics.tier})`);
+
+    console.log(
+      `💎 NFT Metrics updated: ${score.toFixed(2)}% (${this.nftMetrics.tier})`
+    );
   }
 
   /**
@@ -524,10 +548,10 @@ class TeslaSonarAnchor {
     if (!this.enableARFeedback) {
       throw new Error('AR feedback not enabled');
     }
-    
+
     this.arFeedback.sessionActive = true;
     console.log('🔮 AR feedback session started');
-    
+
     return {
       active: true,
       sessionId: `AR-SESSION-${Date.now()}`
@@ -540,7 +564,7 @@ class TeslaSonarAnchor {
   async stopARSession() {
     this.arFeedback.sessionActive = false;
     console.log('🔮 AR feedback session stopped');
-    
+
     return {
       active: false
     };

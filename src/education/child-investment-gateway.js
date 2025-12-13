@@ -3,7 +3,7 @@
  * APY-style economic simulations for youth financial sovereignty
  * Tied to educational sovereignty exercises
  * Operating at 528Hz Divine Frequency
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @version 1.0.0
  */
@@ -37,12 +37,12 @@ class ChildInvestmentGateway {
   async initialize() {
     // Register economic simulation types
     this._registerEconomicSimulations();
-    
+
     // Register sovereignty exercises
     this._registerSovereigntyExercises();
-    
+
     this.initialized = true;
-    
+
     return {
       status: 'initialized',
       frequency: this.config.frequency,
@@ -71,7 +71,7 @@ class ChildInvestmentGateway {
     // Maritime Trade Economics
     this.economicSimulations.set('maritime_trade', {
       name: 'Maritime Trade Economics',
-      description: 'Simulate Paul Cuffee\'s shipping business economics',
+      description: "Simulate Paul Cuffee's shipping business economics",
       difficulty: 'intermediate',
       frequency: SACRED_AUDIO_TONES.CONNECTION,
       calculationType: 'trade_profit_margin'
@@ -196,8 +196,9 @@ class ChildInvestmentGateway {
       results.push({
         year,
         balance: Math.round(balance * 100) / 100,
-        totalContributions: principal + (contributions * year),
-        interestEarned: Math.round((balance - principal - (contributions * year)) * 100) / 100
+        totalContributions: principal + contributions * year,
+        interestEarned:
+          Math.round((balance - principal - contributions * year) * 100) / 100
       });
     }
 
@@ -232,7 +233,11 @@ class ChildInvestmentGateway {
     }
 
     const simulationId = `sim_${Date.now()}`;
-    const results = await this._executeSimulation(simulation, simulationParams, account);
+    const results = await this._executeSimulation(
+      simulation,
+      simulationParams,
+      account
+    );
 
     // Store simulation in account history
     account.investmentHistory.push({
@@ -263,91 +268,96 @@ class ChildInvestmentGateway {
     };
 
     switch (simulation.calculationType) {
-    case 'compound_interest': {
-      const growth = this.calculateCompoundGrowth(
-        params.principal || 1000,
-        account.apy * account.sovereigntyMultiplier,
-        params.years || 10,
-        params.annualContribution || 100
-      );
-      return { ...baseResults, ...growth };
-    }
-
-    case 'trade_profit_margin': {
-      const investment = params.tradeInvestment || 5000;
-      const profitMargin = params.profitMargin || 0.15; // 15%
-      const trips = params.annualTrips || 12;
-      const years = params.years || 5;
-
-      const annualProfit = investment * profitMargin * trips;
-      const totalProfit = annualProfit * years;
-
-      return {
-        ...baseResults,
-        investment,
-        profitMargin,
-        annualTrips: trips,
-        annualProfit,
-        totalProfit,
-        roi: (totalProfit / investment) * 100
-      };
-    }
-
-    case 'pooled_apy': {
-      const individualInvestment = params.contribution || 500;
-      const poolMembers = params.members || 20;
-      const poolAPY = account.apy + this.config.sovereigntyBonus;
-      const years = params.years || 10;
-
-      const totalPool = individualInvestment * poolMembers;
-      const growth = this.calculateCompoundGrowth(totalPool, poolAPY, years, 0);
-      const individualShare = growth.finalBalance / poolMembers;
-
-      return {
-        ...baseResults,
-        individualInvestment,
-        poolMembers,
-        totalPoolSize: totalPool,
-        poolAPY,
-        individualFinalValue: individualShare,
-        individualGain: individualShare - individualInvestment
-      };
-    }
-
-    case 'cyclical_growth': {
-      // Investment based on astronomical cycles (lunar, solar)
-      const investment = params.investment || 1000;
-      const cycleYears = params.cycleYears || 8; // Moon cycle
-      const cycles = params.numberOfCycles || 3;
-      const cycleBonus = 0.02; // 2% bonus per cycle completion
-
-      let balance = investment;
-      const cycleResults = [];
-
-      for (let i = 0; i < cycles; i++) {
-        const cycleAPY = account.apy + (cycleBonus * (i + 1));
-        balance = balance * Math.pow(1 + cycleAPY, cycleYears);
-        cycleResults.push({
-          cycle: i + 1,
-          years: (i + 1) * cycleYears,
-          apy: cycleAPY,
-          balance: Math.round(balance * 100) / 100
-        });
+      case 'compound_interest': {
+        const growth = this.calculateCompoundGrowth(
+          params.principal || 1000,
+          account.apy * account.sovereigntyMultiplier,
+          params.years || 10,
+          params.annualContribution || 100
+        );
+        return { ...baseResults, ...growth };
       }
 
-      return {
-        ...baseResults,
-        initialInvestment: investment,
-        cycles,
-        cycleYears,
-        cycleResults,
-        finalBalance: cycleResults[cycles - 1].balance,
-        totalGain: cycleResults[cycles - 1].balance - investment
-      };
-    }
+      case 'trade_profit_margin': {
+        const investment = params.tradeInvestment || 5000;
+        const profitMargin = params.profitMargin || 0.15; // 15%
+        const trips = params.annualTrips || 12;
+        const years = params.years || 5;
 
-    default:
-      return baseResults;
+        const annualProfit = investment * profitMargin * trips;
+        const totalProfit = annualProfit * years;
+
+        return {
+          ...baseResults,
+          investment,
+          profitMargin,
+          annualTrips: trips,
+          annualProfit,
+          totalProfit,
+          roi: (totalProfit / investment) * 100
+        };
+      }
+
+      case 'pooled_apy': {
+        const individualInvestment = params.contribution || 500;
+        const poolMembers = params.members || 20;
+        const poolAPY = account.apy + this.config.sovereigntyBonus;
+        const years = params.years || 10;
+
+        const totalPool = individualInvestment * poolMembers;
+        const growth = this.calculateCompoundGrowth(
+          totalPool,
+          poolAPY,
+          years,
+          0
+        );
+        const individualShare = growth.finalBalance / poolMembers;
+
+        return {
+          ...baseResults,
+          individualInvestment,
+          poolMembers,
+          totalPoolSize: totalPool,
+          poolAPY,
+          individualFinalValue: individualShare,
+          individualGain: individualShare - individualInvestment
+        };
+      }
+
+      case 'cyclical_growth': {
+        // Investment based on astronomical cycles (lunar, solar)
+        const investment = params.investment || 1000;
+        const cycleYears = params.cycleYears || 8; // Moon cycle
+        const cycles = params.numberOfCycles || 3;
+        const cycleBonus = 0.02; // 2% bonus per cycle completion
+
+        let balance = investment;
+        const cycleResults = [];
+
+        for (let i = 0; i < cycles; i++) {
+          const cycleAPY = account.apy + cycleBonus * (i + 1);
+          balance = balance * Math.pow(1 + cycleAPY, cycleYears);
+          cycleResults.push({
+            cycle: i + 1,
+            years: (i + 1) * cycleYears,
+            apy: cycleAPY,
+            balance: Math.round(balance * 100) / 100
+          });
+        }
+
+        return {
+          ...baseResults,
+          initialInvestment: investment,
+          cycles,
+          cycleYears,
+          cycleResults,
+          finalBalance: cycleResults[cycles - 1].balance,
+          totalGain: cycleResults[cycles - 1].balance - investment
+        };
+      }
+
+      default:
+        return baseResults;
     }
   }
 
@@ -380,7 +390,8 @@ class ChildInvestmentGateway {
 
     // Calculate sovereignty multiplier based on total points
     // Each 100 points increases multiplier by 0.05 (5%)
-    const multiplierIncrease = Math.floor(account.sovereigntyPoints / 100) * 0.05;
+    const multiplierIncrease =
+      Math.floor(account.sovereigntyPoints / 100) * 0.05;
     account.sovereigntyMultiplier = 1.0 + multiplierIncrease;
 
     // Update APY with sovereignty bonus

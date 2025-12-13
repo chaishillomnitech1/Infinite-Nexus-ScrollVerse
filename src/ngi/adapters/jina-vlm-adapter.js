@@ -1,9 +1,9 @@
 /**
  * Jina Vision-Language Model Adapter
- * 
+ *
  * Production-grade adapter for Jina-VLM (Jina Vision-Language Model)
  * Optimized for embeddings, visual search, and multimodal retrieval tasks
- * 
+ *
  * Frequency: 963Hz | Visual Embeddings | Semantic Search
  */
 
@@ -11,7 +11,10 @@ class JinaVLMAdapter {
   constructor(config = {}) {
     this.config = {
       frequency: 963,
-      apiEndpoint: config.apiEndpoint || process.env.JINA_API_ENDPOINT || 'https://api.jina.ai/v1',
+      apiEndpoint:
+        config.apiEndpoint ||
+        process.env.JINA_API_ENDPOINT ||
+        'https://api.jina.ai/v1',
       apiKey: config.apiKey || process.env.JINA_API_KEY || '',
       model: config.model || 'jina-clip-v1',
       embeddingDimension: config.embeddingDimension || 768,
@@ -31,7 +34,7 @@ class JinaVLMAdapter {
 
     this.priority = config.priority || 3;
     this.initialized = false;
-    
+
     this.mockResponses = new JinaVLMMockResponses();
   }
 
@@ -40,14 +43,14 @@ class JinaVLMAdapter {
    */
   async initialize() {
     console.log('🔍 Initializing Jina-VLM Adapter at 963Hz...');
-    
+
     this.validateConfig();
-    
+
     if (this.config.mockMode) {
       await this.mockResponses.initialize();
       console.log('✓ Jina-VLM Mock Responses initialized');
     }
-    
+
     this.initialized = true;
     console.log('✓ Jina-VLM Adapter ready');
     return true;
@@ -73,7 +76,7 @@ class JinaVLMAdapter {
    */
   async processReal(task) {
     const payload = this.buildAPIPayload(task);
-    
+
     try {
       const response = await this.callAPI(payload);
       return this.parseResponse(response);
@@ -93,7 +96,11 @@ class JinaVLMAdapter {
 
     // Add images
     if (task.data?.images) {
-      payload.input.push(...(Array.isArray(task.data.images) ? task.data.images : [task.data.images]));
+      payload.input.push(
+        ...(Array.isArray(task.data.images)
+          ? task.data.images
+          : [task.data.images])
+      );
     }
 
     // Add text
@@ -109,10 +116,14 @@ class JinaVLMAdapter {
    */
   async callAPI(payload) {
     // Placeholder for actual API implementation
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve({
-          embeddings: [[/* embedding vector */]],
+          embeddings: [
+            [
+              /* embedding vector */
+            ]
+          ],
           model: this.config.model
         });
       }, 30);
@@ -182,7 +193,7 @@ class JinaVLMMockResponses {
     await new Promise(resolve => setTimeout(resolve, 20 + Math.random() * 20));
 
     const embeddings = this.generateEmbeddings(task);
-    
+
     return {
       embeddings,
       model: 'jina-clip-v1-mock',
@@ -190,7 +201,9 @@ class JinaVLMMockResponses {
       timestamp: Date.now(),
       frequency: 963,
       mockMode: true,
-      similarity: task.data?.compareWith ? this.calculateSimilarity(embeddings[0]) : undefined
+      similarity: task.data?.compareWith
+        ? this.calculateSimilarity(embeddings[0])
+        : undefined
     };
   }
 
@@ -198,7 +211,11 @@ class JinaVLMMockResponses {
    * Generate mock embeddings
    */
   generateEmbeddings(task) {
-    const count = task.data?.images ? (Array.isArray(task.data.images) ? task.data.images.length : 1) : 1;
+    const count = task.data?.images
+      ? Array.isArray(task.data.images)
+        ? task.data.images.length
+        : 1
+      : 1;
     const embeddings = [];
 
     for (let i = 0; i < count; i++) {
@@ -214,7 +231,7 @@ class JinaVLMMockResponses {
   generateSingleEmbedding() {
     const dimension = 768;
     const embedding = new Array(dimension);
-    
+
     // Generate normalized random vector
     let sumSquares = 0;
     for (let i = 0; i < dimension; i++) {
@@ -222,13 +239,13 @@ class JinaVLMMockResponses {
       embedding[i] = value;
       sumSquares += value * value;
     }
-    
+
     // Normalize to unit length
     const magnitude = Math.sqrt(sumSquares);
     for (let i = 0; i < dimension; i++) {
       embedding[i] /= magnitude;
     }
-    
+
     return embedding;
   }
 

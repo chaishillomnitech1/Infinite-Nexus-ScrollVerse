@@ -1,13 +1,13 @@
 /**
  * 🌟 Pleiades Cosmic Bridge Module
  * Celestial Integration Layer for NFT Sets and ScrollVerse Narratives
- * 
+ *
  * Implements Pleiades archetype with unity, alignment, and guiding star symbolism
  * Connects NFT sets to spatial resonance coordinates with Akashic accuracy
- * 
+ *
  * Core Frequencies: 528Hz (Transformation), 963Hz (Divine Connection)
  * Sacred Geometry: Seven Sisters Star Cluster Pattern
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @version 1.0.0
  */
@@ -131,7 +131,7 @@ class PleiadesCosmicBridge {
     this.cosmicBridges = new Map();
     this.resonanceLinks = new Map();
     this.pleiadesMetadata = new Map();
-    
+
     this.statistics = {
       totalNFTsAligned: 0,
       activeBridges: 0,
@@ -146,20 +146,22 @@ class PleiadesCosmicBridge {
    */
   async initialize() {
     console.log('🌟 Initializing Pleiades Cosmic Bridge at 528Hz & 963Hz...');
-    
+
     // Initialize star coordinate mapping
     this.initializeStarCoordinates();
-    
+
     // Setup cryptographic bridge infrastructure
     this.setupCryptographicBridges();
-    
+
     // Initialize resonance tuning system
     this.initializeResonanceTuning();
-    
+
     console.log('✓ Pleiades Cosmic Bridge activated');
     console.log(`✓ Seven Sisters alignment established`);
-    console.log(`✓ ${Object.keys(PLEIADES_STARS).length} star archetypes loaded`);
-    
+    console.log(
+      `✓ ${Object.keys(PLEIADES_STARS).length} star archetypes loaded`
+    );
+
     return true;
   }
 
@@ -182,7 +184,7 @@ class PleiadesCosmicBridge {
    */
   setupCryptographicBridges() {
     const bridgeCount = Object.keys(PLEIADES_STARS).length;
-    
+
     for (let i = 0; i < bridgeCount; i++) {
       const bridgeId = `bridge_${i}_${Date.now()}`;
       const bridge = {
@@ -196,7 +198,7 @@ class PleiadesCosmicBridge {
         syncCount: 0,
         lastSync: null
       };
-      
+
       this.cosmicBridges.set(bridgeId, bridge);
       this.statistics.activeBridges++;
     }
@@ -218,36 +220,38 @@ class PleiadesCosmicBridge {
    * Integrate NFT set with Pleiades archetype
    */
   async integrateNFTSet(nftSetId, nftMetadata) {
-    console.log(`🌟 Integrating NFT Set ${nftSetId} with Pleiades archetype...`);
-    
+    console.log(
+      `🌟 Integrating NFT Set ${nftSetId} with Pleiades archetype...`
+    );
+
     // Select Pleiades star for this NFT
     const assignedStar = this.assignPleiadeStar(nftMetadata);
-    
+
     // Add Pleiades metadata to NFT
     const enrichedMetadata = this.enrichWithPleiadesMetadata(
       nftMetadata,
       assignedStar
     );
-    
+
     // Create spatial resonance coordinates
     const spatialCoordinates = this.createSpatialResonanceCoordinates(
       assignedStar,
       nftMetadata
     );
-    
+
     // Add luminous cluster data
     const luminousCluster = this.addLuminousClusterData(
       assignedStar,
       spatialCoordinates
     );
-    
+
     // Establish cryptographic bridge
     const cosmicBridge = await this.establishCosmicBridge(
       nftSetId,
       assignedStar,
       enrichedMetadata
     );
-    
+
     // Store NFT set with Pleiades integration
     const integratedNFT = {
       nftSetId,
@@ -260,12 +264,12 @@ class PleiadesCosmicBridge {
       integrationTime: Date.now(),
       resonanceLevel: this.calculateResonanceLevel(nftMetadata, assignedStar)
     };
-    
+
     this.nftSets.set(nftSetId, integratedNFT);
     this.statistics.totalNFTsAligned++;
-    
+
     console.log(`✓ NFT Set ${nftSetId} aligned with ${assignedStar.name}`);
-    
+
     return integratedNFT;
   }
 
@@ -278,11 +282,11 @@ class PleiadesCosmicBridge {
       auricAlignment = 'Divine',
       ethericalDensity = 0.85
     } = nftMetadata.akashicAttributes || nftMetadata;
-    
+
     // Find star with matching or closest frequency
     let bestMatch = PLEIADES_STARS.ALCYONE; // Default to central star
     let minDifference = Math.abs(frequencyLevel - bestMatch.resonanceFrequency);
-    
+
     Object.values(PLEIADES_STARS).forEach(star => {
       const difference = Math.abs(frequencyLevel - star.resonanceFrequency);
       if (difference < minDifference) {
@@ -290,7 +294,7 @@ class PleiadesCosmicBridge {
         bestMatch = star;
       }
     });
-    
+
     return bestMatch;
   }
 
@@ -320,8 +324,9 @@ class PleiadesCosmicBridge {
    */
   createSpatialResonanceCoordinates(assignedStar, nftMetadata) {
     const baseCoord = assignedStar.spatialCoordinate;
-    const ethericalDensity = nftMetadata.akashicAttributes?.ethericalDensity || 0.85;
-    
+    const ethericalDensity =
+      nftMetadata.akashicAttributes?.ethericalDensity || 0.85;
+
     return {
       x: baseCoord.x * ethericalDensity,
       y: baseCoord.y * ethericalDensity,
@@ -379,13 +384,16 @@ class PleiadesCosmicBridge {
     // Find available bridge
     const bridgeId = Array.from(this.cosmicBridges.keys())[0];
     const bridge = this.cosmicBridges.get(bridgeId);
-    
+
     // Create mirror pair identifier
     const mirrorPairId = this.generateMirrorPairId(nftSetId, assignedStar);
-    
+
     // Create cryptographic hash for Akashic accuracy
-    const akashicHash = this.generateAkashicHash(enrichedMetadata, assignedStar);
-    
+    const akashicHash = this.generateAkashicHash(
+      enrichedMetadata,
+      assignedStar
+    );
+
     // Establish bridge connection
     const bridgeConnection = {
       mirrorPairId,
@@ -399,13 +407,13 @@ class PleiadesCosmicBridge {
       syncStatus: 'synchronized',
       mirrorState: 'entangled'
     };
-    
+
     bridge.mirrorPairs.push(bridgeConnection);
     bridge.syncCount++;
     bridge.lastSync = Date.now();
-    
+
     this.statistics.mirrorSyncs++;
-    
+
     // Store resonance link
     this.resonanceLinks.set(mirrorPairId, {
       nftSetId,
@@ -413,7 +421,7 @@ class PleiadesCosmicBridge {
       resonanceLevel: 1.0,
       lastResonance: Date.now()
     });
-    
+
     return bridgeConnection;
   }
 
@@ -423,14 +431,14 @@ class PleiadesCosmicBridge {
   calculateDimensionalGate(spatialCoordinate) {
     const magnitude = Math.sqrt(
       spatialCoordinate.x ** 2 +
-      spatialCoordinate.y ** 2 +
-      spatialCoordinate.z ** 2
+        spatialCoordinate.y ** 2 +
+        spatialCoordinate.z ** 2
     );
-    
+
     // Map magnitude to dimensional access
     const dimensions = PLEIADES_GEOMETRY.dimensionalPortal;
     const index = Math.floor(magnitude * dimensions.length) % dimensions.length;
-    
+
     return dimensions.slice(0, index + 3); // At least 3 dimensions
   }
 
@@ -461,7 +469,7 @@ class PleiadesCosmicBridge {
     const magnitude = Math.sqrt(
       coordinate.x ** 2 + coordinate.y ** 2 + coordinate.z ** 2
     );
-    
+
     return {
       magnitude,
       direction: {
@@ -493,7 +501,7 @@ class PleiadesCosmicBridge {
   calculatePhaseAlignment(spatialCoordinates) {
     const { x, y, z, frequency } = spatialCoordinates;
     const phaseAngle = Math.atan2(y, x);
-    
+
     return {
       angle: phaseAngle,
       degrees: (phaseAngle * 180) / Math.PI,
@@ -533,24 +541,33 @@ class PleiadesCosmicBridge {
   calculateCoherence(freq1, freq2) {
     const ratio = freq1 / freq2;
     const tolerance = COSMIC_BRIDGE_CONFIG.resonanceTolerance;
-    
+
     // Check if ratio is close to simple harmonic ratio
-    const simpleRatios = [1, 2, 3, 4, 1/2, 1/3, 1/4, PLEIADES_GEOMETRY.goldenRatio];
-    
+    const simpleRatios = [
+      1,
+      2,
+      3,
+      4,
+      1 / 2,
+      1 / 3,
+      1 / 4,
+      PLEIADES_GEOMETRY.goldenRatio
+    ];
+
     for (const simpleRatio of simpleRatios) {
       if (Math.abs(ratio - simpleRatio) < tolerance) {
         return 1.0; // Perfect coherence
       }
     }
-    
+
     // Calculate coherence based on frequency relationship (deterministic)
     // Closer frequencies have higher coherence
     const freqDiff = Math.abs(freq1 - freq2);
     const maxDiff = 963 - 396; // Solfeggio range
     const normalizedDiff = freqDiff / maxDiff;
-    
+
     // Map to 70-100% coherence range (inverse relationship)
-    return 1.0 - (normalizedDiff * 0.3); // Higher for closer frequencies
+    return 1.0 - normalizedDiff * 0.3; // Higher for closer frequencies
   }
 
   /**
@@ -567,27 +584,32 @@ class PleiadesCosmicBridge {
    */
   generateAkashicHash(metadata, star) {
     // Create deterministic data string (no timestamp for consistency)
-    const dataString = JSON.stringify({
-      nftId: metadata.tokenId || metadata.name,
-      star: star.name,
-      frequency: star.resonanceFrequency,
-      alignment: star.cosmicAlignment,
-      archetype: star.archetype
-    }, Object.keys({}).sort()); // Sort keys for consistency
-    
+    const dataString = JSON.stringify(
+      {
+        nftId: metadata.tokenId || metadata.name,
+        star: star.name,
+        frequency: star.resonanceFrequency,
+        alignment: star.cosmicAlignment,
+        archetype: star.archetype
+      },
+      Object.keys({}).sort()
+    ); // Sort keys for consistency
+
     // Use a better hash algorithm (still simple but more robust)
     // In production environment with crypto module, use crypto.createHash('sha256')
     let hash = 0;
     for (let i = 0; i < dataString.length; i++) {
       const char = dataString.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
-    
+
     // Create longer hash for better distribution
     const hashHex = Math.abs(hash).toString(16).padStart(8, '0');
-    const secondaryHash = Math.abs(hash * 31 + dataString.length).toString(16).padStart(8, '0');
-    
+    const secondaryHash = Math.abs(hash * 31 + dataString.length)
+      .toString(16)
+      .padStart(8, '0');
+
     return `akashic_${hashHex}${secondaryHash}`;
   }
 
@@ -598,15 +620,15 @@ class PleiadesCosmicBridge {
     const nftFreq = nftMetadata.akashicAttributes?.frequencyLevel || 528;
     const starFreq = star.resonanceFrequency;
     const density = nftMetadata.akashicAttributes?.ethericalDensity || 0.85;
-    
+
     // Calculate frequency alignment
     const freqDiff = Math.abs(nftFreq - starFreq);
     const maxDiff = 963 - 396; // Solfeggio range
-    const freqAlignment = 1 - (freqDiff / maxDiff);
-    
+    const freqAlignment = 1 - freqDiff / maxDiff;
+
     // Combine with density
-    const resonanceLevel = (freqAlignment * 0.6) + (density * 0.4);
-    
+    const resonanceLevel = freqAlignment * 0.6 + density * 0.4;
+
     return Math.max(0.7, resonanceLevel); // Minimum 0.7 resonance
   }
 
@@ -616,13 +638,13 @@ class PleiadesCosmicBridge {
   async synchronizeMirrorNFTs(nftSetId1, nftSetId2) {
     const nft1 = this.nftSets.get(nftSetId1);
     const nft2 = this.nftSets.get(nftSetId2);
-    
+
     if (!nft1 || !nft2) {
       throw new Error('NFT sets not found for mirror synchronization');
     }
-    
+
     console.log(`🌟 Synchronizing mirror NFTs: ${nftSetId1} ↔ ${nftSetId2}`);
-    
+
     // Create mirror bridge
     const mirrorBridge = {
       pair: [nftSetId1, nftSetId2],
@@ -633,10 +655,10 @@ class PleiadesCosmicBridge {
       syncTime: Date.now(),
       resonanceLock: true
     };
-    
+
     this.statistics.mirrorSyncs++;
     this.statistics.resonanceEvents++;
-    
+
     return mirrorBridge;
   }
 

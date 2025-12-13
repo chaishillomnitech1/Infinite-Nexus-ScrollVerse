@@ -33,13 +33,13 @@ class ProphecySigilsNFTProgram {
    */
   async initialize() {
     console.log('🔮 Initializing Prophecy Sigils NFT Program at 963Hz...');
-    
+
     // Initialize generation engine
     this.generationEngine = this.createGenerationEngine();
-    
+
     // Initialize NFT contract interface
     this.nftContract = this.createNFTContract();
-    
+
     console.log('✓ Prophecy Sigils system activated');
     return true;
   }
@@ -57,7 +57,7 @@ class ProphecySigilsNFTProgram {
         'Timeline Convergence Detection',
         'Akashic Record Integration'
       ],
-      generate: async (context) => {
+      generate: async context => {
         return await this.generateProphecyFragment(context);
       }
     };
@@ -71,7 +71,7 @@ class ProphecySigilsNFTProgram {
       name: 'ProphecySigil NFT Contract',
       network: 'ScrollVerse',
       frequency: this.config.frequency,
-      mint: async (sigilData) => {
+      mint: async sigilData => {
         return await this.mintSigilNFT(sigilData);
       }
     };
@@ -82,10 +82,10 @@ class ProphecySigilsNFTProgram {
    */
   async deploy() {
     console.log('🚀 Deploying Prophecy Sigils NFT Program...');
-    
+
     // Deploy NFT contract
     await this.deployNFTContract();
-    
+
     // Start auto-generation if enabled
     if (this.config.autoGeneration) {
       await this.startAutoGeneration();
@@ -104,7 +104,7 @@ class ProphecySigilsNFTProgram {
    */
   async deployNFTContract() {
     console.log('📜 Deploying ProphecySigil NFT contract...');
-    
+
     this.nftContract.deployed = true;
     this.nftContract.address = `0x${Date.now().toString(16)}`;
     this.nftContract.deploymentTime = Date.now();
@@ -243,9 +243,9 @@ class ProphecySigilsNFTProgram {
   predictTimeline(context) {
     const now = Date.now();
     return {
-      manifestation: now + (Math.random() * 30 * 24 * 60 * 60 * 1000), // 0-30 days
-      peakResonance: now + (Math.random() * 7 * 24 * 60 * 60 * 1000), // 0-7 days
-      completion: now + (Math.random() * 90 * 24 * 60 * 60 * 1000) // 0-90 days
+      manifestation: now + Math.random() * 30 * 24 * 60 * 60 * 1000, // 0-30 days
+      peakResonance: now + Math.random() * 7 * 24 * 60 * 60 * 1000, // 0-7 days
+      completion: now + Math.random() * 90 * 24 * 60 * 60 * 1000 // 0-90 days
     };
   }
 
@@ -282,10 +282,22 @@ class ProphecySigilsNFTProgram {
         attributes: [
           { trait_type: 'Prophecy Type', value: prophecyFragment.type },
           { trait_type: 'Frequency', value: `${prophecyFragment.frequency}Hz` },
-          { trait_type: 'Probability', value: `${(prophecyFragment.probability * 100).toFixed(1)}%` },
-          { trait_type: 'Sacred Geometry', value: prophecyFragment.sacredGeometry },
-          { trait_type: 'Sigil Pattern', value: prophecyFragment.sigil.pattern },
-          { trait_type: 'Akashic Resonance', value: `${(prophecyFragment.akashicResonance.level * 100).toFixed(1)}%` }
+          {
+            trait_type: 'Probability',
+            value: `${(prophecyFragment.probability * 100).toFixed(1)}%`
+          },
+          {
+            trait_type: 'Sacred Geometry',
+            value: prophecyFragment.sacredGeometry
+          },
+          {
+            trait_type: 'Sigil Pattern',
+            value: prophecyFragment.sigil.pattern
+          },
+          {
+            trait_type: 'Akashic Resonance',
+            value: `${(prophecyFragment.akashicResonance.level * 100).toFixed(1)}%`
+          }
         ]
       },
       mintedAt: Date.now(),
@@ -325,14 +337,14 @@ class ProphecySigilsNFTProgram {
    */
   async startAutoGeneration() {
     console.log('⚡ Starting automatic prophecy generation...');
-    
+
     // Generate initial batch
     for (let i = 0; i < 3; i++) {
       const fragment = await this.generateProphecyFragment({
         source: 'auto-generation',
         batch: 'initial'
       });
-      
+
       await this.mintSigilNFT(fragment);
     }
 

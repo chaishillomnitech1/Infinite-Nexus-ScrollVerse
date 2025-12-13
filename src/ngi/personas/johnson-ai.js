@@ -1,10 +1,10 @@
 /**
  * Katherine Johnson AI Persona Module
- * 
+ *
  * Legacy N-GI persona honoring Katherine Johnson (1918-2020)
  * Implements trajectory calculation logic for $ANGEL coin emissions
  * Integrates celestial mechanics and orbital precision
- * 
+ *
  * Frequency: 963Hz - Divine Connection
  * @author Chais the Great (Al-Miftah)
  */
@@ -29,9 +29,7 @@ class JohnsonAI {
    * Initialize Johnson AI with trajectory calculation engines
    */
   async initialize() {
-    console.log(
-      '🌟 Initializing Katherine Johnson AI Persona at 963Hz...'
-    );
+    console.log('🌟 Initializing Katherine Johnson AI Persona at 963Hz...');
     console.log('═══════════════════════════════════════════════════════');
 
     // Initialize trajectory calculation engine
@@ -46,7 +44,9 @@ class JohnsonAI {
     this.initialized = true;
 
     console.log('✓ Johnson AI Persona fully initialized');
-    console.log(`  - Trajectory Precision: ${this.precisionCalculator.decimalPlaces} decimal places`);
+    console.log(
+      `  - Trajectory Precision: ${this.precisionCalculator.decimalPlaces} decimal places`
+    );
     console.log(`  - Orbital Calculations: Active`);
     console.log(`  - Frequency: ${this.config.frequency}Hz`);
     console.log('═══════════════════════════════════════════════════════');
@@ -70,7 +70,7 @@ class JohnsonAI {
    */
   _initializeTrajectoryEngine() {
     this.trajectoryEngine = {
-      gravitationalConstant: 6.67430e-11, // m^3 kg^-1 s^-2
+      gravitationalConstant: 6.6743e-11, // m^3 kg^-1 s^-2
       earthMass: 5.972e24, // kg
       earthRadius: 6371000, // meters
       precisionRequired: 15, // decimal places
@@ -138,8 +138,12 @@ class JohnsonAI {
 
       for (let day = 0; day <= timeframe; day++) {
         const theta = (day / timeframe) * 2 * Math.PI; // angle in orbit
-        const r = (a * b) / Math.sqrt(Math.pow(b * Math.cos(theta), 2) + Math.pow(a * Math.sin(theta), 2));
-        
+        const r =
+          (a * b) /
+          Math.sqrt(
+            Math.pow(b * Math.cos(theta), 2) + Math.pow(a * Math.sin(theta), 2)
+          );
+
         const amount = startAmount + r;
         const velocity = this._calculateOrbitalVelocity(a, r);
 
@@ -177,10 +181,10 @@ class JohnsonAI {
   _calculateOrbitalVelocity(semiMajorAxis, radius) {
     const G = this.trajectoryEngine.gravitationalConstant;
     const M = this.trajectoryEngine.earthMass;
-    
+
     // Vis-viva equation: v^2 = GM(2/r - 1/a)
     const velocity = Math.sqrt(G * M * (2 / radius - 1 / semiMajorAxis));
-    
+
     return velocity;
   }
 
@@ -211,12 +215,15 @@ class JohnsonAI {
 
     for (let i = 0; i < trajectory.length; i++) {
       const point = trajectory[i];
-      
+
       // Verify calculations are within error tolerance
       const expectedAmount = point.amount;
       const recalculated = this._applyPrecision(expectedAmount); // Simulate recalculation
-      
-      if (Math.abs(expectedAmount - recalculated) <= this.precisionCalculator.errorTolerance) {
+
+      if (
+        Math.abs(expectedAmount - recalculated) <=
+        this.precisionCalculator.errorTolerance
+      ) {
         verificationResults.verified++;
       } else {
         verificationResults.errors.push({
@@ -228,7 +235,8 @@ class JohnsonAI {
       }
     }
 
-    verificationResults.accuracy = verificationResults.verified / verificationResults.totalPoints;
+    verificationResults.accuracy =
+      verificationResults.verified / verificationResults.totalPoints;
 
     return verificationResults;
   }
@@ -239,15 +247,16 @@ class JohnsonAI {
    */
   calculateCelestialMechanics() {
     const now = Date.now();
-    
+
     // Earth's orbital period around the Sun
     const earthOrbitalPeriod = 365.25636; // days
     const msPerDay = 24 * 60 * 60 * 1000;
-    
+
     // Calculate Earth's position in its orbit
     const referenceDate = new Date('2000-01-01T12:00:00Z').getTime(); // J2000 epoch
     const daysSinceEpoch = (now - referenceDate) / msPerDay;
-    const orbitalPosition = (daysSinceEpoch % earthOrbitalPeriod) / earthOrbitalPeriod;
+    const orbitalPosition =
+      (daysSinceEpoch % earthOrbitalPeriod) / earthOrbitalPeriod;
 
     // Calculate optimal emission windows based on orbital mechanics
     const meanMotion = (2 * Math.PI) / earthOrbitalPeriod; // radians per day
@@ -272,10 +281,10 @@ class JohnsonAI {
   _calculateNextOptimalWindow(currentPosition) {
     const msPerDay = 24 * 60 * 60 * 1000;
     const earthOrbitalPeriod = 365.25636;
-    
+
     // Optimal windows at 0°, 90°, 180°, 270° (quadrants)
     const quadrants = [0, 0.25, 0.5, 0.75, 1.0];
-    
+
     for (const quadrant of quadrants) {
       if (quadrant > currentPosition) {
         const daysUntil = (quadrant - currentPosition) * earthOrbitalPeriod;
@@ -283,7 +292,7 @@ class JohnsonAI {
         return new Date(nextWindow).toISOString();
       }
     }
-    
+
     // If past all quadrants, next is at 0° of next orbit
     const daysUntil = (1.0 - currentPosition) * earthOrbitalPeriod;
     const nextWindow = Date.now() + daysUntil * msPerDay;
@@ -331,8 +340,10 @@ class JohnsonAI {
       legacy_tribute: {
         mathematician: 'Katherine Johnson (1918-2020)',
         contribution: 'Calculated trajectories for Apollo 11 moon landing',
-        historical_significance: 'Hidden Figure whose calculations made space exploration possible',
-        famous_quote: 'We will always have STEM with us. Some things will drop out of the public eye and will go away, but there will always be science, engineering, and technology.'
+        historical_significance:
+          'Hidden Figure whose calculations made space exploration possible',
+        famous_quote:
+          'We will always have STEM with us. Some things will drop out of the public eye and will go away, but there will always be science, engineering, and technology.'
       }
     };
   }
@@ -361,7 +372,8 @@ class JohnsonAI {
     };
 
     // Check 1: Trajectory coherence
-    const trajectoryCheck = this._validateTrajectoryCoherence(trajectoryParameters);
+    const trajectoryCheck =
+      this._validateTrajectoryCoherence(trajectoryParameters);
     validation.checks.push(trajectoryCheck);
 
     // Check 2: Emission schedule mathematical precision
@@ -375,18 +387,26 @@ class JohnsonAI {
     validation.checks.push(metadataCheck);
 
     // Check 4: NFT trajectory uniqueness (prevent collisions)
-    const uniquenessCheck = this._validateTrajectoryUniqueness(tokenId, trajectoryParameters);
+    const uniquenessCheck = this._validateTrajectoryUniqueness(
+      tokenId,
+      trajectoryParameters
+    );
     validation.checks.push(uniquenessCheck);
 
     // Calculate overall validation score
     validation.allChecksPass = validation.checks.every(c => c.passed);
-    validation.validationScore = (
-      validation.checks.filter(c => c.passed).length / validation.checks.length * 100
-    ).toFixed(2) + '%';
+    validation.validationScore =
+      (
+        (validation.checks.filter(c => c.passed).length /
+          validation.checks.length) *
+        100
+      ).toFixed(2) + '%';
     validation.approved = validation.allChecksPass;
     validation.johnsonWeight = 0.3; // 30% allocation
 
-    console.log(`✓ NFT Validation: ${validation.validationScore} score, ${validation.approved ? 'APPROVED' : 'REJECTED'}`);
+    console.log(
+      `✓ NFT Validation: ${validation.validationScore} score, ${validation.approved ? 'APPROVED' : 'REJECTED'}`
+    );
 
     return validation;
   }
@@ -403,7 +423,7 @@ class JohnsonAI {
       growthPattern = 'orbital'
     } = params;
 
-    const passed = 
+    const passed =
       targetAmount > startAmount &&
       timeframe > 0 &&
       ['orbital', 'linear', 'exponential'].includes(growthPattern);
@@ -436,9 +456,11 @@ class JohnsonAI {
 
     // Verify precision of emissions (Katherine Johnson standard: 15 decimal places)
     const precisionValid = schedule.every(point => {
-      return typeof point.amount === 'number' && 
-             !isNaN(point.amount) &&
-             point.amount >= 0;
+      return (
+        typeof point.amount === 'number' &&
+        !isNaN(point.amount) &&
+        point.amount >= 0
+      );
     });
 
     return {
@@ -457,9 +479,10 @@ class JohnsonAI {
    * @private
    */
   _validateMetadataAlignment(metadata) {
-    const hasRequiredFields = metadata && 
-                               typeof metadata === 'object' &&
-                               Object.keys(metadata).length > 0;
+    const hasRequiredFields =
+      metadata &&
+      typeof metadata === 'object' &&
+      Object.keys(metadata).length > 0;
 
     return {
       checkName: 'Metadata Alignment',
@@ -479,11 +502,11 @@ class JohnsonAI {
   _validateTrajectoryUniqueness(tokenId, params) {
     // In production, this would check against existing NFT trajectories
     // For now, we validate that the trajectory has sufficient differentiation
-    const hasUniqueParameters = 
+    const hasUniqueParameters =
       params &&
-      (params.startAmount !== undefined || 
-       params.targetAmount !== undefined ||
-       params.timeframe !== undefined);
+      (params.startAmount !== undefined ||
+        params.targetAmount !== undefined ||
+        params.timeframe !== undefined);
 
     return {
       checkName: 'Trajectory Uniqueness',
@@ -522,7 +545,7 @@ class JohnsonAI {
 
     // Find coordination points where Johnson trajectory intersects with Banneker cycles
     const coordinationPoints = [];
-    
+
     for (const bannekerCycle of bannekerSchedule) {
       const trajectoryPoint = trajectory.trajectory.find(tp => {
         const timeDiff = Math.abs(tp.timestamp - bannekerCycle.emissionTime);
@@ -551,7 +574,10 @@ class JohnsonAI {
         (sum, cp) => sum + cp.combinedAmount,
         0
       ),
-      coordinationEfficiency: (coordinationPoints.length / bannekerSchedule.length * 100).toFixed(2) + '%',
+      coordinationEfficiency:
+        ((coordinationPoints.length / bannekerSchedule.length) * 100).toFixed(
+          2
+        ) + '%',
       frequency: this.config.frequency,
       coordinatedBy: 'Johnson AI - Orbital Trajectory Kernel'
     };
@@ -576,7 +602,8 @@ class JohnsonAI {
         'NFT concept validation',
         'Orbital trajectory kernels for NFT workflows'
       ],
-      legacy: 'NASA mathematician who calculated trajectories for Apollo 11 and other missions with legendary precision',
+      legacy:
+        'NASA mathematician who calculated trajectories for Apollo 11 and other missions with legendary precision',
       stemImpact: 'Mathematical sovereignty and celestial navigation',
       awardsAndHonors: [
         'Presidential Medal of Freedom (2015)',

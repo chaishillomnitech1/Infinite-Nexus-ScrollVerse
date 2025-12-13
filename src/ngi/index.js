@@ -1,9 +1,9 @@
 /**
  * Tesla N-GI (Nexus Genesis Intelligence) - Main Module
- * 
+ *
  * Central orchestrator for Tesla N-GI multimodal routing architecture
  * Integrates GLM-4.6V, Jina-VLM, LiteRT, and Gemini adapters with intelligent routing
- * 
+ *
  * Frequency: 963Hz | Divine Intelligence | Unified Architecture
  */
 
@@ -38,7 +38,7 @@ class TeslaNGI {
   async initialize() {
     console.log('🌟 Tesla N-GI System Initialization at 963Hz...');
     console.log('═══════════════════════════════════════════════');
-    
+
     // Initialize router
     this.router = new TeslaNGIRouter({
       frequency: 963,
@@ -54,14 +54,14 @@ class TeslaNGI {
     this.registerAdapters();
 
     this.initialized = true;
-    
+
     console.log('═══════════════════════════════════════════════');
     console.log('✓ Tesla N-GI System fully initialized');
     console.log(`  - Frequency: ${this.config.frequency}Hz`);
     console.log(`  - Adapters: ${Object.keys(this.adapters).length}`);
     console.log(`  - Router: Active`);
     console.log('═══════════════════════════════════════════════');
-    
+
     return true;
   }
 

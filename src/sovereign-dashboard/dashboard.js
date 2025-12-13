@@ -1,6 +1,6 @@
 /**
  * Sovereign Dashboard
- * 
+ *
  * Central control panel for ScrollVerse sovereignty management,
  * providing real-time monitoring and control of all sovereign systems.
  */
@@ -44,7 +44,9 @@ class SovereignDashboard {
 
   async deploy() {
     if (!this.initialized) {
-      throw new Error('Sovereign Dashboard must be initialized before deployment');
+      throw new Error(
+        'Sovereign Dashboard must be initialized before deployment'
+      );
     }
 
     // Mark all systems as pending initial connection
@@ -66,7 +68,9 @@ class SovereignDashboard {
    * Update system status
    */
   updateSystemStatus(systemName, status) {
-    const system = this.dashboardState.systemsOnline.find(s => s.name === systemName);
+    const system = this.dashboardState.systemsOnline.find(
+      s => s.name === systemName
+    );
     if (system) {
       system.status = status;
       system.lastPing = Date.now();
@@ -80,7 +84,7 @@ class SovereignDashboard {
   registerSovereign(sovereignData) {
     this.dashboardState.activeSovereigns++;
     this.dashboardState.totalSovereigntyPoints += sovereignData.points || 0;
-    
+
     return {
       registered: true,
       sovereignId: `SOV-${Date.now()}`,
@@ -124,7 +128,9 @@ class SovereignDashboard {
     return {
       activeSovereigns: this.dashboardState.activeSovereigns,
       totalSovereigntyPoints: this.dashboardState.totalSovereigntyPoints,
-      systemsOnline: this.dashboardState.systemsOnline.filter(s => s.status === 'online').length,
+      systemsOnline: this.dashboardState.systemsOnline.filter(
+        s => s.status === 'online'
+      ).length,
       totalSystems: this.dashboardState.systemsOnline.length,
       activeAlerts: this.dashboardState.alerts.filter(a => !a.resolved).length,
       frequency: this.config.frequency

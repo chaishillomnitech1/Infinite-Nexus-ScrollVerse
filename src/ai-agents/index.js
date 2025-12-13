@@ -1,6 +1,6 @@
 /**
  * AI Agents Module Index
- * 
+ *
  * Exports all AI agent evaluator components for CHAIS X MANUS ecosystem integration.
  */
 

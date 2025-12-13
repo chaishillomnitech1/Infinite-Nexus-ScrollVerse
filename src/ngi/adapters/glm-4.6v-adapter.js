@@ -1,10 +1,10 @@
 /**
  * GLM-4.6V Vision-Language Model Adapter
- * 
+ *
  * Production-grade adapter for GLM-4.6V (General Language Model 4 - 6B Vision)
  * Handles multimodal vision-language tasks with robust error handling and mock harness
  * for end-to-end validation.
- * 
+ *
  * Frequency: 963Hz | Vision Intelligence | Multimodal Processing
  */
 
@@ -12,7 +12,10 @@ class GLM46VAdapter {
   constructor(config = {}) {
     this.config = {
       frequency: 963,
-      apiEndpoint: config.apiEndpoint || process.env.GLM_API_ENDPOINT || 'https://api.glm.ai/v1',
+      apiEndpoint:
+        config.apiEndpoint ||
+        process.env.GLM_API_ENDPOINT ||
+        'https://api.glm.ai/v1',
       apiKey: config.apiKey || process.env.GLM_API_KEY || '',
       model: config.model || 'glm-4-6v',
       maxTokens: config.maxTokens || 2048,
@@ -33,7 +36,7 @@ class GLM46VAdapter {
 
     this.priority = config.priority || 2;
     this.initialized = false;
-    
+
     this.mockHarness = new GLM46VMockHarness();
   }
 
@@ -42,16 +45,16 @@ class GLM46VAdapter {
    */
   async initialize() {
     console.log('🎨 Initializing GLM-4.6V Adapter at 963Hz...');
-    
+
     // Validate configuration
     this.validateConfig();
-    
+
     // Initialize mock harness in mock mode
     if (this.config.mockMode) {
       await this.mockHarness.initialize();
       console.log('✓ GLM-4.6V Mock Harness initialized');
     }
-    
+
     this.initialized = true;
     console.log('✓ GLM-4.6V Adapter ready');
     return true;
@@ -78,7 +81,7 @@ class GLM46VAdapter {
    */
   async processReal(task) {
     const payload = this.buildAPIPayload(task);
-    
+
     try {
       // Simulate API call (actual implementation would use fetch/axios)
       const response = await this.callAPI(payload);
@@ -144,11 +147,13 @@ class GLM46VAdapter {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({
-          choices: [{
-            message: {
-              content: 'GLM-4.6V response'
+          choices: [
+            {
+              message: {
+                content: 'GLM-4.6V response'
+              }
             }
-          }]
+          ]
         });
       }, 50);
     });
@@ -202,7 +207,7 @@ class GLM46VAdapter {
 
 /**
  * GLM-4.6V Mock Harness
- * 
+ *
  * Robust mock harness for validating GLM-4.6V responses end-to-end
  * Provides synthetic test cases and response generation
  */
@@ -218,13 +223,13 @@ class GLM46VMockHarness {
    */
   async initialize() {
     console.log('🧪 Initializing GLM-4.6V Mock Harness...');
-    
+
     // Load synthetic test cases
     this.loadTestCases();
-    
+
     // Load response templates
     this.loadResponseTemplates();
-    
+
     this.initialized = true;
     return true;
   }
@@ -244,7 +249,10 @@ class GLM46VMockHarness {
     this.testCases.set('visual_qa', {
       type: 'multimodal',
       description: 'Answer questions about image content',
-      expectedCapabilities: ['visual_question_answering', 'multimodal_reasoning']
+      expectedCapabilities: [
+        'visual_question_answering',
+        'multimodal_reasoning'
+      ]
     });
 
     // Image captioning test case
@@ -262,14 +270,20 @@ class GLM46VMockHarness {
    */
   loadResponseTemplates() {
     this.responseTemplates.set('image_analysis', {
-      template: 'Vision analysis at 963Hz: The image contains {objects} in a {scene_type} setting. Key features include {features}.',
+      template:
+        'Vision analysis at 963Hz: The image contains {objects} in a {scene_type} setting. Key features include {features}.',
       objects: ['geometric patterns', 'sacred symbols', 'frequency waves'],
       scene_types: ['cosmic', 'ethereal', 'divine'],
-      features: ['golden ratio composition', 'harmonic balance', 'frequency alignment']
+      features: [
+        'golden ratio composition',
+        'harmonic balance',
+        'frequency alignment'
+      ]
     });
 
     this.responseTemplates.set('visual_qa', {
-      template: 'Based on multimodal analysis: {answer}. This interpretation aligns with {principle} at {frequency}Hz.',
+      template:
+        'Based on multimodal analysis: {answer}. This interpretation aligns with {principle} at {frequency}Hz.',
       answers: [
         'The visual elements represent sacred geometry',
         'The image depicts quantum resonance patterns',
@@ -280,7 +294,8 @@ class GLM46VMockHarness {
     });
 
     this.responseTemplates.set('default', {
-      template: 'GLM-4.6V multimodal processing complete. Analysis: {insight} | Frequency: 963Hz',
+      template:
+        'GLM-4.6V multimodal processing complete. Analysis: {insight} | Frequency: 963Hz',
       insights: [
         'Visual patterns detected with high coherence',
         'Multimodal understanding achieved',
@@ -317,12 +332,12 @@ class GLM46VMockHarness {
   async simulateLatency(task) {
     // Base latency: 30-80ms for GLM-4.6V
     const baseLatency = 30 + Math.random() * 50;
-    
+
     // Add extra latency for image processing
     const imageLatency = (task.imageCount || 0) * 15;
-    
+
     const totalLatency = baseLatency + imageLatency;
-    
+
     return new Promise(resolve => setTimeout(resolve, totalLatency));
   }
 
@@ -331,38 +346,50 @@ class GLM46VMockHarness {
    */
   generateMockResponse(task) {
     const taskType = this.inferTaskType(task);
-    const template = this.responseTemplates.get(taskType) || this.responseTemplates.get('default');
+    const template =
+      this.responseTemplates.get(taskType) ||
+      this.responseTemplates.get('default');
 
     let content = template.template;
 
     // Fill in template variables
     if (template.objects) {
-      const randomObject = template.objects[Math.floor(Math.random() * template.objects.length)];
+      const randomObject =
+        template.objects[Math.floor(Math.random() * template.objects.length)];
       content = content.replace('{objects}', randomObject);
     }
 
     if (template.scene_types) {
-      const randomScene = template.scene_types[Math.floor(Math.random() * template.scene_types.length)];
+      const randomScene =
+        template.scene_types[
+          Math.floor(Math.random() * template.scene_types.length)
+        ];
       content = content.replace('{scene_type}', randomScene);
     }
 
     if (template.features) {
-      const randomFeature = template.features[Math.floor(Math.random() * template.features.length)];
+      const randomFeature =
+        template.features[Math.floor(Math.random() * template.features.length)];
       content = content.replace('{features}', randomFeature);
     }
 
     if (template.answers) {
-      const randomAnswer = template.answers[Math.floor(Math.random() * template.answers.length)];
+      const randomAnswer =
+        template.answers[Math.floor(Math.random() * template.answers.length)];
       content = content.replace('{answer}', randomAnswer);
     }
 
     if (template.principles) {
-      const randomPrinciple = template.principles[Math.floor(Math.random() * template.principles.length)];
+      const randomPrinciple =
+        template.principles[
+          Math.floor(Math.random() * template.principles.length)
+        ];
       content = content.replace('{principle}', randomPrinciple);
     }
 
     if (template.insights) {
-      const randomInsight = template.insights[Math.floor(Math.random() * template.insights.length)];
+      const randomInsight =
+        template.insights[Math.floor(Math.random() * template.insights.length)];
       content = content.replace('{insight}', randomInsight);
     }
 
@@ -386,12 +413,12 @@ class GLM46VMockHarness {
     if (task.type === 'image_analysis') return 'image_analysis';
     if (task.type === 'visual_qa') return 'visual_qa';
     if (task.type === 'image_captioning') return 'image_captioning';
-    
+
     // Infer from task data
     if (task.data?.images && task.data?.prompt) {
       return 'visual_qa';
     }
-    
+
     if (task.data?.images) {
       return 'image_analysis';
     }

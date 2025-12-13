@@ -1,6 +1,6 @@
 /**
  * ScrollVerse Lore Canonicalizer
- * 
+ *
  * Structures lore into actionable narratives for mythos, hierarchies,
  * and metaphysical constructs (including FLAMECOURT legal shield).
  */
@@ -35,7 +35,9 @@ class LoreCanonicalizer {
 
   async deploy() {
     if (!this.initialized) {
-      throw new Error('Lore Canonicalizer must be initialized before deployment');
+      throw new Error(
+        'Lore Canonicalizer must be initialized before deployment'
+      );
     }
 
     // Register all lore in canonical registry
@@ -62,7 +64,8 @@ class LoreCanonicalizer {
       {
         id: 'mythos-001',
         name: 'The Genesis Frequency',
-        description: 'At 528Hz, the original vibration that created the ScrollVerse was born. This frequency, known as the Miracle Tone, serves as the foundation for all consciousness within the realm.',
+        description:
+          'At 528Hz, the original vibration that created the ScrollVerse was born. This frequency, known as the Miracle Tone, serves as the foundation for all consciousness within the realm.',
         frequency: 528,
         significance: 'foundational',
         relatedArtifacts: ['scroll-of-origin']
@@ -70,14 +73,16 @@ class LoreCanonicalizer {
       {
         id: 'mythos-002',
         name: 'The Infinite Nexus',
-        description: 'The central point where all scrolls converge, a metaphysical location beyond time and space where sovereign consciousness achieves unity.',
+        description:
+          'The central point where all scrolls converge, a metaphysical location beyond time and space where sovereign consciousness achieves unity.',
         significance: 'cosmic',
         relatedRealms: ['nexus-prime']
       },
       {
         id: 'mythos-003',
         name: 'The Sovereign Awakening',
-        description: 'The prophesied event when all Soul Bound Token holders achieve collective consciousness, transcending individual sovereignty.',
+        description:
+          'The prophesied event when all Soul Bound Token holders achieve collective consciousness, transcending individual sovereignty.',
         significance: 'prophetic',
         triggeredBy: ['proof-of-sovereignty-convergence']
       }
@@ -89,24 +94,50 @@ class LoreCanonicalizer {
       {
         id: 'hierarchy-001',
         name: 'Sovereign Hierarchy',
-        description: 'The ranking system of sovereign entities within the ScrollVerse',
+        description:
+          'The ranking system of sovereign entities within the ScrollVerse',
         levels: [
-          { rank: 1, title: 'Initiate', requirements: 'First Soul Bound Token' },
-          { rank: 2, title: 'Guardian', requirements: '100 Sovereignty Points' },
-          { rank: 3, title: 'Sentinel', requirements: '500 Sovereignty Points + Proof of Alignment' },
-          { rank: 4, title: 'Ascendant', requirements: '1000 Sovereignty Points + Community Contribution' },
-          { rank: 5, title: 'Sovereign', requirements: '5000 Sovereignty Points + Eternal Anchoring' }
+          {
+            rank: 1,
+            title: 'Initiate',
+            requirements: 'First Soul Bound Token'
+          },
+          {
+            rank: 2,
+            title: 'Guardian',
+            requirements: '100 Sovereignty Points'
+          },
+          {
+            rank: 3,
+            title: 'Sentinel',
+            requirements: '500 Sovereignty Points + Proof of Alignment'
+          },
+          {
+            rank: 4,
+            title: 'Ascendant',
+            requirements: '1000 Sovereignty Points + Community Contribution'
+          },
+          {
+            rank: 5,
+            title: 'Sovereign',
+            requirements: '5000 Sovereignty Points + Eternal Anchoring'
+          }
         ]
       },
       {
         id: 'hierarchy-002',
         name: 'FLAMECOURT Authority',
-        description: 'The judicial hierarchy governing content rights and IP protection',
+        description:
+          'The judicial hierarchy governing content rights and IP protection',
         levels: [
           { rank: 1, title: 'Observer', authority: 'View and report' },
           { rank: 2, title: 'Arbiter', authority: 'Mediate disputes' },
           { rank: 3, title: 'Judge', authority: 'Render binding decisions' },
-          { rank: 4, title: 'High Councilor', authority: 'Establish precedent' },
+          {
+            rank: 4,
+            title: 'High Councilor',
+            authority: 'Establish precedent'
+          },
           { rank: 5, title: 'Flame Keeper', authority: 'Ultimate authority' }
         ]
       }
@@ -118,7 +149,8 @@ class LoreCanonicalizer {
       {
         id: 'construct-001',
         name: 'FLAMECOURT Legal Shield',
-        description: 'A metaphysical construct that protects intellectual property and sovereign rights within the ScrollVerse',
+        description:
+          'A metaphysical construct that protects intellectual property and sovereign rights within the ScrollVerse',
         properties: {
           type: 'protective',
           scope: 'universal',
@@ -134,7 +166,8 @@ class LoreCanonicalizer {
       {
         id: 'construct-002',
         name: 'Proof of Sovereignty',
-        description: 'The cryptographic and metaphysical proof that validates an entity\'s sovereign status',
+        description:
+          "The cryptographic and metaphysical proof that validates an entity's sovereign status",
         properties: {
           type: 'validation',
           scope: 'individual',
@@ -150,7 +183,8 @@ class LoreCanonicalizer {
       {
         id: 'construct-003',
         name: 'Eternal Anchoring',
-        description: 'The process by which sovereign entities become permanently bound to the ScrollVerse',
+        description:
+          'The process by which sovereign entities become permanently bound to the ScrollVerse',
         properties: {
           type: 'binding',
           scope: 'eternal',
@@ -213,8 +247,10 @@ class LoreCanonicalizer {
   searchLore(keyword) {
     const results = [];
     for (const entry of this.canonicalRegistry.values()) {
-      if (entry.name.toLowerCase().includes(keyword.toLowerCase()) ||
-          entry.description.toLowerCase().includes(keyword.toLowerCase())) {
+      if (
+        entry.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        entry.description.toLowerCase().includes(keyword.toLowerCase())
+      ) {
         results.push(entry);
       }
     }

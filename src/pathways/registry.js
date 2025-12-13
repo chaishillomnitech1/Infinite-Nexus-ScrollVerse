@@ -82,16 +82,18 @@ class PathwayRegistry {
         synchronizations: []
       };
     }
-    
+
     const results = [];
-    
+
     // Pre-compute pathway relationships to avoid O(n²) filtering
     const pathwayMap = new Map();
     for (const pathway of activePathways) {
-      const others = activePathways.filter(p => p.pathwayNumber !== pathway.pathwayNumber);
+      const others = activePathways.filter(
+        p => p.pathwayNumber !== pathway.pathwayNumber
+      );
       pathwayMap.set(pathway.pathwayNumber, others);
     }
-    
+
     for (const pathway of activePathways) {
       const others = pathwayMap.get(pathway.pathwayNumber);
       const result = await pathway.synchronize(others);
@@ -100,7 +102,7 @@ class PathwayRegistry {
         ...result
       });
     }
-    
+
     return {
       success: true,
       totalPathways: activePathways.length,
@@ -129,9 +131,17 @@ class PathwayRegistry {
       initialized: pathways.filter(p => p.status === 'initialized').length,
       active: pathways.filter(p => p.status === 'active').length,
       deployed: pathways.filter(p => p.status === 'deployed').length,
-      totalActivations: pathways.reduce((sum, p) => sum + p.metrics.activations, 0),
-      averageResonance: pathways.reduce((sum, p) => sum + p.metrics.resonanceLevel, 0) / pathways.length,
-      totalEnergyFlow: pathways.reduce((sum, p) => sum + p.metrics.energyFlow, 0)
+      totalActivations: pathways.reduce(
+        (sum, p) => sum + p.metrics.activations,
+        0
+      ),
+      averageResonance:
+        pathways.reduce((sum, p) => sum + p.metrics.resonanceLevel, 0) /
+        pathways.length,
+      totalEnergyFlow: pathways.reduce(
+        (sum, p) => sum + p.metrics.energyFlow,
+        0
+      )
     };
   }
 

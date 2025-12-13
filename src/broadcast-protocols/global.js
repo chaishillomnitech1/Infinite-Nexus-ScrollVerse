@@ -1,6 +1,6 @@
 /**
  * Global Broadcast Protocols
- * 
+ *
  * Partner with cultural/sports influencers and execute
  * Vydia Drops synchronized to calendar milestones.
  */
@@ -34,7 +34,9 @@ class BroadcastProtocols {
 
   async deploy() {
     if (!this.initialized) {
-      throw new Error('Broadcast Protocols must be initialized before deployment');
+      throw new Error(
+        'Broadcast Protocols must be initialized before deployment'
+      );
     }
 
     this.deployed = true;
@@ -49,7 +51,7 @@ class BroadcastProtocols {
   generateCalendarMilestones() {
     const now = new Date();
     const year = now.getFullYear();
-    
+
     return [
       {
         id: 'genesis-launch',
@@ -112,7 +114,12 @@ class BroadcastProtocols {
       content: dropData.content,
       artists: dropData.artists || [],
       releaseDate: dropData.releaseDate,
-      platforms: dropData.platforms || ['spotify', 'apple_music', 'youtube', 'soundcloud'],
+      platforms: dropData.platforms || [
+        'spotify',
+        'apple_music',
+        'youtube',
+        'soundcloud'
+      ],
       milestoneId: dropData.milestoneId,
       status: 'scheduled',
       metrics: null
@@ -226,9 +233,14 @@ class BroadcastProtocols {
       totalBroadcasts: this.broadcasts.length,
       successfulBroadcasts,
       totalReach,
-      averageEngagement: this.broadcasts.length > 0 ? totalEngagement / this.broadcasts.length : 0,
-      activePartners: this.influencerPartners.filter(p => p.status === 'active').length,
-      scheduledDrops: this.vydiaDrop.filter(d => d.status === 'scheduled').length
+      averageEngagement:
+        this.broadcasts.length > 0
+          ? totalEngagement / this.broadcasts.length
+          : 0,
+      activePartners: this.influencerPartners.filter(p => p.status === 'active')
+        .length,
+      scheduledDrops: this.vydiaDrop.filter(d => d.status === 'scheduled')
+        .length
     };
   }
 
@@ -237,7 +249,7 @@ class BroadcastProtocols {
    */
   getUpcomingMilestones(days = 30) {
     const now = Date.now();
-    const futureDate = now + (days * 24 * 60 * 60 * 1000);
+    const futureDate = now + days * 24 * 60 * 60 * 1000;
 
     return this.calendarMilestones.filter(m => {
       const milestoneTime = m.date.getTime();

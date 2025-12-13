@@ -2,7 +2,7 @@
  * 🎓 Educational AR-Tales System - Main Orchestrator
  * Integrating genius pantheon AR tales with economic sovereignty
  * Operating at 528Hz Divine Frequency
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @version 1.0.0
  */
@@ -26,12 +26,14 @@ class EducationalSystem {
     };
 
     this.initialized = false;
-    this.arTalesEngine = new ARTalesEngine({ frequency: this.config.frequency });
-    this.lessonSystem = new ImmersiveLessonSystem({ 
+    this.arTalesEngine = new ARTalesEngine({
+      frequency: this.config.frequency
+    });
+    this.lessonSystem = new ImmersiveLessonSystem({
       frequency: this.config.frequency,
       enableAudio: this.config.enableAudio
     });
-    this.investmentGateway = new ChildInvestmentGateway({ 
+    this.investmentGateway = new ChildInvestmentGateway({
       frequency: this.config.frequency,
       baseAPY: this.config.baseAPY
     });
@@ -74,10 +76,10 @@ class EducationalSystem {
 
     // Launch AR tale
     const arTale = await this.arTalesEngine.launchARTale(moduleId, options);
-    
+
     // Get module details
     const module = this.arTalesEngine.getModule(moduleId);
-    
+
     // Create or retrieve investment account
     let accountId = options.accountId;
     if (!accountId) {
@@ -131,19 +133,20 @@ class EducationalSystem {
 
     // Map lesson to sovereignty exercise
     const exerciseId = this._mapLessonToExercise(lessonId);
-    
+
     // Complete sovereignty exercise if applicable
     let sovereigntyCompletion = null;
     if (exerciseId) {
-      sovereigntyCompletion = this.investmentGateway.completeSovereigntyExercise(
-        accountId,
-        exerciseId,
-        {
-          lessonResults,
-          sovereigntyScore: lessonCompletion.sovereigntyScore,
-          engagementScore: lessonCompletion.engagementScore
-        }
-      );
+      sovereigntyCompletion =
+        this.investmentGateway.completeSovereigntyExercise(
+          accountId,
+          exerciseId,
+          {
+            lessonResults,
+            sovereigntyScore: lessonCompletion.sovereigntyScore,
+            engagementScore: lessonCompletion.engagementScore
+          }
+        );
     }
 
     return {
@@ -164,19 +167,19 @@ class EducationalSystem {
   _mapLessonToExercise(lessonId) {
     const lessonToExerciseMap = {
       // Katherine Johnson's lessons
-      'orbital_mechanics': 'investment_decisions',
-      'celestial_navigation': 'wealth_building',
-      'space_geometry': 'wealth_building',
-      
+      orbital_mechanics: 'investment_decisions',
+      celestial_navigation: 'wealth_building',
+      space_geometry: 'wealth_building',
+
       // Benjamin Banneker's lessons
-      'astronomical_observations': 'budget_planning',
-      'mathematical_patterns': 'investment_decisions',
-      'almanac_creation': 'wealth_building',
-      
+      astronomical_observations: 'budget_planning',
+      mathematical_patterns: 'investment_decisions',
+      almanac_creation: 'wealth_building',
+
       // Paul Cuffee's lessons
-      'maritime_trade': 'investment_decisions',
-      'community_building': 'community_development',
-      'economic_sovereignty': 'wealth_building'
+      maritime_trade: 'investment_decisions',
+      community_building: 'community_development',
+      economic_sovereignty: 'wealth_building'
     };
 
     return lessonToExerciseMap[lessonId] || null;
@@ -189,7 +192,11 @@ class EducationalSystem {
    * @param {Object} params - Simulation parameters
    */
   async runEconomicSimulation(accountId, simulationType, params = {}) {
-    return await this.investmentGateway.runSimulation(accountId, simulationType, params);
+    return await this.investmentGateway.runSimulation(
+      accountId,
+      simulationType,
+      params
+    );
   }
 
   /**
@@ -198,8 +205,9 @@ class EducationalSystem {
    */
   getStudentProgress(childId) {
     // Find student's investment account
-    const accounts = Array.from(this.investmentGateway.investmentAccounts.values())
-      .filter(acc => acc.childId === childId);
+    const accounts = Array.from(
+      this.investmentGateway.investmentAccounts.values()
+    ).filter(acc => acc.childId === childId);
 
     const account = accounts[0]; // Assuming one account per child
 
@@ -212,7 +220,10 @@ class EducationalSystem {
     }
 
     // Get account projection
-    const projection = this.investmentGateway.getAccountProjection(account.id, 10);
+    const projection = this.investmentGateway.getAccountProjection(
+      account.id,
+      10
+    );
 
     return {
       childId,

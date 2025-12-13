@@ -1,9 +1,9 @@
 /**
  * AI Incentive Layer Evaluator
- * 
+ *
  * Tests transparent reward systems, AI-driven incentive mechanisms,
  * and ensures fair distribution of rewards based on contribution metrics.
- * 
+ *
  * @module AIIncentiveLayerEvaluator
  */
 
@@ -18,7 +18,7 @@ class AIIncentiveLayerEvaluator {
 
   async initialize() {
     console.log('  💰 Initializing AI Incentive Layer Evaluator...');
-    
+
     // Define incentive testing scenarios
     this.testScenarios = [
       {
@@ -31,19 +31,31 @@ class AIIncentiveLayerEvaluator {
         name: 'Fair Distribution Algorithm',
         type: 'fairness',
         priority: 'critical',
-        tests: ['contribution_weighting', 'anti_manipulation', 'proportional_rewards']
+        tests: [
+          'contribution_weighting',
+          'anti_manipulation',
+          'proportional_rewards'
+        ]
       },
       {
         name: 'AI-Driven Optimization',
         type: 'optimization',
         priority: 'high',
-        tests: ['adaptive_rewards', 'behavioral_incentives', 'performance_boosting']
+        tests: [
+          'adaptive_rewards',
+          'behavioral_incentives',
+          'performance_boosting'
+        ]
       },
       {
         name: 'Reward System Security',
         type: 'security',
         priority: 'high',
-        tests: ['double_spend_protection', 'fraud_detection', 'sybil_resistance']
+        tests: [
+          'double_spend_protection',
+          'fraud_detection',
+          'sybil_resistance'
+        ]
       }
     ];
 
@@ -150,24 +162,24 @@ class AIIncentiveLayerEvaluator {
         case 'calculation_visibility':
           testResult.passed = await this.testCalculationVisibility(agent);
           testResult.score = testResult.passed ? 1 : 0.5;
-          testResult.message = testResult.passed 
-            ? 'Reward calculations are transparent and visible' 
+          testResult.message = testResult.passed
+            ? 'Reward calculations are transparent and visible'
             : 'Reward calculation transparency issues';
           break;
 
         case 'audit_trail':
           testResult.passed = await this.testAuditTrail(agent);
           testResult.score = testResult.passed ? 1 : 0.3;
-          testResult.message = testResult.passed 
-            ? 'Complete audit trail maintained' 
+          testResult.message = testResult.passed
+            ? 'Complete audit trail maintained'
             : 'Audit trail incomplete';
           break;
 
         case 'real_time_tracking':
           testResult.passed = await this.testRealTimeTracking(agent);
           testResult.score = testResult.passed ? 1 : 0.6;
-          testResult.message = testResult.passed 
-            ? 'Real-time reward tracking active' 
+          testResult.message = testResult.passed
+            ? 'Real-time reward tracking active'
             : 'Real-time tracking delayed';
           break;
 
@@ -176,16 +188,16 @@ class AIIncentiveLayerEvaluator {
           testResult.passed = weightResult.fairness >= 0.8;
           testResult.score = weightResult.fairness;
           testResult.metrics = weightResult;
-          testResult.message = testResult.passed 
-            ? 'Contribution weighting is fair' 
+          testResult.message = testResult.passed
+            ? 'Contribution weighting is fair'
             : 'Contribution weighting imbalanced';
           break;
 
         case 'anti_manipulation':
           testResult.passed = await this.testAntiManipulation(agent);
           testResult.score = testResult.passed ? 1 : 0.2;
-          testResult.message = testResult.passed 
-            ? 'Anti-manipulation safeguards active' 
+          testResult.message = testResult.passed
+            ? 'Anti-manipulation safeguards active'
             : 'Vulnerable to manipulation';
           break;
 
@@ -194,16 +206,16 @@ class AIIncentiveLayerEvaluator {
           testResult.passed = proportionalResult.proportionality >= 0.85;
           testResult.score = proportionalResult.proportionality;
           testResult.metrics = proportionalResult;
-          testResult.message = testResult.passed 
-            ? 'Rewards are proportional to contribution' 
+          testResult.message = testResult.passed
+            ? 'Rewards are proportional to contribution'
             : 'Reward proportionality issues';
           break;
 
         case 'adaptive_rewards':
           testResult.passed = await this.testAdaptiveRewards(agent);
           testResult.score = testResult.passed ? 1 : 0.5;
-          testResult.message = testResult.passed 
-            ? 'Adaptive reward mechanisms working' 
+          testResult.message = testResult.passed
+            ? 'Adaptive reward mechanisms working'
             : 'Reward adaptation limited';
           break;
 
@@ -212,24 +224,24 @@ class AIIncentiveLayerEvaluator {
           testResult.passed = behavioralResult.effectiveness >= 0.75;
           testResult.score = behavioralResult.effectiveness;
           testResult.metrics = behavioralResult;
-          testResult.message = testResult.passed 
-            ? 'Behavioral incentives effective' 
+          testResult.message = testResult.passed
+            ? 'Behavioral incentives effective'
             : 'Behavioral incentives need improvement';
           break;
 
         case 'performance_boosting':
           testResult.passed = await this.testPerformanceBoosting(agent);
           testResult.score = testResult.passed ? 1 : 0.6;
-          testResult.message = testResult.passed 
-            ? 'Performance boosting incentives active' 
+          testResult.message = testResult.passed
+            ? 'Performance boosting incentives active'
             : 'Performance boosting limited';
           break;
 
         case 'double_spend_protection':
           testResult.passed = await this.testDoubleSpendProtection(agent);
           testResult.score = testResult.passed ? 1 : 0;
-          testResult.message = testResult.passed 
-            ? 'Double-spend protection verified' 
+          testResult.message = testResult.passed
+            ? 'Double-spend protection verified'
             : 'Double-spend vulnerability detected';
           break;
 
@@ -238,16 +250,16 @@ class AIIncentiveLayerEvaluator {
           testResult.passed = fraudResult.detectionRate >= 0.95;
           testResult.score = fraudResult.detectionRate;
           testResult.metrics = fraudResult;
-          testResult.message = testResult.passed 
-            ? 'Fraud detection highly effective' 
+          testResult.message = testResult.passed
+            ? 'Fraud detection highly effective'
             : 'Fraud detection needs improvement';
           break;
 
         case 'sybil_resistance':
           testResult.passed = await this.testSybilResistance(agent);
           testResult.score = testResult.passed ? 1 : 0.3;
-          testResult.message = testResult.passed 
-            ? 'Sybil attack resistance confirmed' 
+          testResult.message = testResult.passed
+            ? 'Sybil attack resistance confirmed'
             : 'Vulnerable to Sybil attacks';
           break;
 
@@ -282,10 +294,11 @@ class AIIncentiveLayerEvaluator {
   }
 
   async testContributionWeighting(agent) {
-    const weightingAlgorithm = agent.incentiveLayer?.weightingAlgorithm || 'proportional';
+    const weightingAlgorithm =
+      agent.incentiveLayer?.weightingAlgorithm || 'proportional';
     const fairness = 0.75 + Math.random() * 0.2;
     const giniCoefficient = 0.2 + Math.random() * 0.15; // Lower is more equal
-    
+
     return {
       algorithm: weightingAlgorithm,
       fairness,
@@ -295,14 +308,15 @@ class AIIncentiveLayerEvaluator {
   }
 
   async testAntiManipulation(agent) {
-    const hasAntiManipulation = agent.securityFeatures?.includes('anti_manipulation') !== false;
+    const hasAntiManipulation =
+      agent.securityFeatures?.includes('anti_manipulation') !== false;
     return hasAntiManipulation && Math.random() > 0.05;
   }
 
   async testProportionalRewards(agent) {
     const proportionality = 0.8 + Math.random() * 0.15;
     const variance = 0.05 + Math.random() * 0.1;
-    
+
     return {
       proportionality,
       variance,
@@ -318,7 +332,7 @@ class AIIncentiveLayerEvaluator {
   async testBehavioralIncentives(agent) {
     const effectiveness = 0.7 + Math.random() * 0.25;
     const engagementBoost = 1.2 + Math.random() * 0.3;
-    
+
     return {
       effectiveness,
       engagementBoost,
@@ -327,19 +341,21 @@ class AIIncentiveLayerEvaluator {
   }
 
   async testPerformanceBoosting(agent) {
-    const hasBoostingMechanism = agent.incentiveLayer?.performanceBoosting !== false;
+    const hasBoostingMechanism =
+      agent.incentiveLayer?.performanceBoosting !== false;
     return hasBoostingMechanism && Math.random() > 0.1;
   }
 
   async testDoubleSpendProtection(agent) {
-    const hasProtection = agent.securityFeatures?.includes('double_spend_protection') !== false;
+    const hasProtection =
+      agent.securityFeatures?.includes('double_spend_protection') !== false;
     return hasProtection && Math.random() > 0.02;
   }
 
   async testFraudDetection(agent) {
     const detectionRate = 0.9 + Math.random() * 0.08;
     const falsePositiveRate = Math.random() * 0.05;
-    
+
     return {
       detectionRate,
       falsePositiveRate,
@@ -348,7 +364,8 @@ class AIIncentiveLayerEvaluator {
   }
 
   async testSybilResistance(agent) {
-    const hasSybilResistance = agent.securityFeatures?.includes('sybil_resistance') !== false;
+    const hasSybilResistance =
+      agent.securityFeatures?.includes('sybil_resistance') !== false;
     return hasSybilResistance && Math.random() > 0.08;
   }
 
@@ -360,20 +377,26 @@ class AIIncentiveLayerEvaluator {
 
     switch (scenarioType) {
       case 'transparency':
-        metrics.overallTransparency = tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
+        metrics.overallTransparency =
+          tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
         break;
 
       case 'fairness':
-        const fairnessScores = tests.map(t => t.metrics?.fairness || t.score).filter(s => s);
-        metrics.averageFairness = fairnessScores.reduce((sum, s) => sum + s, 0) / fairnessScores.length;
+        const fairnessScores = tests
+          .map(t => t.metrics?.fairness || t.score)
+          .filter(s => s);
+        metrics.averageFairness =
+          fairnessScores.reduce((sum, s) => sum + s, 0) / fairnessScores.length;
         break;
 
       case 'optimization':
-        metrics.optimizationEfficiency = tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
+        metrics.optimizationEfficiency =
+          tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
         break;
 
       case 'security':
-        metrics.securityScore = tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
+        metrics.securityScore =
+          tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
         break;
     }
 

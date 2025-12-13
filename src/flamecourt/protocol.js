@@ -1,6 +1,6 @@
 /**
  * FLAMECOURT Protocol
- * 
+ *
  * Content tracking and licensing protocols aligned with FLAMECOURT.
  * Provides legal protection and IP enforcement within the ScrollVerse.
  */
@@ -47,7 +47,7 @@ class FlameCourt {
    */
   registerContent(owner, contentData) {
     const contentId = `FC-${Date.now()}-${Math.random().toString(36).substr(2, 8)}`;
-    
+
     const registration = {
       id: contentId,
       owner,
@@ -79,7 +79,7 @@ class FlameCourt {
     }
 
     const licenseId = `LIC-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
-    
+
     const license = {
       id: licenseId,
       contentId,
@@ -91,10 +91,13 @@ class FlameCourt {
         exclusivity: licenseTerms.exclusivity || false,
         territory: licenseTerms.territory || 'worldwide',
         usageRights: licenseTerms.usageRights || ['display', 'distribute'],
-        royaltyPercentage: licenseTerms.royaltyPercentage || this.protocolConfig.licensingFeePercentage
+        royaltyPercentage:
+          licenseTerms.royaltyPercentage ||
+          this.protocolConfig.licensingFeePercentage
       },
       createdAt: Date.now(),
-      expiresAt: Date.now() + ((licenseTerms.duration || 365) * 24 * 60 * 60 * 1000),
+      expiresAt:
+        Date.now() + (licenseTerms.duration || 365) * 24 * 60 * 60 * 1000,
       status: 'active'
     };
 
@@ -126,7 +129,7 @@ class FlameCourt {
    */
   fileDispute(disputeData) {
     const disputeId = `DISP-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
-    
+
     const dispute = {
       id: disputeId,
       contentId: disputeData.contentId,
@@ -136,7 +139,9 @@ class FlameCourt {
       description: disputeData.description,
       evidence: disputeData.evidence || [],
       filedAt: Date.now(),
-      resolutionDeadline: Date.now() + (this.protocolConfig.disputeResolutionPeriod * 24 * 60 * 60 * 1000),
+      resolutionDeadline:
+        Date.now() +
+        this.protocolConfig.disputeResolutionPeriod * 24 * 60 * 60 * 1000,
       status: 'pending',
       ruling: null
     };
@@ -163,7 +168,8 @@ class FlameCourt {
       reasoning: ruling.reasoning,
       remedies: ruling.remedies || [],
       renderedAt: Date.now(),
-      appealDeadline: Date.now() + (this.protocolConfig.appealPeriod * 24 * 60 * 60 * 1000)
+      appealDeadline:
+        Date.now() + this.protocolConfig.appealPeriod * 24 * 60 * 60 * 1000
     };
 
     dispute.status = 'ruled';
@@ -213,7 +219,9 @@ class FlameCourt {
       return [];
     }
 
-    return content.licenses.map(licId => this.licenses.get(licId)).filter(Boolean);
+    return content.licenses
+      .map(licId => this.licenses.get(licId))
+      .filter(Boolean);
   }
 
   getStatus() {
@@ -221,8 +229,12 @@ class FlameCourt {
       initialized: this.initialized,
       deployed: this.deployed,
       registeredContent: this.contentRegistry.size,
-      activeLicenses: Array.from(this.licenses.values()).filter(l => l.status === 'active').length,
-      pendingDisputes: Array.from(this.disputes.values()).filter(d => d.status === 'pending').length,
+      activeLicenses: Array.from(this.licenses.values()).filter(
+        l => l.status === 'active'
+      ).length,
+      pendingDisputes: Array.from(this.disputes.values()).filter(
+        d => d.status === 'pending'
+      ).length,
       totalRulings: this.rulings.length
     };
   }

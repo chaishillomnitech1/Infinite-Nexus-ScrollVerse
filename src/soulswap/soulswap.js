@@ -1,6 +1,6 @@
 /**
  * SOULSWAP - Evolutionary NFTs
- * 
+ *
  * Deploys SOULSWAP as Soul Bound Tokens tied to Proof of Sovereignty.
  * Manages evolutionary NFT mechanics where tokens evolve based on
  * holder actions and sovereignty proof.
@@ -54,7 +54,7 @@ class SoulSwap {
     }
 
     const tokenId = `SBT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     const sbt = {
       id: tokenId,
       owner,

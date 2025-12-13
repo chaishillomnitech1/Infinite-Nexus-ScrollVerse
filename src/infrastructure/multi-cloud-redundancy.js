@@ -62,7 +62,7 @@ class MultiCloudRedundancy {
    */
   async initialize() {
     console.log('☁️  Initializing Multi-Cloud Redundancy at 528Hz...');
-    
+
     // Initialize connections to all cloud providers
     for (const provider of this.config.providers) {
       await this.connectToProvider(provider);
@@ -70,7 +70,7 @@ class MultiCloudRedundancy {
 
     // Start health monitoring
     await this.startHealthMonitoring();
-    
+
     console.log('✓ Multi-cloud infrastructure activated');
     return true;
   }
@@ -85,11 +85,11 @@ class MultiCloudRedundancy {
     }
 
     console.log(`🔗 Connecting to ${provider.toUpperCase()}...`);
-    
+
     // Simulate connection establishment
     cloud.status = 'connected';
     cloud.connectionTime = Date.now();
-    
+
     this.activeConnections.set(provider, {
       provider,
       status: 'active',
@@ -105,9 +105,9 @@ class MultiCloudRedundancy {
    */
   async deploy() {
     console.log('🚀 Deploying resources across multi-cloud infrastructure...');
-    
+
     const deployments = [];
-    
+
     for (const provider of this.config.providers) {
       const deployment = await this.deployToCloud(provider);
       deployments.push(deployment);
@@ -126,7 +126,7 @@ class MultiCloudRedundancy {
    */
   async deployToCloud(provider) {
     const cloud = this.clouds[provider];
-    
+
     return {
       provider,
       regions: cloud.regions.length,
@@ -141,7 +141,7 @@ class MultiCloudRedundancy {
    */
   async startHealthMonitoring() {
     console.log('💓 Starting health monitoring...');
-    
+
     for (const provider of this.config.providers) {
       this.healthChecks.set(provider, {
         lastCheck: Date.now(),
@@ -162,10 +162,10 @@ class MultiCloudRedundancy {
 
     // Select optimal cloud based on health, latency, and load
     const optimalCloud = this.selectOptimalCloud();
-    
+
     // Route request to optimal cloud
     const response = await this.routeRequest(optimalCloud, request);
-    
+
     return response;
   }
 
@@ -178,11 +178,12 @@ class MultiCloudRedundancy {
 
     for (const [provider, health] of this.healthChecks.entries()) {
       const connection = this.activeConnections.get(provider);
-      
+
       // Calculate score based on latency, uptime, and load
-      const score = (health.uptime / 100) * 
-                    (1 / health.latency) * 
-                    (1 / (connection.requestCount + 1));
+      const score =
+        (health.uptime / 100) *
+        (1 / health.latency) *
+        (1 / (connection.requestCount + 1));
 
       if (score > bestScore) {
         bestScore = score;
@@ -218,9 +219,9 @@ class MultiCloudRedundancy {
    */
   async performFailover(failedProvider) {
     console.log(`⚠️  Performing failover from ${failedProvider}...`);
-    
+
     this.metrics.failovers++;
-    
+
     // Mark failed provider as unhealthy
     this.healthChecks.set(failedProvider, {
       ...this.healthChecks.get(failedProvider),
@@ -230,9 +231,9 @@ class MultiCloudRedundancy {
 
     // Select backup provider
     const backupProvider = this.selectOptimalCloud();
-    
+
     console.log(`✓ Failed over to ${backupProvider}`);
-    
+
     return {
       from: failedProvider,
       to: backupProvider,
@@ -246,7 +247,7 @@ class MultiCloudRedundancy {
    */
   async scaleResources(scaleFactor = 1.5) {
     console.log(`📈 Scaling resources by ${scaleFactor}x...`);
-    
+
     const scalingResults = [];
 
     for (const provider of this.config.providers) {
@@ -300,8 +301,9 @@ class MultiCloudRedundancy {
       status: 'active',
       providers: this.config.providers,
       activeConnections: this.activeConnections.size,
-      healthyProviders: Array.from(this.healthChecks.values())
-        .filter(h => h.status === 'healthy').length,
+      healthyProviders: Array.from(this.healthChecks.values()).filter(
+        h => h.status === 'healthy'
+      ).length,
       metrics: this.metrics,
       frequency: `${this.config.frequency}Hz`
     };

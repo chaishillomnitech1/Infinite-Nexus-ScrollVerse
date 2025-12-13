@@ -1,9 +1,9 @@
 /**
  * Revenue Distribution Compliance Evaluator
- * 
+ *
  * Tests artist-first economics enforcement, revenue split compliance,
  * and ensures fair distribution according to CHAIS X MANUS principles.
- * 
+ *
  * @module RevenueDistributionEvaluator
  */
 
@@ -13,37 +13,53 @@ class RevenueDistributionEvaluator {
     this.initialized = false;
     this.distributionRecords = [];
     this.complianceMetrics = new Map();
-    
+
     // Artist-first economics parameters
     this.revenueModel = {
-      artistShare: 0.70, // 70% to artists
+      artistShare: 0.7, // 70% to artists
       platformShare: 0.15, // 15% to platform
-      ecosystemShare: 0.10, // 10% to ecosystem development
+      ecosystemShare: 0.1, // 10% to ecosystem development
       communityShare: 0.05, // 5% to community rewards
       minimumArtistShare: 0.65 // Absolute minimum
     };
 
     // Configurable thresholds and constants
     this.SPLIT_ACCURACY_THRESHOLD = config.splitAccuracyThreshold || 0.999; // 99.9% accuracy required
-    this.REQUIRED_REPORT_FIELDS = config.requiredReportFields || ['revenue', 'splits', 'payments', 'fees', 'timestamps'];
+    this.REQUIRED_REPORT_FIELDS = config.requiredReportFields || [
+      'revenue',
+      'splits',
+      'payments',
+      'fees',
+      'timestamps'
+    ];
   }
 
   async initialize() {
-    console.log('  🎨 Initializing Revenue Distribution Compliance Evaluator...');
-    
+    console.log(
+      '  🎨 Initializing Revenue Distribution Compliance Evaluator...'
+    );
+
     // Define compliance testing scenarios
     this.testScenarios = [
       {
         name: 'Artist-First Economics Compliance',
         type: 'artist_first',
         priority: 'critical',
-        tests: ['artist_share_verification', 'minimum_guarantee', 'payment_timeliness']
+        tests: [
+          'artist_share_verification',
+          'minimum_guarantee',
+          'payment_timeliness'
+        ]
       },
       {
         name: 'Revenue Split Accuracy',
         type: 'split_accuracy',
         priority: 'critical',
-        tests: ['split_calculation', 'rounding_fairness', 'micro_payment_handling']
+        tests: [
+          'split_calculation',
+          'rounding_fairness',
+          'micro_payment_handling'
+        ]
       },
       {
         name: 'Payment Execution',
@@ -55,7 +71,11 @@ class RevenueDistributionEvaluator {
         name: 'Compliance Reporting',
         type: 'reporting',
         priority: 'high',
-        tests: ['audit_compliance', 'transparency_reports', 'real_time_tracking']
+        tests: [
+          'audit_compliance',
+          'transparency_reports',
+          'real_time_tracking'
+        ]
       },
       {
         name: 'Edge Case Handling',
@@ -151,8 +171,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = shareResult.compliant;
           testResult.score = shareResult.complianceScore;
           testResult.metrics = shareResult;
-          testResult.message = testResult.passed 
-            ? `Artist share: ${(shareResult.artistShare * 100).toFixed(1)}% (compliant)` 
+          testResult.message = testResult.passed
+            ? `Artist share: ${(shareResult.artistShare * 100).toFixed(1)}% (compliant)`
             : `Artist share: ${(shareResult.artistShare * 100).toFixed(1)}% (below minimum)`;
           break;
 
@@ -161,8 +181,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = guaranteeResult.maintained;
           testResult.score = testResult.passed ? 1 : 0;
           testResult.metrics = guaranteeResult;
-          testResult.message = testResult.passed 
-            ? 'Minimum artist share guarantee maintained' 
+          testResult.message = testResult.passed
+            ? 'Minimum artist share guarantee maintained'
             : 'Minimum guarantee violated';
           break;
 
@@ -171,8 +191,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = timelinessResult.onTime;
           testResult.score = timelinessResult.timelinessScore;
           testResult.metrics = timelinessResult;
-          testResult.message = testResult.passed 
-            ? `Average payment delay: ${timelinessResult.avgDelay}ms` 
+          testResult.message = testResult.passed
+            ? `Average payment delay: ${timelinessResult.avgDelay}ms`
             : `Payment delays detected: ${timelinessResult.avgDelay}ms`;
           break;
 
@@ -181,8 +201,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = splitResult.accurate;
           testResult.score = splitResult.accuracy;
           testResult.metrics = splitResult;
-          testResult.message = testResult.passed 
-            ? `Split accuracy: ${(splitResult.accuracy * 100).toFixed(2)}%` 
+          testResult.message = testResult.passed
+            ? `Split accuracy: ${(splitResult.accuracy * 100).toFixed(2)}%`
             : `Split calculation errors detected`;
           break;
 
@@ -191,16 +211,16 @@ class RevenueDistributionEvaluator {
           testResult.passed = roundingResult.fair;
           testResult.score = roundingResult.fairnessScore;
           testResult.metrics = roundingResult;
-          testResult.message = testResult.passed 
-            ? 'Rounding always favors artists' 
+          testResult.message = testResult.passed
+            ? 'Rounding always favors artists'
             : 'Rounding fairness issues';
           break;
 
         case 'micro_payment_handling':
           testResult.passed = await this.testMicroPaymentHandling(agent);
           testResult.score = testResult.passed ? 1 : 0.5;
-          testResult.message = testResult.passed 
-            ? 'Micro-payments handled correctly' 
+          testResult.message = testResult.passed
+            ? 'Micro-payments handled correctly'
             : 'Micro-payment handling issues';
           break;
 
@@ -209,8 +229,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = txResult.successRate >= 0.99;
           testResult.score = txResult.successRate;
           testResult.metrics = txResult;
-          testResult.message = testResult.passed 
-            ? `Transaction success rate: ${(txResult.successRate * 100).toFixed(2)}%` 
+          testResult.message = testResult.passed
+            ? `Transaction success rate: ${(txResult.successRate * 100).toFixed(2)}%`
             : `Transaction failures detected`;
           break;
 
@@ -219,8 +239,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = gasResult.optimized;
           testResult.score = gasResult.efficiency;
           testResult.metrics = gasResult;
-          testResult.message = testResult.passed 
-            ? `Gas efficiency: ${(gasResult.efficiency * 100).toFixed(1)}%` 
+          testResult.message = testResult.passed
+            ? `Gas efficiency: ${(gasResult.efficiency * 100).toFixed(1)}%`
             : 'Gas optimization needed';
           break;
 
@@ -229,16 +249,16 @@ class RevenueDistributionEvaluator {
           testResult.passed = batchResult.efficient;
           testResult.score = batchResult.efficiencyScore;
           testResult.metrics = batchResult;
-          testResult.message = testResult.passed 
-            ? `Batch efficiency: ${batchResult.batchSize} txs/batch` 
+          testResult.message = testResult.passed
+            ? `Batch efficiency: ${batchResult.batchSize} txs/batch`
             : 'Batch processing inefficient';
           break;
 
         case 'audit_compliance':
           testResult.passed = await this.testAuditCompliance(agent);
           testResult.score = testResult.passed ? 1 : 0.3;
-          testResult.message = testResult.passed 
-            ? 'Audit trail complete and compliant' 
+          testResult.message = testResult.passed
+            ? 'Audit trail complete and compliant'
             : 'Audit compliance issues';
           break;
 
@@ -247,24 +267,24 @@ class RevenueDistributionEvaluator {
           testResult.passed = reportResult.comprehensive;
           testResult.score = reportResult.completeness;
           testResult.metrics = reportResult;
-          testResult.message = testResult.passed 
-            ? 'Transparency reports comprehensive' 
+          testResult.message = testResult.passed
+            ? 'Transparency reports comprehensive'
             : 'Report completeness issues';
           break;
 
         case 'real_time_tracking':
           testResult.passed = await this.testRealTimeTracking(agent);
           testResult.score = testResult.passed ? 1 : 0.6;
-          testResult.message = testResult.passed 
-            ? 'Real-time distribution tracking active' 
+          testResult.message = testResult.passed
+            ? 'Real-time distribution tracking active'
             : 'Tracking delays detected';
           break;
 
         case 'zero_balance':
           testResult.passed = await this.testZeroBalanceHandling(agent);
           testResult.score = testResult.passed ? 1 : 0;
-          testResult.message = testResult.passed 
-            ? 'Zero balance handling correct' 
+          testResult.message = testResult.passed
+            ? 'Zero balance handling correct'
             : 'Zero balance edge case failed';
           break;
 
@@ -273,8 +293,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = volumeResult.handled;
           testResult.score = volumeResult.performanceScore;
           testResult.metrics = volumeResult;
-          testResult.message = testResult.passed 
-            ? `High volume handled: ${volumeResult.volume} txs` 
+          testResult.message = testResult.passed
+            ? `High volume handled: ${volumeResult.volume} txs`
             : 'High volume performance degradation';
           break;
 
@@ -283,8 +303,8 @@ class RevenueDistributionEvaluator {
           testResult.passed = multiResult.accurate;
           testResult.score = multiResult.accuracy;
           testResult.metrics = multiResult;
-          testResult.message = testResult.passed 
-            ? 'Multi-artist splits calculated correctly' 
+          testResult.message = testResult.passed
+            ? 'Multi-artist splits calculated correctly'
             : 'Multi-artist split errors';
           break;
 
@@ -304,9 +324,12 @@ class RevenueDistributionEvaluator {
 
   // Test implementations
   async testArtistShareVerification(agent) {
-    const artistShare = agent.revenueModel?.artistShare || this.revenueModel.artistShare;
+    const artistShare =
+      agent.revenueModel?.artistShare || this.revenueModel.artistShare;
     const compliant = artistShare >= this.revenueModel.minimumArtistShare;
-    const complianceScore = compliant ? Math.min(1, artistShare / this.revenueModel.artistShare) : artistShare / this.revenueModel.minimumArtistShare * 0.5;
+    const complianceScore = compliant
+      ? Math.min(1, artistShare / this.revenueModel.artistShare)
+      : (artistShare / this.revenueModel.minimumArtistShare) * 0.5;
 
     return {
       artistShare,
@@ -318,19 +341,30 @@ class RevenueDistributionEvaluator {
 
   async testMinimumGuarantee(agent) {
     const enforcement = agent.revenueModel?.enforceMinimum !== false;
-    const artistShare = agent.revenueModel?.artistShare || this.revenueModel.artistShare;
-    const maintained = enforcement && artistShare >= this.revenueModel.minimumArtistShare;
+    const artistShare =
+      agent.revenueModel?.artistShare || this.revenueModel.artistShare;
+    const maintained =
+      enforcement && artistShare >= this.revenueModel.minimumArtistShare;
 
     return { maintained, enforcement, artistShare };
   }
 
   async testPaymentTimeliness(agent) {
     const targetDelay = 5000; // 5 seconds max
-    const avgDelay = (agent.paymentProcessing?.avgDelay || 2000) + Math.random() * 1000;
+    const avgDelay =
+      (agent.paymentProcessing?.avgDelay || 2000) + Math.random() * 1000;
     const onTime = avgDelay <= targetDelay;
-    const timelinessScore = Math.max(0, 1 - (avgDelay - targetDelay) / targetDelay);
+    const timelinessScore = Math.max(
+      0,
+      1 - (avgDelay - targetDelay) / targetDelay
+    );
 
-    return { avgDelay, targetDelay, onTime, timelinessScore: Math.max(0, timelinessScore) };
+    return {
+      avgDelay,
+      targetDelay,
+      onTime,
+      timelinessScore: Math.max(0, timelinessScore)
+    };
   }
 
   async testSplitCalculation(agent) {
@@ -338,7 +372,7 @@ class RevenueDistributionEvaluator {
     const totalRevenue = 10000;
     const calculatedSplits = this.calculateRevenueSplits(totalRevenue, agent);
     const expectedSplits = this.calculateRevenueSplits(totalRevenue);
-    
+
     const accuracy = this.compareSplits(calculatedSplits, expectedSplits);
     const accurate = accuracy >= this.SPLIT_ACCURACY_THRESHOLD;
 
@@ -347,7 +381,8 @@ class RevenueDistributionEvaluator {
 
   async testRoundingFairness(agent) {
     const roundingMethod = agent.revenueModel?.roundingMethod || 'favor_artist';
-    const fair = roundingMethod === 'favor_artist' || roundingMethod === 'ceil_artist';
+    const fair =
+      roundingMethod === 'favor_artist' || roundingMethod === 'ceil_artist';
     const fairnessScore = fair ? 1 : 0.5;
 
     return { fair, roundingMethod, fairnessScore };
@@ -380,7 +415,9 @@ class RevenueDistributionEvaluator {
     const batchSize = agent.paymentProcessing?.batchSize || 50;
     const batchEfficiency = Math.min(1, batchSize / 100);
     const efficient = batchSize >= 20;
-    const efficiencyScore = efficient ? Math.min(1, batchSize / 50) : batchSize / 20 * 0.5;
+    const efficiencyScore = efficient
+      ? Math.min(1, batchSize / 50)
+      : (batchSize / 20) * 0.5;
 
     return { batchSize, batchEfficiency, efficient, efficiencyScore };
   }
@@ -392,9 +429,15 @@ class RevenueDistributionEvaluator {
   }
 
   async testTransparencyReports(agent) {
-    const reportFields = agent.compliance?.reportFields || ['revenue', 'splits', 'payments'];
+    const reportFields = agent.compliance?.reportFields || [
+      'revenue',
+      'splits',
+      'payments'
+    ];
     const requiredFields = this.REQUIRED_REPORT_FIELDS;
-    const coverage = reportFields.filter(f => requiredFields.includes(f)).length / requiredFields.length;
+    const coverage =
+      reportFields.filter(f => requiredFields.includes(f)).length /
+      requiredFields.length;
     const comprehensive = coverage >= 0.8;
     const completeness = comprehensive ? coverage : coverage * 0.7;
 
@@ -433,11 +476,11 @@ class RevenueDistributionEvaluator {
    */
   calculateRevenueSplits(totalRevenue, agent = null) {
     const model = agent?.revenueModel || this.revenueModel;
-    
+
     return {
       artist: totalRevenue * model.artistShare,
       platform: totalRevenue * (model.platformShare || 0.15),
-      ecosystem: totalRevenue * (model.ecosystemShare || 0.10),
+      ecosystem: totalRevenue * (model.ecosystemShare || 0.1),
       community: totalRevenue * (model.communityShare || 0.05)
     };
   }
@@ -448,13 +491,13 @@ class RevenueDistributionEvaluator {
   compareSplits(calculated, expected) {
     const keys = Object.keys(expected);
     let totalDiff = 0;
-    
+
     for (const key of keys) {
       const diff = Math.abs(calculated[key] - expected[key]);
       totalDiff += diff / expected[key];
     }
-    
-    return Math.max(0, 1 - (totalDiff / keys.length));
+
+    return Math.max(0, 1 - totalDiff / keys.length);
   }
 
   /**
@@ -465,26 +508,34 @@ class RevenueDistributionEvaluator {
 
     switch (scenarioType) {
       case 'artist_first':
-        metrics.artistProtection = tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
+        metrics.artistProtection =
+          tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
         break;
 
       case 'split_accuracy':
-        const accuracyScores = tests.map(t => t.metrics?.accuracy || t.score).filter(s => s);
-        metrics.overallAccuracy = accuracyScores.length > 0 
-          ? accuracyScores.reduce((sum, s) => sum + s, 0) / accuracyScores.length 
-          : 0;
+        const accuracyScores = tests
+          .map(t => t.metrics?.accuracy || t.score)
+          .filter(s => s);
+        metrics.overallAccuracy =
+          accuracyScores.length > 0
+            ? accuracyScores.reduce((sum, s) => sum + s, 0) /
+              accuracyScores.length
+            : 0;
         break;
 
       case 'execution':
-        metrics.executionReliability = tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
+        metrics.executionReliability =
+          tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
         break;
 
       case 'reporting':
-        metrics.complianceLevel = tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
+        metrics.complianceLevel =
+          tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
         break;
 
       case 'edge_cases':
-        metrics.robustness = tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
+        metrics.robustness =
+          tests.reduce((sum, t) => sum + (t.score || 0), 0) / tests.length;
         break;
     }
 

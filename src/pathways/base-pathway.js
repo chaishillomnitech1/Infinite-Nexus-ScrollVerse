@@ -1,7 +1,7 @@
 /**
  * Base Pathway - Foundation for Pathways #40-#70+
  * Sacred Geometry Integration Framework
- * 
+ *
  * Each pathway resonates at 528Hz and aligns with divine principles
  */
 
@@ -39,7 +39,9 @@ class BasePathway {
     if (this.status !== 'active') {
       throw new Error('Pathway must be initialized before deployment');
     }
-    console.log(`✨ Deploying ${this.name} with ${this.sacredGeometry} geometry...`);
+    console.log(
+      `✨ Deploying ${this.name} with ${this.sacredGeometry} geometry...`
+    );
     this.status = 'deployed';
     return true;
   }
@@ -53,7 +55,9 @@ class BasePathway {
     }
     this.metrics.activations++;
     this.metrics.energyFlow = this.calculateEnergyFlow();
-    console.log(`⚡ ${this.name} activated (${this.metrics.activations} times)`);
+    console.log(
+      `⚡ ${this.name} activated (${this.metrics.activations} times)`
+    );
     return {
       success: true,
       resonanceLevel: this.metrics.resonanceLevel,
@@ -74,7 +78,11 @@ class BasePathway {
    */
   calculateEnergyFlow() {
     const baseFlow = this.frequency / 528;
-    return baseFlow * this.metrics.resonanceLevel * (1 + this.metrics.activations * 0.1);
+    return (
+      baseFlow *
+      this.metrics.resonanceLevel *
+      (1 + this.metrics.activations * 0.1)
+    );
   }
 
   /**
@@ -100,10 +108,13 @@ class BasePathway {
     const syncEnergy = otherPathways.reduce((acc, pathway) => {
       return acc + pathway.metrics.energyFlow;
     }, 0);
-    
+
     this.metrics.energyFlow += syncEnergy * 0.1;
-    this.metrics.resonanceLevel = Math.min(2.0, this.metrics.resonanceLevel + 0.1);
-    
+    this.metrics.resonanceLevel = Math.min(
+      2.0,
+      this.metrics.resonanceLevel + 0.1
+    );
+
     return {
       synchronized: true,
       pathwaysSynced: otherPathways.length,

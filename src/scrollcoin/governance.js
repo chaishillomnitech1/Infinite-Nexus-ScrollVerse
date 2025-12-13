@@ -1,6 +1,6 @@
 /**
  * ScrollCoin Governance
- * 
+ *
  * Implements on-chain DAO mechanisms for ScrollVerse governance,
  * enabling decentralized decision-making and protocol management.
  */
@@ -41,7 +41,9 @@ class ScrollCoinGovernance {
 
   async deploy() {
     if (!this.initialized) {
-      throw new Error('ScrollCoin Governance must be initialized before deployment');
+      throw new Error(
+        'ScrollCoin Governance must be initialized before deployment'
+      );
     }
 
     this.governance.treasury = this.tokenMetrics.totalSupply * 0.15;
@@ -63,7 +65,7 @@ class ScrollCoinGovernance {
     }
 
     const proposalId = `PROP-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
-    
+
     const proposal = {
       id: proposalId,
       proposer,
@@ -73,7 +75,8 @@ class ScrollCoinGovernance {
       actions: proposalData.actions || [],
       createdAt: Date.now(),
       votingStart: Date.now(),
-      votingEnd: Date.now() + (this.governanceConfig.votingPeriod * 24 * 60 * 60 * 1000),
+      votingEnd:
+        Date.now() + this.governanceConfig.votingPeriod * 24 * 60 * 60 * 1000,
       executionTime: null,
       status: 'active',
       votes: {
@@ -147,9 +150,12 @@ class ScrollCoinGovernance {
     }
 
     // Check quorum
-    const totalVotes = proposal.votes.for + proposal.votes.against + proposal.votes.abstain;
-    const quorumNeeded = this.tokenMetrics.circulatingSupply * (this.governanceConfig.quorumPercentage / 100);
-    
+    const totalVotes =
+      proposal.votes.for + proposal.votes.against + proposal.votes.abstain;
+    const quorumNeeded =
+      this.tokenMetrics.circulatingSupply *
+      (this.governanceConfig.quorumPercentage / 100);
+
     if (totalVotes < quorumNeeded) {
       proposal.status = 'failed';
       return { status: 'failed', reason: 'Quorum not reached' };
@@ -159,7 +165,7 @@ class ScrollCoinGovernance {
     if (proposal.votes.for > proposal.votes.against) {
       proposal.status = 'passed';
       proposal.executionTime = Date.now();
-      
+
       // Execute proposal actions
       for (const action of proposal.actions) {
         await this.executeAction(action);

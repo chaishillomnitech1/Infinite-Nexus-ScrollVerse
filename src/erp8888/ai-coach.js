@@ -2,7 +2,7 @@
  * @title ERP8888 AI Virtual Coach
  * @description AI-driven financial mastery coach encoded into NFTs
  * Guides users through cosmic financial principles aligned with 528Hz
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @frequency 528Hz
  */
@@ -12,7 +12,7 @@ class ERP8888AICoach {
     this.frequency = config.frequency || 528;
     this.coachingLevel = config.level || 'Initiate';
     this.personalityTrait = config.personality || 'balanced';
-    
+
     // AI persona traits
     this.personas = {
       balanced: {
@@ -36,8 +36,9 @@ class ERP8888AICoach {
         wisdom: 'True wealth is sovereignty over your destiny'
       }
     };
-    
-    this.currentPersona = this.personas[this.personalityTrait] || this.personas.balanced;
+
+    this.currentPersona =
+      this.personas[this.personalityTrait] || this.personas.balanced;
     this.sessionHistory = [];
     this.userProgress = {
       sessionsCompleted: 0,
@@ -52,11 +53,11 @@ class ERP8888AICoach {
    */
   provideCoaching(userMetrics, context = 'general') {
     const { balance = 0, flow = 0, growth = 0 } = userMetrics;
-    
+
     // Determine weakest area
     let focusArea = 'balance';
     let lowestScore = balance;
-    
+
     if (flow < lowestScore) {
       focusArea = 'flow';
       lowestScore = flow;
@@ -65,7 +66,7 @@ class ERP8888AICoach {
       focusArea = 'growth';
       lowestScore = growth;
     }
-    
+
     // Generate coaching based on focus area
     const coaching = {
       message: this._generateCoachingMessage(focusArea, lowestScore),
@@ -77,13 +78,13 @@ class ERP8888AICoach {
       focusArea,
       urgencyLevel: this._calculateUrgency(lowestScore)
     };
-    
+
     this.sessionHistory.push({
       timestamp: Date.now(),
       coaching,
       userMetrics
     });
-    
+
     return coaching;
   }
 
@@ -108,11 +109,11 @@ class ERP8888AICoach {
         high: `Exponential growth achieved! You're riding the Fibonacci wave. This is the manifestation of universal expansion principles.`
       }
     };
-    
+
     let level = 'low';
     if (score >= 70) level = 'high';
     else if (score >= 40) level = 'medium';
-    
+
     return messages[area][level] || messages.balance.low;
   }
 
@@ -143,7 +144,7 @@ class ERP8888AICoach {
         'Visualize abundance while listening to 528Hz frequency'
       ]
     };
-    
+
     return steps[area] || steps.balance;
   }
 
@@ -152,11 +153,13 @@ class ERP8888AICoach {
    */
   _generateAffirmation(area) {
     const affirmations = {
-      balance: 'I am in perfect equilibrium with universal abundance. My resources flow in sacred proportion.',
+      balance:
+        'I am in perfect equilibrium with universal abundance. My resources flow in sacred proportion.',
       flow: 'Money flows to me effortlessly. I am a channel for cosmic prosperity.',
-      growth: 'My wealth expands exponentially. I grow in alignment with universal principles.'
+      growth:
+        'My wealth expands exponentially. I grow in alignment with universal principles.'
     };
-    
+
     return affirmations[area] || affirmations.balance;
   }
 
@@ -167,24 +170,27 @@ class ERP8888AICoach {
     const challenges = {
       balance: {
         title: 'Sacred Proportion Challenge',
-        description: 'For 30 days, maintain 65% expenses, 20% savings, 15% investments',
+        description:
+          'For 30 days, maintain 65% expenses, 20% savings, 15% investments',
         reward: 'Balance Mastery Badge + 100 alignment points',
         duration: '30 days'
       },
       flow: {
         title: 'Energy Circulation Quest',
-        description: 'Create 3 new income streams and make 5 conscious giving transactions',
+        description:
+          'Create 3 new income streams and make 5 conscious giving transactions',
         reward: 'Flow Master Badge + 150 alignment points',
         duration: '60 days'
       },
       growth: {
         title: 'Exponential Expansion Mission',
-        description: 'Achieve 10% portfolio growth through strategic investments',
+        description:
+          'Achieve 10% portfolio growth through strategic investments',
         reward: 'Growth Visionary Badge + 200 alignment points',
         duration: '90 days'
       }
     };
-    
+
     return challenges[area] || challenges.balance;
   }
 
@@ -204,10 +210,11 @@ class ERP8888AICoach {
   trackProgress(completedChallenge) {
     this.userProgress.challengesCompleted++;
     this.userProgress.masteryGained += completedChallenge.points || 0;
-    this.userProgress.alignmentLevel = Math.min(100, 
+    this.userProgress.alignmentLevel = Math.min(
+      100,
       this.userProgress.masteryGained / 10
     );
-    
+
     return {
       progress: this.userProgress,
       message: `Excellent work! You've gained ${completedChallenge.points} mastery points.`,
@@ -231,10 +238,10 @@ class ERP8888AICoach {
       'Sovereignty begins with financial independence.',
       'At 528Hz, all things transform and heal - including your finances.'
     ];
-    
+
     const today = new Date().getDate();
     const wisdomIndex = today % wisdoms.length;
-    
+
     return {
       wisdom: wisdoms[wisdomIndex],
       date: new Date().toISOString().split('T')[0],
@@ -250,19 +257,19 @@ class ERP8888AICoach {
     if (!Array.isArray(transactions) || transactions.length === 0) {
       return { patterns: [], insights: [] };
     }
-    
+
     // Identify spending patterns
     const categories = {};
     transactions.forEach(t => {
       const cat = t.category || 'Uncategorized';
       categories[cat] = (categories[cat] || 0) + Math.abs(t.amount || 0);
     });
-    
+
     // Find largest categories
     const sortedCategories = Object.entries(categories)
       .sort(([, a], [, b]) => b - a)
       .slice(0, 5);
-    
+
     // Generate insights
     const insights = [
       `Top spending category: ${sortedCategories[0]?.[0] || 'Unknown'}`,
@@ -270,9 +277,12 @@ class ERP8888AICoach {
       'Consider consolidating similar categories for better tracking',
       'Review your top 3 categories for optimization opportunities'
     ];
-    
+
     return {
-      patterns: sortedCategories.map(([cat, amount]) => ({ category: cat, amount })),
+      patterns: sortedCategories.map(([cat, amount]) => ({
+        category: cat,
+        amount
+      })),
       insights,
       recommendation: this._generatePatternRecommendation(sortedCategories),
       frequency: this.frequency
@@ -286,7 +296,7 @@ class ERP8888AICoach {
     if (categories.length === 0) {
       return 'Start tracking your spending by category for better insights.';
     }
-    
+
     const topCategory = categories[0][0];
     return `Focus on optimizing your "${topCategory}" spending - it's your largest expense category. Look for 10% reduction opportunities.`;
   }
@@ -301,10 +311,10 @@ class ERP8888AICoach {
       { points: 1000, title: 'Transcendent Master' },
       { points: 2000, title: 'Sovereign Adept' }
     ];
-    
+
     const currentPoints = this.userProgress.masteryGained;
     const nextMilestone = milestones.find(m => m.points > currentPoints);
-    
+
     return nextMilestone || { points: 5000, title: 'Cosmic Legend' };
   }
 
