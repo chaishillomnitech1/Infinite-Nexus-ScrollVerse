@@ -161,10 +161,15 @@ contract HEALToken is ERC20, Ownable {
     ) public onlyOwner {
         require(recipients.length == amounts.length, "Array length mismatch");
         
+        // Calculate hash once outside loop for gas efficiency
+        bytes32 communityHash = keccak256(bytes("community"));
+        bytes32 masteryHash = keccak256(bytes("mastery"));
+        bytes32 poolHash = keccak256(bytes(poolType));
+        
         for (uint256 i = 0; i < recipients.length; i++) {
-            if (keccak256(bytes(poolType)) == keccak256(bytes("community"))) {
+            if (poolHash == communityHash) {
                 rewardCommunity(recipients[i], amounts[i], "Batch reward");
-            } else if (keccak256(bytes(poolType)) == keccak256(bytes("mastery"))) {
+            } else if (poolHash == masteryHash) {
                 rewardMastery(recipients[i], amounts[i], 0);
             }
         }

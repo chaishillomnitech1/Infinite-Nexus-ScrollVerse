@@ -223,11 +223,7 @@ class ERP8888OmniFleetIntegration {
         id: 'origin-8888',
         title: 'The Origin of 8888',
         category: 'Sacred Numbers',
-        content: `In the beginning, there existed the sacred pattern of 8888. 
-                 On the cosmic date 08-28-1978, a convergence occurred. 
-                 Eight plus eight plus eight plus eight equals thirty-two. 
-                 Three plus two equals five - the number of divine balance. 
-                 This pattern governs all financial abundance in the ScrollVerse.`,
+        content: 'In the beginning, there existed the sacred pattern of 8888. On the cosmic date 08-28-1978, a convergence occurred. Eight plus eight plus eight plus eight equals thirty-two. Three plus two equals five - the number of divine balance. This pattern governs all financial abundance in the ScrollVerse.',
         frequency: 528,
         relatedQuests: ['tribute-pilgrimage'],
         unlockRequirement: 'Complete any quest'
@@ -236,10 +232,7 @@ class ERP8888OmniFleetIntegration {
         id: 'three-principles',
         title: 'The Three Sacred Principles',
         category: 'Core Teachings',
-        content: `Balance: The cosmic scales must remain in equilibrium. 
-                 Flow: Energy circulates, multiplies, and returns. 
-                 Growth: Expansion follows sacred geometric patterns. 
-                 Master these three, and sovereignty shall be yours.`,
+        content: 'Balance: The cosmic scales must remain in equilibrium. Flow: Energy circulates, multiplies, and returns. Growth: Expansion follows sacred geometric patterns. Master these three, and sovereignty shall be yours.',
         frequency: 528,
         relatedQuests: ['cosmic-balance-quest', 'flow-mastery-quest', 'growth-sovereignty-quest'],
         unlockRequirement: 'Start first quest'

@@ -200,11 +200,24 @@ class RevolutionizeYourFinancesHub {
       throw new Error(`Simulation ${simulationId} not found`);
     }
     
-    // Validate inputs
+    // Validate inputs exist
     const missingInputs = simulation.inputs.filter(inp => !(inp in inputs));
     if (missingInputs.length > 0) {
       throw new Error(`Missing inputs: ${missingInputs.join(', ')}`);
     }
+    
+    // Validate numeric inputs are valid
+    Object.entries(inputs).forEach(([key, value]) => {
+      if (typeof value === 'number') {
+        if (!isFinite(value) || isNaN(value)) {
+          throw new Error(`Invalid numeric value for ${key}`);
+        }
+        // Ensure income/amounts are positive for financial calculations
+        if (['income', 'principal', 'amount', 'assets'].includes(key) && value < 0) {
+          throw new Error(`${key} must be non-negative`);
+        }
+      }
+    });
     
     // Run appropriate simulation
     switch (simulationId) {
