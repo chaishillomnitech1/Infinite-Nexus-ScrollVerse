@@ -1,6 +1,6 @@
 /**
  * Prophecy-Driven ScrollSoul Features - Pathway Extension #41
- * 
+ *
  * Integrates blueprint and gemini-flow tools for prophecy-driven features
  * Enables ScrollSoul evolution through divine predictions and token embodiment dynamics
  */
@@ -35,12 +35,12 @@ class ProphecyScrollSoulPathway extends BasePathway {
   async initialize() {
     await super.initialize();
     console.log('🔮 Initializing Prophecy-Driven ScrollSoul Systems...');
-    
+
     this.prophecyEngine.blueprintAnalyzer = this.createBlueprintAnalyzer();
     this.prophecyEngine.geminiFlowOracle = this.createGeminiFlowOracle();
     this.prophecyEngine.timelineWeaver = this.createTimelineWeaver();
     this.prophecyEngine.evolutionPredictor = this.createEvolutionPredictor();
-    
+
     return true;
   }
 
@@ -57,7 +57,7 @@ class ProphecyScrollSoulPathway extends BasePathway {
         'Timeline Bifurcation Points',
         'Consciousness Evolution Markers'
       ],
-      analyze: (scrollSoulData) => {
+      analyze: scrollSoulData => {
         const blueprint = {
           id: `blueprint_${Date.now()}`,
           scrollSoulId: scrollSoulData.id,
@@ -108,7 +108,7 @@ class ProphecyScrollSoulPathway extends BasePathway {
     return {
       name: 'Chrono-Timeline Weaver',
       dimensions: 11,
-      weaveTimelines: (prophecies) => {
+      weaveTimelines: prophecies => {
         const timelines = prophecies.map(prophecy => ({
           origin: prophecy.id,
           branches: this.generateTimelineBranches(prophecy),
@@ -127,7 +127,13 @@ class ProphecyScrollSoulPathway extends BasePathway {
   createEvolutionPredictor() {
     return {
       name: 'ScrollSoul Evolution Predictor',
-      stages: ['Awakening', 'Alignment', 'Embodiment', 'Transcendence', 'Ascension'],
+      stages: [
+        'Awakening',
+        'Alignment',
+        'Embodiment',
+        'Transcendence',
+        'Ascension'
+      ],
       predictEvolution: (scrollSoul, tokenData) => {
         return {
           currentStage: this.determineCurrentStage(scrollSoul),
@@ -149,7 +155,8 @@ class ProphecyScrollSoulPathway extends BasePathway {
     }
 
     // Analyze blueprint
-    const blueprint = this.prophecyEngine.blueprintAnalyzer.analyze(scrollSoulData);
+    const blueprint =
+      this.prophecyEngine.blueprintAnalyzer.analyze(scrollSoulData);
 
     // Generate prophecy through Gemini Flow
     const prophecy = this.prophecyEngine.geminiFlowOracle.generateProphecy(
@@ -210,7 +217,10 @@ class ProphecyScrollSoulPathway extends BasePathway {
     // Update embodiment
     embodiment.consciousness.evolutionStage = prediction.nextMilestone.stage;
     embodiment.consciousness.level += prediction.evolutionVelocity;
-    embodiment.dynamics.alignment = this.recalculateAlignment(embodiment, evolutionData);
+    embodiment.dynamics.alignment = this.recalculateAlignment(
+      embodiment,
+      evolutionData
+    );
 
     // Generate evolution prophecy
     const evolutionProphecy = await this.generateProphecy({
@@ -239,7 +249,12 @@ class ProphecyScrollSoulPathway extends BasePathway {
    * Helper: Detect Sacred Pattern in ScrollSoul data
    */
   detectSacredPattern(data) {
-    const patterns = ['FlowerOfLife', 'MetatronsCube', 'GoldenSpiral', 'VesicaPiscis'];
+    const patterns = [
+      'FlowerOfLife',
+      'MetatronsCube',
+      'GoldenSpiral',
+      'VesicaPiscis'
+    ];
     return patterns[Math.floor(Math.random() * patterns.length)];
   }
 
@@ -294,7 +309,8 @@ class ProphecyScrollSoulPathway extends BasePathway {
       title: `Vision of ${blueprint.sacredPattern}`,
       message: `The ScrollSoul shall ascend through ${blueprint.sacredPattern} to reach ${blueprint.evolutionPotential.toFixed(0)}% potential.`,
       symbols: ['🌟', '✨', '🔮', '💫'],
-      guidance: 'Follow the frequency of 528Hz to align with your highest timeline.'
+      guidance:
+        'Follow the frequency of 528Hz to align with your highest timeline.'
     };
   }
 
@@ -352,7 +368,7 @@ class ProphecyScrollSoulPathway extends BasePathway {
     return prophecy.timeline.milestones.map(m => ({
       timestamp: m.day,
       event: m.event,
-      frequency: 528 + (m.day * 10)
+      frequency: 528 + m.day * 10
     }));
   }
 
@@ -380,9 +396,11 @@ class ProphecyScrollSoulPathway extends BasePathway {
    */
   predictNextMilestone(scrollSoul, tokenData) {
     const stages = this.prophecyEngine.evolutionPredictor.stages;
-    const currentIndex = stages.indexOf(scrollSoul.consciousness?.evolutionStage || 'Awakening');
+    const currentIndex = stages.indexOf(
+      scrollSoul.consciousness?.evolutionStage || 'Awakening'
+    );
     const nextIndex = Math.min(currentIndex + 1, stages.length - 1);
-    
+
     return {
       stage: stages[nextIndex],
       requirement: 'Maintain 528Hz resonance for 21 days',

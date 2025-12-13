@@ -1,9 +1,9 @@
 /**
  * CI/CD Execution Priorities Module
- * 
+ *
  * Defines autonomous post-fork-scale-validation, AI-triggered contract request assurance,
  * and TUT edge-layer balance support for the CHAIS X MANUS ecosystem.
- * 
+ *
  * @module CICDExecutionPriorities
  */
 
@@ -32,8 +32,10 @@ class CICDExecutionPriorities {
   }
 
   async initialize() {
-    console.log(`🔄 Initializing CI/CD Execution Priorities at ${this.config.frequency}Hz...`);
-    
+    console.log(
+      `🔄 Initializing CI/CD Execution Priorities at ${this.config.frequency}Hz...`
+    );
+
     this.initialized = true;
     console.log('✓ CI/CD Execution Priorities initialized');
     return true;
@@ -93,8 +95,9 @@ class CICDExecutionPriorities {
         this.executionMetrics.failedValidations++;
       }
 
-      console.log(`✓ Post-fork-scale validation ${validation.passed ? 'PASSED' : 'FAILED'} (Score: ${(validation.score * 100).toFixed(1)}%)`);
-
+      console.log(
+        `✓ Post-fork-scale validation ${validation.passed ? 'PASSED' : 'FAILED'} (Score: ${(validation.score * 100).toFixed(1)}%)`
+      );
     } catch (error) {
       validation.status = 'error';
       validation.error = error.message;
@@ -138,7 +141,6 @@ class CICDExecutionPriorities {
       const passedChecks = test.checks.filter(c => c.passed).length;
       test.passed = passedChecks === test.checks.length;
       test.message = `Revenue bus validation: ${passedChecks}/${test.checks.length} checks passed`;
-
     } catch (error) {
       test.passed = false;
       test.error = error.message;
@@ -179,7 +181,6 @@ class CICDExecutionPriorities {
       const passedChecks = test.checks.filter(c => c.passed).length;
       test.passed = passedChecks === test.checks.length;
       test.message = `System integrity: ${passedChecks}/${test.checks.length} checks passed`;
-
     } catch (error) {
       test.passed = false;
       test.error = error.message;
@@ -201,7 +202,8 @@ class CICDExecutionPriorities {
     try {
       const scaleFactor = context.scaleFactor || 1;
       const previousCapacity = context.previousCapacity || 100;
-      const currentCapacity = context.currentCapacity || previousCapacity * scaleFactor;
+      const currentCapacity =
+        context.currentCapacity || previousCapacity * scaleFactor;
 
       test.metrics = {
         scaleFactor,
@@ -212,7 +214,6 @@ class CICDExecutionPriorities {
 
       test.passed = test.metrics.efficiency >= 0.8;
       test.message = `Scaling efficiency: ${(test.metrics.efficiency * 100).toFixed(1)}%`;
-
     } catch (error) {
       test.passed = false;
       test.error = error.message;
@@ -247,7 +248,6 @@ class CICDExecutionPriorities {
       const passedChecks = test.checks.filter(c => c.passed).length;
       test.passed = passedChecks === test.checks.length;
       test.message = `Data consistency: ${passedChecks}/${test.checks.length} checks passed`;
-
     } catch (error) {
       test.passed = false;
       test.error = error.message;
@@ -261,9 +261,13 @@ class CICDExecutionPriorities {
    * Ensures contract requests are validated and executed properly
    */
   async processAITriggeredContractRequest(contractRequest) {
-    console.log(`🤖 Processing AI-triggered contract request: ${contractRequest.id || 'Unknown'}`);
+    console.log(
+      `🤖 Processing AI-triggered contract request: ${contractRequest.id || 'Unknown'}`
+    );
 
-    const requestId = contractRequest.id || `REQ-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
+    const requestId =
+      contractRequest.id ||
+      `REQ-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
     const request = {
       id: requestId,
       timestamp: Date.now(),
@@ -276,19 +280,23 @@ class CICDExecutionPriorities {
 
     try {
       // Validate contract request parameters
-      const paramValidation = await this.validateContractParameters(contractRequest);
+      const paramValidation =
+        await this.validateContractParameters(contractRequest);
       request.validations.push(paramValidation);
 
       // Check security requirements
-      const securityValidation = await this.validateContractSecurity(contractRequest);
+      const securityValidation =
+        await this.validateContractSecurity(contractRequest);
       request.validations.push(securityValidation);
 
       // Verify AI authorization
-      const authValidation = await this.validateAIAuthorization(contractRequest);
+      const authValidation =
+        await this.validateAIAuthorization(contractRequest);
       request.validations.push(authValidation);
 
       // Check TUT edge-layer balance
-      const balanceValidation = await this.validateEdgeLayerBalance(contractRequest);
+      const balanceValidation =
+        await this.validateEdgeLayerBalance(contractRequest);
       request.validations.push(balanceValidation);
 
       const allValid = request.validations.every(v => v.passed);
@@ -297,8 +305,9 @@ class CICDExecutionPriorities {
 
       this.executionMetrics.contractRequestsProcessed++;
 
-      console.log(`✓ Contract request ${request.approved ? 'APPROVED' : 'REJECTED'}`);
-
+      console.log(
+        `✓ Contract request ${request.approved ? 'APPROVED' : 'REJECTED'}`
+      );
     } catch (error) {
       request.status = 'error';
       request.error = error.message;
@@ -315,7 +324,9 @@ class CICDExecutionPriorities {
   async validateContractParameters(contractRequest) {
     return {
       name: 'Parameter Validation',
-      passed: contractRequest.parameters && Object.keys(contractRequest.parameters).length > 0,
+      passed:
+        contractRequest.parameters &&
+        Object.keys(contractRequest.parameters).length > 0,
       message: 'Contract parameters validated'
     };
   }
@@ -328,7 +339,9 @@ class CICDExecutionPriorities {
     return {
       name: 'Security Validation',
       passed: hasSecurityChecks,
-      message: hasSecurityChecks ? 'Security requirements met' : 'Security requirements not met'
+      message: hasSecurityChecks
+        ? 'Security requirements met'
+        : 'Security requirements not met'
     };
   }
 
@@ -340,7 +353,9 @@ class CICDExecutionPriorities {
     return {
       name: 'AI Authorization',
       passed: authorized,
-      message: authorized ? 'AI authorization verified' : 'AI authorization failed'
+      message: authorized
+        ? 'AI authorization verified'
+        : 'AI authorization failed'
     };
   }
 
@@ -349,7 +364,8 @@ class CICDExecutionPriorities {
    */
   async validateEdgeLayerBalance(contractRequest) {
     const requiredBalance = contractRequest.requiredBalance || 0;
-    const availableBalance = contractRequest.availableBalance || this.config.defaultAvailableBalance;
+    const availableBalance =
+      contractRequest.availableBalance || this.config.defaultAvailableBalance;
     const sufficient = availableBalance >= requiredBalance;
 
     return {
@@ -393,11 +409,13 @@ class CICDExecutionPriorities {
    * Monitor edge-layer balances
    */
   monitorEdgeLayerBalances() {
-    const balances = Array.from(this.edgeLayerBalances.entries()).map(([address, data]) => ({
-      address,
-      balance: data.balance,
-      lastUpdated: data.timestamp
-    }));
+    const balances = Array.from(this.edgeLayerBalances.entries()).map(
+      ([address, data]) => ({
+        address,
+        balance: data.balance,
+        lastUpdated: data.timestamp
+      })
+    );
 
     const totalBalance = balances.reduce((sum, b) => sum + b.balance, 0);
     const avgBalance = balances.length > 0 ? totalBalance / balances.length : 0;
@@ -431,11 +449,17 @@ class CICDExecutionPriorities {
   getMetrics() {
     return {
       ...this.executionMetrics,
-      validationSuccessRate: this.executionMetrics.totalValidations > 0
-        ? this.executionMetrics.passedValidations / this.executionMetrics.totalValidations
-        : 0,
-      activeValidations: this.validationQueue.filter(v => v.status === 'running').length,
-      pendingRequests: Array.from(this.contractRequests.values()).filter(r => r.status === 'processing').length,
+      validationSuccessRate:
+        this.executionMetrics.totalValidations > 0
+          ? this.executionMetrics.passedValidations /
+            this.executionMetrics.totalValidations
+          : 0,
+      activeValidations: this.validationQueue.filter(
+        v => v.status === 'running'
+      ).length,
+      pendingRequests: Array.from(this.contractRequests.values()).filter(
+        r => r.status === 'processing'
+      ).length,
       monitoredAddresses: this.edgeLayerBalances.size
     };
   }

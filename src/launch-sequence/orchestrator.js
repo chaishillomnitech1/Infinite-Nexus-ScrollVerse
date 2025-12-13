@@ -1,6 +1,6 @@
 /**
  * Launch Sequence Orchestrator
- * 
+ *
  * Manages the TECHANGEL launch sequence:
  * Teasers → Guardian whitelist → Simultaneous pilot & mint/drop
  * Full ScrollChain registration for assets and event access.
@@ -81,7 +81,8 @@ class LaunchSequence {
 
     for (const phase of this.phases) {
       phase.startDate = currentDate.getTime();
-      phase.endDate = currentDate.getTime() + (phase.duration * 24 * 60 * 60 * 1000);
+      phase.endDate =
+        currentDate.getTime() + phase.duration * 24 * 60 * 60 * 1000;
       currentDate = new Date(phase.endDate);
     }
 
@@ -212,8 +213,10 @@ class LaunchSequence {
    */
   getLaunchStatus() {
     const activePhase = this.phases.find(p => p.status === 'active');
-    const completedPhases = this.phases.filter(p => p.status === 'completed').length;
-    
+    const completedPhases = this.phases.filter(
+      p => p.status === 'completed'
+    ).length;
+
     return {
       activePhase: activePhase ? activePhase.name : null,
       completedPhases,

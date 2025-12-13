@@ -1,9 +1,9 @@
 /**
  * DSP Platform Evaluator
- * 
+ *
  * Tests Digital Service Platform load handling, scaling capabilities,
  * and real-time streaming performance under listener stress conditions.
- * 
+ *
  * @module DSPPlatformEvaluator
  */
 
@@ -18,7 +18,7 @@ class DSPPlatformEvaluator {
 
   async initialize() {
     console.log('  📡 Initializing DSP Platform Evaluator...');
-    
+
     // Define load testing scenarios
     this.testScenarios = [
       {
@@ -123,11 +123,16 @@ class DSPPlatformEvaluator {
         break;
 
       default:
-        result.tests = [{ name: 'Unknown', passed: false, message: 'Unknown scenario type' }];
+        result.tests = [
+          { name: 'Unknown', passed: false, message: 'Unknown scenario type' }
+        ];
     }
 
     // Calculate scenario score
-    const totalScore = result.tests.reduce((sum, t) => sum + (t.passed ? 1 : 0), 0);
+    const totalScore = result.tests.reduce(
+      (sum, t) => sum + (t.passed ? 1 : 0),
+      0
+    );
     result.score = totalScore / result.tests.length;
     result.passed = result.score >= 0.7;
 
@@ -139,7 +144,7 @@ class DSPPlatformEvaluator {
    */
   async runLoadTests(agent, scenario) {
     const tests = [];
-    
+
     for (const listenerCount of scenario.listeners) {
       const test = {
         name: `Load Test: ${listenerCount} Listeners`,
@@ -154,7 +159,7 @@ class DSPPlatformEvaluator {
         // Simulate load test
         const loadCapacity = agent.platformCapacity?.maxListeners || 50000;
         const baseLatency = agent.platformCapacity?.baseLatency || 50;
-        
+
         // Calculate performance under load
         const loadFactor = listenerCount / loadCapacity;
         test.latency = baseLatency * (1 + Math.log(1 + loadFactor));
@@ -162,11 +167,12 @@ class DSPPlatformEvaluator {
         test.errorRate = Math.max(0, (loadFactor - 0.8) * 0.1);
 
         // Test passes if latency is acceptable and error rate is low
-        test.passed = test.latency <= scenario.expectedLatency * 1.5 && test.errorRate < 0.05;
-        test.message = test.passed 
-          ? `Handled ${listenerCount} listeners successfully` 
+        test.passed =
+          test.latency <= scenario.expectedLatency * 1.5 &&
+          test.errorRate < 0.05;
+        test.message = test.passed
+          ? `Handled ${listenerCount} listeners successfully`
           : `Performance degradation at ${listenerCount} listeners`;
-
       } catch (error) {
         test.passed = false;
         test.message = `Load test failed: ${error.message}`;
@@ -206,11 +212,12 @@ class DSPPlatformEvaluator {
         test.qualityScore = streamingQuality * (1 - test.dropoutRate);
 
         // Test passes if dropout rate is below threshold
-        test.passed = test.dropoutRate <= scenario.dropoutThreshold && test.qualityScore >= 0.85;
-        test.message = test.passed 
-          ? `Streaming quality maintained at ${bitrate}kbps` 
+        test.passed =
+          test.dropoutRate <= scenario.dropoutThreshold &&
+          test.qualityScore >= 0.85;
+        test.message = test.passed
+          ? `Streaming quality maintained at ${bitrate}kbps`
           : `Streaming quality issues at ${bitrate}kbps`;
-
       } catch (error) {
         test.passed = false;
         test.message = `Streaming test failed: ${error.message}`;
@@ -245,15 +252,15 @@ class DSPPlatformEvaluator {
 
         // Calculate scaling metrics
         test.efficiency = scalingEfficiency * Math.pow(0.95, scalingFactor - 1);
-        test.resourceUsage = baseResources * scalingFactor * (1 / test.efficiency);
+        test.resourceUsage =
+          baseResources * scalingFactor * (1 / test.efficiency);
         test.scaleTime = scalingFactor * 1000 * (1 + Math.random() * 0.2); // ms
 
         // Test passes if efficiency meets target
         test.passed = test.efficiency >= scenario.targetEfficiency * 0.9;
-        test.message = test.passed 
-          ? `Scaled ${scalingFactor}x efficiently (${(test.efficiency * 100).toFixed(1)}%)` 
+        test.message = test.passed
+          ? `Scaled ${scalingFactor}x efficiently (${(test.efficiency * 100).toFixed(1)}%)`
           : `Scaling efficiency degradation at ${scalingFactor}x`;
-
       } catch (error) {
         test.passed = false;
         test.message = `Scaling test failed: ${error.message}`;
@@ -289,11 +296,12 @@ class DSPPlatformEvaluator {
       test.dataAccuracy = 0.95 + Math.random() * 0.05;
 
       // Test passes if latency is acceptable
-      test.passed = test.updateLatency <= scenario.updateFrequency * 1.3 && test.dataAccuracy >= 0.95;
-      test.message = test.passed 
-        ? 'Real-time telemetry working optimally' 
+      test.passed =
+        test.updateLatency <= scenario.updateFrequency * 1.3 &&
+        test.dataAccuracy >= 0.95;
+      test.message = test.passed
+        ? 'Real-time telemetry working optimally'
         : 'Telemetry latency issues detected';
-
     } catch (error) {
       test.passed = false;
       test.message = `Telemetry test failed: ${error.message}`;
@@ -307,9 +315,11 @@ class DSPPlatformEvaluator {
    * Calculate load metrics
    */
   calculateLoadMetrics(tests) {
-    const avgLatency = tests.reduce((sum, t) => sum + (t.latency || 0), 0) / tests.length;
+    const avgLatency =
+      tests.reduce((sum, t) => sum + (t.latency || 0), 0) / tests.length;
     const maxThroughput = Math.max(...tests.map(t => t.throughput || 0));
-    const avgErrorRate = tests.reduce((sum, t) => sum + (t.errorRate || 0), 0) / tests.length;
+    const avgErrorRate =
+      tests.reduce((sum, t) => sum + (t.errorRate || 0), 0) / tests.length;
 
     return { avgLatency, maxThroughput, avgErrorRate };
   }
@@ -318,9 +328,14 @@ class DSPPlatformEvaluator {
    * Calculate streaming metrics
    */
   calculateStreamingMetrics(tests) {
-    const avgDropoutRate = tests.reduce((sum, t) => sum + (t.dropoutRate || 0), 0) / tests.length;
-    const avgQualityScore = tests.reduce((sum, t) => sum + (t.qualityScore || 0), 0) / tests.length;
-    const totalBufferingEvents = tests.reduce((sum, t) => sum + (t.bufferingEvents || 0), 0);
+    const avgDropoutRate =
+      tests.reduce((sum, t) => sum + (t.dropoutRate || 0), 0) / tests.length;
+    const avgQualityScore =
+      tests.reduce((sum, t) => sum + (t.qualityScore || 0), 0) / tests.length;
+    const totalBufferingEvents = tests.reduce(
+      (sum, t) => sum + (t.bufferingEvents || 0),
+      0
+    );
 
     return { avgDropoutRate, avgQualityScore, totalBufferingEvents };
   }
@@ -329,9 +344,11 @@ class DSPPlatformEvaluator {
    * Calculate scaling metrics
    */
   calculateScalingMetrics(tests) {
-    const avgEfficiency = tests.reduce((sum, t) => sum + (t.efficiency || 0), 0) / tests.length;
+    const avgEfficiency =
+      tests.reduce((sum, t) => sum + (t.efficiency || 0), 0) / tests.length;
     const maxScaleFactor = Math.max(...tests.map(t => t.scalingFactor || 0));
-    const avgScaleTime = tests.reduce((sum, t) => sum + (t.scaleTime || 0), 0) / tests.length;
+    const avgScaleTime =
+      tests.reduce((sum, t) => sum + (t.scaleTime || 0), 0) / tests.length;
 
     return { avgEfficiency, maxScaleFactor, avgScaleTime };
   }
@@ -340,9 +357,14 @@ class DSPPlatformEvaluator {
    * Calculate telemetry metrics
    */
   calculateTelemetryMetrics(tests) {
-    const avgUpdateLatency = tests.reduce((sum, t) => sum + (t.updateLatency || 0), 0) / tests.length;
-    const totalMetricsCollected = tests.reduce((sum, t) => sum + (t.metricsCollected || 0), 0);
-    const avgDataAccuracy = tests.reduce((sum, t) => sum + (t.dataAccuracy || 0), 0) / tests.length;
+    const avgUpdateLatency =
+      tests.reduce((sum, t) => sum + (t.updateLatency || 0), 0) / tests.length;
+    const totalMetricsCollected = tests.reduce(
+      (sum, t) => sum + (t.metricsCollected || 0),
+      0
+    );
+    const avgDataAccuracy =
+      tests.reduce((sum, t) => sum + (t.dataAccuracy || 0), 0) / tests.length;
 
     return { avgUpdateLatency, totalMetricsCollected, avgDataAccuracy };
   }

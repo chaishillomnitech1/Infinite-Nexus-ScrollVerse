@@ -39,13 +39,13 @@ class AIIntegrationPathway extends BasePathway {
   async initialize() {
     await super.initialize();
     console.log('🤖 Initializing AI models for ScrollSoul prediction...');
-    
+
     // Initialize AI model architectures
     this.aiModels.scrollSoulPredictor = this.createPredictorModel();
     this.aiModels.contentGenerator = this.createGeneratorModel();
     this.aiModels.missionOptimizer = this.createOptimizerModel();
     this.aiModels.feedbackEngine = this.createFeedbackModel();
-    
+
     return true;
   }
 
@@ -116,11 +116,11 @@ class AIIntegrationPathway extends BasePathway {
     }
 
     console.log('📚 Training AI models with ScrollVerse data...');
-    
+
     // Simulate training process
     this.aiModels.scrollSoulPredictor.trained = true;
     this.aiModels.scrollSoulPredictor.accuracy = 0.87 + Math.random() * 0.1;
-    
+
     this.aiModels.contentGenerator.trained = true;
     this.aiModels.missionOptimizer.trained = true;
     this.aiModels.feedbackEngine.trained = true;
@@ -297,7 +297,10 @@ class AIIntegrationPathway extends BasePathway {
       },
       predictions: this.predictions.length,
       optimizations: this.optimizations.length,
-      trainingDataSize: Object.values(this.trainingData).reduce((sum, arr) => sum + arr.length, 0)
+      trainingDataSize: Object.values(this.trainingData).reduce(
+        (sum, arr) => sum + arr.length,
+        0
+      )
     };
   }
 }

@@ -56,9 +56,10 @@ class OmniversalQuantumSyncPathway extends BasePathway {
   async initialize() {
     await super.initialize();
     console.log('🌌 Initializing Omniversal-Quantum Sync at 963Hz...');
-    
+
     // Initialize quantum bridge
-    this.quantumBridge.entanglementNetwork = await this.createEntanglementNetwork();
+    this.quantumBridge.entanglementNetwork =
+      await this.createEntanglementNetwork();
     this.quantumBridge.quantumGates = await this.initializeQuantumGates();
 
     // Initialize omniversal grid
@@ -104,10 +105,38 @@ class OmniversalQuantumSyncPathway extends BasePathway {
    */
   async initializeQuantumGates() {
     const gates = [
-      { name: 'Hadamard', symbol: 'H', matrix: [[1, 1], [1, -1]] },
-      { name: 'Pauli-X', symbol: 'X', matrix: [[0, 1], [1, 0]] },
-      { name: 'Pauli-Y', symbol: 'Y', matrix: [[0, -1], [1, 0]] },
-      { name: 'Pauli-Z', symbol: 'Z', matrix: [[1, 0], [0, -1]] },
+      {
+        name: 'Hadamard',
+        symbol: 'H',
+        matrix: [
+          [1, 1],
+          [1, -1]
+        ]
+      },
+      {
+        name: 'Pauli-X',
+        symbol: 'X',
+        matrix: [
+          [0, 1],
+          [1, 0]
+        ]
+      },
+      {
+        name: 'Pauli-Y',
+        symbol: 'Y',
+        matrix: [
+          [0, -1],
+          [1, 0]
+        ]
+      },
+      {
+        name: 'Pauli-Z',
+        symbol: 'Z',
+        matrix: [
+          [1, 0],
+          [0, -1]
+        ]
+      },
       { name: 'CNOT', symbol: 'CX', type: 'controlled' },
       { name: 'Toffoli', symbol: 'CCX', type: 'multi-controlled' }
     ];
@@ -215,8 +244,10 @@ class OmniversalQuantumSyncPathway extends BasePathway {
    */
   createEntanglement() {
     const network = this.quantumBridge.entanglementNetwork;
-    const pairIndex = Math.floor(Math.random() * network.entanglementPairs.length);
-    
+    const pairIndex = Math.floor(
+      Math.random() * network.entanglementPairs.length
+    );
+
     return `entanglement_${network.entanglementPairs[pairIndex].id}`;
   }
 
@@ -238,7 +269,7 @@ class OmniversalQuantumSyncPathway extends BasePathway {
   async bridgeToQuantumLayer(event) {
     // Apply quantum gates
     const gateSequence = this.selectQuantumGates();
-    
+
     // Entangle with quantum network
     const entanglement = await this.entangleWithNetwork(event);
 
@@ -259,9 +290,10 @@ class OmniversalQuantumSyncPathway extends BasePathway {
     const sequence = [];
 
     for (let i = 0; i < count; i++) {
-      const gate = this.quantumBridge.quantumGates[
-        Math.floor(Math.random() * this.quantumBridge.quantumGates.length)
-      ];
+      const gate =
+        this.quantumBridge.quantumGates[
+          Math.floor(Math.random() * this.quantumBridge.quantumGates.length)
+        ];
       sequence.push(gate.symbol);
     }
 
@@ -333,13 +365,14 @@ class OmniversalQuantumSyncPathway extends BasePathway {
    */
   measureQuantumCoherence() {
     const network = this.quantumBridge.entanglementNetwork;
-    
+
     let totalCoherence = 0;
     for (const pair of network.entanglementPairs) {
       totalCoherence += pair.state === 'entangled' ? 1 : 0;
     }
 
-    this.quantumBridge.coherenceLevel = totalCoherence / network.entanglementPairs.length;
+    this.quantumBridge.coherenceLevel =
+      totalCoherence / network.entanglementPairs.length;
 
     return {
       coherenceLevel: this.quantumBridge.coherenceLevel,
@@ -370,7 +403,8 @@ class OmniversalQuantumSyncPathway extends BasePathway {
       ...this.scrollSoulSync,
       totalEvents: this.scrollSoulSync.syncedEvents.length,
       entangledSouls: this.scrollSoulSync.entangledSouls.size,
-      activeBridges: this.scrollSoulSync.resonanceBridges.filter(b => b.active).length,
+      activeBridges: this.scrollSoulSync.resonanceBridges.filter(b => b.active)
+        .length,
       frequency: `${this.config.frequency}Hz`
     };
   }

@@ -1,9 +1,9 @@
 /**
  * Gemini Tools Adapter
- * 
+ *
  * Production-grade adapter for Google Gemini models with tool orchestration
  * Supports multimodal understanding, function calling, and complex reasoning
- * 
+ *
  * Frequency: 963Hz | Divine Reasoning | Tool Orchestration
  */
 
@@ -11,7 +11,10 @@ class GeminiAdapter {
   constructor(config = {}) {
     this.config = {
       frequency: 963,
-      apiEndpoint: config.apiEndpoint || process.env.GEMINI_API_ENDPOINT || 'https://generativelanguage.googleapis.com/v1',
+      apiEndpoint:
+        config.apiEndpoint ||
+        process.env.GEMINI_API_ENDPOINT ||
+        'https://generativelanguage.googleapis.com/v1',
       apiKey: config.apiKey || process.env.GEMINI_API_KEY || '',
       model: config.model || 'gemini-1.5-pro',
       maxTokens: config.maxTokens || 8192,
@@ -34,7 +37,7 @@ class GeminiAdapter {
 
     this.priority = config.priority || 2;
     this.initialized = false;
-    
+
     this.tools = new Map();
     this.mockOrchestrator = new GeminiMockOrchestrator();
   }
@@ -44,17 +47,17 @@ class GeminiAdapter {
    */
   async initialize() {
     console.log('💎 Initializing Gemini Tools Adapter at 963Hz...');
-    
+
     this.validateConfig();
-    
+
     // Register default tools
     this.registerDefaultTools();
-    
+
     if (this.config.mockMode) {
       await this.mockOrchestrator.initialize();
       console.log('✓ Gemini Mock Orchestrator initialized');
     }
-    
+
     this.initialized = true;
     console.log('✓ Gemini Tools Adapter ready');
     return true;
@@ -71,7 +74,10 @@ class GeminiAdapter {
         type: 'object',
         properties: {
           data: { type: 'string', description: 'Data to analyze' },
-          targetFrequency: { type: 'number', description: 'Target frequency in Hz' }
+          targetFrequency: {
+            type: 'number',
+            description: 'Target frequency in Hz'
+          }
         },
         required: ['data']
       }
@@ -134,7 +140,7 @@ class GeminiAdapter {
    */
   async processReal(task) {
     const payload = this.buildAPIPayload(task);
-    
+
     try {
       const response = await this.callAPI(payload);
       return await this.parseResponse(response, task);
@@ -149,9 +155,11 @@ class GeminiAdapter {
   buildAPIPayload(task) {
     const payload = {
       model: this.config.model,
-      contents: [{
-        parts: this.formatContent(task)
-      }],
+      contents: [
+        {
+          parts: this.formatContent(task)
+        }
+      ],
       generationConfig: {
         maxOutputTokens: this.config.maxTokens,
         temperature: this.config.temperature
@@ -160,9 +168,11 @@ class GeminiAdapter {
 
     // Add tools if enabled and available
     if (this.config.enableTools && this.tools.size > 0) {
-      payload.tools = [{
-        functionDeclarations: this.getToolDeclarations()
-      }];
+      payload.tools = [
+        {
+          functionDeclarations: this.getToolDeclarations()
+        }
+      ];
     }
 
     return payload;
@@ -212,16 +222,20 @@ class GeminiAdapter {
    */
   async callAPI(payload) {
     // Placeholder for actual API implementation
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve({
-          candidates: [{
-            content: {
-              parts: [{
-                text: 'Gemini response with divine reasoning'
-              }]
+          candidates: [
+            {
+              content: {
+                parts: [
+                  {
+                    text: 'Gemini response with divine reasoning'
+                  }
+                ]
+              }
             }
-          }]
+          ]
         });
       }, 100);
     });
@@ -304,10 +318,10 @@ class GeminiMockOrchestrator {
 
   async initialize() {
     console.log('🧪 Initializing Gemini Mock Orchestrator...');
-    
+
     // Load mock function results
     this.loadMockFunctionResults();
-    
+
     this.initialized = true;
     return true;
   }
@@ -316,14 +330,14 @@ class GeminiMockOrchestrator {
    * Load mock function execution results
    */
   loadMockFunctionResults() {
-    this.functionResults.set('frequency_analysis', (args) => ({
+    this.functionResults.set('frequency_analysis', args => ({
       frequency: args.targetFrequency || 963,
       resonance: 0.85 + Math.random() * 0.15,
       harmonics: [528, 639, 741, 852, 963],
       alignment: 'divine'
     }));
 
-    this.functionResults.set('sacred_geometry', (args) => ({
+    this.functionResults.set('sacred_geometry', args => ({
       pattern: args.pattern,
       vertices: 12,
       edges: 30,
@@ -332,7 +346,7 @@ class GeminiMockOrchestrator {
       frequency: 963
     }));
 
-    this.functionResults.set('resonance_calculator', (args) => ({
+    this.functionResults.set('resonance_calculator', args => ({
       element1: args.element1,
       element2: args.element2,
       resonance: 0.7 + Math.random() * 0.3,
@@ -352,7 +366,7 @@ class GeminiMockOrchestrator {
 
     // Determine if function calling should be used
     const shouldUseFunctions = this.shouldUseFunctions(task);
-    
+
     let functionCalls = [];
     let content = '';
 
@@ -383,7 +397,10 @@ class GeminiMockOrchestrator {
     // Use functions for specific task types or when explicitly requested
     if (task.type === 'tool_orchestration') return true;
     if (task.params?.useTools) return true;
-    if (task.data?.prompt?.includes('calculate') || task.data?.prompt?.includes('analyze')) {
+    if (
+      task.data?.prompt?.includes('calculate') ||
+      task.data?.prompt?.includes('analyze')
+    ) {
       return Math.random() > 0.3; // 70% chance
     }
     return false;
@@ -395,13 +412,14 @@ class GeminiMockOrchestrator {
   generateFunctionCalls(task, tools) {
     const calls = [];
     const availableTools = Array.from(tools.keys());
-    
+
     // Select 1-2 relevant tools
     const numCalls = Math.random() > 0.7 ? 2 : 1;
-    
+
     for (let i = 0; i < numCalls && i < availableTools.length; i++) {
-      const toolName = availableTools[Math.floor(Math.random() * availableTools.length)];
-      
+      const toolName =
+        availableTools[Math.floor(Math.random() * availableTools.length)];
+
       calls.push({
         name: toolName,
         args: this.generateFunctionArgs(toolName, task)
@@ -421,19 +439,19 @@ class GeminiMockOrchestrator {
           data: task.data?.text || task.data?.prompt || 'sample data',
           targetFrequency: 963
         };
-      
+
       case 'sacred_geometry':
         return {
           pattern: 'FlowerOfLife',
           dimensions: 3
         };
-      
+
       case 'resonance_calculator':
         return {
           element1: 'divine_frequency',
           element2: 'cosmic_harmony'
         };
-      
+
       default:
         return {};
     }
@@ -445,7 +463,7 @@ class GeminiMockOrchestrator {
   generateTextResponse(task) {
     const responses = [
       'Through divine reasoning at 963Hz, the multimodal understanding reveals harmonic patterns aligned with cosmic principles.',
-      'Gemini\'s advanced reasoning capabilities process this request with sacred geometry integration at 963Hz.',
+      "Gemini's advanced reasoning capabilities process this request with sacred geometry integration at 963Hz.",
       'Complex multimodal analysis complete: The patterns suggest divine frequency alignment with universal consciousness.',
       'Long-context reasoning enabled: Processing reveals interconnected relationships across multiple dimensions at 963Hz.'
     ];

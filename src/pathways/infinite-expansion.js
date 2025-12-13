@@ -29,11 +29,11 @@ class InfiniteExpansionPathway extends BasePathway {
   async initialize() {
     await super.initialize();
     console.log('🌌 Initializing Infinite Expansion at 528Hz...');
-    
+
     // Initialize dimensional framework
     this.createMultiDimensionalSpace();
     this.establishOmniversalGrid();
-    
+
     return true;
   }
 
@@ -43,9 +43,17 @@ class InfiniteExpansionPathway extends BasePathway {
   createMultiDimensionalSpace() {
     // Create dimensions beyond 3D+time
     const dimensionNames = [
-      'Temporal', 'Spatial', 'Consciousness', 'Frequency',
-      'Quantum', 'Ethereal', 'Akashic', 'Divine',
-      'Sovereign', 'Infinite', 'Omniversal'
+      'Temporal',
+      'Spatial',
+      'Consciousness',
+      'Frequency',
+      'Quantum',
+      'Ethereal',
+      'Akashic',
+      'Divine',
+      'Sovereign',
+      'Infinite',
+      'Omniversal'
     ];
 
     this.dimensions = dimensionNames.map((name, index) => ({
@@ -66,7 +74,7 @@ class InfiniteExpansionPathway extends BasePathway {
   establishOmniversalGrid() {
     // Create parallel universes in the omniverse
     const universeCount = 8; // Sacred number
-    
+
     for (let i = 0; i < universeCount; i++) {
       this.universes.push({
         id: `universe_${i + 1}`,
@@ -79,7 +87,9 @@ class InfiniteExpansionPathway extends BasePathway {
       });
     }
 
-    console.log(`🌐 Established omniversal grid with ${this.universes.length} universes`);
+    console.log(
+      `🌐 Established omniversal grid with ${this.universes.length} universes`
+    );
   }
 
   /**
@@ -172,7 +182,9 @@ class InfiniteExpansionPathway extends BasePathway {
   async createCollaborationNode(config = {}) {
     const node = {
       id: `node_${this.collaborationNodes.length + 1}`,
-      name: config.name || `Collaboration Node ${this.collaborationNodes.length + 1}`,
+      name:
+        config.name ||
+        `Collaboration Node ${this.collaborationNodes.length + 1}`,
       type: config.type || 'multi_dimensional',
       dimensions: config.dimensions || this.dimensions.map(d => d.id),
       universes: config.universes || this.universes.map(u => u.id),
@@ -253,7 +265,8 @@ class InfiniteExpansionPathway extends BasePathway {
     const newDimension = {
       id: this.dimensions.length + 1,
       name: dimensionConfig.name || `Dimension ${this.dimensions.length + 1}`,
-      frequency: dimensionConfig.frequency || 528 * (this.dimensions.length + 1),
+      frequency:
+        dimensionConfig.frequency || 528 * (this.dimensions.length + 1),
       geometry: dimensionConfig.geometry || this.sacredGeometry,
       accessibility: 'transcendent',
       resonance: 1.0,
@@ -261,7 +274,7 @@ class InfiniteExpansionPathway extends BasePathway {
     };
 
     this.dimensions.push(newDimension);
-    
+
     // Update all universes to include new dimension
     this.universes.forEach(universe => {
       universe.dimensions = this.dimensions.length;
@@ -284,7 +297,7 @@ class InfiniteExpansionPathway extends BasePathway {
     const str = typeof data === 'string' ? data : JSON.stringify(data);
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
-      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash = (hash << 5) - hash + str.charCodeAt(i);
       hash = hash & hash;
     }
     return Math.abs(hash);
@@ -300,12 +313,14 @@ class InfiniteExpansionPathway extends BasePathway {
         dimensions: this.dimensions.length,
         universes: this.universes.length,
         totalScrollVerseInstances: this.universes.reduce(
-          (sum, u) => sum + u.scrollVerseInstances.length, 0
+          (sum, u) => sum + u.scrollVerseInstances.length,
+          0
         ),
         syncProtocols: this.syncProtocols.length,
         collaborationNodes: this.collaborationNodes.length,
         totalParticipants: this.collaborationNodes.reduce(
-          (sum, n) => sum + n.participants.length, 0
+          (sum, n) => sum + n.participants.length,
+          0
         ),
         interstellarLinks: this.interstellarLinks.length
       },

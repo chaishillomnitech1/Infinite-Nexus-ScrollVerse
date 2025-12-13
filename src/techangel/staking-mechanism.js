@@ -1,6 +1,6 @@
 /**
  * Staking Mechanism
- * 
+ *
  * Manages NFT and token staking within the ScrollVerse ecosystem,
  * providing rewards and governance participation.
  */
@@ -16,7 +16,7 @@ class StakingMechanism {
 
     this.stakingConfig = {
       minimumStakePeriod: 7, // days
-      earlyUnstakePenalty: 0.10, // 10%
+      earlyUnstakePenalty: 0.1, // 10%
       rewardDistributionFrequency: 'daily'
     };
   }
@@ -88,7 +88,7 @@ class StakingMechanism {
       staker,
       amount,
       stakedAt: Date.now(),
-      unlockDate: Date.now() + (pool.lockPeriod * 24 * 60 * 60 * 1000)
+      unlockDate: Date.now() + pool.lockPeriod * 24 * 60 * 60 * 1000
     };
 
     this.stakes.set(stakeId, stake);

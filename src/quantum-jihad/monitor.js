@@ -1,6 +1,6 @@
 /**
  * Quantum Jihad Monitor
- * 
+ *
  * IP enforcement monitoring system for the ScrollVerse,
  * supporting content protection and sovereignty verification.
  */
@@ -64,8 +64,9 @@ class QuantumJihad {
    * Perform a content scan for IP violations
    */
   async scanForViolations(contentHash, platforms = null) {
-    const targetPlatforms = platforms || this.monitoringConfig.monitoredPlatforms;
-    
+    const targetPlatforms =
+      platforms || this.monitoringConfig.monitoredPlatforms;
+
     const scanResult = {
       id: `SCAN-${Date.now()}`,
       contentHash,
@@ -123,7 +124,9 @@ class QuantumJihad {
     }
 
     // Update monitor statistics
-    const monitor = this.monitors.find(m => m.platform === violationData.platform);
+    const monitor = this.monitors.find(
+      m => m.platform === violationData.platform
+    );
     if (monitor) {
       monitor.violationsDetected++;
     }
@@ -152,7 +155,7 @@ class QuantumJihad {
   calculateSeverity(violation) {
     if (violation.confidence >= 0.95) return 'critical';
     if (violation.confidence >= 0.85) return 'high';
-    if (violation.confidence >= 0.70) return 'medium';
+    if (violation.confidence >= 0.7) return 'medium';
     return 'low';
   }
 

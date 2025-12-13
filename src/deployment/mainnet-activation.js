@@ -1,11 +1,11 @@
 /**
  * ScrollVerse NFT Mainnet Activation Module
- * 
+ *
  * Deploy ScrollVerse NFTs across approved mainnet architecture ensuring
  * legacy-compliant synchronization. Confirms network integrity and issues
  * full interlinked deployment for Angel reward escalations onboard
  * sovereign agent flows.
- * 
+ *
  * Frequency: 963Hz - Divine Unity & Network Integrity
  * @author Chais the Great (Al-Miftah)
  */
@@ -29,7 +29,7 @@ class MainnetActivation {
     this.initialized = false;
     this.bannekerAI = null;
     this.johnsonAI = null;
-    
+
     this.deploymentStatus = {
       network: null,
       nftsDeployed: 0,
@@ -81,8 +81,12 @@ class MainnetActivation {
     console.log(`  - Frequency: ${this.config.frequency}Hz`);
     console.log(`  - Network: ${this.deploymentStatus.network.name}`);
     console.log(`  - Chain ID: ${this.deploymentStatus.network.chainId}`);
-    console.log(`  - zkEVM: ${this.config.zkEVMEnabled ? 'Enabled' : 'Disabled'}`);
-    console.log(`  - Legacy Compliance: ${this.config.legacyCompliance ? 'Active' : 'Disabled'}`);
+    console.log(
+      `  - zkEVM: ${this.config.zkEVMEnabled ? 'Enabled' : 'Disabled'}`
+    );
+    console.log(
+      `  - Legacy Compliance: ${this.config.legacyCompliance ? 'Active' : 'Disabled'}`
+    );
     console.log('═══════════════════════════════════════════════════════════');
 
     return {
@@ -142,11 +146,13 @@ class MainnetActivation {
     };
 
     // Deploy Archangel Genesis NFTs
-    const archangelNFTs = await this._deployArchangelGenesisNFTs(deploymentConfig);
+    const archangelNFTs =
+      await this._deployArchangelGenesisNFTs(deploymentConfig);
     deployment.nfts.push(...archangelNFTs);
 
     // Deploy ScrollVerse concept NFTs
-    const scrollVerseNFTs = await this._deployScrollVerseConceptNFTs(deploymentConfig);
+    const scrollVerseNFTs =
+      await this._deployScrollVerseConceptNFTs(deploymentConfig);
     deployment.nfts.push(...scrollVerseNFTs);
 
     // Update deployment status
@@ -283,14 +289,18 @@ class MainnetActivation {
     complianceChecks.checks.push(metadataCheck);
 
     complianceChecks.allPassed = complianceChecks.checks.every(c => c.passed);
-    complianceChecks.complianceScore = (
-      complianceChecks.checks.filter(c => c.passed).length / 
-      complianceChecks.checks.length * 100
-    ).toFixed(2) + '%';
+    complianceChecks.complianceScore =
+      (
+        (complianceChecks.checks.filter(c => c.passed).length /
+          complianceChecks.checks.length) *
+        100
+      ).toFixed(2) + '%';
 
     this.deploymentStatus.legacyCompliance = complianceChecks.allPassed;
 
-    console.log(`✓ Legacy Compliance: ${complianceChecks.complianceScore} score`);
+    console.log(
+      `✓ Legacy Compliance: ${complianceChecks.complianceScore} score`
+    );
     return complianceChecks;
   }
 
@@ -326,10 +336,12 @@ class MainnetActivation {
     integrityChecks.checks.push(syncCheck);
 
     integrityChecks.allPassed = integrityChecks.checks.every(c => c.passed);
-    integrityChecks.integrityScore = (
-      integrityChecks.checks.filter(c => c.passed).length / 
-      integrityChecks.checks.length * 100
-    ).toFixed(2) + '%';
+    integrityChecks.integrityScore =
+      (
+        (integrityChecks.checks.filter(c => c.passed).length /
+          integrityChecks.checks.length) *
+        100
+      ).toFixed(2) + '%';
 
     this.deploymentStatus.integrityChecks.push(integrityChecks);
 
@@ -352,11 +364,41 @@ class MainnetActivation {
 
     // Define Angel Reward tiers
     const tiers = [
-      { tier: 1, name: 'Seraphim', baseReward: 100, multiplier: 1.0, frequency: 528 },
-      { tier: 2, name: 'Cherubim', baseReward: 250, multiplier: 1.25, frequency: 639 },
-      { tier: 3, name: 'Thrones', baseReward: 500, multiplier: 1.5, frequency: 741 },
-      { tier: 4, name: 'Dominions', baseReward: 1000, multiplier: 2.0, frequency: 852 },
-      { tier: 5, name: 'Virtues', baseReward: 2500, multiplier: 3.0, frequency: 963 }
+      {
+        tier: 1,
+        name: 'Seraphim',
+        baseReward: 100,
+        multiplier: 1.0,
+        frequency: 528
+      },
+      {
+        tier: 2,
+        name: 'Cherubim',
+        baseReward: 250,
+        multiplier: 1.25,
+        frequency: 639
+      },
+      {
+        tier: 3,
+        name: 'Thrones',
+        baseReward: 500,
+        multiplier: 1.5,
+        frequency: 741
+      },
+      {
+        tier: 4,
+        name: 'Dominions',
+        baseReward: 1000,
+        multiplier: 2.0,
+        frequency: 852
+      },
+      {
+        tier: 5,
+        name: 'Virtues',
+        baseReward: 2500,
+        multiplier: 3.0,
+        frequency: 963
+      }
     ];
 
     // Deploy each tier with Banneker-Johnson coordination
@@ -368,10 +410,13 @@ class MainnetActivation {
 
     // Integrate sovereign agent flows
     if (this.config.sovereignAgentFlows) {
-      angelRewardSystem.sovereignFlows = await this._integrateSovereignAgentFlows();
+      angelRewardSystem.sovereignFlows =
+        await this._integrateSovereignAgentFlows();
     }
 
-    console.log(`✓ Angel Reward Escalation System Deployed (${angelRewardSystem.tiers.length} tiers)`);
+    console.log(
+      `✓ Angel Reward Escalation System Deployed (${angelRewardSystem.tiers.length} tiers)`
+    );
     return angelRewardSystem;
   }
 
@@ -393,16 +438,19 @@ class MainnetActivation {
     fullDeployment.components.nfts = await this.deployScrollVerseNFTs();
 
     // 2. Ensure legacy compliance
-    fullDeployment.components.legacyCompliance = await this.ensureLegacyCompliance();
+    fullDeployment.components.legacyCompliance =
+      await this.ensureLegacyCompliance();
 
     // 3. Confirm network integrity
-    fullDeployment.components.networkIntegrity = await this.confirmNetworkIntegrity();
+    fullDeployment.components.networkIntegrity =
+      await this.confirmNetworkIntegrity();
 
     // 4. Deploy Angel Reward escalation
-    fullDeployment.components.angelRewards = await this.deployAngelRewardEscalation();
+    fullDeployment.components.angelRewards =
+      await this.deployAngelRewardEscalation();
 
     // Calculate overall deployment success
-    fullDeployment.allComponentsDeployed = 
+    fullDeployment.allComponentsDeployed =
       fullDeployment.components.nfts.nfts.length > 0 &&
       fullDeployment.components.legacyCompliance.allPassed &&
       fullDeployment.components.networkIntegrity.allPassed &&
@@ -420,10 +468,18 @@ class MainnetActivation {
     console.log('═══════════════════════════════════════════════════════════');
     console.log('✓ Full Interlinked Deployment Complete');
     console.log(`  - NFTs Deployed: ${fullDeployment.summary.nftsDeployed}`);
-    console.log(`  - Legacy Compliant: ${fullDeployment.summary.legacyCompliant}`);
-    console.log(`  - Network Integrity: ${fullDeployment.summary.networkIntegrity}`);
-    console.log(`  - Angel Reward Tiers: ${fullDeployment.summary.angelRewardTiers}`);
-    console.log(`  - Overall Success: ${fullDeployment.summary.overallSuccess ? 'PASSED' : 'FAILED'}`);
+    console.log(
+      `  - Legacy Compliant: ${fullDeployment.summary.legacyCompliant}`
+    );
+    console.log(
+      `  - Network Integrity: ${fullDeployment.summary.networkIntegrity}`
+    );
+    console.log(
+      `  - Angel Reward Tiers: ${fullDeployment.summary.angelRewardTiers}`
+    );
+    console.log(
+      `  - Overall Success: ${fullDeployment.summary.overallSuccess ? 'PASSED' : 'FAILED'}`
+    );
     console.log('═══════════════════════════════════════════════════════════');
 
     return fullDeployment;

@@ -3,12 +3,16 @@
  * Web-based interactive visualization for educational AR tales
  * Canvas/WebGL rendering for immersive experiences (Pygame-equivalent for web)
  * Operating at 528Hz Divine Frequency
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @version 1.0.0
  */
 
-const { SACRED_AUDIO_TONES, TIMING_528HZ, PHI_GOLDEN_RATIO } = require('../constants/sacred-constants');
+const {
+  SACRED_AUDIO_TONES,
+  TIMING_528HZ,
+  PHI_GOLDEN_RATIO
+} = require('../constants/sacred-constants');
 
 /**
  * Immersive Lesson System for interactive educational experiences
@@ -35,12 +39,12 @@ class ImmersiveLessonSystem {
   async initialize() {
     // Register visualization modules
     this._registerVisualizationModules();
-    
+
     // Setup interaction handlers
     this._setupInteractionHandlers();
-    
+
     this.initialized = true;
-    
+
     return {
       status: 'initialized',
       frequency: this.config.frequency,
@@ -138,7 +142,14 @@ class ImmersiveLessonSystem {
   _setupInteractionHandlers() {
     // Click and drag handler
     this.interactionHandlers.set('click_and_drag', {
-      events: ['mousedown', 'mousemove', 'mouseup', 'touchstart', 'touchmove', 'touchend'],
+      events: [
+        'mousedown',
+        'mousemove',
+        'mouseup',
+        'touchstart',
+        'touchmove',
+        'touchend'
+      ],
       handler: 'handleClickDrag'
     });
 
@@ -227,7 +238,9 @@ class ImmersiveLessonSystem {
       throw new Error(`Lesson "${lessonId}" not found`);
     }
 
-    const visualization = lesson.visualizations.find(v => v.elementId === elementId);
+    const visualization = lesson.visualizations.find(
+      v => v.elementId === elementId
+    );
     if (!visualization) {
       throw new Error(`Visualization "${elementId}" not found in lesson`);
     }
@@ -274,7 +287,10 @@ class ImmersiveLessonSystem {
     lesson.interactions += 1;
 
     // Award sovereignty points based on meaningful interactions
-    const sovereigntyPoints = this._calculateSovereigntyPoints(interactionType, interactionData);
+    const sovereigntyPoints = this._calculateSovereigntyPoints(
+      interactionType,
+      interactionData
+    );
     lesson.sovereigntyScore += sovereigntyPoints;
 
     return {
@@ -338,8 +354,13 @@ class ImmersiveLessonSystem {
     lesson.duration = lesson.completionTime - lesson.startTime;
 
     // Calculate final scores
-    const totalFrames = lesson.visualizations.reduce((sum, v) => sum + v.frameCount, 0);
-    const engagementScore = Math.floor((lesson.interactions / totalFrames) * 100);
+    const totalFrames = lesson.visualizations.reduce(
+      (sum, v) => sum + v.frameCount,
+      0
+    );
+    const engagementScore = Math.floor(
+      (lesson.interactions / totalFrames) * 100
+    );
 
     return {
       lessonId,
@@ -364,7 +385,10 @@ class ImmersiveLessonSystem {
     }
 
     const elapsedTime = Date.now() - lesson.startTime;
-    const totalFrames = lesson.visualizations.reduce((sum, v) => sum + v.frameCount, 0);
+    const totalFrames = lesson.visualizations.reduce(
+      (sum, v) => sum + v.frameCount,
+      0
+    );
 
     return {
       lessonId,

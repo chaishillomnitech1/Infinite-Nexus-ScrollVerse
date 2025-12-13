@@ -35,11 +35,11 @@ class QuantumBridgingPathway extends BasePathway {
   async initialize() {
     await super.initialize();
     console.log('⚛️  Initializing Quantum Bridge at 528Hz...');
-    
+
     // Initialize quantum register
     this.qubits = this.createQuantumRegister(8); // 8-qubit system
     this.createEntanglementNetwork();
-    
+
     return true;
   }
 
@@ -93,7 +93,7 @@ class QuantumBridgingPathway extends BasePathway {
       frequency: this.frequency,
       created: new Date().toISOString()
     };
-    
+
     this.circuits.push(circuit);
     return circuit;
   }
@@ -105,7 +105,12 @@ class QuantumBridgingPathway extends BasePathway {
     return [
       { gate: 'H', qubit: 0, description: 'Create superposition' },
       { gate: 'CNOT', control: 0, target: 1, description: 'Entangle qubits' },
-      { gate: 'RZ', qubit: 0, angle: Math.PI / 4, description: 'Phase rotation' },
+      {
+        gate: 'RZ',
+        qubit: 0,
+        angle: Math.PI / 4,
+        description: 'Phase rotation'
+      },
       { gate: 'H', qubit: 1, description: 'Hadamard transform' },
       { gate: 'MEASURE', qubit: 'all', description: 'Measure quantum state' }
     ];
@@ -121,7 +126,7 @@ class QuantumBridgingPathway extends BasePathway {
     }
 
     console.log(`⚡ Executing quantum circuit ${circuitId}...`);
-    
+
     const execution = {
       circuitId,
       startTime: new Date().toISOString(),
@@ -142,7 +147,7 @@ class QuantumBridgingPathway extends BasePathway {
     // Simulate quantum measurement results
     const results = {};
     const numStates = Math.pow(2, circuit.qubits);
-    
+
     // Generate probability distribution
     for (let i = 0; i < numStates; i++) {
       const state = i.toString(2).padStart(circuit.qubits, '0');
@@ -162,18 +167,32 @@ class QuantumBridgingPathway extends BasePathway {
    * Optimize frequency using quantum algorithms
    */
   async optimizeFrequency(targetFrequency = 528) {
-    console.log(`🎯 Optimizing frequency to ${targetFrequency}Hz using quantum algorithms...`);
-    
+    console.log(
+      `🎯 Optimizing frequency to ${targetFrequency}Hz using quantum algorithms...`
+    );
+
     // Create optimization circuit
     const circuit = this.createCircuit([
-      { gate: 'H', qubit: 'all', description: 'Superposition of all frequencies' },
-      { gate: 'ORACLE', target: targetFrequency, description: 'Mark target frequency' },
+      {
+        gate: 'H',
+        qubit: 'all',
+        description: 'Superposition of all frequencies'
+      },
+      {
+        gate: 'ORACLE',
+        target: targetFrequency,
+        description: 'Mark target frequency'
+      },
       { gate: 'GROVER', iterations: 3, description: 'Amplitude amplification' },
-      { gate: 'MEASURE', qubit: 'all', description: 'Collapse to optimal frequency' }
+      {
+        gate: 'MEASURE',
+        qubit: 'all',
+        description: 'Collapse to optimal frequency'
+      }
     ]);
 
     await this.executeCircuit(circuit.id);
-    
+
     const optimization = {
       targetFrequency,
       achievedFrequency: targetFrequency * (0.98 + Math.random() * 0.04),
@@ -191,17 +210,25 @@ class QuantumBridgingPathway extends BasePathway {
    */
   async analyzeData(data) {
     console.log('📊 Performing quantum data analytics...');
-    
+
     // Create quantum feature map
     const circuit = this.createCircuit([
-      { gate: 'FEATURE_MAP', data: data.length, description: 'Encode classical data' },
+      {
+        gate: 'FEATURE_MAP',
+        data: data.length,
+        description: 'Encode classical data'
+      },
       { gate: 'QFT', description: 'Quantum Fourier Transform' },
-      { gate: 'VARIATIONAL', layers: 3, description: 'Variational quantum circuit' },
+      {
+        gate: 'VARIATIONAL',
+        layers: 3,
+        description: 'Variational quantum circuit'
+      },
       { gate: 'MEASURE', qubit: 'all', description: 'Extract quantum features' }
     ]);
 
     const execution = await this.executeCircuit(circuit.id);
-    
+
     const analysis = {
       dataPoints: data.length || 1000,
       quantumFeatures: this.extractQuantumFeatures(execution.results),
@@ -260,7 +287,7 @@ class QuantumBridgingPathway extends BasePathway {
    */
   async teleportData(sourceQubit, targetQubit) {
     console.log('📡 Initiating quantum teleportation protocol...');
-    
+
     if (!this.qubits[sourceQubit] || !this.qubits[targetQubit]) {
       throw new Error('Invalid qubit indices');
     }

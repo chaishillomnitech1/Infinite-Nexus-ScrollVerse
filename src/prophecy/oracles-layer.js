@@ -35,13 +35,13 @@ class ProphecyOraclesLayer {
    */
   async initialize() {
     console.log('🔮 Initializing Prophecy Oracles Layer at 963Hz...');
-    
+
     // Initialize oracle network
     await this.initializeOracleNetwork();
-    
+
     // Initialize consensus engine
     this.consensusEngine = this.createConsensusEngine();
-    
+
     console.log('✓ Oracle network activated');
     return true;
   }
@@ -51,7 +51,7 @@ class ProphecyOraclesLayer {
    */
   async initializeOracleNetwork() {
     console.log(`🌐 Creating ${this.config.oracleNodes} oracle nodes...`);
-    
+
     for (let i = 1; i <= this.config.oracleNodes; i++) {
       const oracle = await this.createOracle(i);
       this.oracles.set(oracle.id, oracle);
@@ -89,7 +89,7 @@ class ProphecyOraclesLayer {
       frequency: this.config.frequency,
       threshold: this.config.consensusThreshold,
       algorithm: 'Proof of Prophecy',
-      reach: async (responses) => {
+      reach: async responses => {
         return await this.reachConsensus(responses);
       }
     };
@@ -100,7 +100,7 @@ class ProphecyOraclesLayer {
    */
   async deploy() {
     console.log('🚀 Deploying Prophecy Oracles Layer...');
-    
+
     // Activate all oracles
     for (const [id, oracle] of this.oracles.entries()) {
       oracle.status = 'deployed';
@@ -196,7 +196,7 @@ class ProphecyOraclesLayer {
       if (oracle.status === 'active' || oracle.status === 'deployed') {
         const response = await this.queryOracle(oracle, data);
         responses.push(response);
-        
+
         if (data.id.startsWith('mission_')) {
           oracle.missionsProcessed++;
         } else if (data.id.startsWith('query_')) {
@@ -250,7 +250,8 @@ class ProphecyOraclesLayer {
     }
 
     // Calculate average confidence
-    const avgConfidence = responses.reduce((sum, r) => sum + r.confidence, 0) / responses.length;
+    const avgConfidence =
+      responses.reduce((sum, r) => sum + r.confidence, 0) / responses.length;
 
     // Check if consensus threshold met
     const consensusReached = avgConfidence >= this.config.consensusThreshold;
@@ -277,17 +278,23 @@ class ProphecyOraclesLayer {
     // Find most common guidance
     const guidances = responses.map(r => r.result.guidance);
     const guidanceCount = {};
-    
+
     for (const guidance of guidances) {
       guidanceCount[guidance] = (guidanceCount[guidance] || 0) + 1;
     }
 
-    const mostCommon = Object.entries(guidanceCount)
-      .sort((a, b) => b[1] - a[1])[0][0];
+    const mostCommon = Object.entries(guidanceCount).sort(
+      (a, b) => b[1] - a[1]
+    )[0][0];
 
     // Average probability and dimensions
-    const avgProbability = responses.reduce((sum, r) => sum + r.result.probability, 0) / responses.length;
-    const avgDimensions = Math.round(responses.reduce((sum, r) => sum + r.result.dimensions, 0) / responses.length);
+    const avgProbability =
+      responses.reduce((sum, r) => sum + r.result.probability, 0) /
+      responses.length;
+    const avgDimensions = Math.round(
+      responses.reduce((sum, r) => sum + r.result.dimensions, 0) /
+        responses.length
+    );
 
     return {
       guidance: mostCommon,
@@ -308,16 +315,19 @@ class ProphecyOraclesLayer {
       ...record,
       blockNumber: this.blockchainRecords.length + 1,
       hash: this.generateHash(record),
-      previousHash: this.blockchainRecords.length > 0 
-        ? this.blockchainRecords[this.blockchainRecords.length - 1].hash 
-        : '0x0',
+      previousHash:
+        this.blockchainRecords.length > 0
+          ? this.blockchainRecords[this.blockchainRecords.length - 1].hash
+          : '0x0',
       timestamp: Date.now(),
       frequency: `${this.config.frequency}Hz`
     };
 
     this.blockchainRecords.push(blockchainRecord);
 
-    console.log(`📜 Written to blockchain: Block #${blockchainRecord.blockNumber}`);
+    console.log(
+      `📜 Written to blockchain: Block #${blockchainRecord.blockNumber}`
+    );
 
     return blockchainRecord;
   }
@@ -342,8 +352,9 @@ class ProphecyOraclesLayer {
    * Get all active oracles
    */
   getActiveOracles() {
-    return Array.from(this.oracles.values())
-      .filter(o => o.status === 'active' || o.status === 'deployed');
+    return Array.from(this.oracles.values()).filter(
+      o => o.status === 'active' || o.status === 'deployed'
+    );
   }
 
   /**
@@ -383,9 +394,10 @@ class ProphecyOraclesLayer {
       missions: this.missions.size,
       queries: this.queries.size,
       blockchainBlocks: this.blockchainRecords.length,
-      consensusRate: this.statistics.missionsProcessed > 0
-        ? `${((this.statistics.consensusReached / this.statistics.missionsProcessed) * 100).toFixed(1)}%`
-        : '0%',
+      consensusRate:
+        this.statistics.missionsProcessed > 0
+          ? `${((this.statistics.consensusReached / this.statistics.missionsProcessed) * 100).toFixed(1)}%`
+          : '0%',
       frequency: `${this.config.frequency}Hz`
     };
   }
@@ -403,9 +415,11 @@ class ProphecyOraclesLayer {
       },
       blockchain: {
         blocks: this.blockchainRecords.length,
-        latestBlock: this.blockchainRecords.length > 0 
-          ? this.blockchainRecords[this.blockchainRecords.length - 1].blockNumber 
-          : 0
+        latestBlock:
+          this.blockchainRecords.length > 0
+            ? this.blockchainRecords[this.blockchainRecords.length - 1]
+                .blockNumber
+            : 0
       },
       statistics: this.getStatistics(),
       frequency: `${this.config.frequency}Hz`

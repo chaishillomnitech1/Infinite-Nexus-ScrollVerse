@@ -2,7 +2,7 @@
  * @title Revolutionize Your Finances - Interactive Hub
  * @description Interactive platform for exploring ERP8888 principles
  * Simulations, challenges, and reward systems for financial mastery
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @frequency 528Hz
  */
@@ -14,7 +14,7 @@ class RevolutionizeYourFinancesHub {
     this.simulations = new Map();
     this.rewards = new Map();
     this.userProgress = new Map();
-    
+
     this._initializeChallenges();
     this._initializeSimulations();
     this._initializeRewards();
@@ -28,7 +28,8 @@ class RevolutionizeYourFinancesHub {
       {
         id: 'balance-master-30',
         title: '30-Day Balance Master',
-        description: 'Maintain sacred proportion (65-20-15) for 30 consecutive days',
+        description:
+          'Maintain sacred proportion (65-20-15) for 30 consecutive days',
         difficulty: 'Intermediate',
         duration: 30,
         rewards: {
@@ -38,7 +39,7 @@ class RevolutionizeYourFinancesHub {
         },
         requirements: {
           expenses: 0.65,
-          savings: 0.20,
+          savings: 0.2,
           investments: 0.15,
           tolerance: 0.05
         }
@@ -72,7 +73,7 @@ class RevolutionizeYourFinancesHub {
         },
         requirements: {
           growthRate: 0.05,
-          consistency: 0.80
+          consistency: 0.8
         }
       },
       {
@@ -92,7 +93,7 @@ class RevolutionizeYourFinancesHub {
         }
       }
     ];
-    
+
     challenges.forEach(c => this.challenges.set(c.id, c));
   }
 
@@ -104,9 +105,15 @@ class RevolutionizeYourFinancesHub {
       {
         id: 'balance-calculator',
         title: 'Sacred Balance Calculator',
-        description: 'Visualize optimal financial allocation using golden ratio',
+        description:
+          'Visualize optimal financial allocation using golden ratio',
         type: 'calculator',
-        inputs: ['income', 'currentExpenses', 'currentSavings', 'currentInvestments'],
+        inputs: [
+          'income',
+          'currentExpenses',
+          'currentSavings',
+          'currentInvestments'
+        ],
         outputs: ['optimalAllocation', 'balanceScore', 'recommendations']
       },
       {
@@ -130,7 +137,13 @@ class RevolutionizeYourFinancesHub {
         title: 'Financial Sovereignty Meter',
         description: 'Assess your level of financial independence',
         type: 'assessment',
-        inputs: ['income', 'expenses', 'assets', 'liabilities', 'passiveIncome'],
+        inputs: [
+          'income',
+          'expenses',
+          'assets',
+          'liabilities',
+          'passiveIncome'
+        ],
         outputs: ['sovereigntyScore', 'freedomDate', 'recommendations']
       },
       {
@@ -142,7 +155,7 @@ class RevolutionizeYourFinancesHub {
         outputs: ['optimalAllocation', 'expectedReturn', 'harmonicScore']
       }
     ];
-    
+
     simulations.forEach(s => this.simulations.set(s.id, s));
   }
 
@@ -169,25 +182,40 @@ class RevolutionizeYourFinancesHub {
         id: 'ascending',
         title: 'Ascending',
         minPoints: 2000,
-        benefits: ['Expert challenges', '25% HEAL bonus', 'Silver badge', 'Priority support'],
+        benefits: [
+          'Expert challenges',
+          '25% HEAL bonus',
+          'Silver badge',
+          'Priority support'
+        ],
         healMultiplier: 1.25
       },
       {
         id: 'transcendent',
         title: 'Transcendent',
         minPoints: 5000,
-        benefits: ['Legendary quests', '50% HEAL bonus', 'Gold badge', 'Exclusive events'],
+        benefits: [
+          'Legendary quests',
+          '50% HEAL bonus',
+          'Gold badge',
+          'Exclusive events'
+        ],
         healMultiplier: 1.5
       },
       {
         id: 'sovereign',
         title: 'Sovereign Master',
         minPoints: 10000,
-        benefits: ['All features', '100% HEAL bonus', 'Tribute NFT', 'Coaching certification'],
+        benefits: [
+          'All features',
+          '100% HEAL bonus',
+          'Tribute NFT',
+          'Coaching certification'
+        ],
         healMultiplier: 2.0
       }
     ];
-    
+
     rewardTiers.forEach(r => this.rewards.set(r.id, r));
   }
 
@@ -199,13 +227,13 @@ class RevolutionizeYourFinancesHub {
     if (!simulation) {
       throw new Error(`Simulation ${simulationId} not found`);
     }
-    
+
     // Validate inputs exist
     const missingInputs = simulation.inputs.filter(inp => !(inp in inputs));
     if (missingInputs.length > 0) {
       throw new Error(`Missing inputs: ${missingInputs.join(', ')}`);
     }
-    
+
     // Validate numeric inputs are valid
     Object.entries(inputs).forEach(([key, value]) => {
       if (typeof value === 'number') {
@@ -213,12 +241,15 @@ class RevolutionizeYourFinancesHub {
           throw new Error(`Invalid numeric value for ${key}`);
         }
         // Ensure income/amounts are positive for financial calculations
-        if (['income', 'principal', 'amount', 'assets'].includes(key) && value < 0) {
+        if (
+          ['income', 'principal', 'amount', 'assets'].includes(key) &&
+          value < 0
+        ) {
           throw new Error(`${key} must be non-negative`);
         }
       }
     });
-    
+
     // Run appropriate simulation
     switch (simulationId) {
       case 'balance-calculator':
@@ -240,40 +271,42 @@ class RevolutionizeYourFinancesHub {
    * Balance calculator simulation
    */
   _runBalanceCalculator(inputs) {
-    const { income, currentExpenses, currentSavings, currentInvestments } = inputs;
-    
+    const { income, currentExpenses, currentSavings, currentInvestments } =
+      inputs;
+
     const phi = 1.618033988749895;
-    
+
     // Optimal allocation
     const optimal = {
       expenses: income * 0.65,
-      savings: income * 0.20,
+      savings: income * 0.2,
       investments: income * 0.15
     };
-    
+
     // Current ratios
     const current = {
       expenses: currentExpenses / income,
       savings: currentSavings / income,
       investments: currentInvestments / income
     };
-    
+
     // Calculate score
     const deviations = {
       expenses: Math.abs(current.expenses - 0.65),
-      savings: Math.abs(current.savings - 0.20),
+      savings: Math.abs(current.savings - 0.2),
       investments: Math.abs(current.investments - 0.15)
     };
-    
-    const avgDeviation = (deviations.expenses + deviations.savings + deviations.investments) / 3;
-    const balanceScore = Math.max(0, 100 - (avgDeviation * 200));
-    
+
+    const avgDeviation =
+      (deviations.expenses + deviations.savings + deviations.investments) / 3;
+    const balanceScore = Math.max(0, 100 - avgDeviation * 200);
+
     return {
       optimalAllocation: optimal,
-      currentAllocation: { 
-        expenses: currentExpenses, 
-        savings: currentSavings, 
-        investments: currentInvestments 
+      currentAllocation: {
+        expenses: currentExpenses,
+        savings: currentSavings,
+        investments: currentInvestments
       },
       balanceScore: Math.round(balanceScore),
       recommendations: this._generateBalanceRecommendations(current, optimal),
@@ -287,23 +320,23 @@ class RevolutionizeYourFinancesHub {
    */
   _runFlowSimulator(inputs) {
     const { streams, amounts, frequencies } = inputs;
-    
+
     let totalFlow = 0;
     let weightedFrequency = 0;
-    
+
     for (let i = 0; i < streams.length; i++) {
       const annualAmount = amounts[i] * frequencies[i];
       totalFlow += annualAmount;
       weightedFrequency += frequencies[i];
     }
-    
+
     const avgFrequency = weightedFrequency / streams.length;
     const velocity = totalFlow / 365; // Daily flow
     const momentum = velocity * streams.length; // Momentum increases with stream count
-    
+
     // Sustainability score (diversification)
     const sustainability = Math.min(100, (streams.length / 10) * 100);
-    
+
     return {
       totalFlow: Math.round(totalFlow),
       velocity: Math.round(velocity),
@@ -320,36 +353,40 @@ class RevolutionizeYourFinancesHub {
    */
   _runGrowthProjector(inputs) {
     const { principal, monthlyContribution, expectedReturn, years } = inputs;
-    
+
     const months = years * 12;
     const monthlyRate = expectedReturn / 12;
-    
+
     let balance = principal;
     const projection = [];
     const fibonacci = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89];
-    
+
     for (let month = 1; month <= months; month++) {
       balance = balance * (1 + monthlyRate) + monthlyContribution;
-      
+
       if (month % 12 === 0) {
         const year = month / 12;
         const fibIndex = Math.min(year - 1, fibonacci.length - 1);
         const fibAlignment = fibonacci[fibIndex];
-        
+
         projection.push({
           year,
           balance: Math.round(balance),
           fibonacciNumber: fibAlignment,
-          alignment: this._calculateFibonacciAlignment(balance, principal, fibAlignment)
+          alignment: this._calculateFibonacciAlignment(
+            balance,
+            principal,
+            fibAlignment
+          )
         });
       }
     }
-    
+
     return {
       projection,
       finalBalance: Math.round(balance),
-      totalContributions: principal + (monthlyContribution * months),
-      totalGain: Math.round(balance - principal - (monthlyContribution * months)),
+      totalContributions: principal + monthlyContribution * months,
+      totalGain: Math.round(balance - principal - monthlyContribution * months),
       fibonacciAlignment: 'High',
       frequency: this.frequency
     };
@@ -360,33 +397,36 @@ class RevolutionizeYourFinancesHub {
    */
   _runSovereigntyMeter(inputs) {
     const { income, expenses, assets, liabilities, passiveIncome } = inputs;
-    
+
     const netWorth = assets - liabilities;
     const monthlyExpenses = expenses / 12;
     const monthsOfFreedom = assets / monthlyExpenses;
     const passiveIncomeRatio = passiveIncome / expenses;
-    
+
     // Sovereignty score components
     const netWorthScore = Math.min(100, (netWorth / (income * 5)) * 100);
     const passiveIncomeScore = Math.min(100, passiveIncomeRatio * 100);
     const liquidityScore = Math.min(100, monthsOfFreedom * 2);
-    
-    const sovereigntyScore = (netWorthScore + passiveIncomeScore + liquidityScore) / 3;
-    
+
+    const sovereigntyScore =
+      (netWorthScore + passiveIncomeScore + liquidityScore) / 3;
+
     // Calculate freedom date
-    const monthsToFreedom = passiveIncome >= expenses 
-      ? 0 
-      : Math.ceil((expenses - passiveIncome) / (income * 0.15) * 12);
-    
+    const monthsToFreedom =
+      passiveIncome >= expenses
+        ? 0
+        : Math.ceil(((expenses - passiveIncome) / (income * 0.15)) * 12);
+
     const freedomDate = new Date();
     freedomDate.setMonth(freedomDate.getMonth() + monthsToFreedom);
-    
+
     return {
       sovereigntyScore: Math.round(sovereigntyScore),
       monthsOfFreedom: Math.round(monthsOfFreedom),
       passiveIncomeRatio: Math.round(passiveIncomeRatio * 100) / 100,
       freedomDate: freedomDate.toISOString().split('T')[0],
-      recommendations: this._generateSovereigntyRecommendations(sovereigntyScore),
+      recommendations:
+        this._generateSovereigntyRecommendations(sovereigntyScore),
       frequency: this.frequency
     };
   }
@@ -396,36 +436,44 @@ class RevolutionizeYourFinancesHub {
    */
   _runCosmicPortfolio(inputs) {
     const { riskTolerance, timeHorizon, currentAllocation } = inputs;
-    
+
     // Use golden ratio for portfolio allocation
     const phi = 1.618033988749895;
-    
+
     // Optimal allocation based on risk tolerance and 528Hz principles
     const optimal = {
       stocks: Math.round((50 + riskTolerance * 20) / phi),
-      bonds: Math.round((30 - riskTolerance * 10) * phi / 10),
+      bonds: Math.round(((30 - riskTolerance * 10) * phi) / 10),
       alternatives: Math.round(15 + riskTolerance * 5),
       cash: 5
     };
-    
+
     // Normalize to 100%
-    const total = optimal.stocks + optimal.bonds + optimal.alternatives + optimal.cash;
+    const total =
+      optimal.stocks + optimal.bonds + optimal.alternatives + optimal.cash;
     Object.keys(optimal).forEach(key => {
       optimal[key] = Math.round((optimal[key] / total) * 100);
     });
-    
-    const expectedReturn = (optimal.stocks * 0.10 + optimal.bonds * 0.05 + 
-                           optimal.alternatives * 0.08 + optimal.cash * 0.02) / 100;
-    
+
+    const expectedReturn =
+      (optimal.stocks * 0.1 +
+        optimal.bonds * 0.05 +
+        optimal.alternatives * 0.08 +
+        optimal.cash * 0.02) /
+      100;
+
     // Calculate harmonic score
     const harmonicScore = this._calculatePortfolioHarmony(optimal);
-    
+
     return {
       optimalAllocation: optimal,
       currentAllocation,
       expectedReturn: Math.round(expectedReturn * 10000) / 100,
       harmonicScore,
-      rebalanceActions: this._generateRebalanceActions(currentAllocation, optimal),
+      rebalanceActions: this._generateRebalanceActions(
+        currentAllocation,
+        optimal
+      ),
       frequency: this.frequency
     };
   }
@@ -438,13 +486,13 @@ class RevolutionizeYourFinancesHub {
     if (!challenge) {
       throw new Error(`Challenge ${challengeId} not found`);
     }
-    
+
     const userProgress = this.userProgress.get(userId) || {
       activeChallenges: [],
       completedChallenges: [],
       totalPoints: 0
     };
-    
+
     const challengeProgress = {
       challengeId,
       startDate: new Date(),
@@ -452,10 +500,10 @@ class RevolutionizeYourFinancesHub {
       status: 'active',
       checkpoints: []
     };
-    
+
     userProgress.activeChallenges.push(challengeProgress);
     this.userProgress.set(userId, userProgress);
-    
+
     return {
       success: true,
       challenge,
@@ -469,17 +517,23 @@ class RevolutionizeYourFinancesHub {
    */
   _generateBalanceRecommendations(current, optimal) {
     const recommendations = [];
-    
-    if (current.expenses > 0.70) {
-      recommendations.push('Reduce expenses by 5-10% to achieve sacred balance');
+
+    if (current.expenses > 0.7) {
+      recommendations.push(
+        'Reduce expenses by 5-10% to achieve sacred balance'
+      );
     }
     if (current.savings < 0.15) {
-      recommendations.push('Increase savings to at least 20% using automatic transfers');
+      recommendations.push(
+        'Increase savings to at least 20% using automatic transfers'
+      );
     }
-    if (current.investments < 0.10) {
-      recommendations.push('Start investing 15% of income for long-term growth');
+    if (current.investments < 0.1) {
+      recommendations.push(
+        'Start investing 15% of income for long-term growth'
+      );
     }
-    
+
     return recommendations;
   }
 
@@ -497,10 +551,29 @@ class RevolutionizeYourFinancesHub {
    * Helper: Generate sovereignty recommendations
    */
   _generateSovereigntyRecommendations(score) {
-    if (score < 30) return ['Focus on debt reduction', 'Build 6-month emergency fund', 'Create first passive income stream'];
-    if (score < 60) return ['Increase passive income sources', 'Optimize investment returns', 'Reduce lifestyle expenses'];
-    if (score < 80) return ['Diversify income streams', 'Maximize tax-advantaged accounts', 'Build legacy wealth'];
-    return ['Maintain sovereignty', 'Mentor others', 'Create generational wealth'];
+    if (score < 30)
+      return [
+        'Focus on debt reduction',
+        'Build 6-month emergency fund',
+        'Create first passive income stream'
+      ];
+    if (score < 60)
+      return [
+        'Increase passive income sources',
+        'Optimize investment returns',
+        'Reduce lifestyle expenses'
+      ];
+    if (score < 80)
+      return [
+        'Diversify income streams',
+        'Maximize tax-advantaged accounts',
+        'Build legacy wealth'
+      ];
+    return [
+      'Maintain sovereignty',
+      'Mentor others',
+      'Create generational wealth'
+    ];
   }
 
   /**
@@ -510,16 +583,16 @@ class RevolutionizeYourFinancesHub {
     // Check if allocation follows golden ratio principles
     const values = Object.values(allocation);
     const sorted = values.sort((a, b) => b - a);
-    
+
     const phi = 1.618033988749895;
     let harmonyScore = 100;
-    
+
     for (let i = 0; i < sorted.length - 1; i++) {
       const ratio = sorted[i] / sorted[i + 1];
       const deviation = Math.abs(ratio - phi);
       harmonyScore -= deviation * 10;
     }
-    
+
     return Math.max(0, Math.round(harmonyScore));
   }
 
@@ -528,7 +601,7 @@ class RevolutionizeYourFinancesHub {
    */
   _generateRebalanceActions(current, optimal) {
     const actions = [];
-    
+
     Object.keys(optimal).forEach(asset => {
       const diff = optimal[asset] - (current[asset] || 0);
       if (Math.abs(diff) > 5) {
@@ -536,7 +609,7 @@ class RevolutionizeYourFinancesHub {
         actions.push(`${action} ${asset} by ${Math.abs(diff)}%`);
       }
     });
-    
+
     return actions;
   }
 
@@ -558,8 +631,13 @@ class RevolutionizeYourFinancesHub {
    * Get user's current tier
    */
   getUserTier(totalPoints) {
-    const tiers = Array.from(this.rewards.values()).sort((a, b) => b.minPoints - a.minPoints);
-    return tiers.find(tier => totalPoints >= tier.minPoints) || tiers[tiers.length - 1];
+    const tiers = Array.from(this.rewards.values()).sort(
+      (a, b) => b.minPoints - a.minPoints
+    );
+    return (
+      tiers.find(tier => totalPoints >= tier.minPoints) ||
+      tiers[tiers.length - 1]
+    );
   }
 }
 

@@ -3,7 +3,7 @@
  * Gamified learning system with progressive rewards and real-world impact
  * Incentivizes learners, explorers, and teachers in the ScrollVerse
  * Operating at 528Hz Divine Frequency
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @version 1.0.0
  */
@@ -28,7 +28,7 @@ class EinsteinKnowledgeQuest {
     this.userProgress = new Map();
     this.milestones = new Map();
     this.achievements = new Map();
-    
+
     // Quest categories aligned with Einstein's themes
     this.questCategories = {
       RELATIVITY: 'relativity',
@@ -45,15 +45,15 @@ class EinsteinKnowledgeQuest {
   async initialize() {
     // Initialize quest structure
     this._initializeQuestStructure();
-    
+
     // Initialize milestones
     this._initializeMilestones();
-    
+
     // Initialize achievements
     this._initializeAchievements();
-    
+
     this.initialized = true;
-    
+
     return {
       status: 'initialized',
       frequency: this.config.frequency,
@@ -72,11 +72,12 @@ class EinsteinKnowledgeQuest {
     // Relativity Quest Chain
     this._createQuest('relativity_1', {
       title: 'Understanding Time Dilation',
-      description: 'Learn how time passes differently for objects moving at different speeds',
+      description:
+        'Learn how time passes differently for objects moving at different speeds',
       category: this.questCategories.RELATIVITY,
       difficulty: 'beginner',
       tasks: [
-        'Watch Einstein\'s time dilation lesson',
+        "Watch Einstein's time dilation lesson",
         'Complete the twin paradox quiz',
         'Calculate time dilation for a moving spaceship',
         'Share your understanding with another learner'
@@ -91,13 +92,14 @@ class EinsteinKnowledgeQuest {
 
     this._createQuest('relativity_2', {
       title: 'E=mc²: Mass-Energy Equivalence',
-      description: 'Discover the most famous equation in physics and its profound meaning',
+      description:
+        'Discover the most famous equation in physics and its profound meaning',
       category: this.questCategories.RELATIVITY,
       difficulty: 'beginner',
       tasks: [
         'Learn the derivation of E=mc²',
         'Calculate energy from mass conversion',
-        'Explore real-world applications (nuclear power, sun\'s energy)',
+        "Explore real-world applications (nuclear power, sun's energy)",
         'Create a visual explanation for others'
       ],
       rewards: {
@@ -110,7 +112,8 @@ class EinsteinKnowledgeQuest {
 
     this._createQuest('relativity_3', {
       title: 'Spacetime and Gravity',
-      description: 'Understand how mass curves spacetime and creates what we call gravity',
+      description:
+        'Understand how mass curves spacetime and creates what we call gravity',
       category: this.questCategories.RELATIVITY,
       difficulty: 'intermediate',
       tasks: [
@@ -134,7 +137,7 @@ class EinsteinKnowledgeQuest {
       category: this.questCategories.CURIOSITY,
       difficulty: 'beginner',
       tasks: [
-        'Read Einstein\'s thoughts on curiosity',
+        "Read Einstein's thoughts on curiosity",
         'Practice asking "Why?" five times about a phenomenon',
         'Document your curiosity journey',
         'Inspire curiosity in a young learner'
@@ -149,11 +152,12 @@ class EinsteinKnowledgeQuest {
 
     this._createQuest('curiosity_2', {
       title: 'Thought Experiments',
-      description: 'Use imagination to explore the universe through thought alone',
+      description:
+        'Use imagination to explore the universe through thought alone',
       category: this.questCategories.CURIOSITY,
       difficulty: 'intermediate',
       tasks: [
-        'Study Einstein\'s famous thought experiments',
+        "Study Einstein's famous thought experiments",
         'Create your own thought experiment',
         'Share it with the community',
         'Help others develop their thought experiments'
@@ -168,12 +172,13 @@ class EinsteinKnowledgeQuest {
 
     // Problem Solving Quest Chain
     this._createQuest('problem_solving_1', {
-      title: 'Einstein\'s Problem-Solving Approach',
-      description: 'Learn Einstein\'s method: Spend 55 minutes understanding, 5 minutes solving',
+      title: "Einstein's Problem-Solving Approach",
+      description:
+        "Learn Einstein's method: Spend 55 minutes understanding, 5 minutes solving",
       category: this.questCategories.PROBLEM_SOLVING,
       difficulty: 'beginner',
       tasks: [
-        'Study Einstein\'s problem-solving philosophy',
+        "Study Einstein's problem-solving philosophy",
         'Apply the 55/5 method to a real problem',
         'Document your process and insights',
         'Share your solution approach with others'
@@ -188,12 +193,13 @@ class EinsteinKnowledgeQuest {
 
     this._createQuest('problem_solving_2', {
       title: 'Physics Riddles and Paradoxes',
-      description: 'Solve classic physics puzzles that challenged even Einstein',
+      description:
+        'Solve classic physics puzzles that challenged even Einstein',
       category: this.questCategories.PROBLEM_SOLVING,
       difficulty: 'intermediate',
       tasks: [
         'Solve the EPR paradox',
-        'Understand Bell\'s theorem',
+        "Understand Bell's theorem",
         'Explore quantum entanglement',
         'Explain a paradox to someone new to physics'
       ],
@@ -207,15 +213,16 @@ class EinsteinKnowledgeQuest {
 
     // Human Connections Quest Chain
     this._createQuest('human_connections_1', {
-      title: 'Einstein\'s Humanitarian Vision',
-      description: 'Learn about Einstein\'s dedication to peace, justice, and humanity',
+      title: "Einstein's Humanitarian Vision",
+      description:
+        "Learn about Einstein's dedication to peace, justice, and humanity",
       category: this.questCategories.HUMAN_CONNECTIONS,
       difficulty: 'beginner',
       tasks: [
-        'Study Einstein\'s humanitarian work',
+        "Study Einstein's humanitarian work",
         'Read his letters on peace and justice',
         'Reflect on applying his values today',
-        'Share Einstein\'s wisdom with your community'
+        "Share Einstein's wisdom with your community"
       ],
       rewards: {
         points: 45,
@@ -228,11 +235,12 @@ class EinsteinKnowledgeQuest {
     // Imagination Quest Chain
     this._createQuest('imagination_1', {
       title: 'Imagination Over Knowledge',
-      description: 'Develop your creative thinking beyond the boundaries of current knowledge',
+      description:
+        'Develop your creative thinking beyond the boundaries of current knowledge',
       category: this.questCategories.IMAGINATION,
       difficulty: 'beginner',
       tasks: [
-        'Learn Einstein\'s views on imagination',
+        "Learn Einstein's views on imagination",
         'Engage in creative visualization exercises',
         'Imagine future scientific breakthroughs',
         'Inspire creative thinking in others'
@@ -353,7 +361,11 @@ class EinsteinKnowledgeQuest {
         id: 'rapid_learner',
         title: 'Rapid Learner',
         description: 'Complete 10 quests in one day',
-        requirement: { type: 'rapid_completion', count: 10, timeframe: 86400000 },
+        requirement: {
+          type: 'rapid_completion',
+          count: 10,
+          timeframe: 86400000
+        },
         reward: { points: 200, einsteinCoins: 40, badge: 'Speed Scholar' }
       },
       {
@@ -391,7 +403,7 @@ class EinsteinKnowledgeQuest {
     }
 
     const userProgress = this.userProgress.get(userId);
-    
+
     // Check if quest is already completed
     if (userProgress.completedQuests.includes(questId)) {
       return {
@@ -441,20 +453,24 @@ class EinsteinKnowledgeQuest {
       throw new Error('User not found');
     }
 
-    const questProgress = userProgress.currentQuests.find(q => q.questId === questId);
+    const questProgress = userProgress.currentQuests.find(
+      q => q.questId === questId
+    );
     if (!questProgress) {
       throw new Error('Quest not in progress');
     }
 
     const quest = this.activeQuests.get(questId);
-    
+
     // Mark task as completed
     if (!questProgress.tasksCompleted.includes(taskIndex)) {
       questProgress.tasksCompleted.push(taskIndex);
-      questProgress.progress = (questProgress.tasksCompleted.length / quest.tasks.length) * 100;
+      questProgress.progress =
+        (questProgress.tasksCompleted.length / quest.tasks.length) * 100;
     }
 
-    const isQuestComplete = questProgress.tasksCompleted.length === quest.tasks.length;
+    const isQuestComplete =
+      questProgress.tasksCompleted.length === quest.tasks.length;
 
     if (isQuestComplete) {
       return this.completeQuest(userId, questId);
@@ -480,7 +496,9 @@ class EinsteinKnowledgeQuest {
     const quest = this.activeQuests.get(questId);
 
     // Move from current to completed
-    userProgress.currentQuests = userProgress.currentQuests.filter(q => q.questId !== questId);
+    userProgress.currentQuests = userProgress.currentQuests.filter(
+      q => q.questId !== questId
+    );
     userProgress.completedQuests.push(questId);
     userProgress.totalQuestsCompleted++;
 
@@ -514,7 +532,8 @@ class EinsteinKnowledgeQuest {
         totalCoins: userProgress.totalEinsteinCoins,
         badges: userProgress.badges
       },
-      einsteinCongratulation: 'Excellent work! The mind that opens to a new idea never returns to its original size.'
+      einsteinCongratulation:
+        'Excellent work! The mind that opens to a new idea never returns to its original size.'
     };
   }
 
@@ -530,7 +549,7 @@ class EinsteinKnowledgeQuest {
     }
 
     const teacherProgress = this.userProgress.get(teacherId);
-    
+
     teacherProgress.knowledgeSharedCount++;
     teacherProgress.studentsHelped.push({
       learnerId,
@@ -539,7 +558,9 @@ class EinsteinKnowledgeQuest {
     });
 
     // Award teaching bonus
-    const bonusPoints = Math.floor(this.config.baseRewardPoints * this.config.teachingBonusMultiplier);
+    const bonusPoints = Math.floor(
+      this.config.baseRewardPoints * this.config.teachingBonusMultiplier
+    );
     teacherProgress.totalPoints += bonusPoints;
     teacherProgress.totalEinsteinCoins += Math.floor(bonusPoints / 5);
 
@@ -554,7 +575,8 @@ class EinsteinKnowledgeQuest {
       bonusPoints,
       totalShared: teacherProgress.knowledgeSharedCount,
       newAchievements,
-      einsteinWisdom: 'The value of education is not the learning of facts, but the training of the mind to think.'
+      einsteinWisdom:
+        'The value of education is not the learning of facts, but the training of the mind to think.'
     };
   }
 
@@ -616,12 +638,12 @@ class EinsteinKnowledgeQuest {
    */
   _checkMilestones(userProgress) {
     const newMilestones = [];
-    
+
     for (const [milestoneId, milestone] of this.milestones.entries()) {
       if (userProgress.milestones.includes(milestoneId)) {
         continue;
       }
-      
+
       if (userProgress.totalQuestsCompleted >= milestone.threshold) {
         userProgress.milestones.push(milestoneId);
         userProgress.totalPoints += milestone.reward.points;
@@ -632,7 +654,7 @@ class EinsteinKnowledgeQuest {
         newMilestones.push(milestone);
       }
     }
-    
+
     return newMilestones;
   }
 
@@ -642,18 +664,19 @@ class EinsteinKnowledgeQuest {
    */
   _checkAchievements(userProgress) {
     const newAchievements = [];
-    
+
     for (const [achievementId, achievement] of this.achievements.entries()) {
       if (userProgress.achievements.includes(achievementId)) {
         continue;
       }
-      
+
       let achieved = false;
-      
+
       if (achievement.requirement.type === 'teaching') {
-        achieved = userProgress.knowledgeSharedCount >= achievement.requirement.count;
+        achieved =
+          userProgress.knowledgeSharedCount >= achievement.requirement.count;
       }
-      
+
       if (achieved) {
         userProgress.achievements.push(achievementId);
         userProgress.totalPoints += achievement.reward.points;
@@ -664,7 +687,7 @@ class EinsteinKnowledgeQuest {
         newAchievements.push(achievement);
       }
     }
-    
+
     return newAchievements;
   }
 
@@ -674,13 +697,18 @@ class EinsteinKnowledgeQuest {
    */
   _getQuestWisdom(category) {
     const wisdom = {
-      relativity: 'The only reason for time is so that everything doesn\'t happen at once.',
-      curiosity: 'The important thing is not to stop questioning. Curiosity has its own reason for existing.',
-      problem_solving: 'We cannot solve our problems with the same thinking we used when we created them.',
-      human_connections: 'Peace cannot be kept by force; it can only be achieved by understanding.',
-      imagination: 'Logic will get you from A to B. Imagination will take you everywhere.'
+      relativity:
+        "The only reason for time is so that everything doesn't happen at once.",
+      curiosity:
+        'The important thing is not to stop questioning. Curiosity has its own reason for existing.',
+      problem_solving:
+        'We cannot solve our problems with the same thinking we used when we created them.',
+      human_connections:
+        'Peace cannot be kept by force; it can only be achieved by understanding.',
+      imagination:
+        'Logic will get you from A to B. Imagination will take you everywhere.'
     };
-    
+
     return wisdom[category] || wisdom.curiosity;
   }
 

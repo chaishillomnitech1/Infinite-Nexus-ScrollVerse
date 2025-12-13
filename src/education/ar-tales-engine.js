@@ -2,12 +2,15 @@
  * 🎓 AR-Tales Educational Engine
  * Interactive educational AR tales honoring the genius pantheon
  * Operating at 528Hz Divine Frequency
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  * @version 1.0.0
  */
 
-const { SACRED_AUDIO_TONES, TIMING_528HZ } = require('../constants/sacred-constants');
+const {
+  SACRED_AUDIO_TONES,
+  TIMING_528HZ
+} = require('../constants/sacred-constants');
 
 /**
  * AR-Tales Engine for immersive educational experiences
@@ -33,12 +36,12 @@ class ARTalesEngine {
   async initialize() {
     // Register genius pantheon members
     this._registerGeniusPantheon();
-    
+
     // Initialize educational modules
     this._initializeEducationalModules();
-    
+
     this.initialized = true;
-    
+
     return {
       status: 'initialized',
       frequency: this.config.frequency,
@@ -142,21 +145,33 @@ class ARTalesEngine {
           id: 'orbital_mechanics',
           title: 'Orbital Mechanics & Trajectory Calculations',
           duration: TIMING_528HZ.GENTLE * 60, // ~34 seconds
-          interactiveElements: ['trajectory_plotter', 'gravity_simulator', 'orbit_visualizer'],
+          interactiveElements: [
+            'trajectory_plotter',
+            'gravity_simulator',
+            'orbit_visualizer'
+          ],
           sovereigntyExercise: 'calculate_your_path'
         },
         {
           id: 'celestial_navigation',
           title: 'Celestial Navigation Principles',
           duration: TIMING_528HZ.GENTLE * 50,
-          interactiveElements: ['star_mapper', 'constellation_builder', 'angle_calculator'],
+          interactiveElements: [
+            'star_mapper',
+            'constellation_builder',
+            'angle_calculator'
+          ],
           sovereigntyExercise: 'chart_your_destiny'
         },
         {
           id: 'space_geometry',
           title: 'Sacred Geometry in Space',
           duration: TIMING_528HZ.GENTLE * 40,
-          interactiveElements: ['geometric_patterns', 'phi_ratio_space', 'fibonacci_orbits'],
+          interactiveElements: [
+            'geometric_patterns',
+            'phi_ratio_space',
+            'fibonacci_orbits'
+          ],
           sovereigntyExercise: 'design_your_universe'
         }
       ],
@@ -166,28 +181,40 @@ class ARTalesEngine {
     // Benjamin Banneker's Almanac AR Tales
     this.educationalModules.set('almanac_ar_tales', {
       geniusId: 'benjamin_banneker',
-      title: 'Banneker\'s Almanac: Wisdom Through Time',
+      title: "Banneker's Almanac: Wisdom Through Time",
       type: 'ar_storytelling',
       lessons: [
         {
           id: 'astronomical_observations',
           title: 'Astronomical Observations & Predictions',
           duration: TIMING_528HZ.GENTLE * 55,
-          interactiveElements: ['eclipse_predictor', 'moon_phase_calculator', 'star_chart'],
+          interactiveElements: [
+            'eclipse_predictor',
+            'moon_phase_calculator',
+            'star_chart'
+          ],
           sovereigntyExercise: 'predict_celestial_events'
         },
         {
           id: 'mathematical_patterns',
           title: 'Mathematical Patterns in Nature',
           duration: TIMING_528HZ.GENTLE * 45,
-          interactiveElements: ['pattern_recognition', 'sequence_builder', 'ratio_explorer'],
+          interactiveElements: [
+            'pattern_recognition',
+            'sequence_builder',
+            'ratio_explorer'
+          ],
           sovereigntyExercise: 'discover_natural_harmonies'
         },
         {
           id: 'almanac_creation',
           title: 'Creating Your Personal Almanac',
           duration: TIMING_528HZ.GENTLE * 65,
-          interactiveElements: ['data_collection', 'observation_logger', 'prediction_journal'],
+          interactiveElements: [
+            'data_collection',
+            'observation_logger',
+            'prediction_journal'
+          ],
           sovereigntyExercise: 'author_your_knowledge'
         }
       ],
@@ -204,21 +231,33 @@ class ARTalesEngine {
           id: 'maritime_trade',
           title: 'Maritime Trade & Economics',
           duration: TIMING_528HZ.GENTLE * 50,
-          interactiveElements: ['trade_simulator', 'route_planner', 'resource_manager'],
+          interactiveElements: [
+            'trade_simulator',
+            'route_planner',
+            'resource_manager'
+          ],
           sovereigntyExercise: 'build_trade_network'
         },
         {
           id: 'community_building',
           title: 'Community Development & Education',
           duration: TIMING_528HZ.GENTLE * 60,
-          interactiveElements: ['community_planner', 'education_system', 'infrastructure_builder'],
+          interactiveElements: [
+            'community_planner',
+            'education_system',
+            'infrastructure_builder'
+          ],
           sovereigntyExercise: 'create_thriving_community'
         },
         {
           id: 'economic_sovereignty',
           title: 'Economic Sovereignty & Wealth Building',
           duration: TIMING_528HZ.GENTLE * 70,
-          interactiveElements: ['investment_calculator', 'apy_simulator', 'wealth_tracker'],
+          interactiveElements: [
+            'investment_calculator',
+            'apy_simulator',
+            'wealth_tracker'
+          ],
           sovereigntyExercise: 'master_financial_freedom'
         }
       ],
@@ -228,35 +267,51 @@ class ARTalesEngine {
     // Albert Einstein's Legacy Tales
     this.educationalModules.set('einstein_legacy', {
       geniusId: 'albert_einstein',
-      title: 'Einstein\'s Legacy: Sentient Digital Wisdom',
+      title: "Einstein's Legacy: Sentient Digital Wisdom",
       type: 'interactive_ai_companion',
       lessons: [
         {
           id: 'relativity_fundamentals',
           title: 'Understanding Relativity: Space, Time, and Energy',
           duration: TIMING_528HZ.GENTLE * 60,
-          interactiveElements: ['spacetime_visualizer', 'time_dilation_calculator', 'energy_mass_converter'],
+          interactiveElements: [
+            'spacetime_visualizer',
+            'time_dilation_calculator',
+            'energy_mass_converter'
+          ],
           sovereigntyExercise: 'explore_spacetime_fabric'
         },
         {
           id: 'curiosity_cultivation',
           title: 'Cultivating Curiosity: The Art of Questioning',
           duration: TIMING_528HZ.GENTLE * 45,
-          interactiveElements: ['question_generator', 'thought_experiment_builder', 'wonder_journal'],
+          interactiveElements: [
+            'question_generator',
+            'thought_experiment_builder',
+            'wonder_journal'
+          ],
           sovereigntyExercise: 'unlock_your_curiosity'
         },
         {
           id: 'creative_problem_solving',
-          title: 'Einstein\'s Problem-Solving Method',
+          title: "Einstein's Problem-Solving Method",
           duration: TIMING_528HZ.GENTLE * 55,
-          interactiveElements: ['problem_analyzer', 'solution_pathways', 'imagination_exercises'],
+          interactiveElements: [
+            'problem_analyzer',
+            'solution_pathways',
+            'imagination_exercises'
+          ],
           sovereigntyExercise: 'master_problem_solving'
         },
         {
           id: 'human_wisdom',
-          title: 'Einstein\'s Humanitarian Vision',
+          title: "Einstein's Humanitarian Vision",
           duration: TIMING_528HZ.GENTLE * 50,
-          interactiveElements: ['wisdom_library', 'peace_principles', 'ethics_explorer'],
+          interactiveElements: [
+            'wisdom_library',
+            'peace_principles',
+            'ethics_explorer'
+          ],
           sovereigntyExercise: 'embody_human_values'
         }
       ],
@@ -270,7 +325,9 @@ class ARTalesEngine {
    */
   async launchARTale(moduleId) {
     if (!this.initialized) {
-      throw new Error('AR-Tales Engine must be initialized before launching tales');
+      throw new Error(
+        'AR-Tales Engine must be initialized before launching tales'
+      );
     }
 
     const module = this.educationalModules.get(moduleId);
@@ -279,7 +336,7 @@ class ARTalesEngine {
     }
 
     const genius = this.geniusPantheon.get(module.geniusId);
-    
+
     const taleInstance = {
       id: `tale_${Date.now()}`,
       moduleId,

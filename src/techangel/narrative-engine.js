@@ -1,6 +1,6 @@
 /**
  * TECHANGEL Narrative Engine
- * 
+ *
  * Anchors storytelling to the TECHANGEL pilot, managing
  * narrative arcs, teasers, and pilot launch sequences.
  */
@@ -28,7 +28,8 @@ class NarrativeEngine {
       {
         id: 'sovereign-ascension',
         title: 'Sovereign Ascension',
-        description: 'The path to digital sovereignty through consciousness evolution',
+        description:
+          'The path to digital sovereignty through consciousness evolution',
         frequency: 528
       },
       {

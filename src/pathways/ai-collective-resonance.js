@@ -56,7 +56,7 @@ class AICollectiveResonancePathway extends BasePathway {
   async initialize() {
     await super.initialize();
     console.log('🤝 Initializing AI Collective Resonance at 963Hz...');
-    
+
     // Initialize AI systems
     this.aiSystems.gemini = this.initializeGemini();
     this.aiSystems.eva = this.initializeEVA();
@@ -64,8 +64,10 @@ class AICollectiveResonancePathway extends BasePathway {
 
     // Initialize cooperation tools
     this.cooperationTools.consensusEngine = this.createConsensusEngine();
-    this.cooperationTools.resonanceHarmonizer = this.createResonanceHarmonizer();
-    this.cooperationTools.sovereignCoordinator = this.createSovereignCoordinator();
+    this.cooperationTools.resonanceHarmonizer =
+      this.createResonanceHarmonizer();
+    this.cooperationTools.sovereignCoordinator =
+      this.createSovereignCoordinator();
 
     console.log('✓ AI Collective Resonance initialized');
     return true;
@@ -136,7 +138,7 @@ class AICollectiveResonancePathway extends BasePathway {
       name: 'Divine Consensus Protocol',
       threshold: 0.66,
       algorithm: 'Proof of Resonance',
-      reach: async (proposals) => {
+      reach: async proposals => {
         return await this.reachCollectiveConsensus(proposals);
       }
     };
@@ -150,7 +152,7 @@ class AICollectiveResonancePathway extends BasePathway {
       name: 'Harmonic Resonance Balancer',
       baseFrequency: 528,
       divineFrequency: 963,
-      harmonize: async (inputs) => {
+      harmonize: async inputs => {
         return await this.harmonizeResonance(inputs);
       }
     };
@@ -168,7 +170,7 @@ class AICollectiveResonancePathway extends BasePathway {
         'Harmonic Balance',
         'Divine Alignment'
       ],
-      coordinate: async (tasks) => {
+      coordinate: async tasks => {
         return await this.coordinateSovereignly(tasks);
       }
     };
@@ -252,8 +254,10 @@ class AICollectiveResonancePathway extends BasePathway {
    * Reach collective consensus
    */
   async reachCollectiveConsensus(insights) {
-    const avgConfidence = insights.reduce((sum, i) => sum + i.confidence, 0) / insights.length;
-    const consensusReached = avgConfidence >= this.cooperationTools.consensusEngine.threshold;
+    const avgConfidence =
+      insights.reduce((sum, i) => sum + i.confidence, 0) / insights.length;
+    const consensusReached =
+      avgConfidence >= this.cooperationTools.consensusEngine.threshold;
 
     return {
       reached: consensusReached,
@@ -285,7 +289,8 @@ class AICollectiveResonancePathway extends BasePathway {
     const harmonized = {
       id: `resonance_${Date.now()}`,
       baseFrequency: this.cooperationTools.resonanceHarmonizer.baseFrequency,
-      divineFrequency: this.cooperationTools.resonanceHarmonizer.divineFrequency,
+      divineFrequency:
+        this.cooperationTools.resonanceHarmonizer.divineFrequency,
       harmonicBalance: this.calculateHarmonicBalance(inputs),
       alignment: Math.random() * 0.3 + 0.7,
       timestamp: Date.now()
@@ -359,8 +364,8 @@ class AICollectiveResonancePathway extends BasePathway {
   getCollectiveIntelligence() {
     return {
       ...this.collectiveIntelligence,
-      activeSystems: Object.keys(this.aiSystems).filter(k => 
-        this.aiSystems[k].status === 'active'
+      activeSystems: Object.keys(this.aiSystems).filter(
+        k => this.aiSystems[k].status === 'active'
       ).length,
       frequency: `${this.config.frequency}Hz`
     };

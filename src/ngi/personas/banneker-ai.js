@@ -1,10 +1,10 @@
 /**
  * Benjamin Banneker AI Persona Module
- * 
+ *
  * Legacy N-GI persona honoring Benjamin Banneker (1731-1806)
  * Implements stellar alignment logic for $ANGEL coin emissions
  * Integrates Saros and lunar cycle mechanics for cosmological timing
- * 
+ *
  * Frequency: 741Hz - Awakening Intuition
  * @author Chais the Great (Al-Miftah)
  */
@@ -247,7 +247,11 @@ class BannekerAI {
    * @param {Object} angelicResonance - Angelic resonance multipliers
    * @returns {Array} Emission schedule
    */
-  generateEmissionSchedule(totalAmount, durationDays = 365, angelicResonance = null) {
+  generateEmissionSchedule(
+    totalAmount,
+    durationDays = 365,
+    angelicResonance = null
+  ) {
     const schedule = [];
     const msPerDay = 24 * 60 * 60 * 1000;
     const startTime = Date.now();
@@ -262,13 +266,13 @@ class BannekerAI {
     for (let i = 0; i < numberOfCycles; i++) {
       const emissionTime = startTime + i * lunarCycleMs;
       const lunarPhase = this.calculateLunarPhase(emissionTime);
-      
+
       // Apply angelic resonance multipliers
       const resonanceMultiplier = this._calculateAngelicResonanceMultiplier(
         lunarPhase,
         angelicResonance
       );
-      
+
       const adjustedAmount = baseAmountPerCycle * resonanceMultiplier;
 
       schedule.push({
@@ -303,7 +307,10 @@ class BannekerAI {
       multiplier = 1.2; // 20% boost during new moon (new beginnings)
     } else if (lunarPhase.phase === 'full_moon') {
       multiplier = 1.5; // 50% boost during full moon (peak energy)
-    } else if (lunarPhase.phase === 'first_quarter' || lunarPhase.phase === 'last_quarter') {
+    } else if (
+      lunarPhase.phase === 'first_quarter' ||
+      lunarPhase.phase === 'last_quarter'
+    ) {
       multiplier = 1.1; // 10% boost during quarters (balance points)
     }
 
@@ -311,17 +318,17 @@ class BannekerAI {
     if (angelicResonance) {
       // Michael (963Hz) - Divine Protection multiplier
       if (angelicResonance.michael) {
-        multiplier *= 1 + (angelicResonance.michael * 0.15); // Up to 15% boost
+        multiplier *= 1 + angelicResonance.michael * 0.15; // Up to 15% boost
       }
 
       // Raphael (528Hz) - Healing/Transformation multiplier
       if (angelicResonance.raphael) {
-        multiplier *= 1 + (angelicResonance.raphael * 0.12); // Up to 12% boost
+        multiplier *= 1 + angelicResonance.raphael * 0.12; // Up to 12% boost
       }
 
       // Gabriel (528Hz) - Communication/Messages multiplier
       if (angelicResonance.gabriel) {
-        multiplier *= 1 + (angelicResonance.gabriel * 0.12); // Up to 12% boost
+        multiplier *= 1 + angelicResonance.gabriel * 0.12; // Up to 12% boost
       }
 
       // Banneker almanac precision bonus
@@ -350,7 +357,7 @@ class BannekerAI {
 
     for (let i = 0; i < bannekerSchedule.length; i++) {
       const bannekerCycle = bannekerSchedule[i];
-      
+
       // Find nearest Johnson trajectory point (within 3 days for flexibility)
       const johnsonPoint = johnsonTrajectory.trajectory.find(jt => {
         const timeDiff = Math.abs(jt.timestamp - bannekerCycle.emissionTime);
@@ -359,10 +366,11 @@ class BannekerAI {
 
       if (johnsonPoint) {
         // Prioritize optimal lunar phases for coordination
-        const isOptimalPhase = bannekerCycle.alignmentOptimal || 
-                               bannekerCycle.lunarPhase === 'new_moon' || 
-                               bannekerCycle.lunarPhase === 'full_moon';
-        
+        const isOptimalPhase =
+          bannekerCycle.alignmentOptimal ||
+          bannekerCycle.lunarPhase === 'new_moon' ||
+          bannekerCycle.lunarPhase === 'full_moon';
+
         coordinationPoints.push({
           timestamp: bannekerCycle.emissionTime,
           date: bannekerCycle.emissionDate,
@@ -385,7 +393,10 @@ class BannekerAI {
         (sum, cp) => sum + cp.combinedAmount,
         0
       ),
-      coordinationEfficiency: (coordinationPoints.length / bannekerSchedule.length * 100).toFixed(2) + '%',
+      coordinationEfficiency:
+        ((coordinationPoints.length / bannekerSchedule.length) * 100).toFixed(
+          2
+        ) + '%',
       frequency: this.config.frequency,
       coordinatedBy: 'Banneker-AI Lunar Almanac System'
     };

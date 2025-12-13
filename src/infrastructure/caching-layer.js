@@ -45,13 +45,13 @@ class CachingLayer {
    */
   async initialize() {
     console.log('🔥 Initializing Advanced Caching Layer at 528Hz...');
-    
+
     // Initialize Redis
     await this.initializeRedis();
-    
+
     // Initialize ElastiCache
     await this.initializeElastiCache();
-    
+
     console.log('✓ Caching infrastructure ready');
     return true;
   }
@@ -81,7 +81,7 @@ class CachingLayer {
    */
   async deploy() {
     console.log('🚀 Deploying advanced caching infrastructure...');
-    
+
     return {
       redis: {
         status: 'deployed',
@@ -107,7 +107,7 @@ class CachingLayer {
     // Check local cache first (fastest)
     if (this.cacheStore.has(key)) {
       const cached = this.cacheStore.get(key);
-      
+
       // Check if expired
       if (!this.isExpired(cached)) {
         this.statistics.hits++;
@@ -158,7 +158,7 @@ class CachingLayer {
   async delete(key) {
     const existed = this.cacheStore.has(key);
     this.cacheStore.delete(key);
-    
+
     return {
       success: true,
       existed,
@@ -172,7 +172,7 @@ class CachingLayer {
   async clear() {
     const clearedCount = this.cacheStore.size;
     this.cacheStore.clear();
-    
+
     return {
       success: true,
       clearedEntries: clearedCount
@@ -184,7 +184,7 @@ class CachingLayer {
    */
   isExpired(cacheEntry) {
     const age = Date.now() - cacheEntry.timestamp;
-    return age > (cacheEntry.ttl * 1000);
+    return age > cacheEntry.ttl * 1000;
   }
 
   /**
@@ -234,9 +234,10 @@ class CachingLayer {
    * Get cache statistics
    */
   getStatistics() {
-    const hitRate = this.statistics.totalQueries > 0
-      ? (this.statistics.hits / this.statistics.totalQueries) * 100
-      : 0;
+    const hitRate =
+      this.statistics.totalQueries > 0
+        ? (this.statistics.hits / this.statistics.totalQueries) * 100
+        : 0;
 
     return {
       ...this.statistics,
@@ -252,7 +253,7 @@ class CachingLayer {
    */
   async optimizeAkashicQueries() {
     console.log('🔮 Optimizing Akashic NFT metadata queries for 10x speed...');
-    
+
     // Pre-warm cache with common queries
     const commonQueries = [
       'frequencyLevel',

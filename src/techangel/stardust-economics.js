@@ -1,6 +1,6 @@
 /**
  * Star Dust Currency Economics
- * 
+ *
  * Manages the Star Dust currency system within the ScrollVerse,
  * providing economic mechanisms for NFT transactions, staking rewards,
  * and ecosystem incentives.
@@ -11,7 +11,7 @@ class StarDustEconomics {
     this.config = config;
     this.initialized = false;
     this.launched = false;
-    
+
     this.currency = {
       name: 'Star Dust',
       symbol: 'STARDUST',
@@ -32,11 +32,11 @@ class StarDustEconomics {
   async initialize() {
     // Initialize currency parameters
     this.currency.totalSupply = 1000000000; // 1 billion total supply
-    this.reservePools.stakingRewards = this.currency.totalSupply * 0.20; // 20%
+    this.reservePools.stakingRewards = this.currency.totalSupply * 0.2; // 20%
     this.reservePools.treasuryReserve = this.currency.totalSupply * 0.15; // 15%
     this.reservePools.liquidityPool = this.currency.totalSupply * 0.25; // 25%
-    this.reservePools.communityIncentives = this.currency.totalSupply * 0.10; // 10%
-    
+    this.reservePools.communityIncentives = this.currency.totalSupply * 0.1; // 10%
+
     this.initialized = true;
     return true;
   }
@@ -47,9 +47,9 @@ class StarDustEconomics {
     }
 
     // Begin circulation
-    this.currency.circulatingSupply = this.currency.totalSupply * 0.30; // 30% initial circulation
+    this.currency.circulatingSupply = this.currency.totalSupply * 0.3; // 30% initial circulation
     this.launched = true;
-    
+
     return {
       symbol: this.currency.symbol,
       circulatingSupply: this.currency.circulatingSupply,

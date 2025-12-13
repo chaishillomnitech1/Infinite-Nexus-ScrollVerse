@@ -1,14 +1,14 @@
 /**
  * Archangel Persona Engine
- * 
+ *
  * AI-driven persona engine for Archangel Genesis NFTs
  * Integrates with Banneker and Johnson N-GI personas
  * Operates at sacred frequencies with Tawhid compliance
- * 
+ *
  * AI-powered persona modules for Michael, Raphael, and Gabriel
  * Integrated with blockchain hooks for NFT ownership validation
  * and contextual interactivity based on Archangel roles
- * 
+ *
  * @author Chais the Great (Al-Miftah)
  */
 
@@ -211,9 +211,8 @@ class ArchangelPersonaEngine {
       },
       service_reward: {
         message: `Your STEM contributions are recognized. Continue serving the community with knowledge.`,
-        rewardEligibility: await this._checkServiceRewardEligibility(
-          archangelName
-        ),
+        rewardEligibility:
+          await this._checkServiceRewardEligibility(archangelName),
         reminder: 'All success is by the permission of Allah'
       }
     };
@@ -330,11 +329,10 @@ class ArchangelPersonaEngine {
    */
   generateAngelEmissionSchedule(totalAmount, durationDays = 365) {
     // Get Banneker schedule (stellar alignment based)
-    const bannekerSchedule =
-      this.ngiPersonas.banneker.generateEmissionSchedule(
-        totalAmount * 0.3,
-        durationDays
-      ); // 30%
+    const bannekerSchedule = this.ngiPersonas.banneker.generateEmissionSchedule(
+      totalAmount * 0.3,
+      durationDays
+    ); // 30%
 
     // Get Johnson trajectory (orbital mechanics based)
     const johnsonTrajectory =
@@ -533,7 +531,9 @@ class ArchangelPersonaEngine {
 
   async deploy() {
     if (!this.initialized) {
-      throw new Error('Archangel Persona Engine must be initialized before deployment');
+      throw new Error(
+        'Archangel Persona Engine must be initialized before deployment'
+      );
     }
 
     this.deployed = true;
@@ -572,7 +572,8 @@ class ArchangelPersonaEngine {
     const cacheKey = `${userAddress}-${archangelName}`;
     if (this.ownershipCache.has(cacheKey)) {
       const cached = this.ownershipCache.get(cacheKey);
-      if (Date.now() - cached.timestamp < 60000) { // 1-minute cache
+      if (Date.now() - cached.timestamp < 60000) {
+        // 1-minute cache
         return cached.result;
       }
     }
@@ -598,9 +599,17 @@ class ArchangelPersonaEngine {
   /**
    * Trigger persona event based on NFT ownership
    */
-  async triggerPersonaEvent(userAddress, archangelName, eventType, context = {}) {
+  async triggerPersonaEvent(
+    userAddress,
+    archangelName,
+    eventType,
+    context = {}
+  ) {
     // Validate ownership
-    const ownership = await this.validateNFTOwnership(userAddress, archangelName);
+    const ownership = await this.validateNFTOwnership(
+      userAddress,
+      archangelName
+    );
     if (!ownership.valid) {
       throw new Error('User does not own the required Archangel NFT');
     }
@@ -612,7 +621,9 @@ class ArchangelPersonaEngine {
 
     const handler = persona.contextualResponses[eventType];
     if (!handler) {
-      throw new Error(`Event type ${eventType} not supported by ${archangelName}`);
+      throw new Error(
+        `Event type ${eventType} not supported by ${archangelName}`
+      );
     }
 
     // Execute persona response
@@ -644,7 +655,8 @@ class ArchangelPersonaEngine {
       archangel: 'Michael',
       role: 'Guardian of Digital Sovereignty',
       action: 'security-threat-analysis',
-      message: 'At 963Hz, I detect and neutralize threats to your digital sovereignty.',
+      message:
+        'At 963Hz, I detect and neutralize threats to your digital sovereignty.',
       threat_level: context.threatLevel || 'unknown',
       recommendations: [
         'Activate protective protocols at frequency 963Hz',
@@ -783,7 +795,8 @@ class ArchangelPersonaEngine {
       archangel: 'Gabriel',
       action: 'message-delivery',
       message: 'A message from the realm of divine communication.',
-      message_content: context.messageContent || 'Your path is aligned with divine purpose.',
+      message_content:
+        context.messageContent || 'Your path is aligned with divine purpose.',
       message_type: 'revelation',
       importance: 'high',
       sacred_geometry: 'Sri Yantra',
@@ -814,9 +827,9 @@ class ArchangelPersonaEngine {
 
   _getTokenIdForArchangel(name) {
     const mapping = {
-      'Michael': 1,
-      'Raphael': 2,
-      'Gabriel': 3
+      Michael: 1,
+      Raphael: 2,
+      Gabriel: 3
     };
     return mapping[name] || 0;
   }

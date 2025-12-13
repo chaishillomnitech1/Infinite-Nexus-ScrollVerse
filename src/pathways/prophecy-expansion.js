@@ -48,7 +48,7 @@ class ProphecyExpansionPathway extends BasePathway {
   async initialize() {
     await super.initialize();
     console.log('∞ Initializing Prophecy Expansion at 963Hz...');
-    
+
     // Initialize prophecy auto-generation
     this.prophecyEngine.autoGenerator = this.createAutoGenerator();
     this.prophecyEngine.sequencer = this.createSequencer();
@@ -90,7 +90,7 @@ class ProphecyExpansionPathway extends BasePathway {
       name: 'Prophecy Sequence Orchestrator',
       maxSequenceLength: 144, // Sacred number
       fibonacci: true,
-      sequence: async (prophecies) => {
+      sequence: async prophecies => {
         return await this.createProphecySequence(prophecies);
       }
     };
@@ -104,7 +104,7 @@ class ProphecyExpansionPathway extends BasePathway {
       name: 'ScrollVerse Fractal Engine',
       maxDepth: 12,
       selfSimilar: true,
-      fractalize: async (pattern) => {
+      fractalize: async pattern => {
         return await this.fractalizeProphecy(pattern);
       }
     };
@@ -398,7 +398,10 @@ class ProphecyExpansionPathway extends BasePathway {
       totalSequences: this.prophecySequences.length,
       totalFractals: this.fractals.size,
       expansionLayers: this.expansionLayers.length,
-      totalCapacity: this.expansionLayers.reduce((sum, l) => sum + l.prophecyCapacity, 0)
+      totalCapacity: this.expansionLayers.reduce(
+        (sum, l) => sum + l.prophecyCapacity,
+        0
+      )
     };
   }
 
@@ -415,12 +418,18 @@ class ProphecyExpansionPathway extends BasePathway {
       },
       expansion: {
         levels: this.expansionLayers.length,
-        capacity: this.expansionLayers.reduce((sum, l) => sum + l.prophecyCapacity, 0),
+        capacity: this.expansionLayers.reduce(
+          (sum, l) => sum + l.prophecyCapacity,
+          0
+        ),
         utilized: this.statistics.propheciesGenerated
       },
       fractals: {
         total: this.fractals.size,
-        deepest: Math.max(...Array.from(this.fractals.values()).map(f => f.depth), 0)
+        deepest: Math.max(
+          ...Array.from(this.fractals.values()).map(f => f.depth),
+          0
+        )
       },
       frequency: `${this.config.frequency}Hz`
     };

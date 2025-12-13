@@ -1,6 +1,6 @@
 /**
  * Angel Persona Engagement Dashboard
- * 
+ *
  * Tracks AI persona interactions, NFT ownership validation,
  * and frequency architecture layer metrics
  */
@@ -115,7 +115,7 @@ class AngelPersonaDashboard {
     }
 
     const events = this.personaEngine.getEventLog();
-    
+
     // Reset counters
     this._resetMetrics();
 
@@ -162,16 +162,21 @@ class AngelPersonaDashboard {
 
       // Update specific counters based on event type
       if (archangelName === 'Michael') {
-        if (eventType === 'security-threat') personaMetrics.securityThreatsHandled++;
-        if (eventType === 'vulnerability-scan') personaMetrics.vulnerabilitiesScanned++;
-        if (eventType === 'protection-request') personaMetrics.protectionsDeployed++;
+        if (eventType === 'security-threat')
+          personaMetrics.securityThreatsHandled++;
+        if (eventType === 'vulnerability-scan')
+          personaMetrics.vulnerabilitiesScanned++;
+        if (eventType === 'protection-request')
+          personaMetrics.protectionsDeployed++;
       } else if (archangelName === 'Raphael') {
         if (eventType === 'system-error') personaMetrics.systemsHealed++;
-        if (eventType === 'optimization-request') personaMetrics.optimizationsPerformed++;
+        if (eventType === 'optimization-request')
+          personaMetrics.optimizationsPerformed++;
         if (eventType === 'restoration-needed') personaMetrics.dataRestored++;
       } else if (archangelName === 'Gabriel') {
         if (eventType === 'guidance-request') personaMetrics.guidanceProvided++;
-        if (eventType === 'message-delivery') personaMetrics.messagesDelivered++;
+        if (eventType === 'message-delivery')
+          personaMetrics.messagesDelivered++;
         if (eventType === 'truth-seeking') personaMetrics.truthsRevealed++;
       }
     }
@@ -185,7 +190,7 @@ class AngelPersonaDashboard {
     const freqMetrics = this.metrics.frequencyMetrics.get(freqKey);
     if (freqMetrics) {
       freqMetrics.totalEvents++;
-      
+
       if (frequency === 528) {
         freqMetrics.healingEvents++;
       } else if (frequency === 963) {
@@ -200,11 +205,12 @@ class AngelPersonaDashboard {
       uniqueUsers: new Set(),
       personaBreakdown: {}
     };
-    
+
     dailyStat.totalEvents++;
     dailyStat.uniqueUsers.add(event.userAddress);
-    dailyStat.personaBreakdown[archangelName] = (dailyStat.personaBreakdown[archangelName] || 0) + 1;
-    
+    dailyStat.personaBreakdown[archangelName] =
+      (dailyStat.personaBreakdown[archangelName] || 0) + 1;
+
     this.metrics.dailyStats.set(dateKey, dailyStat);
   }
 
@@ -221,7 +227,8 @@ class AngelPersonaDashboard {
 
     // Keep only last 1000 validations
     if (this.metrics.ownershipValidations.length > 1000) {
-      this.metrics.ownershipValidations = this.metrics.ownershipValidations.slice(-1000);
+      this.metrics.ownershipValidations =
+        this.metrics.ownershipValidations.slice(-1000);
     }
   }
 
@@ -269,12 +276,15 @@ class AngelPersonaDashboard {
     return {
       totalInteractions,
       totalValidations,
-      validationSuccessRate: totalValidations > 0 ? (validValidations / totalValidations * 100).toFixed(2) + '%' : 'N/A',
+      validationSuccessRate:
+        totalValidations > 0
+          ? ((validValidations / totalValidations) * 100).toFixed(2) + '%'
+          : 'N/A',
       mostActivePersona: this._getMostActivePersona(),
       totalEventTypes: this.metrics.eventsByType.size,
       frequencyDistribution: {
-        '528Hz': (this.metrics.frequencyMetrics.get('528Hz')?.totalEvents || 0),
-        '963Hz': (this.metrics.frequencyMetrics.get('963Hz')?.totalEvents || 0)
+        '528Hz': this.metrics.frequencyMetrics.get('528Hz')?.totalEvents || 0,
+        '963Hz': this.metrics.frequencyMetrics.get('963Hz')?.totalEvents || 0
       }
     };
   }
@@ -305,8 +315,9 @@ class AngelPersonaDashboard {
     return {
       persona: archangelName,
       metrics,
-      events: this.personaEngine ? 
-        this.personaEngine.getArchangelEvents(archangelName) : [],
+      events: this.personaEngine
+        ? this.personaEngine.getArchangelEvents(archangelName)
+        : [],
       timestamp: Date.now()
     };
   }
@@ -321,7 +332,8 @@ class AngelPersonaDashboard {
           name: 'Healing & Transformation Layer',
           personas: ['Raphael', 'Gabriel'],
           metrics: this.metrics.frequencyMetrics.get('528Hz'),
-          purpose: 'System healing, optimization, guidance, and truth revelation'
+          purpose:
+            'System healing, optimization, guidance, and truth revelation'
         },
         '963Hz': {
           name: 'Unity & Protection Layer',
@@ -345,8 +357,10 @@ class AngelPersonaDashboard {
   }
 
   _calculateHarmonicBalance() {
-    const freq528Events = this.metrics.frequencyMetrics.get('528Hz')?.totalEvents || 0;
-    const freq963Events = this.metrics.frequencyMetrics.get('963Hz')?.totalEvents || 0;
+    const freq528Events =
+      this.metrics.frequencyMetrics.get('528Hz')?.totalEvents || 0;
+    const freq963Events =
+      this.metrics.frequencyMetrics.get('963Hz')?.totalEvents || 0;
     const total = freq528Events + freq963Events;
 
     if (total === 0) {
@@ -359,7 +373,9 @@ class AngelPersonaDashboard {
     return {
       balanced,
       ratio: `${(ratio * 100).toFixed(1)}% healing / ${((1 - ratio) * 100).toFixed(1)}% protection`,
-      status: balanced ? 'Harmonically balanced' : 'Imbalanced - adjust persona usage'
+      status: balanced
+        ? 'Harmonically balanced'
+        : 'Imbalanced - adjust persona usage'
     };
   }
 
@@ -368,8 +384,8 @@ class AngelPersonaDashboard {
    */
   getEvolutionTracking() {
     const phases = [
-      { 
-        phase: 1, 
+      {
+        phase: 1,
         name: 'Genesis Deployment',
         status: this.deployed ? 'Complete' : 'Pending',
         archangels: ['Michael', 'Raphael', 'Gabriel']
@@ -383,7 +399,8 @@ class AngelPersonaDashboard {
       {
         phase: 3,
         name: 'Blockchain Integration',
-        status: this.metrics.ownershipValidations.length > 0 ? 'Active' : 'Pending',
+        status:
+          this.metrics.ownershipValidations.length > 0 ? 'Active' : 'Pending',
         validations: this.metrics.ownershipValidations.length
       },
       {
@@ -395,7 +412,9 @@ class AngelPersonaDashboard {
       {
         phase: 5,
         name: 'Frequency Harmonization',
-        status: this._calculateHarmonicBalance().balanced ? 'Balanced' : 'Tuning',
+        status: this._calculateHarmonicBalance().balanced
+          ? 'Balanced'
+          : 'Tuning',
         balance: this._calculateHarmonicBalance().ratio
       }
     ];
@@ -436,11 +455,14 @@ class AngelPersonaDashboard {
   }
 
   _calculateOverallProgress(phases) {
-    const completed = phases.filter(p => 
-      p.status === 'Complete' || p.status === 'Active' || 
-      p.status === 'Growing' || p.status === 'Balanced'
+    const completed = phases.filter(
+      p =>
+        p.status === 'Complete' ||
+        p.status === 'Active' ||
+        p.status === 'Growing' ||
+        p.status === 'Balanced'
     ).length;
-    return `${(completed / phases.length * 100).toFixed(0)}%`;
+    return `${((completed / phases.length) * 100).toFixed(0)}%`;
   }
 
   /**

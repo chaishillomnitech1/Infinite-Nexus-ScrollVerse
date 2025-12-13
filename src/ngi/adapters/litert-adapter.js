@@ -1,9 +1,9 @@
 /**
  * LiteRT (TensorFlow Lite Runtime) Adapter
- * 
+ *
  * Production-grade adapter for LiteRT - optimized for edge deployment and AR workflows
  * Ultra-low latency inference for real-time applications
- * 
+ *
  * Frequency: 963Hz | Edge Intelligence | Real-Time Processing
  */
 
@@ -32,7 +32,7 @@ class LiteRTAdapter {
 
     this.priority = config.priority || 1; // Highest priority for low-latency tasks
     this.initialized = false;
-    
+
     this.mockInference = new LiteRTMockInference();
   }
 
@@ -41,14 +41,14 @@ class LiteRTAdapter {
    */
   async initialize() {
     console.log('⚡ Initializing LiteRT Adapter at 963Hz...');
-    
+
     this.validateConfig();
-    
+
     if (this.config.mockMode) {
       await this.mockInference.initialize();
       console.log('✓ LiteRT Mock Inference initialized');
     }
-    
+
     this.initialized = true;
     console.log('✓ LiteRT Adapter ready for real-time processing');
     return true;
@@ -79,11 +79,10 @@ class LiteRTAdapter {
       // 2. Preprocess input data
       // 3. Run inference with configured delegates
       // 4. Postprocess output
-      
+
       const preprocessed = this.preprocessInput(task);
       const output = await this.runInference(preprocessed);
       return this.postprocessOutput(output);
-      
     } catch (error) {
       throw new Error(`LiteRT inference error: ${error.message}`);
     }
@@ -106,10 +105,12 @@ class LiteRTAdapter {
    */
   async runInference(preprocessed) {
     // Placeholder for actual TFLite inference
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve({
-          output: [/* tensor data */],
+          output: [
+            /* tensor data */
+          ],
           latency: 15 + Math.random() * 10
         });
       }, 15);
@@ -172,10 +173,10 @@ class LiteRTMockInference {
 
   async initialize() {
     console.log('🧪 Initializing LiteRT Mock Inference...');
-    
+
     // Load mock models
     this.loadMockModels();
-    
+
     this.initialized = true;
     return true;
   }
@@ -224,7 +225,8 @@ class LiteRTMockInference {
    */
   async run(task) {
     const modelType = this.inferModelType(task);
-    const model = this.models.get(modelType) || this.models.get('image_classification');
+    const model =
+      this.models.get(modelType) || this.models.get('image_classification');
 
     // Simulate ultra-low latency processing
     const latency = model.avgLatency + Math.random() * 5;
@@ -252,7 +254,7 @@ class LiteRTMockInference {
     if (task.type === 'pose_estimation') return 'pose_estimation';
     if (task.type === 'segmentation') return 'segmentation';
     if (task.type === 'ar_workflow') return 'object_detection'; // AR typically needs object detection
-    
+
     return 'image_classification';
   }
 
@@ -263,16 +265,16 @@ class LiteRTMockInference {
     switch (modelType) {
       case 'object_detection':
         return this.generateObjectDetectionResult(model);
-      
+
       case 'image_classification':
         return this.generateClassificationResult(model);
-      
+
       case 'pose_estimation':
         return this.generatePoseEstimationResult(model);
-      
+
       case 'segmentation':
         return this.generateSegmentationResult(model);
-      
+
       default:
         return { predictions: [] };
     }
@@ -329,10 +331,23 @@ class LiteRTMockInference {
   generatePoseEstimationResult(model) {
     const keypoints = [];
     const keypointNames = [
-      'nose', 'left_eye', 'right_eye', 'left_ear', 'right_ear',
-      'left_shoulder', 'right_shoulder', 'left_elbow', 'right_elbow',
-      'left_wrist', 'right_wrist', 'left_hip', 'right_hip',
-      'left_knee', 'right_knee', 'left_ankle', 'right_ankle'
+      'nose',
+      'left_eye',
+      'right_eye',
+      'left_ear',
+      'right_ear',
+      'left_shoulder',
+      'right_shoulder',
+      'left_elbow',
+      'right_elbow',
+      'left_wrist',
+      'right_wrist',
+      'left_hip',
+      'right_hip',
+      'left_knee',
+      'right_knee',
+      'left_ankle',
+      'right_ankle'
     ];
 
     for (let i = 0; i < model.keypoints; i++) {

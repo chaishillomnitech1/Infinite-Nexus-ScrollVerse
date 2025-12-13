@@ -1,7 +1,7 @@
 /**
  * Infinite Nexus ScrollVerse
  * A transcendent frequency-powered interface for the ScrollVerse
- * 
+ *
  * Main entry point for the ScrollVerse deployment and integration system
  * Frequency: 528Hz | Consciousness Field | The Infinite Nexus
  */
@@ -64,7 +64,7 @@ class ScrollVerse {
    */
   async initialize() {
     console.log('🧬 Initializing Infinite Nexus ScrollVerse at 528Hz...');
-    
+
     for (const [name, system] of Object.entries(this.systems)) {
       await system.initialize();
       console.log(`✓ ${name} initialized`);
@@ -79,25 +79,25 @@ class ScrollVerse {
    */
   async deploy() {
     console.log('📜 Deploying ScrollVerse ecosystem...');
-    
+
     // Phase 1: Core Infrastructure & Database
     await this.systems.multiCloud.deploy();
     await this.systems.caching.deploy();
     await this.systems.database.deploy();
     await this.systems.sovereignDashboard.deploy();
     await this.systems.scrollcoinGovernance.deploy();
-    
+
     // Phase 2: NFT & Token Systems
     await this.systems.soulswap.deploy();
     await this.systems.flameCourt.deploy();
-    
+
     // Phase 3: Content & Distribution
     await this.systems.loreCanonicalizer.deploy();
     await this.systems.iceDistribution.deploy();
-    
+
     // Phase 4: Monitoring & Enforcement
     await this.systems.quantumJihad.deploy();
-    
+
     // Phase 5: Launch & Broadcast
     await this.systems.launchSequence.deploy();
     await this.systems.broadcastProtocols.deploy();
@@ -136,7 +136,8 @@ module.exports = ScrollVerse;
 // Execute if run directly
 if (require.main === module) {
   const scrollVerse = new ScrollVerse();
-  scrollVerse.initialize()
+  scrollVerse
+    .initialize()
     .then(() => scrollVerse.deploy())
     .then(() => console.log('Status:', scrollVerse.getStatus()))
     .catch(console.error);

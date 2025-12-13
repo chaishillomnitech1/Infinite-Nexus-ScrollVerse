@@ -1,6 +1,6 @@
 /**
  * ICE Content Distribution Pipeline
- * 
+ *
  * Implements low-friction ScrollVerse content pipelines,
  * automating ScrollSoul teases, episodics, and event marketing.
  */
@@ -119,7 +119,7 @@ class ICEDistribution {
    */
   async distributeContent(content, channels = null) {
     const targetChannels = channels || this.distributionChannels;
-    
+
     const distribution = {
       contentId: content.id,
       content,
@@ -136,7 +136,10 @@ class ICEDistribution {
       distribution.results[channel] = {
         success: true,
         timestamp: Date.now(),
-        reach: Math.floor(Math.random() * (SIMULATED_REACH_MAX - SIMULATED_REACH_MIN)) + SIMULATED_REACH_MIN
+        reach:
+          Math.floor(
+            Math.random() * (SIMULATED_REACH_MAX - SIMULATED_REACH_MIN)
+          ) + SIMULATED_REACH_MIN
       };
     }
 
@@ -154,10 +157,12 @@ class ICEDistribution {
       type: 'tease',
       body: teaseData.body,
       media: teaseData.media,
-      tags: ['scrollsoul', 'tease', ...teaseData.tags || []]
+      tags: ['scrollsoul', 'tease', ...(teaseData.tags || [])]
     });
 
-    const pipeline = this.contentPipelines.find(p => p.id === 'scrollsoul-teases');
+    const pipeline = this.contentPipelines.find(
+      p => p.id === 'scrollsoul-teases'
+    );
     return this.distributeContent(content, pipeline.channels);
   }
 
@@ -170,7 +175,11 @@ class ICEDistribution {
       type: 'episode',
       body: episodeData.body,
       media: episodeData.media,
-      tags: ['episodic', `episode-${episodeData.episodeNumber}`, ...episodeData.tags || []]
+      tags: [
+        'episodic',
+        `episode-${episodeData.episodeNumber}`,
+        ...(episodeData.tags || [])
+      ]
     });
 
     const pipeline = this.contentPipelines.find(p => p.id === 'episodics');
@@ -190,10 +199,12 @@ class ICEDistribution {
       type: 'event',
       body: eventData.description,
       media: eventData.media,
-      tags: ['event', eventData.eventType, ...eventData.tags || []]
+      tags: ['event', eventData.eventType, ...(eventData.tags || [])]
     });
 
-    const pipeline = this.contentPipelines.find(p => p.id === 'event-marketing');
+    const pipeline = this.contentPipelines.find(
+      p => p.id === 'event-marketing'
+    );
     return this.distributeContent(content, pipeline.channels);
   }
 
@@ -210,7 +221,9 @@ class ICEDistribution {
 
     return {
       totalDistributed: this.distributedContent.length,
-      scheduledPending: this.scheduledContent.filter(s => s.status === 'scheduled').length,
+      scheduledPending: this.scheduledContent.filter(
+        s => s.status === 'scheduled'
+      ).length,
       totalReach,
       activePipelines: this.contentPipelines.filter(p => p.active).length
     };

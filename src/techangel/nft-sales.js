@@ -1,6 +1,6 @@
 /**
  * NFT Sales System
- * 
+ *
  * Manages NFT sales, Guardian whitelist, mint/drop operations,
  * and ScrollChain asset registration.
  */

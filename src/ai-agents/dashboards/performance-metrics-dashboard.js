@@ -1,9 +1,9 @@
 /**
  * Performance Metrics Dashboard
- * 
+ *
  * Real-time telemetry dashboard for monitoring AI agent evaluations,
  * DSP platform performance, DAO governance simulations, and listener rewards.
- * 
+ *
  * @module PerformanceMetricsDashboard
  */
 
@@ -24,14 +24,16 @@ class PerformanceMetricsDashboard {
   }
 
   async initialize() {
-    console.log(`📊 Initializing Performance Metrics Dashboard at ${this.config.frequency}Hz...`);
-    
+    console.log(
+      `📊 Initializing Performance Metrics Dashboard at ${this.config.frequency}Hz...`
+    );
+
     // Initialize metric categories
     this.initializeMetricCategories();
-    
+
     // Start real-time telemetry collection
     this.startTelemetryCollection();
-    
+
     this.initialized = true;
     console.log('✓ Performance Metrics Dashboard initialized');
     return true;
@@ -107,7 +109,7 @@ class PerformanceMetricsDashboard {
    */
   collectTelemetry() {
     const timestamp = Date.now();
-    
+
     const telemetrySnapshot = {
       timestamp,
       frequency: this.config.frequency,
@@ -132,7 +134,10 @@ class PerformanceMetricsDashboard {
       category.listenerLoad.push({ timestamp, value: metrics.listenerLoad });
     }
     if (metrics.streamingQuality !== undefined) {
-      category.streamingQuality.push({ timestamp, value: metrics.streamingQuality });
+      category.streamingQuality.push({
+        timestamp,
+        value: metrics.streamingQuality
+      });
     }
     if (metrics.latency !== undefined) {
       category.latency.push({ timestamp, value: metrics.latency });
@@ -153,13 +158,22 @@ class PerformanceMetricsDashboard {
     const timestamp = Date.now();
 
     if (metrics.proposalActivity !== undefined) {
-      category.proposalActivity.push({ timestamp, value: metrics.proposalActivity });
+      category.proposalActivity.push({
+        timestamp,
+        value: metrics.proposalActivity
+      });
     }
     if (metrics.votingParticipation !== undefined) {
-      category.votingParticipation.push({ timestamp, value: metrics.votingParticipation });
+      category.votingParticipation.push({
+        timestamp,
+        value: metrics.votingParticipation
+      });
     }
     if (metrics.executionSuccess !== undefined) {
-      category.executionSuccess.push({ timestamp, value: metrics.executionSuccess });
+      category.executionSuccess.push({
+        timestamp,
+        value: metrics.executionSuccess
+      });
     }
     if (metrics.consensusTime !== undefined) {
       category.consensusTime.push({ timestamp, value: metrics.consensusTime });
@@ -174,7 +188,10 @@ class PerformanceMetricsDashboard {
     const timestamp = Date.now();
 
     if (metrics.contractExecutions !== undefined) {
-      category.contractExecutions.push({ timestamp, value: metrics.contractExecutions });
+      category.contractExecutions.push({
+        timestamp,
+        value: metrics.contractExecutions
+      });
     }
     if (metrics.gasEfficiency !== undefined) {
       category.gasEfficiency.push({ timestamp, value: metrics.gasEfficiency });
@@ -195,13 +212,22 @@ class PerformanceMetricsDashboard {
     const timestamp = Date.now();
 
     if (metrics.rewardDistributions !== undefined) {
-      category.rewardDistributions.push({ timestamp, value: metrics.rewardDistributions });
+      category.rewardDistributions.push({
+        timestamp,
+        value: metrics.rewardDistributions
+      });
     }
     if (metrics.ethereumPayloads !== undefined) {
-      category.ethereumPayloads.push({ timestamp, value: metrics.ethereumPayloads });
+      category.ethereumPayloads.push({
+        timestamp,
+        value: metrics.ethereumPayloads
+      });
     }
     if (metrics.verificationSuccess !== undefined) {
-      category.verificationSuccess.push({ timestamp, value: metrics.verificationSuccess });
+      category.verificationSuccess.push({
+        timestamp,
+        value: metrics.verificationSuccess
+      });
     }
     if (metrics.claimLatency !== undefined) {
       category.claimLatency.push({ timestamp, value: metrics.claimLatency });
@@ -216,7 +242,10 @@ class PerformanceMetricsDashboard {
     const timestamp = Date.now();
 
     if (metrics.totalEvaluations !== undefined) {
-      category.totalEvaluations.push({ timestamp, value: metrics.totalEvaluations });
+      category.totalEvaluations.push({
+        timestamp,
+        value: metrics.totalEvaluations
+      });
     }
     if (metrics.passRate !== undefined) {
       category.passRate.push({ timestamp, value: metrics.passRate });
@@ -225,7 +254,10 @@ class PerformanceMetricsDashboard {
       category.averageScore.push({ timestamp, value: metrics.averageScore });
     }
     if (metrics.frequencyAlignment !== undefined) {
-      category.frequencyAlignment.push({ timestamp, value: metrics.frequencyAlignment });
+      category.frequencyAlignment.push({
+        timestamp,
+        value: metrics.frequencyAlignment
+      });
     }
   }
 
@@ -237,12 +269,12 @@ class PerformanceMetricsDashboard {
 
     for (const [category, metrics] of this.metrics) {
       snapshot[category] = {};
-      
+
       for (const [metric, values] of Object.entries(metrics)) {
         if (values.length > 0) {
           const latest = values[values.length - 1];
           const avg = this.calculateAverage(values.slice(-10)); // Last 10 values
-          
+
           snapshot[category][metric] = {
             current: latest.value,
             average: avg,
@@ -284,41 +316,52 @@ class PerformanceMetricsDashboard {
     // DSP Platform health
     const dspMetrics = this.metrics.get('dsp_platform');
     if (dspMetrics.errorRate.length > 0) {
-      const avgErrorRate = this.calculateAverage(dspMetrics.errorRate.slice(-10));
+      const avgErrorRate = this.calculateAverage(
+        dspMetrics.errorRate.slice(-10)
+      );
       healthScores.push(1 - avgErrorRate);
     }
 
     // DAO Governance health
     const daoMetrics = this.metrics.get('dao_governance');
     if (daoMetrics.executionSuccess.length > 0) {
-      const avgSuccess = this.calculateAverage(daoMetrics.executionSuccess.slice(-10));
+      const avgSuccess = this.calculateAverage(
+        daoMetrics.executionSuccess.slice(-10)
+      );
       healthScores.push(avgSuccess);
     }
 
     // A2A Contracts health
     const a2aMetrics = this.metrics.get('a2a_contracts');
     if (a2aMetrics.successRate.length > 0) {
-      const avgSuccess = this.calculateAverage(a2aMetrics.successRate.slice(-10));
+      const avgSuccess = this.calculateAverage(
+        a2aMetrics.successRate.slice(-10)
+      );
       healthScores.push(avgSuccess);
     }
 
     // Listener Rewards health
     const rewardsMetrics = this.metrics.get('listener_rewards');
     if (rewardsMetrics.verificationSuccess.length > 0) {
-      const avgSuccess = this.calculateAverage(rewardsMetrics.verificationSuccess.slice(-10));
+      const avgSuccess = this.calculateAverage(
+        rewardsMetrics.verificationSuccess.slice(-10)
+      );
       healthScores.push(avgSuccess);
     }
 
     // Agent Evaluations health
     const agentMetrics = this.metrics.get('agent_evaluations');
     if (agentMetrics.passRate.length > 0) {
-      const avgPassRate = this.calculateAverage(agentMetrics.passRate.slice(-10));
+      const avgPassRate = this.calculateAverage(
+        agentMetrics.passRate.slice(-10)
+      );
       healthScores.push(avgPassRate);
     }
 
     if (healthScores.length === 0) return 1.0;
 
-    const overallHealth = healthScores.reduce((sum, score) => sum + score, 0) / healthScores.length;
+    const overallHealth =
+      healthScores.reduce((sum, score) => sum + score, 0) / healthScores.length;
     return {
       overall: overallHealth,
       status: this.getHealthStatus(overallHealth),
@@ -332,8 +375,8 @@ class PerformanceMetricsDashboard {
   getHealthStatus(score) {
     if (score >= 0.95) return 'excellent';
     if (score >= 0.85) return 'good';
-    if (score >= 0.70) return 'fair';
-    if (score >= 0.50) return 'poor';
+    if (score >= 0.7) return 'fair';
+    if (score >= 0.5) return 'poor';
     return 'critical';
   }
 
@@ -351,7 +394,7 @@ class PerformanceMetricsDashboard {
    */
   calculateTrend(values) {
     if (values.length < 2) return 'stable';
-    
+
     const first = values[0].value;
     const last = values[values.length - 1].value;
     const change = ((last - first) / first) * 100;
@@ -378,7 +421,8 @@ class PerformanceMetricsDashboard {
     // DSP platform alerts
     const dspMetrics = this.metrics.get('dsp_platform');
     if (dspMetrics.errorRate.length > 0) {
-      const latestErrorRate = dspMetrics.errorRate[dspMetrics.errorRate.length - 1].value;
+      const latestErrorRate =
+        dspMetrics.errorRate[dspMetrics.errorRate.length - 1].value;
       if (latestErrorRate > 0.1) {
         this.addAlert('warning', 'High DSP error rate detected', {
           errorRate: latestErrorRate
@@ -389,7 +433,8 @@ class PerformanceMetricsDashboard {
     // A2A contract alerts
     const a2aMetrics = this.metrics.get('a2a_contracts');
     if (a2aMetrics.successRate.length > 0) {
-      const latestSuccessRate = a2aMetrics.successRate[a2aMetrics.successRate.length - 1].value;
+      const latestSuccessRate =
+        a2aMetrics.successRate[a2aMetrics.successRate.length - 1].value;
       if (latestSuccessRate < 0.9) {
         this.addAlert('warning', 'Low A2A contract success rate', {
           successRate: latestSuccessRate
@@ -413,7 +458,7 @@ class PerformanceMetricsDashboard {
 
     this.alerts.push(alert);
     console.log(`⚠️  [${level.toUpperCase()}] ${message}`);
-    
+
     return alert;
   }
 
@@ -450,10 +495,14 @@ class PerformanceMetricsDashboard {
     }
 
     // Clean up telemetry stream
-    this.telemetryStream = this.telemetryStream.filter(t => t.timestamp >= cutoff);
+    this.telemetryStream = this.telemetryStream.filter(
+      t => t.timestamp >= cutoff
+    );
 
     // Clean up old acknowledged alerts
-    this.alerts = this.alerts.filter(a => !a.acknowledged || a.acknowledgedAt >= cutoff);
+    this.alerts = this.alerts.filter(
+      a => !a.acknowledged || a.acknowledgedAt >= cutoff
+    );
   }
 
   /**
@@ -467,7 +516,9 @@ class PerformanceMetricsDashboard {
       metrics: this.getCurrentMetrics(),
       activeAlerts: this.getActiveAlerts().length,
       telemetryPoints: this.telemetryStream.length,
-      uptime: this.initialized ? Date.now() - this.telemetryStream[0]?.timestamp : 0
+      uptime: this.initialized
+        ? Date.now() - this.telemetryStream[0]?.timestamp
+        : 0
     };
   }
 

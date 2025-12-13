@@ -1,6 +1,6 @@
 /**
  * TECHANGEL Pilot NFT Event Launcher
- * 
+ *
  * Anchors narrative storytelling to the TECHANGEL pilot while
  * simultaneously launching NFT sales, staking mechanisms, and
  * Star Dust currency economics.
@@ -16,7 +16,7 @@ class TechAngelLauncher {
     this.config = config;
     this.initialized = false;
     this.deployed = false;
-    
+
     this.starDust = new StarDustEconomics(config);
     this.narrative = new NarrativeEngine(config);
     this.nftSales = new NFTSales(config);
@@ -46,13 +46,13 @@ class TechAngelLauncher {
 
     // Deploy narrative storytelling anchor
     await this.narrative.anchorToTechAngel();
-    
+
     // Launch NFT sales simultaneously
     await this.nftSales.launchSales();
-    
+
     // Activate staking mechanisms
     await this.staking.activate();
-    
+
     // Initialize Star Dust economics
     await this.starDust.launchCurrency();
 
