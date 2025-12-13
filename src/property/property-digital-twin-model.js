@@ -1,10 +1,10 @@
 /**
  * Property Digital Twin Model
  * Digital asset mirroring for real property with blockchain integration
- * 
+ *
  * Property: 658 Sixth Rd, Newtonville, New Jersey 08346
  * Ownership: Keleen Joy Simpson and daughters (Jada Joy Hill, Nyasia Chais Hill)
- * 
+ *
  * Features:
  * - Blockchain-based digital twin mirroring
  * - NFT generation with family stories and milestones
@@ -12,7 +12,7 @@
  * - Revenue tracking and distribution
  * - Digital art integration
  * - Infinite growth smart contracts
- * 
+ *
  * Frequency: 528Hz & 963Hz | Healing & Divine Protection
  */
 
@@ -27,7 +27,7 @@ class PropertyDigitalTwinModel {
 
     // QR signature system (must be initialized first)
     this.qrSignatures = new Map();
-    
+
     // NFT collections
     this.nftCollections = {
       historical: [],
@@ -35,7 +35,7 @@ class PropertyDigitalTwinModel {
       artworks: [],
       memories: []
     };
-    
+
     // Revenue streams
     this.revenueStreams = {
       nftSales: { total: 0, distributed: 0, active: true },
@@ -43,20 +43,20 @@ class PropertyDigitalTwinModel {
       propertyCoin: { total: 0, distributed: 0, active: true },
       rentalIncome: { total: 0, distributed: 0, active: true }
     };
-    
+
     this.statistics = {
       totalNFTsMinted: 0,
       totalRevenueGenerated: 0,
       activeStreams: 4,
       qrVerifications: 0
     };
-    
+
     // Property information (after QR signatures map is ready)
     this.propertyInfo = this.initializePropertyInfo();
-    
+
     // Beneficiary structure
     this.beneficiaries = this.initializeBeneficiaries();
-    
+
     // Cybersecurity protocols
     this.securityProtocols = this.initializeSecurityProtocols();
   }
@@ -167,7 +167,7 @@ class PropertyDigitalTwinModel {
       timestamp: Date.now(),
       frequency: 528
     };
-    
+
     // Create deterministic signature
     const signature = this.hashData(JSON.stringify(data));
     this.qrSignatures.set('property-main', {
@@ -176,7 +176,7 @@ class PropertyDigitalTwinModel {
       created: new Date().toISOString(),
       verified: false
     });
-    
+
     return signature;
   }
 
@@ -188,7 +188,7 @@ class PropertyDigitalTwinModel {
     let hash = 0;
     for (let i = 0; i < data.length; i++) {
       const char = data.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash;
     }
     return Math.abs(hash).toString(16);
@@ -248,14 +248,14 @@ class PropertyDigitalTwinModel {
       property: this.propertyInfo.address,
       timestamp: Date.now()
     };
-    
+
     const signature = this.hashData(JSON.stringify(data));
     this.qrSignatures.set(`nft-${this.statistics.totalNFTsMinted}`, {
       signature,
       data,
       created: new Date().toISOString()
     });
-    
+
     return signature;
   }
 
@@ -293,7 +293,7 @@ class PropertyDigitalTwinModel {
     };
 
     this.nftCollections.artworks.push(artwork);
-    
+
     return artwork;
   }
 
@@ -323,13 +323,13 @@ class PropertyDigitalTwinModel {
   calculateRevenueDistribution(streamType) {
     const stream = this.revenueStreams[streamType];
     const undistributed = stream.total - stream.distributed;
-    
+
     if (undistributed <= 0) {
       return null;
     }
 
     return {
-      keleenJoySimpson: undistributed * 0.50,
+      keleenJoySimpson: undistributed * 0.5,
       jadaJoyHill: undistributed * 0.25,
       nyasiaChaisHill: undistributed * 0.25,
       total: undistributed,
@@ -342,13 +342,14 @@ class PropertyDigitalTwinModel {
    */
   distributeRevenue(streamType) {
     const distribution = this.calculateRevenueDistribution(streamType);
-    
+
     if (!distribution) {
       return { success: false, message: 'No revenue to distribute' };
     }
 
     // Mark as distributed
-    this.revenueStreams[streamType].distributed = this.revenueStreams[streamType].total;
+    this.revenueStreams[streamType].distributed =
+      this.revenueStreams[streamType].total;
 
     return {
       success: true,
@@ -363,7 +364,7 @@ class PropertyDigitalTwinModel {
    */
   verifyQRSignature(signatureId) {
     const qrData = this.qrSignatures.get(signatureId);
-    
+
     if (!qrData) {
       return { valid: false, message: 'Signature not found' };
     }
@@ -405,7 +406,9 @@ class PropertyDigitalTwinModel {
           type: key,
           total: this.revenueStreams[key].total,
           distributed: this.revenueStreams[key].distributed,
-          pending: this.revenueStreams[key].total - this.revenueStreams[key].distributed
+          pending:
+            this.revenueStreams[key].total -
+            this.revenueStreams[key].distributed
         }))
       },
       security: {

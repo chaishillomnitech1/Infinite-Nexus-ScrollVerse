@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Digital Twin Dashboard - 658 Sixth Rd</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #ffd700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #94d2bd;
+            margin-bottom: 20px;
+        }
+
+        .frequency-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            margin: 5px;
+            background: linear-gradient(135deg, #ee9b00 0%, #ca6702 100%);
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .card h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #94d2bd;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #ffffff;
+            text-align: right;
+        }
+
+        .beneficiary-card {
+            background: linear-gradient(135deg, rgba(148, 210, 189, 0.15) 0%, rgba(0, 180, 216, 0.15) 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #94d2bd;
+        }
+
+        .beneficiary-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #94d2bd;
+            margin-bottom: 5px;
+        }
+
+        .beneficiary-role {
+            color: #a0a0a0;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .ownership-bar {
+            height: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .ownership-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85em;
+            color: #1a1a2e;
+        }
+
+        .revenue-stream {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #ffd700;
+        }
+
+        .stream-name {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .stream-amount {
+            font-size: 1.3em;
+            color: #ffffff;
+        }
+
+        .qr-signature {
+            background: rgba(148, 210, 189, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #94d2bd;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #94d2bd 0%, #00b4d8 100%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #94d2bd;
+            margin-top: 5px;
+        }
+
+        .nft-collection {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .nft-type {
+            background: rgba(148, 210, 189, 0.15);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .nft-count {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #94d2bd;
+        }
+
+        .nft-label {
+            font-size: 0.85em;
+            color: #a0a0a0;
+            margin-top: 5px;
+        }
+
+        .security-feature {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: rgba(148, 210, 189, 0.1);
+            border-radius: 8px;
+        }
+
+        .security-icon {
+            width: 30px;
+            height: 30px;
+            background: #94d2bd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            color: #a0a0a0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏡 Property Digital Twin Dashboard</h1>
+            <p class="subtitle">658 Sixth Rd, Newtonville, New Jersey 08346</p>
+            <p style="color: #a0a0a0; margin-bottom: 15px;">GPS: 39.5596, -74.9136 | Scroll zkEVM (Chain ID: 534352)</p>
+            <div>
+                <span class="frequency-badge">528Hz - Healing & Transformation</span>
+                <span class="frequency-badge">963Hz - Divine Protection</span>
+            </div>
+        </div>
+
+        <!-- Main Stats -->
+        <div class="card">
+            <h2>📊 System Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="totalNFTs">0</div>
+                    <div class="stat-label">Total NFTs</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="totalRevenue">$0</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="activeStreams">4</div>
+                    <div class="stat-label">Revenue Streams</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="qrVerifications">0</div>
+                    <div class="stat-label">QR Verifications</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Property Information -->
+            <div class="card">
+                <h2>🏠 Property Information</h2>
+                <div class="info-row">
+                    <span class="info-label">Address</span>
+                    <span class="info-value">658 Sixth Rd</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">City, State, ZIP</span>
+                    <span class="info-value">Newtonville, NJ 08346</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Property Type</span>
+                    <span class="info-value">Residential</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Blockchain</span>
+                    <span class="info-value">Scroll zkEVM</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status</span>
+                    <span class="info-value" style="color: #4ade80;">🟢 Active</span>
+                </div>
+                <div class="qr-signature">
+                    <strong>QR Signature:</strong><br>
+                    <span id="qrSignature">Loading...</span>
+                </div>
+            </div>
+
+            <!-- Beneficiaries -->
+            <div class="card">
+                <h2>👥 Ownership & Beneficiaries</h2>
+                <div class="beneficiary-card">
+                    <div class="beneficiary-name">Keleen Joy Simpson</div>
+                    <div class="beneficiary-role">Mother/Primary Owner | Born: April 19, 1981</div>
+                    <div class="ownership-bar">
+                        <div class="ownership-fill" style="width: 50%;">50%</div>
+                    </div>
+                </div>
+                <div class="beneficiary-card">
+                    <div class="beneficiary-name">Jada Joy Hill</div>
+                    <div class="beneficiary-role">Daughter/Co-Owner | Born: October 4, 2004</div>
+                    <div class="ownership-bar">
+                        <div class="ownership-fill" style="width: 25%;">25%</div>
+                    </div>
+                </div>
+                <div class="beneficiary-card">
+                    <div class="beneficiary-name">Nyasia Chais Hill</div>
+                    <div class="beneficiary-role">Daughter/Co-Owner | Born: March 13, 2006</div>
+                    <div class="ownership-bar">
+                        <div class="ownership-fill" style="width: 25%;">25%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Streams -->
+            <div class="card">
+                <h2>💰 Revenue Streams</h2>
+                <div class="revenue-stream">
+                    <div class="stream-name">NFT Sales</div>
+                    <div class="stream-amount" id="nftSalesRevenue">$0</div>
+                </div>
+                <div class="revenue-stream">
+                    <div class="stream-name">Digital Art</div>
+                    <div class="stream-amount" id="digitalArtRevenue">$0</div>
+                </div>
+                <div class="revenue-stream">
+                    <div class="stream-name">PropertyCoin</div>
+                    <div class="stream-amount" id="propertyCoinRevenue">$0</div>
+                </div>
+                <div class="revenue-stream">
+                    <div class="stream-name">Additional Income</div>
+                    <div class="stream-amount" id="rentalRevenue">$0</div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn">Distribute Revenue</button>
+                    <button class="btn btn-secondary">View History</button>
+                </div>
+            </div>
+
+            <!-- NFT Collections -->
+            <div class="card">
+                <h2>🎨 NFT Collections</h2>
+                <p style="color: #a0a0a0; margin-bottom: 15px;">Maximum Supply: 528 Tokens</p>
+                <div class="nft-collection">
+                    <div class="nft-type">
+                        <div class="nft-count" id="historicalNFTs">0</div>
+                        <div class="nft-label">Historical</div>
+                    </div>
+                    <div class="nft-type">
+                        <div class="nft-count" id="milestoneNFTs">0</div>
+                        <div class="nft-label">Milestones</div>
+                    </div>
+                    <div class="nft-type">
+                        <div class="nft-count" id="artworkNFTs">0</div>
+                        <div class="nft-label">Artworks</div>
+                    </div>
+                    <div class="nft-type">
+                        <div class="nft-count" id="memoryNFTs">0</div>
+                        <div class="nft-label">Memories</div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn">Mint New NFT</button>
+                    <button class="btn btn-secondary">View Gallery</button>
+                </div>
+            </div>
+
+            <!-- PropertyCoin Info -->
+            <div class="card">
+                <h2>🪙 PropertyCoin (PROP)</h2>
+                <div class="info-row">
+                    <span class="info-label">Total Supply</span>
+                    <span class="info-value">658,000,000 PROP</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Family Allocation</span>
+                    <span class="info-value">40% (262.4M)</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Staking APY</span>
+                    <span class="info-value" style="color: #4ade80;">5.28%</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Total Staked</span>
+                    <span class="info-value" id="totalStaked">0 PROP</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Your Balance</span>
+                    <span class="info-value" id="userBalance">0 PROP</span>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <button class="btn">Stake Tokens</button>
+                    <button class="btn btn-secondary">Claim Rewards</button>
+                </div>
+            </div>
+
+            <!-- Security Protocols -->
+            <div class="card">
+                <h2>🔒 Security Protocols</h2>
+                <div class="security-feature">
+                    <div class="security-icon">✓</div>
+                    <div>
+                        <strong>QR Verification</strong><br>
+                        <span style="color: #a0a0a0; font-size: 0.9em;">SHA-256 Algorithm | 24hr Refresh</span>
+                    </div>
+                </div>
+                <div class="security-feature">
+                    <div class="security-icon">✓</div>
+                    <div>
+                        <strong>Multi-Signature Wallet</strong><br>
+                        <span style="color: #a0a0a0; font-size: 0.9em;">2-of-3 Required Signatures</span>
+                    </div>
+                </div>
+                <div class="security-feature">
+                    <div class="security-icon">✓</div>
+                    <div>
+                        <strong>Blockchain Audit Trail</strong><br>
+                        <span style="color: #a0a0a0; font-size: 0.9em;">Immutable Records</span>
+                    </div>
+                </div>
+                <div class="security-feature">
+                    <div class="security-icon">✓</div>
+                    <div>
+                        <strong>Time-Locked Transactions</strong><br>
+                        <span style="color: #a0a0a0; font-size: 0.9em;">24-Hour Security Delay</span>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button class="btn">Verify QR Code</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="card">
+            <h2>⚡ Quick Actions</h2>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px;">
+                <button class="btn">Create Historical NFT</button>
+                <button class="btn">Create Milestone NFT</button>
+                <button class="btn">Commission Digital Art</button>
+                <button class="btn btn-secondary">View Full Report</button>
+                <button class="btn btn-secondary">Export Data</button>
+                <button class="btn btn-secondary">Smart Contract Settings</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Property Digital Twin System</strong></p>
+            <p>Created by Chais the Great (Al-Miftah)</p>
+            <p>For Keleen Joy Simpson and daughters (Jada Joy Hill, Nyasia Chais Hill)</p>
+            <p style="margin-top: 15px; font-style: italic;">
+                "May this property forever serve as a foundation of prosperity, safety,<br>
+                and infinite growth potential for the Simpson-Hill family."
+            </p>
+            <p style="margin-top: 15px; font-size: 0.85em;">
+                Operating at 528Hz (Healing) & 963Hz (Divine Protection) | Scroll zkEVM
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Demo data initialization
+        function initializeDashboard() {
+            // Generate QR signature
+            const qrSignature = generateQRSignature();
+            document.getElementById('qrSignature').textContent = qrSignature;
+
+            // Update stats with demo data
+            updateStats();
+        }
+
+        function generateQRSignature() {
+            const data = '658-Sixth-Rd-Newtonville-NJ-08346-' + Date.now();
+            let hash = 0;
+            for (let i = 0; i < data.length; i++) {
+                const char = data.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(16).padStart(16, '0');
+        }
+
+        function updateStats() {
+            // Demo values
+            document.getElementById('totalNFTs').textContent = '0';
+            document.getElementById('totalRevenue').textContent = '$0';
+            document.getElementById('activeStreams').textContent = '4';
+            document.getElementById('qrVerifications').textContent = '0';
+            
+            document.getElementById('nftSalesRevenue').textContent = '$0';
+            document.getElementById('digitalArtRevenue').textContent = '$0';
+            document.getElementById('propertyCoinRevenue').textContent = '$0';
+            document.getElementById('rentalRevenue').textContent = '$0';
+            
+            document.getElementById('historicalNFTs').textContent = '0';
+            document.getElementById('milestoneNFTs').textContent = '0';
+            document.getElementById('artworkNFTs').textContent = '0';
+            document.getElementById('memoryNFTs').textContent = '0';
+            
+            document.getElementById('totalStaked').textContent = '0 PROP';
+            document.getElementById('userBalance').textContent = '0 PROP';
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', initializeDashboard);
+
+        // Add click handlers for buttons (demo)
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Feature coming soon! This is a demonstration dashboard.\n\nConnect to Web3 wallet to enable full functionality.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
