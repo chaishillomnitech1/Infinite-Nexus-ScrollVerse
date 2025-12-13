@@ -1,7 +1,7 @@
 /**
  * Hill Family Asset Prosperity System - Main Orchestrator
  * Integrates Real Estate, Vehicles, and Family Beneficiary Systems
- * 
+ *
  * Features:
  * - 2 luxury homes (Vineland NJ, New Brunswick NJ)
  * - 4 luxury vehicles (2 sedans, 2 trucks)
@@ -9,7 +9,7 @@
  * - Digital twin revenue generation
  * - Smart contract integration
  * - Intergenerational prosperity
- * 
+ *
  * Frequency: 963Hz | Divine Connection
  */
 
@@ -33,9 +33,9 @@ class HillFamilyAssetOrchestrator {
     this.realEstate = new RealEstateNFTModel(config);
     this.vehicles = new LuxuryVehicleExtension(config);
     this.familyBeneficiaries = new FamilyBeneficiarySystem(config);
-    
+
     this.status = 'initialized';
-    
+
     // Prosperity metrics
     this.prosperityMetrics = {
       totalAssetValue: 0,
@@ -49,30 +49,36 @@ class HillFamilyAssetOrchestrator {
    * Initialize all systems
    */
   async initialize() {
-    console.log('🌟 Initializing Hill Family Asset Prosperity System at 963Hz...');
+    console.log(
+      '🌟 Initializing Hill Family Asset Prosperity System at 963Hz...'
+    );
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    
+
     // Initialize family beneficiary system first
     await this.familyBeneficiaries.initialize();
-    
+
     // Initialize real estate system
     await this.realEstate.initialize();
-    
+
     // Initialize vehicle system
     await this.vehicles.initialize();
-    
+
     // Calculate total asset value
     this.calculateProsperityMetrics();
-    
+
     this.status = 'active';
-    
+
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('✅ Hill Family Asset Prosperity System fully initialized');
-    console.log(`💎 Total Asset Value: $${this.prosperityMetrics.totalAssetValue.toLocaleString()}`);
-    console.log(`📈 Projected Annual Revenue: $${this.prosperityMetrics.projectedAnnualRevenue.toLocaleString()}`);
+    console.log(
+      `💎 Total Asset Value: $${this.prosperityMetrics.totalAssetValue.toLocaleString()}`
+    );
+    console.log(
+      `📈 Projected Annual Revenue: $${this.prosperityMetrics.projectedAnnualRevenue.toLocaleString()}`
+    );
     console.log(`👨‍👩‍👧 Family Members: ${this.prosperityMetrics.familyMembers}`);
     console.log(`🏆 Active Assets: ${this.prosperityMetrics.activeAssets}`);
-    
+
     return true;
   }
 
@@ -82,24 +88,29 @@ class HillFamilyAssetOrchestrator {
   calculateProsperityMetrics() {
     // Real estate value
     const properties = this.realEstate.getAllPropertyCollections();
-    const realEstateValue = Object.values(properties)
-      .reduce((sum, p) => sum + p.estimatedValue, 0);
-    
+    const realEstateValue = Object.values(properties).reduce(
+      (sum, p) => sum + p.estimatedValue,
+      0
+    );
+
     // Vehicle value
     const vehiclesValue = this.vehicles.getStatistics().totalValue;
-    
+
     // Total asset value
     this.prosperityMetrics.totalAssetValue = realEstateValue + vehiclesValue;
-    
+
     // Projected annual revenue (conservative estimate)
     const realEstateRevenue = realEstateValue * 0.14; // 14% combined yield
     const vehicleRevenue = vehiclesValue * 0.09; // 9% combined yield
-    this.prosperityMetrics.projectedAnnualRevenue = realEstateRevenue + vehicleRevenue;
-    
+    this.prosperityMetrics.projectedAnnualRevenue =
+      realEstateRevenue + vehicleRevenue;
+
     // Family and assets count
-    this.prosperityMetrics.familyMembers = this.familyBeneficiaries.getStatistics().totalFamilyMembers;
-    this.prosperityMetrics.activeAssets = Object.keys(properties).length + 
-                                         Object.keys(this.vehicles.getAllVehicleCollections()).length;
+    this.prosperityMetrics.familyMembers =
+      this.familyBeneficiaries.getStatistics().totalFamilyMembers;
+    this.prosperityMetrics.activeAssets =
+      Object.keys(properties).length +
+      Object.keys(this.vehicles.getAllVehicleCollections()).length;
   }
 
   /**
@@ -109,28 +120,28 @@ class HillFamilyAssetOrchestrator {
     if (this.status !== 'active') {
       throw new Error('System must be initialized before deployment');
     }
-    
+
     console.log('🚀 Deploying Hill Family Asset Prosperity System...');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    
+
     // Deploy real estate
     console.log('\n📍 Deploying Real Estate Portfolio...');
     const realEstateDeployment = await this.realEstate.deploy();
-    
+
     // Deploy vehicles
     console.log('\n🚗 Deploying Luxury Vehicle Portfolio...');
     const vehicleDeployment = await this.vehicles.deploy();
-    
+
     // Assign all assets to family beneficiaries
     console.log('\n👨‍👩‍👧 Assigning Assets to Family Beneficiaries...');
     const assetAssignments = await this.assignAllAssetsToFamily();
-    
+
     this.status = 'deployed';
-    
+
     console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('✅ Hill Family Asset Prosperity System FULLY DEPLOYED');
     console.log('🎉 Perpetual prosperity activated for Chais Hill and family!');
-    
+
     return {
       success: true,
       frequency: `${this.config.frequency}Hz`,
@@ -149,7 +160,7 @@ class HillFamilyAssetOrchestrator {
    */
   async assignAllAssetsToFamily() {
     const assignments = [];
-    
+
     // Assign properties
     const properties = this.realEstate.getAllPropertyCollections();
     for (const [propertyKey, property] of Object.entries(properties)) {
@@ -161,7 +172,7 @@ class HillFamilyAssetOrchestrator {
       assignments.push(assignment);
       console.log(`  ✓ ${property.name} assigned to family`);
     }
-    
+
     // Assign vehicles
     const vehicles = this.vehicles.getAllVehicleCollections();
     for (const [vehicleKey, vehicle] of Object.entries(vehicles)) {
@@ -173,7 +184,7 @@ class HillFamilyAssetOrchestrator {
       assignments.push(assignment);
       console.log(`  ✓ ${vehicle.name} assigned to family`);
     }
-    
+
     return assignments;
   }
 
@@ -182,7 +193,7 @@ class HillFamilyAssetOrchestrator {
    */
   async mintFamilyPortfolio() {
     console.log('🎨 Minting Complete Hill Family Portfolio...');
-    
+
     const familyMembers = this.familyBeneficiaries.getAllFamilyMembers();
     const primaryOwner = familyMembers.CHAIS_KHAYREE_HILL;
     const beneficiaries = Object.values(familyMembers).map(m => ({
@@ -191,13 +202,13 @@ class HillFamilyAssetOrchestrator {
       walletAddress: m.walletAddress,
       share: m.revenueShare
     }));
-    
+
     const portfolio = {
       properties: [],
       vehicles: [],
       totalNFTs: 0
     };
-    
+
     // Mint property NFTs
     const properties = this.realEstate.getAllPropertyCollections();
     for (const propertyKey of Object.keys(properties)) {
@@ -209,7 +220,7 @@ class HillFamilyAssetOrchestrator {
       portfolio.properties.push(mintResult);
       console.log(`  ✓ Minted: ${mintResult.metadata.name}`);
     }
-    
+
     // Mint vehicle NFTs
     const vehicles = this.vehicles.getAllVehicleCollections();
     for (const vehicleKey of Object.keys(vehicles)) {
@@ -221,11 +232,12 @@ class HillFamilyAssetOrchestrator {
       portfolio.vehicles.push(mintResult);
       console.log(`  ✓ Minted: ${mintResult.metadata.name}`);
     }
-    
-    portfolio.totalNFTs = portfolio.properties.length + portfolio.vehicles.length;
-    
+
+    portfolio.totalNFTs =
+      portfolio.properties.length + portfolio.vehicles.length;
+
     console.log(`✅ Complete portfolio minted: ${portfolio.totalNFTs} NFTs`);
-    
+
     return portfolio;
   }
 
@@ -234,21 +246,24 @@ class HillFamilyAssetOrchestrator {
    */
   async calculateAndDistributeRevenue(years = 1) {
     console.log(`💰 Calculating ${years}-year revenue projection...`);
-    
+
     const revenueProjection = {
       properties: [],
       vehicles: [],
       totalRevenue: 0,
       distributions: []
     };
-    
+
     // Calculate property revenues
     const properties = this.realEstate.getAllPropertyCollections();
     for (const propertyKey of Object.keys(properties)) {
-      const revenue = this.realEstate.calculatePropertyRevenue(propertyKey, years);
+      const revenue = this.realEstate.calculatePropertyRevenue(
+        propertyKey,
+        years
+      );
       revenueProjection.properties.push(revenue);
       revenueProjection.totalRevenue += revenue.totalRevenue;
-      
+
       // Distribute to family
       const distribution = await this.familyBeneficiaries.distributeRevenue(
         propertyKey,
@@ -257,10 +272,14 @@ class HillFamilyAssetOrchestrator {
       );
       revenueProjection.distributions.push(distribution);
     }
-    
-    console.log(`✓ Property revenue calculated: $${revenueProjection.properties.reduce((s, r) => s + r.totalRevenue, 0).toLocaleString()}`);
-    console.log(`✓ Revenue distributed to ${this.prosperityMetrics.familyMembers} family members`);
-    
+
+    console.log(
+      `✓ Property revenue calculated: $${revenueProjection.properties.reduce((s, r) => s + r.totalRevenue, 0).toLocaleString()}`
+    );
+    console.log(
+      `✓ Revenue distributed to ${this.prosperityMetrics.familyMembers} family members`
+    );
+
     return revenueProjection;
   }
 

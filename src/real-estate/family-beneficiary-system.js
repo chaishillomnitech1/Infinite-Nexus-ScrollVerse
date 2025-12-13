@@ -1,14 +1,14 @@
 /**
  * Family Beneficiary System
  * Intergenerational Asset Management & Revenue Distribution
- * 
+ *
  * Features:
  * - Family member profiles with succession rights
  * - Automated revenue distribution
  * - Heir management system
  * - Smart contract integration
  * - Perpetual family prosperity
- * 
+ *
  * Frequency: 963Hz | Divine Connection
  */
 
@@ -21,16 +21,16 @@ class FamilyBeneficiarySystem {
 
     // Family members registry
     this.familyMembers = this.initializeFamilyMembers();
-    
+
     // Beneficiary assignments
     this.beneficiaryAssignments = new Map();
-    
+
     // Revenue distribution records
     this.revenueDistributions = [];
-    
+
     // Succession chain
     this.successionChain = this.initializeSuccessionChain();
-    
+
     this.statistics = {
       totalFamilyMembers: 0,
       totalAssignments: 0,
@@ -44,7 +44,7 @@ class FamilyBeneficiarySystem {
    */
   initializeFamilyMembers() {
     return {
-      'CHAIS_KHAYREE_HILL': {
+      CHAIS_KHAYREE_HILL: {
         id: 'CHAIS_KHAYREE_HILL',
         name: 'Chais Khayree Hill',
         role: 'Primary Owner',
@@ -57,11 +57,11 @@ class FamilyBeneficiarySystem {
           transfer: true,
           management: true
         },
-        revenueShare: 0.50, // 50% primary share
+        revenueShare: 0.5, // 50% primary share
         successionOrder: 1,
         status: 'active'
       },
-      'SELENA_HILL': {
+      SELENA_HILL: {
         id: 'SELENA_HILL',
         name: 'Selena Hill',
         role: 'Co-Owner',
@@ -73,11 +73,11 @@ class FamilyBeneficiarySystem {
           transfer: true,
           management: true
         },
-        revenueShare: 0.30, // 30% share
+        revenueShare: 0.3, // 30% share
         successionOrder: 2,
         status: 'active'
       },
-      'LONDYN_AVANI_HILL': {
+      LONDYN_AVANI_HILL: {
         id: 'LONDYN_AVANI_HILL',
         name: 'Londyn Avani Hill',
         role: 'Heir',
@@ -89,7 +89,7 @@ class FamilyBeneficiarySystem {
           transfer: false, // Restricted until majority
           management: false
         },
-        revenueShare: 0.20, // 20% share
+        revenueShare: 0.2, // 20% share
         successionOrder: 3,
         status: 'active',
         trustSettings: {
@@ -124,17 +124,22 @@ class FamilyBeneficiarySystem {
    */
   async initialize() {
     console.log('👨‍👩‍👧 Initializing Family Beneficiary System at 963Hz...');
-    
+
     // Count family members
     this.statistics.totalFamilyMembers = Object.keys(this.familyMembers).length;
-    
+
     // Verify succession chain
-    this.statistics.activeSuccessionChains = Object.keys(this.successionChain).length - 1; // Exclude rules
-    
-    console.log(`✓ Loaded ${this.statistics.totalFamilyMembers} family members`);
-    console.log(`✓ ${this.statistics.activeSuccessionChains} succession chains configured`);
+    this.statistics.activeSuccessionChains =
+      Object.keys(this.successionChain).length - 1; // Exclude rules
+
+    console.log(
+      `✓ Loaded ${this.statistics.totalFamilyMembers} family members`
+    );
+    console.log(
+      `✓ ${this.statistics.activeSuccessionChains} succession chains configured`
+    );
     console.log('✓ Family Beneficiary System initialized successfully');
-    
+
     return true;
   }
 
@@ -143,10 +148,10 @@ class FamilyBeneficiarySystem {
    */
   async assignAsset(assetId, assetType, assetValue, customShares = null) {
     console.log(`📋 Assigning asset ${assetId} to family beneficiaries...`);
-    
+
     // Use custom shares or default shares
     const shares = customShares || this.getDefaultShares();
-    
+
     const assignment = {
       assetId: assetId,
       assetType: assetType,
@@ -156,11 +161,11 @@ class FamilyBeneficiarySystem {
       assignedAt: new Date().toISOString(),
       status: 'active'
     };
-    
+
     // Assign to each family member
     for (const [memberId, member] of Object.entries(this.familyMembers)) {
       const share = shares[memberId] || member.revenueShare;
-      
+
       assignment.beneficiaries.push({
         memberId: memberId,
         name: member.name,
@@ -169,21 +174,25 @@ class FamilyBeneficiarySystem {
         walletAddress: member.walletAddress,
         privileges: member.privileges
       });
-      
+
       assignment.totalShare += share;
     }
-    
+
     // Validate total share equals 100%
     if (Math.abs(assignment.totalShare - 1.0) > 0.001) {
-      console.warn(`⚠️  Total share ${assignment.totalShare} does not equal 100%`);
+      console.warn(
+        `⚠️  Total share ${assignment.totalShare} does not equal 100%`
+      );
     }
-    
+
     // Store assignment
     this.beneficiaryAssignments.set(assetId, assignment);
     this.statistics.totalAssignments++;
-    
-    console.log(`✓ Asset assigned to ${assignment.beneficiaries.length} beneficiaries`);
-    
+
+    console.log(
+      `✓ Asset assigned to ${assignment.beneficiaries.length} beneficiaries`
+    );
+
     return assignment;
   }
 
@@ -202,8 +211,10 @@ class FamilyBeneficiarySystem {
    * Distribute revenue to beneficiaries
    */
   async distributeRevenue(assetId, revenueAmount, revenueType = 'general') {
-    console.log(`💰 Distributing ${revenueAmount} revenue for asset ${assetId}...`);
-    
+    console.log(
+      `💰 Distributing ${revenueAmount} revenue for asset ${assetId}...`
+    );
+
     const assignment = this.beneficiaryAssignments.get(assetId);
     if (!assignment) {
       throw new Error(`No beneficiary assignment found for asset ${assetId}`);
@@ -216,11 +227,11 @@ class FamilyBeneficiarySystem {
       distributions: [],
       distributedAt: new Date().toISOString()
     };
-    
+
     // Calculate and distribute to each beneficiary
     for (const beneficiary of assignment.beneficiaries) {
       const amount = revenueAmount * beneficiary.share;
-      
+
       distribution.distributions.push({
         memberId: beneficiary.memberId,
         name: beneficiary.name,
@@ -230,13 +241,15 @@ class FamilyBeneficiarySystem {
         status: 'pending'
       });
     }
-    
+
     // Record distribution
     this.revenueDistributions.push(distribution);
     this.statistics.totalRevenueDistributed += revenueAmount;
-    
-    console.log(`✓ Revenue distributed to ${distribution.distributions.length} beneficiaries`);
-    
+
+    console.log(
+      `✓ Revenue distributed to ${distribution.distributions.length} beneficiaries`
+    );
+
     return distribution;
   }
 
@@ -245,9 +258,9 @@ class FamilyBeneficiarySystem {
    */
   async addFutureHeir(heirData) {
     console.log(`👶 Adding future heir: ${heirData.name}...`);
-    
+
     const heirId = heirData.id || `HEIR_${Date.now()}`;
-    
+
     const heir = {
       id: heirId,
       name: heirData.name,
@@ -270,17 +283,17 @@ class FamilyBeneficiarySystem {
         guardians: ['CHAIS_KHAYREE_HILL', 'SELENA_HILL']
       }
     };
-    
+
     // Add to family members
     this.familyMembers[heirId] = heir;
-    
+
     // Add to succession chain
     this.successionChain.future.push(heirId);
-    
+
     this.statistics.totalFamilyMembers++;
-    
+
     console.log(`✓ Future heir added: ${heir.name}`);
-    
+
     return heir;
   }
 
@@ -288,11 +301,13 @@ class FamilyBeneficiarySystem {
    * Execute succession
    */
   async executeSuccession(fromMemberId, toMemberId) {
-    console.log(`⚖️  Executing succession from ${fromMemberId} to ${toMemberId}...`);
-    
+    console.log(
+      `⚖️  Executing succession from ${fromMemberId} to ${toMemberId}...`
+    );
+
     const fromMember = this.familyMembers[fromMemberId];
     const toMember = this.familyMembers[toMemberId];
-    
+
     if (!fromMember || !toMember) {
       throw new Error('Invalid succession members');
     }
@@ -302,7 +317,7 @@ class FamilyBeneficiarySystem {
     toMember.revenueShare += transferredShare;
     fromMember.revenueShare = 0;
     fromMember.status = 'inactive';
-    
+
     // Update all asset assignments
     for (const [assetId, assignment] of this.beneficiaryAssignments.entries()) {
       for (const beneficiary of assignment.beneficiaries) {
@@ -315,9 +330,11 @@ class FamilyBeneficiarySystem {
         }
       }
     }
-    
-    console.log(`✓ Succession executed: ${transferredShare * 100}% transferred`);
-    
+
+    console.log(
+      `✓ Succession executed: ${transferredShare * 100}% transferred`
+    );
+
     return {
       success: true,
       from: fromMember.name,

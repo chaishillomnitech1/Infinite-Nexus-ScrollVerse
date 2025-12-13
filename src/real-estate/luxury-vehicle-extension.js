@@ -1,13 +1,13 @@
 /**
  * Luxury Vehicle Extension
  * Latest Luxury Sedans and Trucks for Hill Family
- * 
+ *
  * Features:
  * - 2 Latest luxury sedans (Mercedes S-Class, BMW 7 Series)
  * - 2 Latest luxury trucks (Mercedes G-Wagon, Range Rover)
  * - NFT integration
  * - Digital twin technology
- * 
+ *
  * Frequency: 963Hz | Divine Connection
  */
 
@@ -21,13 +21,13 @@ class LuxuryVehicleExtension {
 
     // Luxury vehicle collections
     this.vehicleCollections = this.initializeVehicleCollections();
-    
+
     // Digital twin system for vehicles
     this.digitalTwins = new Map();
-    
+
     // NFT registry
     this.nftRegistry = new Map();
-    
+
     this.statistics = {
       totalVehicleNFTs: 0,
       activeDigitalTwins: 0,
@@ -41,7 +41,7 @@ class LuxuryVehicleExtension {
   initializeVehicleCollections() {
     return {
       // LUXURY SEDANS
-      'MERCEDES_S_CLASS_2024': {
+      MERCEDES_S_CLASS_2024: {
         id: 'MERCEDES_S_CLASS_2024',
         name: 'Mercedes-Benz S-Class 2024',
         category: 'Luxury Sedan',
@@ -82,7 +82,7 @@ class LuxuryVehicleExtension {
           '3D instrument cluster'
         ]
       },
-      'BMW_7_SERIES_2024': {
+      BMW_7_SERIES_2024: {
         id: 'BMW_7_SERIES_2024',
         name: 'BMW 7 Series 2024',
         category: 'Luxury Sedan',
@@ -123,9 +123,9 @@ class LuxuryVehicleExtension {
           '5G connectivity'
         ]
       },
-      
+
       // LUXURY TRUCKS/SUVS
-      'MERCEDES_G_WAGON_2024': {
+      MERCEDES_G_WAGON_2024: {
         id: 'MERCEDES_G_WAGON_2024',
         name: 'Mercedes-AMG G 63 2024',
         category: 'Luxury Truck/SUV',
@@ -166,7 +166,7 @@ class LuxuryVehicleExtension {
           'Adaptive high beam assist'
         ]
       },
-      'RANGE_ROVER_AUTOBIOGRAPHY_2024': {
+      RANGE_ROVER_AUTOBIOGRAPHY_2024: {
         id: 'RANGE_ROVER_AUTOBIOGRAPHY_2024',
         name: 'Range Rover Autobiography 2024',
         category: 'Luxury Truck/SUV',
@@ -215,20 +215,26 @@ class LuxuryVehicleExtension {
    */
   async initialize() {
     console.log('🚗 Initializing Luxury Vehicle Extension at 963Hz...');
-    
+
     // Count vehicles
     const vehicleCount = Object.keys(this.vehicleCollections).length;
-    console.log(`✓ Loaded ${vehicleCount} luxury vehicles (2 sedans, 2 trucks)`);
-    
+    console.log(
+      `✓ Loaded ${vehicleCount} luxury vehicles (2 sedans, 2 trucks)`
+    );
+
     // Calculate total value
-    this.statistics.totalValue = Object.values(this.vehicleCollections)
-      .reduce((sum, v) => sum + v.estimatedValue, 0);
-    
-    console.log(`✓ Total vehicle portfolio value: $${this.statistics.totalValue.toLocaleString()}`);
-    
+    this.statistics.totalValue = Object.values(this.vehicleCollections).reduce(
+      (sum, v) => sum + v.estimatedValue,
+      0
+    );
+
+    console.log(
+      `✓ Total vehicle portfolio value: $${this.statistics.totalValue.toLocaleString()}`
+    );
+
     // Initialize digital twins
     await this.initializeDigitalTwins();
-    
+
     console.log('✓ Luxury Vehicle Extension initialized successfully');
     return true;
   }
@@ -238,7 +244,7 @@ class LuxuryVehicleExtension {
    */
   async initializeDigitalTwins() {
     console.log('🔮 Initializing Vehicle Digital Twins...');
-    
+
     for (const [key, vehicle] of Object.entries(this.vehicleCollections)) {
       const digitalTwin = {
         vehicleId: key,
@@ -256,12 +262,14 @@ class LuxuryVehicleExtension {
         },
         lastUpdated: new Date().toISOString()
       };
-      
+
       this.digitalTwins.set(key, digitalTwin);
     }
-    
+
     this.statistics.activeDigitalTwins = this.digitalTwins.size;
-    console.log(`✓ ${this.digitalTwins.size} vehicle digital twins initialized`);
+    console.log(
+      `✓ ${this.digitalTwins.size} vehicle digital twins initialized`
+    );
   }
 
   /**
@@ -269,16 +277,16 @@ class LuxuryVehicleExtension {
    */
   async deploy() {
     console.log('🚀 Deploying Luxury Vehicle Extension...');
-    
+
     const deploymentResults = {
       vehicles: [],
       digitalTwins: [],
       totalValue: this.statistics.totalValue
     };
-    
+
     for (const [key, vehicle] of Object.entries(this.vehicleCollections)) {
       const metadata = this.generateVehicleMetadata(key);
-      
+
       deploymentResults.vehicles.push({
         vehicleId: key,
         name: vehicle.name,
@@ -287,7 +295,7 @@ class LuxuryVehicleExtension {
         metadata: metadata,
         status: 'deployed'
       });
-      
+
       const digitalTwin = this.digitalTwins.get(key);
       deploymentResults.digitalTwins.push({
         vehicleId: key,
@@ -295,9 +303,9 @@ class LuxuryVehicleExtension {
         revenueModel: digitalTwin.revenueModel
       });
     }
-    
+
     console.log('✅ Luxury Vehicle Extension deployed successfully');
-    
+
     return {
       success: true,
       frequency: `${this.config.frequency}Hz`,
@@ -329,8 +337,14 @@ class LuxuryVehicleExtension {
         { trait_type: 'Model', value: vehicle.specs.model },
         { trait_type: 'Horsepower', value: vehicle.specs.horsepower },
         { trait_type: 'Acceleration', value: vehicle.specs.acceleration },
-        { trait_type: 'Frequency Level', value: vehicle.nftAttributes.frequencyLevel },
-        { trait_type: 'Auric Alignment', value: vehicle.nftAttributes.auricAlignment },
+        {
+          trait_type: 'Frequency Level',
+          value: vehicle.nftAttributes.frequencyLevel
+        },
+        {
+          trait_type: 'Auric Alignment',
+          value: vehicle.nftAttributes.auricAlignment
+        },
         { trait_type: 'Estimated Value', value: vehicle.estimatedValue },
         { trait_type: 'Digital Twin', value: 'Active' }
       ],
@@ -347,14 +361,14 @@ class LuxuryVehicleExtension {
    */
   async mintVehicleNFT(vehicleKey, ownerAddress, beneficiaries = []) {
     console.log(`🎨 Minting Vehicle NFT: ${vehicleKey}...`);
-    
+
     const vehicle = this.vehicleCollections[vehicleKey];
     if (!vehicle) {
       throw new Error(`Vehicle ${vehicleKey} not found`);
     }
 
     const metadata = this.generateVehicleMetadata(vehicleKey);
-    
+
     const nftRecord = {
       tokenId: `VEHICLE-${Date.now()}`,
       vehicleKey: vehicleKey,
@@ -364,12 +378,12 @@ class LuxuryVehicleExtension {
       digitalTwin: this.digitalTwins.get(vehicleKey),
       mintedAt: new Date().toISOString()
     };
-    
+
     this.nftRegistry.set(nftRecord.tokenId, nftRecord);
     this.statistics.totalVehicleNFTs++;
-    
+
     console.log(`✓ Vehicle NFT minted: ${nftRecord.tokenId}`);
-    
+
     return {
       success: true,
       tokenId: nftRecord.tokenId,
@@ -413,8 +427,12 @@ class LuxuryVehicleExtension {
     return {
       ...this.statistics,
       vehicles: Object.keys(this.vehicleCollections).length,
-      sedans: Object.values(this.vehicleCollections).filter(v => v.category === 'Luxury Sedan').length,
-      trucks: Object.values(this.vehicleCollections).filter(v => v.category === 'Luxury Truck/SUV').length,
+      sedans: Object.values(this.vehicleCollections).filter(
+        v => v.category === 'Luxury Sedan'
+      ).length,
+      trucks: Object.values(this.vehicleCollections).filter(
+        v => v.category === 'Luxury Truck/SUV'
+      ).length,
       frequency: `${this.config.frequency}Hz`
     };
   }

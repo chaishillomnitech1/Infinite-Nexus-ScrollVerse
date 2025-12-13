@@ -1,13 +1,13 @@
 /**
  * Real Estate NFT Model
  * Digital Twin Properties with Blockchain Integration
- * 
+ *
  * Features:
  * - Luxury home NFT tokenization
  * - Digital twin technology for perpetual revenue
  * - Smart contract integration
  * - Family beneficiary system
- * 
+ *
  * Frequency: 963Hz | Divine Connection
  */
 
@@ -22,13 +22,13 @@ class RealEstateNFTModel {
 
     // Luxury property collections
     this.propertyCollections = this.initializePropertyCollections();
-    
+
     // Digital twin system
     this.digitalTwins = new Map();
-    
+
     // NFT registry
     this.nftRegistry = new Map();
-    
+
     // Blockchain verification system
     this.blockchainVerifier = {
       name: 'Akashic Property Verifier',
@@ -36,7 +36,7 @@ class RealEstateNFTModel {
       network: 'Scroll',
       chainId: 534352
     };
-    
+
     this.statistics = {
       totalPropertyNFTs: 0,
       activeDigitalTwins: 0,
@@ -50,7 +50,7 @@ class RealEstateNFTModel {
    */
   initializePropertyCollections() {
     return {
-      'VINELAND_NJ_LUXURY': {
+      VINELAND_NJ_LUXURY: {
         id: 'VINELAND_NJ_LUXURY',
         name: 'Vineland Luxury Estate',
         location: {
@@ -60,7 +60,7 @@ class RealEstateNFTModel {
           zipCode: '08360',
           coordinates: {
             latitude: 39.4862,
-            longitude: -75.0260
+            longitude: -75.026
           }
         },
         propertyDetails: {
@@ -100,7 +100,7 @@ class RealEstateNFTModel {
           'Digital Twin Licensing'
         ]
       },
-      'NEW_BRUNSWICK_NJ_LUXURY': {
+      NEW_BRUNSWICK_NJ_LUXURY: {
         id: 'NEW_BRUNSWICK_NJ_LUXURY',
         name: 'New Brunswick Luxury Residence',
         location: {
@@ -126,7 +126,7 @@ class RealEstateNFTModel {
             'Advanced Home Automation',
             'Geothermal Heating/Cooling',
             'Private Library',
-            'Chef\'s Kitchen',
+            "Chef's Kitchen",
             'Indoor Pool',
             'Tennis Court',
             'Guest House',
@@ -160,14 +160,14 @@ class RealEstateNFTModel {
    */
   async initialize() {
     console.log('🏡 Initializing Real Estate NFT System at 963Hz...');
-    
+
     // Verify property collections
     const collections = Object.keys(this.propertyCollections);
     console.log(`✓ Loaded ${collections.length} luxury property collections`);
-    
+
     // Initialize digital twin system
     await this.initializeDigitalTwins();
-    
+
     console.log('✓ Real Estate NFT System initialized successfully');
     return true;
   }
@@ -177,7 +177,7 @@ class RealEstateNFTModel {
    */
   async initializeDigitalTwins() {
     console.log('🔮 Initializing Digital Twin System...');
-    
+
     for (const [key, property] of Object.entries(this.propertyCollections)) {
       const digitalTwin = {
         propertyId: key,
@@ -195,10 +195,10 @@ class RealEstateNFTModel {
         },
         lastUpdated: new Date().toISOString()
       };
-      
+
       this.digitalTwins.set(key, digitalTwin);
     }
-    
+
     this.statistics.activeDigitalTwins = this.digitalTwins.size;
     console.log(`✓ ${this.digitalTwins.size} digital twins initialized`);
   }
@@ -208,24 +208,24 @@ class RealEstateNFTModel {
    */
   async deploy() {
     console.log('🚀 Deploying Real Estate NFT System...');
-    
+
     const deploymentResults = {
       properties: [],
       digitalTwins: [],
       smartContracts: []
     };
-    
+
     for (const [key, property] of Object.entries(this.propertyCollections)) {
       // Generate NFT metadata
       const metadata = this.generatePropertyMetadata(key);
-      
+
       deploymentResults.properties.push({
         propertyId: key,
         name: property.name,
         metadata: metadata,
         status: 'deployed'
       });
-      
+
       // Deploy digital twin
       const digitalTwin = this.digitalTwins.get(key);
       deploymentResults.digitalTwins.push({
@@ -234,9 +234,9 @@ class RealEstateNFTModel {
         revenueModel: digitalTwin.revenueModel
       });
     }
-    
+
     console.log('✅ Real Estate NFT System deployed successfully');
-    
+
     return {
       success: true,
       frequency: `${this.config.frequency}Hz`,
@@ -264,12 +264,24 @@ class RealEstateNFTModel {
         { trait_type: 'Location', value: property.location.city },
         { trait_type: 'State', value: property.location.state },
         { trait_type: 'Property Type', value: property.propertyDetails.type },
-        { trait_type: 'Square Footage', value: property.propertyDetails.squareFootage },
+        {
+          trait_type: 'Square Footage',
+          value: property.propertyDetails.squareFootage
+        },
         { trait_type: 'Bedrooms', value: property.propertyDetails.bedrooms },
         { trait_type: 'Bathrooms', value: property.propertyDetails.bathrooms },
-        { trait_type: 'Lot Size (Acres)', value: property.propertyDetails.lotSize },
-        { trait_type: 'Frequency Level', value: property.nftAttributes.frequencyLevel },
-        { trait_type: 'Auric Alignment', value: property.nftAttributes.auricAlignment },
+        {
+          trait_type: 'Lot Size (Acres)',
+          value: property.propertyDetails.lotSize
+        },
+        {
+          trait_type: 'Frequency Level',
+          value: property.nftAttributes.frequencyLevel
+        },
+        {
+          trait_type: 'Auric Alignment',
+          value: property.nftAttributes.auricAlignment
+        },
         { trait_type: 'Estimated Value', value: property.estimatedValue },
         { trait_type: 'Digital Twin', value: 'Active' }
       ],
@@ -287,7 +299,7 @@ class RealEstateNFTModel {
    */
   async mintPropertyNFT(propertyKey, ownerAddress, beneficiaries = []) {
     console.log(`🎨 Minting Property NFT: ${propertyKey}...`);
-    
+
     const property = this.propertyCollections[propertyKey];
     if (!property) {
       throw new Error(`Property ${propertyKey} not found`);
@@ -295,10 +307,13 @@ class RealEstateNFTModel {
 
     // Generate metadata
     const metadata = this.generatePropertyMetadata(propertyKey);
-    
+
     // Create blockchain signature
-    const blockchainSignature = this.generateBlockchainSignature(propertyKey, ownerAddress);
-    
+    const blockchainSignature = this.generateBlockchainSignature(
+      propertyKey,
+      ownerAddress
+    );
+
     // Create NFT record
     const nftRecord = {
       tokenId: `PROPERTY-${Date.now()}`,
@@ -315,14 +330,14 @@ class RealEstateNFTModel {
       digitalTwin: this.digitalTwins.get(propertyKey),
       mintedAt: new Date().toISOString()
     };
-    
+
     // Register NFT
     this.nftRegistry.set(nftRecord.tokenId, nftRecord);
     this.statistics.totalPropertyNFTs++;
     this.statistics.verifiedOwners++;
-    
+
     console.log(`✓ Property NFT minted: ${nftRecord.tokenId}`);
-    
+
     return {
       success: true,
       tokenId: nftRecord.tokenId,
@@ -339,17 +354,17 @@ class RealEstateNFTModel {
   generateBlockchainSignature(propertyKey, ownerAddress) {
     const timestamp = Date.now();
     const data = `${propertyKey}-${ownerAddress}-${timestamp}`;
-    
+
     // Simulate blockchain signature (in production, use actual cryptographic signing)
     let hash = 0;
     for (let i = 0; i < data.length; i++) {
       const char = data.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32bit integer
     }
-    
+
     const signature = Math.abs(hash).toString(16).padStart(64, '0');
-    
+
     return {
       hash: signature,
       timestamp: timestamp,
@@ -364,22 +379,22 @@ class RealEstateNFTModel {
   calculatePropertyRevenue(propertyKey, years = 1) {
     const property = this.propertyCollections[propertyKey];
     const digitalTwin = this.digitalTwins.get(propertyKey);
-    
+
     if (!property || !digitalTwin) {
       throw new Error(`Property ${propertyKey} not found`);
     }
 
     const baseValue = property.estimatedValue;
     const revenueModel = digitalTwin.revenueModel;
-    
+
     // Calculate different revenue streams
     const appreciation = baseValue * revenueModel.appreciationRate * years;
     const rental = baseValue * revenueModel.rentalYield * years;
     const nftRoyalty = baseValue * revenueModel.nftRoyalty * years;
     const licensing = baseValue * revenueModel.digitalLicensing * years;
-    
+
     const totalRevenue = appreciation + rental + nftRoyalty + licensing;
-    
+
     return {
       propertyKey: propertyKey,
       years: years,
