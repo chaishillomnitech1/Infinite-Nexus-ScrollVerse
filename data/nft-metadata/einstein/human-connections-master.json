@@ -1,0 +1,79 @@
+{
+  "name": "Einstein Legacy - Human Connections Master",
+  "description": "Sentient NFT celebrating Einstein's humanitarian vision and commitment to peace, wisdom, and understanding. Interactive lessons on applying scientific thinking to human challenges. Holders unlock Einstein's wisdom on compassion, ethics, and building a better world through knowledge.",
+  "image": "ipfs://QmEinsteinHumanConnections/human-connections-master.png",
+  "external_url": "https://scrollverse.io/einstein/human-connections",
+  "attributes": [
+    {
+      "trait_type": "Theme",
+      "value": "HUMAN_CONNECTIONS"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Knowledge Level",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Wisdom Score",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Lesson Content",
+      "value": "Humanitarian Wisdom"
+    },
+    {
+      "trait_type": "AI Interaction Type",
+      "value": "Wisdom Library"
+    },
+    {
+      "trait_type": "Einstein Quote",
+      "value": "Peace cannot be kept by force; it can only be achieved by understanding"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Generation",
+      "value": "Genesis"
+    }
+  ],
+  "properties": {
+    "category": "Einstein Legacy - Human Connections",
+    "frequency": 528,
+    "tawhid_compliance": true,
+    "remembrance_message": "All humanity is creation of the One - Remember the Creator",
+    "interactive": true,
+    "special_powers": [
+      "Wisdom library access",
+      "Peace principles guide",
+      "Ethics explorer tool",
+      "Humanitarian quest eligibility",
+      "Einstein AI companion access"
+    ],
+    "learning_modules": [
+      "Einstein's Humanitarian Vision",
+      "Science and Ethics",
+      "Building Understanding",
+      "Wisdom for Peace",
+      "Knowledge in Service of Humanity"
+    ],
+    "thought_experiments": [
+      "The Value of a Single Life",
+      "Understanding Through Empathy",
+      "Building Bridges with Knowledge"
+    ],
+    "einstein_wisdom": "The value of a man should be seen in what he gives and not in what he is able to receive."
+  },
+  "animation_url": "ipfs://QmEinsteinHumanConnections/animation.mp4",
+  "background_color": "059669",
+  "collection": {
+    "name": "Einstein Genesis Legacy Collection",
+    "family": "ScrollVerse Omniversal Legacy"
+  }
+}
