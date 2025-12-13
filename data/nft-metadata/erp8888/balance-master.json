@@ -1,0 +1,66 @@
+{
+  "name": "ERP8888 Balance Master",
+  "description": "NFT representing mastery of cosmic balance principles. Geometric representations of equilibrium, golden ratio alignment, and the sacred 65-20-15 proportion. Grants access to AI coaching for maintaining financial harmony.",
+  "image": "ipfs://QmERP8888Balance/balance-master.png",
+  "external_url": "https://scrollverse.io/erp8888/balance",
+  "attributes": [
+    {
+      "trait_type": "NFT Type",
+      "value": "BALANCE"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Mastery Level",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Alignment Score",
+      "value": 100,
+      "max_value": 100
+    },
+    {
+      "trait_type": "AI Coach Persona",
+      "value": "Harmonia"
+    },
+    {
+      "trait_type": "Sacred Geometry",
+      "value": "Golden Spiral"
+    },
+    {
+      "trait_type": "Design Theme",
+      "value": "Celestial Scales"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Uncommon"
+    },
+    {
+      "trait_type": "Generation",
+      "value": "Genesis"
+    }
+  ],
+  "properties": {
+    "category": "Financial Mastery - Balance",
+    "frequency": 528,
+    "tawhid_compliance": true,
+    "remembrance_message": "Balance flows from divine wisdom - Remember the Creator",
+    "special_powers": [
+      "Balance calculation tools",
+      "Harmonia AI coach access",
+      "Sacred proportion tracker",
+      "Balance quest eligibility"
+    ],
+    "coaching_focus": "Achieving optimal financial allocation using golden ratio principles",
+    "principle": "Cosmic equilibrium in all transactions"
+  },
+  "animation_url": "ipfs://QmERP8888Balance/animation.mp4",
+  "background_color": "528BFF",
+  "collection": {
+    "name": "ERP8888 Financial Mastery Collection",
+    "family": "ScrollVerse Omniversal Legacy"
+  }
+}

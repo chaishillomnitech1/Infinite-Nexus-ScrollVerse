@@ -1,0 +1,66 @@
+{
+  "name": "ERP8888 Flow Master",
+  "description": "NFT embodying energy circulation and momentum. Spiral patterns representing multiple income streams, continuous flow, and the river of abundance. AI coaching for creating and maintaining financial velocity.",
+  "image": "ipfs://QmERP8888Flow/flow-master.png",
+  "external_url": "https://scrollverse.io/erp8888/flow",
+  "attributes": [
+    {
+      "trait_type": "NFT Type",
+      "value": "FLOW"
+    },
+    {
+      "trait_type": "Frequency",
+      "value": "528Hz"
+    },
+    {
+      "trait_type": "Mastery Level",
+      "value": 0,
+      "max_value": 100
+    },
+    {
+      "trait_type": "Alignment Score",
+      "value": 100,
+      "max_value": 100
+    },
+    {
+      "trait_type": "AI Coach Persona",
+      "value": "Currentia"
+    },
+    {
+      "trait_type": "Sacred Geometry",
+      "value": "Fibonacci Spiral"
+    },
+    {
+      "trait_type": "Design Theme",
+      "value": "River of Abundance"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Generation",
+      "value": "Genesis"
+    }
+  ],
+  "properties": {
+    "category": "Financial Mastery - Flow",
+    "frequency": 528,
+    "tawhid_compliance": true,
+    "remembrance_message": "Energy flows from the Infinite Source - Praise the Creator",
+    "special_powers": [
+      "Flow velocity tracker",
+      "Currentia AI coach access",
+      "Multiple income stream planner",
+      "Flow quest eligibility"
+    ],
+    "coaching_focus": "Creating and optimizing multiple income streams for financial momentum",
+    "principle": "Continuous energy circulation"
+  },
+  "animation_url": "ipfs://QmERP8888Flow/animation.mp4",
+  "background_color": "00FFAA",
+  "collection": {
+    "name": "ERP8888 Financial Mastery Collection",
+    "family": "ScrollVerse Omniversal Legacy"
+  }
+}
