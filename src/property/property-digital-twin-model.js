@@ -182,9 +182,13 @@ class PropertyDigitalTwinModel {
 
   /**
    * Hash data for signatures
+   * Note: In production, use crypto.createHash('sha256') from Node.js crypto module
    */
   hashData(data) {
     // Simple hash for demonstration (use proper crypto in production)
+    // Production implementation should use:
+    // const crypto = require('crypto');
+    // return crypto.createHash('sha256').update(data).digest('hex');
     let hash = 0;
     for (let i = 0; i < data.length; i++) {
       const char = data.charCodeAt(i);

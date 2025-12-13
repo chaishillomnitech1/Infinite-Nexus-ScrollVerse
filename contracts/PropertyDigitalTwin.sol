@@ -86,7 +86,7 @@ contract PropertyDigitalTwin is ERC721, ERC721URIStorage, Ownable, ReentrancyGua
             gpsCoordinates: "39.5596,-74.9136",
             acquisitionDate: block.timestamp,
             digitalTwinTimestamp: block.timestamp,
-            qrSignature: keccak256(abi.encodePacked("658-Sixth-Rd-Newtonville-NJ-08346", block.timestamp)),
+            qrSignature: keccak256(abi.encode("658-Sixth-Rd-Newtonville-NJ-08346", block.timestamp)),
             isActive: true
         });
         
