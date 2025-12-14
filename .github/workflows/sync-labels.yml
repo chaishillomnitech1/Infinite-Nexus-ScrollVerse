@@ -15,7 +15,7 @@ jobs:
       issues: write
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🏷️ Sync labels with repository
         uses: micnncim/action-label-syncer@v1

@@ -25,7 +25,7 @@ jobs:
       
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🛡️ Run Trivy vulnerability scanner (filesystem)
         uses: aquasecurity/trivy-action@0.33.1
@@ -67,7 +67,7 @@ jobs:
       
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🔍 Run Trivy config scanner
         uses: aquasecurity/trivy-action@0.33.1

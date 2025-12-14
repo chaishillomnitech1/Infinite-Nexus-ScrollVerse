@@ -27,7 +27,7 @@ jobs:
       brilliance_score: ${{ steps.check.outputs.brilliance_score }}
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🔍 Check Merge Criteria
         id: check
@@ -220,7 +220,7 @@ jobs:
     if: needs.check-merge-eligibility.outputs.can_merge == 'true'
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🌟 Execute Sovereignty Merge
         uses: actions/github-script@v8
