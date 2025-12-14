@@ -26,7 +26,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.metadata_update == 'true' || github.event_name == 'push'
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🎨 Setup Node.js
         uses: actions/setup-node@v4
@@ -181,7 +181,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.ipfs_upload == 'true'
     steps:
       - name: 📥 Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 📥 Download metadata
         uses: actions/download-artifact@v7
