@@ -37,7 +37,7 @@ jobs:
         
       - name: Calculate contribution score
         id: score
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -136,7 +136,7 @@ jobs:
           echo "Simulated reward: $REWARD_AMOUNT test tokens"
           
       - name: Post rewards summary
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
