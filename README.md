@@ -359,7 +359,20 @@ Light:     #E0F7FF (Crystalline - Pure Consciousness)
 
 ## 🤝 How to Contribute
 
-We welcome all souls called to co-create! See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
+We welcome all souls called to co-create! 
+
+### Quick Start
+- **[Onboarding Guide](./ONBOARDING.md)**: 🌟 Complete guide for new contributors
+- **[Contributing Guide](./CONTRIBUTING.md)**: Detailed contribution guidelines
+- **[Security Policy](./SECURITY.md)**: 🔒 Report security vulnerabilities responsibly
+
+### Issue & PR Templates
+We have comprehensive templates to help you contribute:
+- 🐛 **Bug Report**: Report bugs or unexpected behavior
+- ✨ **Feature Request**: Suggest new features or enhancements
+- 📝 **Documentation**: Improve or report documentation issues
+- 🔒 **Security**: Report security vulnerabilities
+- 🚀 **Pull Request**: Use our detailed PR template for submissions
 
 ### Quick Contribution Guide
 
@@ -385,11 +398,20 @@ git push origin feature/divine-scroll-animation
 
 ## 📚 Documentation
 
+### Getting Started
+- **[Onboarding Guide](./ONBOARDING.md)**: 🌟 **NEW** - Complete onboarding for new contributors
+- **[Contributing Guide](./CONTRIBUTING.md)**: How to contribute to the ScrollVerse
+- **[Security Policy](./SECURITY.md)**: 🔒 **NEW** - Security guidelines and vulnerability reporting
+
+### Technical Documentation
 - **[Developer Guide](./docs/DEVELOPER_GUIDE.md)**: Technical implementation details
-- **[Resonance Guide](./docs/RESONANCE_GUIDE.md)**: Attuning to the ScrollVerse frequency
-- **[Akashic Frequency Guide](./docs/AKASHIC_FREQUENCY_GUIDE.md)**: Complete guide to Akashic imprints and omniversal realms
 - **[Architecture](./docs/ARCHITECTURE.md)**: Hyperdimensional structure overview
 - **[API Reference](./docs/API_REFERENCE.md)**: Interfacing with the Nexus
+- **[DAO Automation Guide](./docs/DAO_AUTOMATION_GUIDE.md)**: 🌀 **NEW** - Governance and automation hooks
+
+### Core Concepts
+- **[Resonance Guide](./docs/RESONANCE_GUIDE.md)**: Attuning to the ScrollVerse frequency
+- **[Akashic Frequency Guide](./docs/AKASHIC_FREQUENCY_GUIDE.md)**: Complete guide to Akashic imprints and omniversal realms
 - **[ERP8888 System Guide](./docs/ERP8888_SYSTEM_GUIDE.md)**: ⭐ Financial Mastery Platform - Complete documentation
 
 ---
