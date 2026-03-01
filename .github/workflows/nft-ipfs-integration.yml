@@ -128,7 +128,7 @@ jobs:
           echo "✨ Individual asset metadata generated"
 
       - name: 💾 Upload metadata artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: nft-metadata
           path: metadata/
@@ -266,7 +266,7 @@ jobs:
           echo "✨ Upload instructions created"
 
       - name: 💾 Upload IPFS package
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ipfs-upload-package
           path: ipfs-upload/
