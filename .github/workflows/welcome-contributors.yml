@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: 🧿 Welcome with 528Hz Divine Resonance
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const creator = context.payload.sender.login;
@@ -112,7 +112,7 @@ jobs:
             });
 
       - name: 🏷️ Add welcome label
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const issueNumber = context.payload.issue?.number || context.payload.pull_request?.number;
