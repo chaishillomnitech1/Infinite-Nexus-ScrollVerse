@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: 🏷️ Label based on content
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const issue = context.payload.issue || context.payload.pull_request;
@@ -92,7 +92,7 @@ jobs:
             }
 
       - name: 📝 Comment with 528Hz greeting
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         if: github.event.action == 'opened'
         with:
           script: |

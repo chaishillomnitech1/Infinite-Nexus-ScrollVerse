@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: 🎭 Apply Contextual Reactions
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const eventName = context.eventName;
@@ -177,7 +177,7 @@ jobs:
             }
 
       - name: 🏷️ Apply Dynamic Labels
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         if: github.event_name == 'issues' || github.event_name == 'pull_request'
         with:
           script: |
